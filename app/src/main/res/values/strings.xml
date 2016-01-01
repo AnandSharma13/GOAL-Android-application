@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Goal</string>
+    <string name="title_activity_main" align="Center">Goal App</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="action_settings">settings</string>
+</resources>
