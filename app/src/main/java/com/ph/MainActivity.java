@@ -2,25 +2,26 @@ package com.ph;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.animation.ObjectAnimator;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 
 import com.ph.model.ActivityEntry;
 import com.ph.model.DBHandler;
-import com.ph.model.DBOperations;
 import com.ph.model.NutritionEntry;
 import com.ph.model.UserGoal;
 import com.ph.model.User;
@@ -55,13 +56,13 @@ public class MainActivity extends AppCompatActivity {
     }};
 
 
+    DrawerLayout mdrawerLayout;
 
-DrawerLayout mdrawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar= (Toolbar) findViewById(R.id.app_bar);
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("Goal App");
         toolbar.setTitleTextColor(-1);
         setSupportActionBar(toolbar);
@@ -75,17 +76,28 @@ DrawerLayout mdrawerLayout;
         drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
 
-        mdrawerLayout=   (DrawerLayout)findViewById(R.id.drawer_layout);
+        mdrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         SyncUtils.CreateSyncAccount(this);
         mContentResolver = getContentResolver();
         DBHandler dbHandler = new DBHandler(getApplicationContext());
         SQLiteDatabase db = dbHandler.getWritableDatabase();
 
+
+        //Below code would be move to an appropriate function
+        ProgressBar nutritionProgressBar = (ProgressBar) findViewById(R.id.nutritionProgressBar);
+        ObjectAnimator animation = ObjectAnimator.ofInt(nutritionProgressBar, "progress", -100, 400); // see this max value coming back here, we animale towards that value
+        animation.setDuration(5000); //in milliseconds
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.start();
+
+        ProgressBar activityProgressBar = (ProgressBar) findViewById(R.id.activityProgressBar);
+        ObjectAnimator animation1 = ObjectAnimator.ofInt(activityProgressBar, "progress", -100, 400); // see this max value coming back here, we animale towards that value
+        animation1.setDuration(5000); //in milliseconds
+        animation1.setInterpolator(new DecelerateInterpolator());
+        animation1.start();
+
     }
-
-
-
 
 
     /**
