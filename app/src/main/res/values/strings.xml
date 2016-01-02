@@ -8,4 +8,8 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="action_settings">settings</string>
+    <string name="server_ip">192.168.0.110</string>
+    <string name="server_path">goalServer</string>
+    <string name="server_sync_script">sync.php</string>
+    <string name="server_protocol">http</string>
 </resources>

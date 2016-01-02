@@ -5,20 +5,6 @@ package com.ph.model;
  */
 public class User {
 
-    private int userId = 0;
-    private String firstName;
-    private String lastName;
-    private String type;
-    private int age;
-    private String phone;
-    private String gender;
-    private String phoneModel;
-    private String program;
-    private int rewardsCount;
-
-
-    private int isSync;
-
     public final static String tableName = "user";
     public static String column_userID = "user_id";
     public static String column_firstName = "first_name";
@@ -31,19 +17,30 @@ public class User {
     public static String column_program = "program";
     public static String column_rewardsCount = "rewards_count";
     public static String column_sync = "is_sync";
+    private int user_id = 0;
+    private String first_name;
+    private String last_name;
+    private String type;
+    private int age;
+    private String phone;
+    private String gender;
+    private String phone_model;
+    private String program;
+    private int rewards_count;
+    private int is_sync;
 
 
-    public User(String firstName, String lastName, String type, int age, String phone, String gender, String phoneModel, String program, int rewardsCount) {
+    public User(String first_name, String lastName, String type, int age, String phone, String gender, String phoneModel, String program, int rewardsCount) {
         //  this.userID = userID;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.first_name = first_name;
+        this.last_name = lastName;
         this.type = type;
         this.age = age;
         this.phone = phone;
         this.gender = gender;
-        this.phoneModel = phoneModel;
+        this.phone_model = phoneModel;
         this.program = program;
-        this.rewardsCount = rewardsCount;
+        this.rewards_count = rewardsCount;
     }
 
     public User() {
@@ -51,34 +48,29 @@ public class User {
     }
 
 
-    public int getUserId() {
-        return userId;
+    public int getUser_id() {
+        return user_id;
     }
 
-//    user id once set will not be set again
 
-//    public void setUserId(int userId) {
-//        this.userId = this.userId == -1 ? userId: this.userId;
-//    }
-
-    public void setUserId(int userId) {
-        this.userId = this.userId;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getType() {
@@ -113,12 +105,12 @@ public class User {
         this.gender = gender;
     }
 
-    public String getPhoneModel() {
-        return phoneModel;
+    public String getPhone_model() {
+        return phone_model;
     }
 
-    public void setPhoneModel(String phoneModel) {
-        this.phoneModel = phoneModel;
+    public void setPhone_model(String phone_model) {
+        this.phone_model = phone_model;
     }
 
     public String getProgram() {
@@ -129,20 +121,20 @@ public class User {
         this.program = program;
     }
 
-    public int getRewardsCount() {
-        return rewardsCount;
+    public int getRewards_count() {
+        return rewards_count;
     }
 
-    public void setRewardsCount(int rewardsCount) {
-        this.rewardsCount = rewardsCount;
+    public void setRewards_count(int rewards_count) {
+        this.rewards_count = rewards_count;
     }
 
-    public int getIsSync() {
-        return isSync;
+    public int getIs_sync() {
+        return is_sync;
     }
 
-    public void setIsSync(int isSync) {
-        this.isSync = isSync;
+    public void setIs_sync(int is_sync) {
+        this.is_sync = is_sync;
     }
 
 }

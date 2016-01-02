@@ -10,6 +10,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -17,7 +18,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.ph.R;
 import com.ph.model.DBOperations;
+import com.ph.model.User;
+import com.ph.model.UserGoal;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +39,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     // Global variables
     // Define a variable to contain a content resolver instance
     ContentResolver mContentResolver;
-    String url = "http://192.168.1.11/goalServer/sync.php";
+    Context mContext;
+    String url = ""; //URL will be built in the constructor
     String json = "";
     DBOperations uop = new DBOperations(getContext());
 
@@ -45,6 +54,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
          * from the incoming Context
          */
         mContentResolver = context.getContentResolver();
+        mContext = context;
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(mContext.getString(R.string.server_protocol))
+                .authority(mContext.getString(R.string.server_ip))
+                .appendPath(mContext.getString(R.string.server_path))
+                .appendPath(mContext.getString(R.string.server_sync_script));
+
+        url = builder.toString();
+
 
     }
 
@@ -92,6 +110,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         switch (type) {
             case "ServerSync":
                 Log.i("OnPerformSync", "Get rows from the server and put it locally");
+                getServerData();
                 break;
             case "ClientSync":
                 Log.i("OnPerformSync", "Push changes to the server");
@@ -102,61 +121,45 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 break;
         }
 
-        //TODO: Have a singleton instance of a Volley class and write a custom request.
+    }
 
-        /*DBHandler dbHandler = new DBHandler(getContext());
-        SQLiteDatabase db = dbHandler.getWritableDatabase();
-        Log.i("MainActivity", "executed get writable database");
-        db.close();
-        dbHandler.close();*/
+    @Deprecated
+    private String[] getArrayListOfTables(String tables) {
 
-      /*  final ArrayList<User> tableList = uop.getSyncUserRows();
+        return tables.split(";");
+    }
 
-        if(tableList.size() == 0)
-        {
-            Log.d("OnPerformSync","Nothing to sync in user table");
-            return;
-        }
+    private void getServerData() {
+        RequestQueue queue = SingletonVolley.getInstance(getContext()).getRequestQueue();
+        Map<String, String> params = new HashMap<String, String>();
 
-        JSONArray jArray = new JSONArray();
+        params.put("syncMode", "SC");
 
-        for (User user:
-                tableList) {
-
-            jArray.put(user.getJSONObject());
-
-        }
-
-       json = jArray.toString();
-
-
-        RequestQueue req = Volley.newRequestQueue(getContext());
-
-        StringRequest sReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        CustomVolleyGsonRequest req = new CustomVolleyGsonRequest(url, Object.class, params, new Response.Listener<Object>() {
             @Override
-            public void onResponse(String response) {
-                Log.e("Volley", "Response:" + response.toString());
-                Boolean successSync = uop.setSyncUserRows(tableList);
-                if(!successSync)
-                    Log.e("onPerformSync","Update failed Locally");
+            public void onResponse(Object response) {
 
+                Log.d("getServerData", "Response received");
+
+                DBOperations uot = new DBOperations(getContext());
+
+                Map<String, String> tableValues;
                 try {
-                    JSONArray serverData = new JSONArray(response);
+                    tableValues = (Map<String, String>) response;
+                    for (Map.Entry<String, String> entry :
+                            tableValues.entrySet()) {
+                        String tableName = entry.getKey();
+                        String values = entry.getValue();
 
-                    for (int i = 0; i < serverData.length(); i++) {
-                        JSONObject userRow = serverData.optJSONObject(i);
-                        User user = new User();
-                        user.setId(userRow.getInt("user_id"));
-                        user.setName(userRow.getString("user_name"));
-                        user.setEmail(userRow.getString("user_email"));
-                        user.setIs_sync(1);
+                        JSONArray jArray = new JSONArray(values);
 
-                        long ID = uop.insertRow(user);
-                        Log.i("onPerformSync", "row with id "+String.valueOf(ID)+" has been inserted");
+                        insertRows(tableName, jArray);
+
+
+
                     }
-                    Log.i("onPerformSync",String.valueOf(serverData.length())+" rows have been updated from the server");
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Log.e("getServerData", e.getLocalizedMessage());
                 }
 
 
@@ -167,45 +170,83 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
                 Log.e("Volley","Error in getting the response");
                 Log.e("Volley",error.getLocalizedMessage());
-            }
-        }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("userTable",json);
-                params.put("syncMode","CS");
-                return params;
-            }
 
-        };
-
-
-
-
-        JsonArrayRequest jsonReq = new JsonArrayRequest(Request.Method.POST, url, jArray, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                Log.e("Volley","Response:"+response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Volley","Error in getting the response");
-                Log.e("Volley",error.getLocalizedMessage());
             }
         });
 
-
-
-        req.add(sReq);
-*/
-        //Toast.makeText(getContext(), "Sync Adapter seems to be working!", Toast.LENGTH_SHORT).show();
+        SingletonVolley.getInstance(getContext()).addToRequestQueue(req);
 
     }
 
-    private String[] getArrayListOfTables(String tables) {
+    private void insertRows(String tableName, JSONArray jArray) {
 
-        return tables.split(";");
+        switch (tableName) {
+            case "user":
+                insertUserTableRows(jArray);
+                break;
+            case "user_goal":
+                Log.i("insertRows", "insert user goal table");
+                insertUserGoalTableRows(jArray);
+                break;
+        }
+    }
+
+    private void insertUserTableRows(JSONArray jArray) {
+        DBOperations uot = new DBOperations(getContext());
+        for (int i = 0; i < jArray.length(); i++) {
+
+
+            try {
+                JSONObject row = jArray.optJSONObject(i);
+
+                User user = new User();
+                user.setUser_id(row.getInt("user_id"));
+                user.setFirst_name(row.getString("first_name"));
+                user.setLast_name(row.getString("last_name"));
+                user.setType(row.getString("type"));
+                user.setAge(row.getInt("age"));
+                user.setPhone(row.getString("phone"));
+                user.setGender(row.getString("gender"));
+                user.setProgram(row.getString("program"));
+                user.setRewards_count(row.getInt("rewards_count"));
+                user.setIs_sync(1);
+                uot.insertRow(user);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private void insertUserGoalTableRows(JSONArray jArray) {
+        DBOperations uot = new DBOperations(getContext());
+        for (int i = 0; i < jArray.length(); i++) {
+
+
+            try {
+                JSONObject row = jArray.optJSONObject(i);
+
+                UserGoal userGoal = new UserGoal();
+                userGoal.setGoal_id(row.getInt("goal_id"));
+                userGoal.setUser_id(row.getInt("user_id"));
+                userGoal.setTimestamp(row.getString("timestamp"));
+                userGoal.setType(row.getString("type"));
+                userGoal.setStart_date(row.getString("start_date"));
+                userGoal.setEnd_date(row.getString("end_date"));
+                userGoal.setWeekly_count(row.getInt("weekly_count"));
+                userGoal.setReward_type(row.getString("reward_type"));
+                userGoal.setText(row.getString("text"));
+                userGoal.setIs_sync(1);
+
+
+                uot.insertRow(userGoal);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     private void SendClientData(String[] tables) {
@@ -213,11 +254,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         RequestQueue queue = SingletonVolley.getInstance(getContext()).getRequestQueue();
 
         for (String table : tables) {
-            if (table.equals("user") || table.equals("usergoal")) {
+            if (table.equals("user") || table.equals("user_goal")) {
                 final ArrayList<Object> syncData = uop.getSyncRows(table);
                 //skip if there's nothing to sync
-                if (syncData.size() == 0)
+                if (syncData.size() == 0) {
+                    Log.i("SendClientData", "Nothing to sync");
                     continue;
+                }
                 final String tableName = table;
                 Map<String, String> params = new HashMap<String, String>();
                 String JSON = "";
@@ -248,19 +291,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 //                        Log.e("Volley", error.getLocalizedMessage());
 
                     }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<String, String>();
-                        String JSON = "";
-                        Gson gson = new Gson();
-                        JSON = gson.toJson(syncData);
-                        params.put("tableName", tableName);
-                        params.put("tableRows", JSON);
-                        params.put("syncMode", "CS");
-                        return params;
-                    }
-                };
+                });
                 SingletonVolley.getInstance(getContext()).addToRequestQueue(req);
             }
         }

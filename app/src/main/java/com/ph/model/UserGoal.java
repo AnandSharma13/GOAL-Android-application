@@ -4,18 +4,6 @@ package com.ph.model;
  * Created by Anand on 12/27/2015.
  */
 public class UserGoal {
-    private int goalID;
-    private int userID;
-    private String timeStamp;
-    private String type;
-    private String startDate;
-    private String endDate;
-    private int weeklyCount;
-
-
-    public String rewardType;
-    private String text;
-
     public static final String tableName = "user_goal";
     public static final String column_goalID = "goal_id";
     public static final String column_userID = "user_id";
@@ -26,45 +14,54 @@ public class UserGoal {
     public static final String column_weeklyCount = "weekly_count";
     public static final String column_rewardType = "reward_type";
     public static final String column_text = "text";
-    public static String column_sync = "is_sync";
+    public static final String column_sync = "is_sync";
+    private int goal_id;
+    private int user_id;
+    private String timestamp;
+    private String type;
+    private String start_date;
+    private String end_date;
+    private int weekly_count;
+    private String reward_type;
+    private String text;
+    private int is_sync;
 
 
     public UserGoal(){}
 
-    public UserGoal(int userID, String type, String startDate, String endDate, int weeklyCount, String text) {
-        this.userID = userID;
-     //   this.timeStamp = timeStamp;
+    public UserGoal(int user_id, String type, String start_date, String endDate, int weeklyCount, String text) {
+        this.user_id = user_id;
+        //   this.timestamp = timestamp;
         this.type = type;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.weeklyCount = weeklyCount;
+        this.start_date = start_date;
+        this.end_date = endDate;
+        this.weekly_count = weeklyCount;
         this.text = text;
     }
 
 
-
-    public int getGoalID() {
-        return goalID;
+    public int getGoal_id() {
+        return goal_id;
     }
 
-    public void setGoalID(int goalID) {
-        this.goalID = goalID;
+    public void setGoal_id(int goal_id) {
+        this.goal_id = goal_id;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
-    public String getTimeStamp() {
-        return timeStamp;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getType() {
@@ -75,28 +72,28 @@ public class UserGoal {
         this.type = type;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public String getStart_date() {
+        return start_date;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setStart_date(String start_date) {
+        this.start_date = start_date;
     }
 
-    public String getEndDate() {
-        return endDate;
+    public String getEnd_date() {
+        return end_date;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public void setEnd_date(String end_date) {
+        this.end_date = end_date;
     }
 
-    public int getWeeklyCount() {
-        return weeklyCount;
+    public int getWeekly_count() {
+        return weekly_count;
     }
 
-    public void setWeeklyCount(int weeklyCount) {
-        this.weeklyCount = weeklyCount;
+    public void setWeekly_count(int weekly_count) {
+        this.weekly_count = weekly_count;
     }
 
     public String getText() {
@@ -106,12 +103,20 @@ public class UserGoal {
     public void setText(String text) {
         this.text = text;
     }
-    public String getRewardType() {
-        return rewardType;
+
+    public String getReward_type() {
+        return reward_type;
     }
 
-    public void setRewardType(String rewardType) {
-        this.rewardType = rewardType;
+    public void setReward_type(String reward_type) {
+        this.reward_type = reward_type;
     }
 
+    public int getIs_sync() {
+        return is_sync;
+    }
+
+    public void setIs_sync(int is_sync) {
+        this.is_sync = is_sync;
+    }
 }
