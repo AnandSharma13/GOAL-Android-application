@@ -3,6 +3,7 @@ package com.ph.model;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -12,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.ph.R;
 import com.ph.net.SyncUtils;
 
 import org.json.JSONArray;
@@ -28,11 +30,20 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "goal.db";
     private Context mContext;
+    private String URL;
 
     public DBHandler(Context context) {
 
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mContext = context;
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(mContext.getString(R.string.server_protocol))
+                .authority(mContext.getString(R.string.server_ip))
+                .appendPath(mContext.getString(R.string.server_path))
+                .appendPath(mContext.getString(R.string.server_sync_script));
+
+        URL = builder.toString();
+
 
     }
 
@@ -55,10 +66,10 @@ public class DBHandler extends SQLiteOpenHelper {
                 + UserGoal.column_userID + " INTEGER, "
                 + UserGoal.column_timeStamp + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
                 + UserGoal.column_type + " TEXT, "
-                + UserGoal.column_startDate + " TEXT, "
+                + UserGoal.column_startDate + " TEXT, " //Don't we need a DATETIME type here?
                 + UserGoal.column_endDate + " TEXT, "
                 + UserGoal.column_weeklyCount + " INTEGER, "
-                + UserGoal.column_rewardType + " TEXT, "
+                + UserGoal.column_rewardType + " TEXT DEFAULT 'NONE',"
                 + UserGoal.column_text + " TEXT, "
                 + UserGoal.column_sync + " INTEGER, "
                 + "FOREIGN KEY (" + UserGoal.column_userID + ") REFERENCES " + com.ph.model.User.tableName + "(" + com.ph.model.User.column_userID + ")" + ")";
@@ -133,16 +144,19 @@ public class DBHandler extends SQLiteOpenHelper {
         SyncUtils.TriggerRefresh(bundle);
 
         //try to get data from the server. Not sure if the logic should be moved to onperform sync function.
-        getRowsFromServer(User.tableName);
+        //getRowsFromServer(User.tableName);
 
     }
 
+
+    @Deprecated
     private void getRowsFromServer(String tableName) {
-        String url = "http://192.168.1.11/goalServer/sync.php"; //Change to your server IP here
+        //Use the variable URL instead of this.
+        // String url = "http://192.168.1.110/goalServer/sync.php"; //Change to your server IP here
         Log.i("DBHandler", "Getting info from server");
         RequestQueue rQueue = Volley.newRequestQueue(mContext);
 
-        StringRequest sReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest sReq = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -154,17 +168,17 @@ public class DBHandler extends SQLiteOpenHelper {
                         User user = new User();
                         DBOperations uop = new DBOperations(mContext);
 
-                        user.setUserId(userRow.getInt(user.column_userID));
-                        user.setFirstName(userRow.getString(user.column_firstName));
-                        user.setLastName(userRow.getString(user.column_lastName));
+                        user.setUser_id(userRow.getInt(user.column_userID));
+                        user.setFirst_name(userRow.getString(user.column_firstName));
+                        user.setLast_name(userRow.getString(user.column_lastName));
                         user.setType(userRow.getString(user.column_type));
                         user.setAge(userRow.getInt(user.column_age));
                         user.setPhone(userRow.getString(user.column_phone));
-                        //need to add phone model in here
+                        //TODO: Add phone model in here
                         user.setGender(userRow.getString(user.column_gender));
                         user.setProgram(userRow.getString(user.column_gender));
-                        user.setRewardsCount(userRow.getInt(user.column_rewardsCount));
-                        user.setIsSync(1);
+                        user.setRewards_count(userRow.getInt(user.column_rewardsCount));
+                        user.setIs_sync(1);
                         uop.insertRow(user);
                     }
 
