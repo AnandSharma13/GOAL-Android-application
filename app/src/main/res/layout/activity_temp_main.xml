@@ -10,20 +10,29 @@
     tools:context="com.ph.TempMain">
 
     <Button
+        android:id="@+id/btnInsert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Insert"
-        android:id="@+id/btnInsert"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="133dp" />
+        android:layout_marginTop="133dp"
+        android:text="Insert" />
 
     <Button
+        android:id="@+id/btnNewGoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Goal"
-        android:id="@+id/btnNewGoal"
         android:layout_below="@+id/btnInsert"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="114dp" />
+        android:layout_marginTop="114dp"
+        android:text="Goal" />
+
+    <Button
+        android:id="@+id/activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnNewGoal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="59dp"
+        android:text="Activity" />
 </RelativeLayout>

@@ -1,28 +1,30 @@
 package com.ph;
 
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.ph.model.ActivityEntry;
+import com.ph.model.Activity;
 import com.ph.model.DBOperations;
-import com.ph.model.NutritionEntry;
 import com.ph.model.User;
 import com.ph.model.UserGoal;
 import com.ph.net.SyncUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TempMain extends AppCompatActivity {
 
     public final ArrayList<String> tablesList = new ArrayList<String>() {{
         add(User.tableName);
         add(UserGoal.tableName);
-        add(ActivityEntry.tableName);
-        add(NutritionEntry.tableName);
+        add(Activity.tableName);
+
+        //add(ActivityEntry.tableName);
+        //add(NutritionEntry.tableName);
     }};
 
     @Override
@@ -31,6 +33,7 @@ public class TempMain extends AppCompatActivity {
         setContentView(R.layout.activity_temp_main);
         Button insertButton = (Button) findViewById(R.id.btnInsert);
         Button newGoalButton = (Button) findViewById(R.id.btnNewGoal);
+        Button activityButton = (Button) findViewById(R.id.activity_button);
 
 
         insertButton.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +77,26 @@ public class TempMain extends AppCompatActivity {
                 }
                 SyncUtils.TriggerRefresh(settingsBundle);
                 Snackbar.make(v, "Goal button pressed ", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
+
+        activityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DBOperations ut = new DBOperations(getApplicationContext());
+                Activity activity = new Activity(0, 0, "Sample", "U", 5, new Date().toString());
+                long id = ut.insertRow(activity);
+                Log.i("Activity button", String.valueOf(id));
+                Bundle settingsBundle = new Bundle();
+                settingsBundle.putString("Type", "ClientSync");
+
+                settingsBundle.putInt("ListSize", tablesList.size());
+                for (int i = 0; i < tablesList.size(); i++) {
+                    settingsBundle.putString("Table " + i, tablesList.get(i));
+                }
+                SyncUtils.TriggerRefresh(settingsBundle);
+                Snackbar.make(v, "Activity button pressed ", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
             }
         });
     }

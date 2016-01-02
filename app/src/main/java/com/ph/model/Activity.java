@@ -6,46 +6,52 @@ package com.ph.model;
 public class Activity {
 
 
-    private int activityID;
-    private int userID;
-    private String name;
-    private String type;
-    private int hitCount;
-    private String lastUsed;
-
-
-    public static String tableName = "activity";
+    public final static String tableName = "activity";
     public static String column_activityID = "activity_id";
     public static String column_userID = "user_id";
     public static String column_name = "name";
     public static String column_type = "type";
     public static String column_hitCount = "hit_count";
     public static String column_lastUsed = "last_used";
+    public static String column_timestamp = "timestamp";
+    public static String column_isSync = "is_sync";
+    private int activity_id;
+    private int user_id;
+    private String name;
+    private String type;
+    private int hit_count;
+    private String last_used;
+    private String timestamp;
+    private int is_sync;
 
 
-    public Activity(int activityID, int userID, String name, String type, int hitCount, String lastUsed) {
-        this.activityID = activityID;
-        this.userID = userID;
+    public Activity(int activity_id, int user_id, String name, String type, int hit_count, String last_used) {
+        this.activity_id = activity_id;
+        this.user_id = user_id;
         this.name = name;
         this.type = type;
-        this.hitCount = hitCount;
-        this.lastUsed = lastUsed;
+        this.hit_count = hit_count;
+        this.last_used = last_used;
     }
 
-    public int getActivityID() {
-        return activityID;
+    public Activity() {
+
     }
 
-    public void setActivityID(int activityID) {
-        this.activityID = activityID;
+    public int getActivity_id() {
+        return activity_id;
     }
 
-    public int getUserID() {
-        return userID;
+    public void setActivity_id(int activity_id) {
+        this.activity_id = activity_id;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public String getName() {
@@ -64,20 +70,35 @@ public class Activity {
         this.type = type;
     }
 
-    public int getHitCount() {
-        return hitCount;
+    public int getHit_count() {
+        return hit_count;
     }
 
-    public void setHitCount(int hitCount) {
-        this.hitCount = hitCount;
+    public void setHit_count(int hit_count) {
+        this.hit_count = hit_count;
     }
 
-    public String getLastUsed() {
-        return lastUsed;
+    public String getLast_used() {
+        return last_used;
     }
 
-    public void setLastUsed(String lastUsed) {
-        this.lastUsed = lastUsed;
+    public void setLast_used(String last_used) {
+        this.last_used = last_used;
     }
 
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public int getIs_sync() {
+        return is_sync;
+    }
+
+    public void setIs_sync(int is_sync) {
+        this.is_sync = is_sync;
+    }
 }

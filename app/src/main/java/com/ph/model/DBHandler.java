@@ -80,7 +80,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 + Activity.column_name + " TEXT, "
                 + Activity.column_type + " TEXT, "
                 + Activity.column_hitCount + " INTEGER, "
-                + Activity.column_lastUsed + " TEXT, "
+                + Activity.column_lastUsed + " TEXT, " //Don't we need Datetime type here?
+                + Activity.column_timestamp + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
+                + Activity.column_isSync + " INTEGER, "
                 + "FOREIGN KEY (" + Activity.column_userID + ") REFERENCES " + com.ph.model.User.tableName + "(" + com.ph.model.User.column_userID + ")" + ")";
 
         String activityEntryTable = "create table " + ActivityEntry.tableName + "("
@@ -168,16 +170,16 @@ public class DBHandler extends SQLiteOpenHelper {
                         User user = new User();
                         DBOperations uop = new DBOperations(mContext);
 
-                        user.setUser_id(userRow.getInt(user.column_userID));
-                        user.setFirst_name(userRow.getString(user.column_firstName));
-                        user.setLast_name(userRow.getString(user.column_lastName));
-                        user.setType(userRow.getString(user.column_type));
-                        user.setAge(userRow.getInt(user.column_age));
-                        user.setPhone(userRow.getString(user.column_phone));
+                        user.setUser_id(userRow.getInt(User.column_userID));
+                        user.setFirst_name(userRow.getString(User.column_firstName));
+                        user.setLast_name(userRow.getString(User.column_lastName));
+                        user.setType(userRow.getString(User.column_type));
+                        user.setAge(userRow.getInt(User.column_age));
+                        user.setPhone(userRow.getString(User.column_phone));
                         //TODO: Add phone model in here
-                        user.setGender(userRow.getString(user.column_gender));
-                        user.setProgram(userRow.getString(user.column_gender));
-                        user.setRewards_count(userRow.getInt(user.column_rewardsCount));
+                        user.setGender(userRow.getString(User.column_gender));
+                        user.setProgram(userRow.getString(User.column_gender));
+                        user.setRewards_count(userRow.getInt(User.column_rewardsCount));
                         user.setIs_sync(1);
                         uop.insertRow(user);
                     }

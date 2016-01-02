@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.ph.R;
+import com.ph.model.Activity;
 import com.ph.model.DBOperations;
 import com.ph.model.User;
 import com.ph.model.UserGoal;
@@ -188,6 +189,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 Log.i("insertRows", "insert user goal table");
                 insertUserGoalTableRows(jArray);
                 break;
+            case Activity.tableName:
+                Log.i("insertRows", "Insert Activity Table");
+                insertActivityTableRows(jArray);
+                break;
         }
     }
 
@@ -249,12 +254,40 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
+    private void insertActivityTableRows(JSONArray jArray) {
+        for (int i = 0; i < jArray.length(); i++) {
+
+
+            try {
+                JSONObject row = jArray.optJSONObject(i);
+
+                Activity activity = new Activity();
+
+                activity.setActivity_id(row.getInt(Activity.column_activityID));
+                activity.setUser_id(row.getInt(Activity.column_userID));
+                activity.setName(row.getString(Activity.column_name));
+                activity.setLast_used(row.getString(Activity.column_lastUsed));
+                activity.setHit_count(row.getInt(Activity.column_hitCount));
+                activity.setType(row.getString(Activity.column_type));
+                activity.setTimestamp(row.getString(Activity.column_timestamp));
+                activity.setIs_sync(1);
+                long id = uop.insertRow(activity);
+
+                Log.i("insertActivityTableRows", "A row with an ID " + String.valueOf(id) + " has been inserted into activity table"); //TODO: Replicate the log message in other functions.
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
     private void SendClientData(String[] tables) {
 
         RequestQueue queue = SingletonVolley.getInstance(getContext()).getRequestQueue();
 
         for (String table : tables) {
-            if (table.equals("user") || table.equals("user_goal")) {
+
                 final ArrayList<Object> syncData = uop.getSyncRows(table);
                 //skip if there's nothing to sync
                 if (syncData.size() == 0) {
@@ -265,7 +298,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 Map<String, String> params = new HashMap<String, String>();
                 String JSON = "";
                 Gson gson = new Gson();
-                JSON = gson.toJson(syncData);
+            JSON = gson.toJson(syncData); //Could take a while.
 
                 Log.d("OnPerformSync", "the request json is " + JSON);
                 params.put("tableName", tableName);
@@ -279,7 +312,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                             String result = (String) response;
                             Log.d("Volley", "Response:" + result);
                         } else {
-                            Log.i("OnPerformSync", "Yet to be implemented. Parse Server Response");
+                            Log.i("OnPerformSync", "Yet to be implemented. Parse Server Response"); //TODO: Take care of this.
                         }
                         uop.setSyncFlag(tableName);
                     }
@@ -293,7 +326,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     }
                 });
                 SingletonVolley.getInstance(getContext()).addToRequestQueue(req);
-            }
         }
 
     }

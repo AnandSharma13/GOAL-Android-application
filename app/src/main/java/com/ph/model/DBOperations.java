@@ -28,16 +28,16 @@ public class DBOperations {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         ContentValues val = new ContentValues();
         if (user.getUser_id() != 0)
-            val.put(user.column_userID, user.getUser_id());
-        val.put(user.column_firstName, user.getFirst_name());
-        val.put(user.column_lastName, user.getLast_name());
-        val.put(user.column_type,user.getType());
-        val.put(user.column_age,user.getAge());
-        val.put(user.column_phone,user.getPhone());
-        val.put(user.column_gender,user.getGender());
-        val.put(user.column_program,user.getProgram());
-        val.put(user.column_rewardsCount, user.getRewards_count());
-        val.put(user.column_sync, user.getIs_sync());
+            val.put(User.column_userID, user.getUser_id());
+        val.put(User.column_firstName, user.getFirst_name());
+        val.put(User.column_lastName, user.getLast_name());
+        val.put(User.column_type, user.getType());
+        val.put(User.column_age, user.getAge());
+        val.put(User.column_phone, user.getPhone());
+        val.put(User.column_gender, user.getGender());
+        val.put(User.column_program, user.getProgram());
+        val.put(User.column_rewardsCount, user.getRewards_count());
+        val.put(User.column_sync, user.getIs_sync());
 
         long id = db.insert(User.tableName, null, val);
         db.close();
@@ -49,14 +49,32 @@ public class DBOperations {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         ContentValues val = new ContentValues();
         //setting userId from user class
-        val.put(usergoal.column_userID, usergoal.getUser_id());
-        val.put(usergoal.column_type, usergoal.getType());
-        val.put(usergoal.column_startDate, usergoal.getStart_date());
-        val.put(usergoal.column_endDate, usergoal.getEnd_date());
-        val.put(usergoal.column_weeklyCount, usergoal.getWeekly_count());
-        val.put(usergoal.column_text, usergoal.getText());
-        val.put(usergoal.column_sync, usergoal.getIs_sync());
+        val.put(UserGoal.column_userID, usergoal.getUser_id());
+        val.put(UserGoal.column_type, usergoal.getType());
+        val.put(UserGoal.column_startDate, usergoal.getStart_date());
+        val.put(UserGoal.column_endDate, usergoal.getEnd_date());
+        val.put(UserGoal.column_weeklyCount, usergoal.getWeekly_count());
+        val.put(UserGoal.column_text, usergoal.getText());
+        val.put(UserGoal.column_sync, usergoal.getIs_sync());
         long id = db.insert(UserGoal.tableName, null,val);
+        db.close();
+        return id;
+    }
+
+    public long insertRow(Activity activity) {
+        SQLiteDatabase db = dbHandler.getWritableDatabase();
+        ContentValues val = new ContentValues();
+        if (activity.getActivity_id() != 0)
+            val.put(Activity.column_activityID, activity.getActivity_id());
+        val.put(Activity.column_userID, activity.getUser_id());
+        val.put(Activity.column_name, activity.getName());
+        val.put(Activity.column_hitCount, activity.getHit_count());
+        val.put(Activity.column_lastUsed, activity.getLast_used());
+        val.put(Activity.column_type, activity.getType());
+        //  val.put(activity.column_timestamp, activity.getTimestamp());
+        val.put(Activity.column_isSync, activity.getIs_sync());
+
+        long id = db.insert(Activity.tableName, null, val);
         db.close();
         return id;
     }
@@ -92,8 +110,23 @@ public class DBOperations {
             case UserGoal.tableName:
                 UserGoal usergoal = new UserGoal();
                 return populateRows(usergoal,cursor);
+            case Activity.tableName:
+                Activity activity = new Activity();
+                return populateRows(activity, cursor);
             default: return null;
         }
+    }
+
+
+    private Activity populateRows(Activity activity, Cursor cursor) {
+        activity.setActivity_id(cursor.getInt(cursor.getColumnIndex(Activity.column_activityID)));
+        activity.setUser_id(cursor.getInt(cursor.getColumnIndex(Activity.column_userID)));
+        activity.setName(cursor.getString(cursor.getColumnIndex(Activity.column_name)));
+        activity.setType(cursor.getString(cursor.getColumnIndex(Activity.column_type)));
+        activity.setHit_count(cursor.getInt(cursor.getColumnIndex(Activity.column_hitCount)));
+        activity.setLast_used(cursor.getString(cursor.getColumnIndex(Activity.column_lastUsed)));
+        activity.setTimestamp(cursor.getString(cursor.getColumnIndex(Activity.column_timestamp)));
+        return activity;
     }
 
     /**
