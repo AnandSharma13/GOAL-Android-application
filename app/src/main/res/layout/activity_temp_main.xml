@@ -14,17 +14,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="133dp"
+        android:layout_toLeftOf="@+id/btnNewGoal"
+        android:layout_toStartOf="@+id/btnNewGoal"
         android:text="Insert" />
 
     <Button
         android:id="@+id/btnNewGoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnInsert"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="114dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/activity_button"
+        android:layout_toRightOf="@+id/activity_button"
         android:text="Goal" />
 
     <Button
@@ -35,4 +35,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="59dp"
         android:text="Activity" />
+
+    <Button
+        android:id="@+id/user_steps_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="user_steps" />
 </RelativeLayout>

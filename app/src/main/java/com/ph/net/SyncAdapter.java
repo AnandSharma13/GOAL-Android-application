@@ -23,6 +23,7 @@ import com.ph.model.Activity;
 import com.ph.model.DBOperations;
 import com.ph.model.User;
 import com.ph.model.UserGoal;
+import com.ph.model.UserSteps;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -193,6 +194,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 Log.i("insertRows", "Insert Activity Table");
                 insertActivityTableRows(jArray);
                 break;
+            case UserSteps.tableName:
+                Log.i("insertRows", "Insert user_steps table");
+                insertUserStepsTableRows(jArray);
+                break;
         }
     }
 
@@ -215,7 +220,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 user.setProgram(row.getString("program"));
                 user.setRewards_count(row.getInt("rewards_count"));
                 user.setIs_sync(1);
-                uot.insertRow(user);
+                long id = uot.insertRow(user);
+
+                Log.i("insertUserTableRows", "A row with an ID " + String.valueOf(id) + " has been inserted into user table");
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -245,7 +252,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 userGoal.setIs_sync(1);
 
 
-                uot.insertRow(userGoal);
+                long id = uot.insertRow(userGoal);
+
+                Log.i("insertUserGoalTableRows", "A row with an ID " + String.valueOf(id) + " has been inserted into user_goal table");
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -274,6 +283,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 long id = uop.insertRow(activity);
 
                 Log.i("insertActivityTableRows", "A row with an ID " + String.valueOf(id) + " has been inserted into activity table"); //TODO: Replicate the log message in other functions.
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private void insertUserStepsTableRows(JSONArray jArray) {
+        for (int i = 0; i < jArray.length(); i++) {
+
+
+            try {
+                JSONObject row = jArray.optJSONObject(i);
+                UserSteps userSteps = new UserSteps();
+
+                userSteps.setSteps_id(row.getInt(UserSteps.column_stepsID));
+                userSteps.setUser_id(row.getInt(UserSteps.column_userID));
+                userSteps.setTimestamp(row.getString(UserSteps.column_timestamp));
+                userSteps.setSteps_count(row.getInt(UserSteps.column_stepscount));
+                userSteps.setIs_sync(1);
+                long id = uop.insertRow(userSteps);
+
+                Log.i("UserStepsTableRows", "A row with an ID " + String.valueOf(id) + " has been inserted into user_steps table");
 
             } catch (JSONException e) {
                 e.printStackTrace();

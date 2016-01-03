@@ -5,59 +5,68 @@ package com.ph.model;
  */
 public class UserSteps {
 
-    private int stepsID;
-    private int stepsCount;
-    private String userID;
-    private String timeStamp;
-
-
-    public static String tableName = "usersteps";
-    public static String column_stepsID = "stepsId";
-    public static String column_stepscount = "stepsCount";
-    public static String column_userID = "userId";
+    public final static String tableName = "user_steps";
+    public static String column_stepsID = "steps_id";
+    public static String column_stepscount = "steps_count";
+    public static String column_userID = "user_id";
     public static String column_timestamp = "timestamp";
-
+    public static String column_sync = "is_sync";
     public static String column_type = "type";
+    private int steps_id;
+    private int steps_count;
+    private int user_id;
+    private String timestamp;
+    private int is_sync = 0;
 
-    public UserSteps(int stepsID, int stepsCount, String userID, String timeStamp) {
-        this.stepsID = stepsID;
-        this.stepsCount = stepsCount;
-        this.userID = userID;
-        this.timeStamp = timeStamp;
-    }
-    public int getStepsID() {
-        return stepsID;
-    }
-
-    public void setStepsID(int stepsID) {
-        this.stepsID = stepsID;
+    public UserSteps(int steps_id, int steps_count, int user_id, String timeStamp) {
+        this.steps_id = steps_id;
+        this.steps_count = steps_count;
+        this.user_id = user_id;
+        this.timestamp = timeStamp;
     }
 
-    public int getStepsCount() {
-        return stepsCount;
+    public UserSteps() {
+
     }
 
-    public void setStepsCount(int stepsCount) {
-        this.stepsCount = stepsCount;
+    public int getSteps_id() {
+        return steps_id;
     }
 
-    public String getUserID() {
-        return userID;
+    public void setSteps_id(int steps_id) {
+        this.steps_id = steps_id;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public int getSteps_count() {
+        return steps_count;
     }
 
-    public String getTimeStamp() {
-        return timeStamp;
+    public void setSteps_count(int steps_count) {
+        this.steps_count = steps_count;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
 
+    public int getIs_sync() {
+        return is_sync;
+    }
 
-
+    public void setIs_sync(int is_sync) {
+        this.is_sync = is_sync;
+    }
 }

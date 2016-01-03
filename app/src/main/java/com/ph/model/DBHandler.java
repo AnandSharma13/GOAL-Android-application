@@ -120,6 +120,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + UserSteps.column_userID + " INTEGER, "
                 + UserSteps.column_stepscount + " INTEGER, "
                 + UserSteps.column_timestamp + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
+                + UserSteps.column_sync + " INTEGER, "
                 + "FOREIGN KEY (" + UserSteps.column_userID + ") REFERENCES " + com.ph.model.User.tableName + "(" + com.ph.model.User.column_userID + ")" + ")";
 
 

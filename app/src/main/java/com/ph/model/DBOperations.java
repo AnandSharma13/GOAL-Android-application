@@ -61,6 +61,23 @@ public class DBOperations {
         return id;
     }
 
+
+    public long insertRow(UserSteps userSteps) {
+        SQLiteDatabase db = dbHandler.getWritableDatabase();
+        ContentValues val = new ContentValues();
+
+        if (userSteps.getSteps_id() != 0)
+            val.put(UserSteps.column_stepsID, userSteps.getSteps_id());
+        val.put(UserSteps.column_userID, userSteps.getUser_id());
+        val.put(UserSteps.column_stepscount, userSteps.getSteps_count());
+        // val.put(UserSteps.column_timestamp,userSteps.getTimestamp());
+        val.put(UserSteps.column_sync, userSteps.getIs_sync());
+
+        long id = db.insert(UserSteps.tableName, null, val);
+        db.close();
+        return id;
+    }
+
     public long insertRow(Activity activity) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         ContentValues val = new ContentValues();
@@ -96,6 +113,7 @@ public class DBOperations {
             } while (cursor.moveToNext());
         }
         db.close(); //Close the db.
+        cursor.close();
         return rows;
     }
 
@@ -113,10 +131,21 @@ public class DBOperations {
             case Activity.tableName:
                 Activity activity = new Activity();
                 return populateRows(activity, cursor);
+            case UserSteps.tableName:
+                UserSteps userSteps = new UserSteps();
+                return populateRows(userSteps, cursor);
             default: return null;
         }
     }
 
+
+    private UserSteps populateRows(UserSteps userSteps, Cursor cursor) {
+        userSteps.setSteps_id(cursor.getInt(cursor.getColumnIndex(UserSteps.column_stepsID)));
+        userSteps.setUser_id(cursor.getInt(cursor.getColumnIndex(UserSteps.column_userID)));
+        userSteps.setSteps_count(cursor.getInt(cursor.getColumnIndex(UserSteps.column_stepscount)));
+        userSteps.setTimestamp(cursor.getString(cursor.getColumnIndex(UserSteps.column_timestamp)));
+        return userSteps;
+    }
 
     private Activity populateRows(Activity activity, Cursor cursor) {
         activity.setActivity_id(cursor.getInt(cursor.getColumnIndex(Activity.column_activityID)));

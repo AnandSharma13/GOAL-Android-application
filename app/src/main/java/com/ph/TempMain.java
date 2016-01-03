@@ -11,6 +11,7 @@ import com.ph.model.Activity;
 import com.ph.model.DBOperations;
 import com.ph.model.User;
 import com.ph.model.UserGoal;
+import com.ph.model.UserSteps;
 import com.ph.net.SyncUtils;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class TempMain extends AppCompatActivity {
         add(User.tableName);
         add(UserGoal.tableName);
         add(Activity.tableName);
+        add(UserSteps.tableName);
 
         //add(ActivityEntry.tableName);
         //add(NutritionEntry.tableName);
@@ -34,6 +36,7 @@ public class TempMain extends AppCompatActivity {
         Button insertButton = (Button) findViewById(R.id.btnInsert);
         Button newGoalButton = (Button) findViewById(R.id.btnNewGoal);
         Button activityButton = (Button) findViewById(R.id.activity_button);
+        Button userStepsButton = (Button) findViewById(R.id.user_steps_button);
 
 
         insertButton.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +87,7 @@ public class TempMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DBOperations ut = new DBOperations(getApplicationContext());
-                Activity activity = new Activity(0, 0, "Sample", "U", 5, new Date().toString());
+                Activity activity = new Activity(0, 1, "Sample", "U", 5, new Date().toString());
                 long id = ut.insertRow(activity);
                 Log.i("Activity button", String.valueOf(id));
                 Bundle settingsBundle = new Bundle();
@@ -96,6 +99,30 @@ public class TempMain extends AppCompatActivity {
                 }
                 SyncUtils.TriggerRefresh(settingsBundle);
                 Snackbar.make(v, "Activity button pressed ", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+            }
+        });
+
+        userStepsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DBOperations ut = new DBOperations(getApplicationContext());
+                UserSteps userSteps = new UserSteps();
+
+                userSteps.setUser_id(1);
+                userSteps.setSteps_count(250);
+
+                ut.insertRow(userSteps);
+
+                Bundle settingsBundle = new Bundle();
+                settingsBundle.putString("Type", "ClientSync");
+
+                settingsBundle.putInt("ListSize", tablesList.size());
+                for (int i = 0; i < tablesList.size(); i++) {
+                    settingsBundle.putString("Table " + i, tablesList.get(i));
+                }
+                SyncUtils.TriggerRefresh(settingsBundle);
+                Snackbar.make(v, "User Steps button pressed ", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
             }
         });
