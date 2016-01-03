@@ -7,6 +7,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
 import android.os.Bundle;
 
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +28,7 @@ import com.ph.model.UserGoal;
 import com.ph.model.User;
 import com.ph.net.SyncUtils;
 import com.ph.fragments.NavigationDrawerFragment;
+import com.ph.view.CustomProgressBar;
 
 import java.util.ArrayList;
 
@@ -85,17 +87,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Below code would be move to an appropriate function
-        ProgressBar nutritionProgressBar = (ProgressBar) findViewById(R.id.nutritionProgressBar);
-        ObjectAnimator animation = ObjectAnimator.ofInt(nutritionProgressBar, "progress", -100, 400); // see this max value coming back here, we animale towards that value
-        animation.setDuration(5000); //in milliseconds
-        animation.setInterpolator(new DecelerateInterpolator());
-        animation.start();
+        CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
+        nutritionProgressBar.setText("Nutrition");
+        ObjectAnimator animation = ObjectAnimator.ofInt(nutritionProgressBar, "progress", 0, 100);
+//        animation.setDuration(5000);
+//        animation.setInterpolator(new DecelerateInterpolator());
+//        animation.start();
 
-        ProgressBar activityProgressBar = (ProgressBar) findViewById(R.id.activityProgressBar);
-        ObjectAnimator animation1 = ObjectAnimator.ofInt(activityProgressBar, "progress", -100, 400); // see this max value coming back here, we animale towards that value
-        animation1.setDuration(5000); //in milliseconds
-        animation1.setInterpolator(new DecelerateInterpolator());
-        animation1.start();
+        CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
+        activityProgressBar.setText("Activity+");
+
+//        ObjectAnimator animation1 = ObjectAnimator.ofInt(activityProgressBar, "progress", 0, 100);
+//        animation1.setDuration(5000); //in milliseconds
+//        animation1.setInterpolator(new DecelerateInterpolator());
+//        animation1.start();
 
     }
 
