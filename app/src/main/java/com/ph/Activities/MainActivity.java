@@ -1,4 +1,4 @@
-package com.ph;
+package com.ph.Activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -166,11 +166,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public int getPrefsUserID (){
-        int userID;
-
-        return 0;
-    }
 
     public void  onNewGoalClick (View view){
         Intent newGoalIntent = new Intent(this, NewGoal.class);
