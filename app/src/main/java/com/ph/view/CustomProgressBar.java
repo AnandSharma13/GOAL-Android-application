@@ -12,9 +12,7 @@ import android.widget.ProgressBar;
  */
 public class CustomProgressBar extends ProgressBar{
 
-
     private String text="";
-
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);

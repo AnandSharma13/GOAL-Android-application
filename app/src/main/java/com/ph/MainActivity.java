@@ -6,10 +6,13 @@ import android.animation.ObjectAnimator;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
 import android.os.Bundle;
 
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +24,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 
+import com.ph.Activities.NewGoal;
+import com.ph.R;
+import com.ph.TempMain;
 import com.ph.model.ActivityEntry;
 import com.ph.model.DBHandler;
 import com.ph.model.NutritionEntry;
@@ -32,6 +38,13 @@ import com.ph.view.CustomProgressBar;
 
 import java.util.ArrayList;
 
+
+
+
+/**
+ * Created by Anand on 12/24/2016.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText nameView;
@@ -39,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private Button insertButton;
     private Button newGoalButton;
     private ContentResolver mContentResolver;
+    private int userID;
+
 
     // Constants
     // The authority for the sync adapter's content provider
@@ -65,8 +80,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle("Goal App");
-        toolbar.setTitleTextColor(-1);
+        toolbar.setTitle("G.O.A.L.");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -86,6 +100,11 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
 
 
+
+
+
+
+
         //Below code would be move to an appropriate function
         CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
         nutritionProgressBar.setText("Nutrition");
@@ -101,6 +120,11 @@ public class MainActivity extends AppCompatActivity {
 //        animation1.setDuration(5000); //in milliseconds
 //        animation1.setInterpolator(new DecelerateInterpolator());
 //        animation1.start();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("userID", 1);
+        editor.commit();
 
     }
 
@@ -140,6 +164,18 @@ public class MainActivity extends AppCompatActivity {
         return newAccount;
     }
 
+
+
+    public int getPrefsUserID (){
+        int userID;
+
+        return 0;
+    }
+
+    public void  onNewGoalClick (View view){
+        Intent newGoalIntent = new Intent(this, NewGoal.class);
+        startActivity(newGoalIntent);
+    }
 
     public void startNext(View view) {
         Intent intent = new Intent(this, TempMain.class);

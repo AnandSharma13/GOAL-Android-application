@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="com.ph.MainActivity">
+        tools:context=".MainActivity">
 
         <include
             android:id="@+id/app_bar"
@@ -21,9 +21,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/app_bar"
-            android:layout_centerHorizontal="true"
+            android:layout_toEndOf="@+id/btnNewGoal"
             android:onClick="startNext"
             android:text="Next Activity" />
+
+        <Button
+            android:id="@+id/btnNewGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/app_bar"
+            android:layout_marginStart="69dp"
+            android:onClick="onNewGoalClick"
+            android:text="Create Goal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,8 +55,8 @@
                     android:layout_height="150dp"
                     android:max="100"
                     android:progress="75"
-                    android:secondaryProgress="100"
-                    android:progressDrawable="@drawable/circular" />
+                    android:progressDrawable="@drawable/circular"
+                    android:secondaryProgress="100" />
             </LinearLayout>
 
             <LinearLayout
@@ -63,8 +73,8 @@
                     android:layout_height="150dp"
                     android:max="100"
                     android:progress="40"
-                    android:secondaryProgress="80"
-                    android:progressDrawable="@drawable/circular" />
+                    android:progressDrawable="@drawable/circular"
+                    android:secondaryProgress="80" />
                 />
 
             </LinearLayout>
@@ -74,9 +84,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="horizontal"></LinearLayout>
-        </LinearLayout>
+                android:orientation="horizontal">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Steps Count" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Average steps" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 
     <fragment
@@ -87,5 +121,4 @@
         android:layout_gravity="start"
         app:layout="@layout/fragment_navigation_drawer"
         tools:layout="@layout/fragment_navigation_drawer" />
-
 </android.support.v4.widget.DrawerLayout>

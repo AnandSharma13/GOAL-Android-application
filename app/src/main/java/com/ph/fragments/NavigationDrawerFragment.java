@@ -48,7 +48,6 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout = drawerlayout;
         mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerlayout, toolbar, R.string.drawer_open,R.string.drawer_close){
 
-
             @Override
             public void onDrawerOpened(View drawerView) {
                 getActivity().invalidateOptionsMenu();
