@@ -20,7 +20,9 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.ph.R;
 import com.ph.model.Activity;
+import com.ph.model.ActivityEntry;
 import com.ph.model.DBOperations;
+import com.ph.model.NutritionEntry;
 import com.ph.model.User;
 import com.ph.model.UserGoal;
 import com.ph.model.UserSteps;
@@ -60,7 +62,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme(mContext.getString(R.string.server_protocol))
                 .authority(mContext.getString(R.string.server_ip))
-                .appendPath(mContext.getString(R.string.server_path))
+                .appendEncodedPath(mContext.getString(R.string.server_path))
                 .appendPath(mContext.getString(R.string.server_sync_script));
 
         url = builder.toString();
@@ -183,10 +185,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private void insertRows(String tableName, JSONArray jArray) {
 
         switch (tableName) {
-            case "user":
+            case User.tableName:
                 insertUserTableRows(jArray);
                 break;
-            case "user_goal":
+            case UserGoal.tableName:
                 Log.i("insertRows", "insert user goal table");
                 insertUserGoalTableRows(jArray);
                 break;
@@ -198,11 +200,83 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 Log.i("insertRows", "Insert user_steps table");
                 insertUserStepsTableRows(jArray);
                 break;
+            case ActivityEntry.tableName:
+                Log.i("insertRows", "Insert Activity Entry Table");
+                insertActivityEntryTableRows(jArray);
+                break;
+            case NutritionEntry.tableName:
+                Log.i("insertRows", "Insert Nutrition Entry Table");
+                insertNutritionEntryTableRows(jArray);
+                break;
+        }
+    }
+
+    private void insertNutritionEntryTableRows(JSONArray jArray)
+    {
+        for (int i = 0; i < jArray.length(); i++) {
+
+
+            try {
+                JSONObject row = jArray.optJSONObject(i);
+
+                NutritionEntry nutritionEntry = new NutritionEntry();
+                nutritionEntry.setNutrition_entry_id(row.getInt(NutritionEntry.column_nutritionEntryID));
+                nutritionEntry.setTimestamp(row.getString(NutritionEntry.column_timestamp));
+                nutritionEntry.setIs_sync(row.getInt(NutritionEntry.column_sync));
+                nutritionEntry.setAttic_food(row.getInt(NutritionEntry.column_atticFood));
+                nutritionEntry.setDairy(row.getInt(NutritionEntry.column_dairy));
+                nutritionEntry.setFruit(row.getInt(NutritionEntry.column_fruit));
+                nutritionEntry.setGoal_id(row.getInt(NutritionEntry.column_goalID));
+                nutritionEntry.setGrain(row.getInt(NutritionEntry.column_grain));
+                nutritionEntry.setNutrition_type(row.getString(NutritionEntry.column_nutritiontype));
+                nutritionEntry.setTowards_goal(row.getInt(NutritionEntry.column_counttowardsgoal));
+                nutritionEntry.setType(row.getString(NutritionEntry.column_type));
+                nutritionEntry.setVegetable(row.getInt(NutritionEntry.column_vegetable));
+                nutritionEntry.setWater_intake(row.getInt(NutritionEntry.column_waterintake));
+                nutritionEntry.setNotes(row.getString(NutritionEntry.column_notes));
+                //nutritionEntry.setImage(row.getInt(NutritionEntry.column_image)));
+                long id = uop.insertRow(nutritionEntry);
+
+                Log.i("NutritionTableEntry", "A row with an ID " + String.valueOf(id) + " has been inserted into user table");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+    
+    private void insertActivityEntryTableRows(JSONArray jArray)
+    {
+        for (int i = 0; i < jArray.length(); i++) {
+
+
+            try {
+                JSONObject row = jArray.optJSONObject(i);
+                ActivityEntry activityEntry = new ActivityEntry();
+                activityEntry.setActivity_entry_id(row.getInt(ActivityEntry.column_activityEntryID));
+                activityEntry.setActivity_id(row.getInt(ActivityEntry.column_activityID));
+                // activityEntry.setImage();
+                activityEntry.setTimestamp(row.getString(ActivityEntry.column_timestamp));
+                activityEntry.setIs_sync(row.getInt(ActivityEntry.column_sync));
+                activityEntry.setNotes(row.getString(ActivityEntry.column_notes));
+                activityEntry.setActivity_length(row.getString(ActivityEntry.column_activitylength));
+                activityEntry.setCount_towards_goal(row.getInt(ActivityEntry.column_counttowardsgoal));
+                activityEntry.setGoal_id(row.getInt(ActivityEntry.column_goalID));
+                activityEntry.setRpe(row.getInt(ActivityEntry.column_rpe));
+                activityEntry.setIs_sync(1);
+                long id = uop.insertRow(activityEntry);
+
+                Log.i("ActivityEntryTableRows", "A row with an ID " + String.valueOf(id) + " has been inserted into user table");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
     private void insertUserTableRows(JSONArray jArray) {
-        DBOperations uot = new DBOperations(getContext());
         for (int i = 0; i < jArray.length(); i++) {
 
 
@@ -220,7 +294,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 user.setProgram(row.getString("program"));
                 user.setRewards_count(row.getInt("rewards_count"));
                 user.setIs_sync(1);
-                long id = uot.insertRow(user);
+                long id = uop.insertRow(user);
 
                 Log.i("insertUserTableRows", "A row with an ID " + String.valueOf(id) + " has been inserted into user table");
 

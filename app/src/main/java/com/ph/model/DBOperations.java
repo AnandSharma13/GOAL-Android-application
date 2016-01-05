@@ -96,6 +96,58 @@ public class DBOperations {
         return id;
     }
 
+    public long insertRow(ActivityEntry activityEntry)
+    {
+        SQLiteDatabase db = dbHandler.getWritableDatabase();
+        ContentValues val = new ContentValues();
+
+        if(activityEntry.getActivity_entry_id() != 0)
+            val.put(ActivityEntry.column_activityID,activityEntry.getActivity_entry_id());
+        val.put(ActivityEntry.column_activityID,activityEntry.getActivity_id());
+        val.put(ActivityEntry.column_activitylength,activityEntry.getActivity_length());
+        val.put(ActivityEntry.column_counttowardsgoal,activityEntry.getCount_towards_goal());
+        val.put(ActivityEntry.column_goalID,activityEntry.getGoal_id());
+        //val.put(ActivityEntry.column_image,activityEntry.getImage()); TODO: Handle image
+        val.put(ActivityEntry.column_notes,activityEntry.getNotes());
+        val.put(ActivityEntry.column_rpe,activityEntry.getRpe());
+        val.put(ActivityEntry.column_sync,activityEntry.getIs_sync());
+        val.put(ActivityEntry.column_timestamp,activityEntry.getTimestamp());
+
+
+        long id = db.insert(ActivityEntry.tableName, null, val);
+        db.close();
+
+        return id;
+
+    }
+
+    public long insertRow(NutritionEntry nutritionEntry)
+    {
+        SQLiteDatabase db = dbHandler.getWritableDatabase();
+        ContentValues val = new ContentValues();
+        if(nutritionEntry.getNutrition_entry_id() != 0)
+            val.put(NutritionEntry.column_nutritionEntryID,nutritionEntry.getNutrition_entry_id());
+        val.put(NutritionEntry.column_goalID,nutritionEntry.getGoal_id());
+        val.put(NutritionEntry.column_atticFood,nutritionEntry.getAttic_food());
+        val.put(NutritionEntry.column_dairy,nutritionEntry.getDairy());
+        val.put(NutritionEntry.column_fruit,nutritionEntry.getFruit());
+        val.put(NutritionEntry.column_grain,nutritionEntry.getGrain());
+        //val.put(NutritionEntry.column_image,nutritionEntry.getImage());
+        val.put(NutritionEntry.column_notes,nutritionEntry.getNotes());
+        val.put(NutritionEntry.column_nutritiontype,nutritionEntry.getNutrition_type());
+        val.put(NutritionEntry.column_sync,nutritionEntry.getIs_sync());
+        val.put(NutritionEntry.column_timestamp,nutritionEntry.getTimestamp());
+        val.put(NutritionEntry.column_type,nutritionEntry.getType());
+        val.put(NutritionEntry.column_vegetable,nutritionEntry.getVegetable());
+        val.put(NutritionEntry.column_waterintake,nutritionEntry.getWater_intake());
+
+        long id = db.insert(NutritionEntry.tableName, null, val);
+        db.close();
+
+        return id;
+
+    }
+
 
 
 
@@ -134,8 +186,50 @@ public class DBOperations {
             case UserSteps.tableName:
                 UserSteps userSteps = new UserSteps();
                 return populateRows(userSteps, cursor);
+            case ActivityEntry.tableName:
+                return populateRows(new ActivityEntry(),cursor);
+            case NutritionEntry.tableName:
+                return populateRows(new NutritionEntry(),cursor);
             default: return null;
         }
+    }
+
+
+    private NutritionEntry populateRows(NutritionEntry nutritionEntry, Cursor cursor)
+    {
+        nutritionEntry.setNutrition_entry_id(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_nutritionEntryID)));
+        nutritionEntry.setTimestamp(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_timestamp)));
+        nutritionEntry.setIs_sync(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_sync)));
+        nutritionEntry.setAttic_food(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_atticFood)));
+        nutritionEntry.setDairy(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_dairy)));
+        nutritionEntry.setFruit(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_fruit)));
+        nutritionEntry.setGoal_id(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_goalID)));
+        nutritionEntry.setGrain(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_grain)));
+        nutritionEntry.setNutrition_type(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_nutritiontype)));
+        nutritionEntry.setTowards_goal(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_counttowardsgoal)));
+        nutritionEntry.setType(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_type)));
+        nutritionEntry.setVegetable(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_vegetable)));
+        nutritionEntry.setWater_intake(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_waterintake)));
+        nutritionEntry.setNotes(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_notes)));
+        //nutritionEntry.setImage(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_image)));
+
+        return nutritionEntry;
+    }
+
+    private ActivityEntry populateRows(ActivityEntry activityEntry, Cursor cursor)
+    {
+        activityEntry.setActivity_entry_id(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_activityEntryID)));
+        activityEntry.setActivity_id(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_activityID)));
+       // activityEntry.setImage();
+        activityEntry.setTimestamp(cursor.getString(cursor.getColumnIndex(ActivityEntry.column_timestamp)));
+        activityEntry.setIs_sync(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_sync)));
+        activityEntry.setNotes(cursor.getString(cursor.getColumnIndex(ActivityEntry.column_notes)));
+        activityEntry.setActivity_length(cursor.getString(cursor.getColumnIndex(ActivityEntry.column_activitylength)));
+        activityEntry.setCount_towards_goal(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_counttowardsgoal)));
+        activityEntry.setGoal_id(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_goalID)));
+        activityEntry.setRpe(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_rpe)));
+
+        return activityEntry;
     }
 
 

@@ -6,23 +6,24 @@ import android.media.Image;
  * Created by Anand on 12/27/2015.
  */
 public class NutritionEntry {
-    private int nutritionEntryID;
-    private int goalID;
-    private String nutritionType;
-    private String timeStamp;
-    private int countTowardsGoal;
+    private int nutrition_entry_id;
+    private int goal_id;
+    private String nutrition_type;
+    private String timestamp;
+    private int towards_goal;
     private String type;
-    private int atticFood;
+    private int attic_food;
     private int dairy;
     private int vegetable;
     private int fruit;
     private int grain;
-    private int waterIntake;
+    private int water_intake;
     private String notes;
     private Image image;
+    private int is_sync;
 
-    public static String tableName = "nutritionentry";
-    public static String column_nutritionEntryID = "nutritionEntry_id";
+    public final static String tableName = "nutrition_entry";
+    public static String column_nutritionEntryID = "nutrition_entry_id";
     public static String column_goalID = "goal_id";
     public static String column_nutritiontype = "nutrition_type";
     public static String column_timestamp = "timestamp";
@@ -36,65 +37,69 @@ public class NutritionEntry {
     public static String column_waterintake = "water_intake";
     public static String column_notes =  "notes";
     public static String column_image =  "image";
+    public static String column_sync = "is_sync";
 
 
     public NutritionEntry(int nutritionEntryID, int goalID, String nutritionType, String timeStamp, int countTowardsGoal, String type, int atticFood, int dairy, int vegetable, int fruit, int grain, int waterIntake, String notes, Image image) {
-        this.nutritionEntryID = nutritionEntryID;
-        this.goalID = goalID;
-        this.nutritionType = nutritionType;
-        this.timeStamp = timeStamp;
-        this.countTowardsGoal = countTowardsGoal;
+        this.nutrition_entry_id = nutritionEntryID;
+        this.goal_id = goalID;
+        this.nutrition_type = nutritionType;
+        this.timestamp = timeStamp;
+        this.towards_goal = countTowardsGoal;
         this.type = type;
-        this.atticFood = atticFood;
+        this.attic_food = atticFood;
         this.dairy = dairy;
         this.vegetable = vegetable;
         this.fruit = fruit;
         this.grain = grain;
-        this.waterIntake = waterIntake;
+        this.water_intake = waterIntake;
         this.notes = notes;
         this.image = image;
     }
 
+    public NutritionEntry()
+    {
 
-
-    public int getNutritionEntryID() {
-        return nutritionEntryID;
     }
 
-    public void setNutritionEntryID(int nutritionEntryID) {
-        this.nutritionEntryID = nutritionEntryID;
+    public int getNutrition_entry_id() {
+        return nutrition_entry_id;
     }
 
-    public int getGoalID() {
-        return goalID;
+    public void setNutrition_entry_id(int nutrition_entry_id) {
+        this.nutrition_entry_id = nutrition_entry_id;
     }
 
-    public void setGoalID(int goalID) {
-        this.goalID = goalID;
+    public int getGoal_id() {
+        return goal_id;
     }
 
-    public String getNutritionType() {
-        return nutritionType;
+    public void setGoal_id(int goal_id) {
+        this.goal_id = goal_id;
     }
 
-    public void setNutritionType(String nutritionType) {
-        this.nutritionType = nutritionType;
+    public String getNutrition_type() {
+        return nutrition_type;
     }
 
-    public String getTimeStamp() {
-        return timeStamp;
+    public void setNutrition_type(String nutrition_type) {
+        this.nutrition_type = nutrition_type;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public int getCountTowardsGoal() {
-        return countTowardsGoal;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
-    public void setCountTowardsGoal(int countTowardsGoal) {
-        this.countTowardsGoal = countTowardsGoal;
+    public int getTowards_goal() {
+        return towards_goal;
+    }
+
+    public void setTowards_goal(int towards_goal) {
+        this.towards_goal = towards_goal;
     }
 
     public String getType() {
@@ -105,12 +110,12 @@ public class NutritionEntry {
         this.type = type;
     }
 
-    public int getAtticFood() {
-        return atticFood;
+    public int getAttic_food() {
+        return attic_food;
     }
 
-    public void setAtticFood(int atticFood) {
-        this.atticFood = atticFood;
+    public void setAttic_food(int attic_food) {
+        this.attic_food = attic_food;
     }
 
     public int getDairy() {
@@ -145,12 +150,12 @@ public class NutritionEntry {
         this.grain = grain;
     }
 
-    public int getWaterIntake() {
-        return waterIntake;
+    public int getWater_intake() {
+        return water_intake;
     }
 
-    public void setWaterIntake(int waterIntake) {
-        this.waterIntake = waterIntake;
+    public void setWater_intake(int water_intake) {
+        this.water_intake = water_intake;
     }
 
     public String getNotes() {
@@ -167,5 +172,13 @@ public class NutritionEntry {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public int getIs_sync() {
+        return is_sync;
+    }
+
+    public void setIs_sync(int is_sync) {
+        this.is_sync = is_sync;
     }
 }

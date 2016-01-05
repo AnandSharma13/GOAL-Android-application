@@ -27,7 +27,7 @@ import java.util.Map;
  * Created by Anand on 25-12-15.
  */
 public class DBHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "goal.db";
     private Context mContext;
     private String URL;
@@ -96,6 +96,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + ActivityEntry.column_counttowardsgoal + " INTEGER, "
                 + ActivityEntry.column_notes + " TEXT, "
                 + ActivityEntry.column_image + " BLOB, "
+                + ActivityEntry.column_sync + " INTEGER, "
                 + "FOREIGN KEY (" + ActivityEntry.column_goalID + ") REFERENCES " + UserGoal.tableName + "(" + UserGoal.column_goalID + "), "
                 + "FOREIGN KEY (" + ActivityEntry.column_activityID + ") REFERENCES " + Activity.tableName + "(" + Activity.column_activityID + ")" + ")";
 
@@ -114,6 +115,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + NutritionEntry.column_waterintake + " INTEGER, "
                 + NutritionEntry.column_notes + " TEXT, "
                 + NutritionEntry.column_image + " BLOB, "
+                + NutritionEntry.column_sync + " INTEGER, "
                 + "FOREIGN KEY (" + NutritionEntry.column_goalID + ") REFERENCES " + UserGoal.tableName + "(" + UserGoal.column_goalID + ")" + ")";
 
         String userStepsTable = "create table " + UserSteps.tableName + "("
@@ -137,18 +139,15 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
 //         sqlite file gets corrupted when activityentry and nutritionentry table are created. Still an open issue.
-//        db.execSQL(activityEntryTable);
-//        Log.i("DBHandler", "Activity entry table created");
-//        db.execSQL(nutritionEntryTable);
-//        Log.i("DBHandler", "Nutrition entry table created");
+        db.execSQL(activityEntryTable);
+        Log.i("DBHandler", "Activity entry table created");
+        db.execSQL(nutritionEntryTable);
+        Log.i("DBHandler", "Nutrition entry table created");
 
         Bundle bundle = new Bundle();
 
         bundle.putString("Type", "ServerSync");
         SyncUtils.TriggerRefresh(bundle);
-
-        //try to get data from the server. Not sure if the logic should be moved to onperform sync function.
-        //getRowsFromServer(User.tableName);
 
     }
 
