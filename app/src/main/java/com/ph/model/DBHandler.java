@@ -67,8 +67,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 + UserGoal.column_userID + " INTEGER, "
                 + UserGoal.column_timeStamp + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
                 + UserGoal.column_type + " TEXT, "
-                + UserGoal.column_startDate + " TEXT, " //Don't we need a DATETIME type here?
-                + UserGoal.column_endDate + " TEXT, "
+                + UserGoal.column_startDate + " DATETIME, " //Don't we need a DATETIME type here?
+                + UserGoal.column_endDate + " DATETIME, "
                 + UserGoal.column_weeklyCount + " INTEGER, "
                 + UserGoal.column_rewardType + " TEXT DEFAULT 'NONE',"
                 + UserGoal.column_text + " TEXT, "

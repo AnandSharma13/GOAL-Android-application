@@ -16,8 +16,9 @@ import android.view.ViewGroup;
 import com.ph.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by Anand on 12/26/2016.
  */
+
 public class NavigationDrawerFragment extends Fragment {
 
 
@@ -28,7 +29,7 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private View containerView;
     public NavigationDrawerFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -40,7 +41,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
     }
 

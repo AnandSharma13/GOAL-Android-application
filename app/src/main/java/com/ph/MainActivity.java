@@ -1,4 +1,4 @@
-package com.ph.Activities;
+package com.ph;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;

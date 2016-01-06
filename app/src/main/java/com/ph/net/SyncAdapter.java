@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -182,7 +183,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     }
 
-    private void insertRows(String tableName, JSONArray jArray) {
+    private void insertRows(String tableName, JSONArray jArray) throws ParseException {
 
         switch (tableName) {
             case User.tableName:
@@ -305,7 +306,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private void insertUserGoalTableRows(JSONArray jArray) {
+    private void insertUserGoalTableRows(JSONArray jArray) throws ParseException {
         DBOperations uot = new DBOperations(getContext());
         for (int i = 0; i < jArray.length(); i++) {
 
@@ -398,10 +399,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 final ArrayList<Object> syncData = uop.getSyncRows(table);
                 //skip if there's nothing to sync
                 if (syncData.size() == 0) {
-                    Log.i("SendClientData", "Nothing to sync");
+                    Log.i("SendClientData", "Nothing to sync for table\t"+table);
                     continue;
                 }
-                final String tableName = table;
+
+            Log.i("SendClientData", "Syncing data for table\t"+table);
+
+            final String tableName = table;
                 Map<String, String> params = new HashMap<String, String>();
                 String JSON = "";
                 Gson gson = new Gson();

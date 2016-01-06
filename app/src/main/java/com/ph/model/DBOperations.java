@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Anup on 23-12-15.
@@ -45,14 +48,18 @@ public class DBOperations {
     }
 
     //insert rows in usergoal
-    public long insertRow(UserGoal usergoal){
+    public long insertRow(UserGoal usergoal) throws ParseException {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         ContentValues val = new ContentValues();
+        java.sql.Date startDate = getSqlDate(usergoal.getStart_date());
+        java.sql.Date endDate = getSqlDate(usergoal.getEnd_date());
+
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
         //setting userId from user class
         val.put(UserGoal.column_userID, usergoal.getUser_id());
         val.put(UserGoal.column_type, usergoal.getType());
-        val.put(UserGoal.column_startDate, usergoal.getStart_date());
-        val.put(UserGoal.column_endDate, usergoal.getEnd_date());
+        val.put(UserGoal.column_startDate, dateformat.format(startDate));
+        val.put(UserGoal.column_endDate, dateformat.format(endDate));
         val.put(UserGoal.column_weeklyCount, usergoal.getWeekly_count());
         val.put(UserGoal.column_text, usergoal.getText());
         val.put(UserGoal.column_sync, usergoal.getIs_sync());
@@ -321,5 +328,12 @@ public class DBOperations {
         db.close(); //Close the db after the operation is finished.
     }
 
+    public java.sql.Date  getSqlDate(String date) throws ParseException {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsed = format.parse(date);
+        java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
+        return sqlDate;
+    }
 
 }
