@@ -137,7 +137,6 @@ public class TempMain extends AppCompatActivity {
                 userSteps.setSteps_count(250);
 
                 ut.insertRow(userSteps);
-
                 Bundle settingsBundle = new Bundle();
                 settingsBundle.putString("Type", "ClientSync");
 
@@ -199,7 +198,6 @@ public class TempMain extends AppCompatActivity {
         imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200, false));
 
     }
-
 
 
 

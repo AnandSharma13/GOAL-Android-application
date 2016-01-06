@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SYNC_STATS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -57,7 +57,9 @@
         </service>
 
         <activity android:name=".TempMain" />
-        <activity android:name=".Activities.NewGoal"></activity>
+        <activity android:name=".Activities.NewGoal" />
+        <activity android:name=".Activities.RecordActivity" />
+        <activity android:name=".Activities.RecordFood"></activity>
     </application>
 
 </manifest>

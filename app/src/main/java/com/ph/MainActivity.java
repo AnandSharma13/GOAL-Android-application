@@ -25,6 +25,8 @@ import android.widget.ProgressBar;
 
 
 import com.ph.Activities.NewGoal;
+import com.ph.Activities.RecordActivity;
+import com.ph.Activities.RecordFood;
 import com.ph.R;
 import com.ph.TempMain;
 import com.ph.model.ActivityEntry;
@@ -165,7 +167,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void onNutritionProgressBarClick(View view){
+        Intent intent = new Intent(this, RecordFood.class);
+        startActivity(intent);
 
+    }
+
+    public void onActivityProgressBarClick(View view){
+        Intent intent = new Intent(this,RecordActivity.class);
+        startActivity(intent);
+    }
 
     public void  onNewGoalClick (View view){
         Intent newGoalIntent = new Intent(this, NewGoal.class);

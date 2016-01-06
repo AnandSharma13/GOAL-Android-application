@@ -55,6 +55,9 @@
                     android:layout_height="150dp"
                     android:max="100"
                     android:progress="75"
+                    android:clickable="true"
+                    android:onClick="onNutritionProgressBarClick"
+                    android:background="@drawable/ripple"
                     android:progressDrawable="@drawable/circular"
                     android:secondaryProgress="100" />
             </LinearLayout>
@@ -73,9 +76,12 @@
                     android:layout_height="150dp"
                     android:max="100"
                     android:progress="40"
+                    android:clickable="true"
+                    android:background="@drawable/ripple"
+                    android:onClick="onActivityProgressBarClick"
                     android:progressDrawable="@drawable/circular"
                     android:secondaryProgress="80" />
-                />
+
 
             </LinearLayout>
 
@@ -121,4 +127,5 @@
         android:layout_gravity="start"
         app:layout="@layout/fragment_navigation_drawer"
         tools:layout="@layout/fragment_navigation_drawer" />
+
 </android.support.v4.widget.DrawerLayout>
