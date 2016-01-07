@@ -23,7 +23,7 @@
             android:layout_below="@+id/app_bar"
             android:layout_toEndOf="@+id/btnNewGoal"
             android:onClick="startNext"
-            android:text="Next Activity" />
+            android:text="Temp Button" />
 
         <Button
             android:id="@+id/btnNewGoal"

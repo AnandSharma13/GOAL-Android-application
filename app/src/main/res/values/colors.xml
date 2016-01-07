@@ -5,7 +5,7 @@
     <color name="colorAccent">#50514F</color>
     <color name="backgroundColor">#E1F5FE</color>
     <color name="navigationDrawer">#81D4FA</color>
-    <color name = "white">#039BE5</color>
+    <color name = "white">#ffffff</color>
     <color name="gray">#BDBDBD</color>
     <color name="blue">#4FC3F7</color>
 </resources>
