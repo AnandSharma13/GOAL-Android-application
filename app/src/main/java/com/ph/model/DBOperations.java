@@ -5,8 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.util.Base64;
 import android.util.Log;
 
+import com.ph.view.ImageHandler;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -114,11 +119,11 @@ public class DBOperations {
         val.put(ActivityEntry.column_activitylength,activityEntry.getActivity_length());
         val.put(ActivityEntry.column_counttowardsgoal,activityEntry.getCount_towards_goal());
         val.put(ActivityEntry.column_goalID,activityEntry.getGoal_id());
-        //val.put(ActivityEntry.column_image,activityEntry.getImage()); TODO: Handle image
+        val.put(ActivityEntry.column_image,activityEntry.getImage());
         val.put(ActivityEntry.column_notes,activityEntry.getNotes());
         val.put(ActivityEntry.column_rpe,activityEntry.getRpe());
         val.put(ActivityEntry.column_sync,activityEntry.getIs_sync());
-        val.put(ActivityEntry.column_timestamp,activityEntry.getTimestamp());
+        //val.put(ActivityEntry.column_timestamp,activityEntry.getTimestamp());
 
 
         long id = db.insert(ActivityEntry.tableName, null, val);
@@ -143,7 +148,7 @@ public class DBOperations {
         val.put(NutritionEntry.column_notes,nutritionEntry.getNotes());
         val.put(NutritionEntry.column_nutritiontype,nutritionEntry.getNutrition_type());
         val.put(NutritionEntry.column_sync,nutritionEntry.getIs_sync());
-        val.put(NutritionEntry.column_timestamp,nutritionEntry.getTimestamp());
+       // val.put(NutritionEntry.column_timestamp,nutritionEntry.getTimestamp());
         val.put(NutritionEntry.column_type,nutritionEntry.getType());
         val.put(NutritionEntry.column_vegetable,nutritionEntry.getVegetable());
         val.put(NutritionEntry.column_waterintake,nutritionEntry.getWater_intake());
@@ -218,16 +223,45 @@ public class DBOperations {
         nutritionEntry.setVegetable(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_vegetable)));
         nutritionEntry.setWater_intake(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_waterintake)));
         nutritionEntry.setNotes(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_notes)));
+
+
+
         //nutritionEntry.setImage(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_image)));
+
 
         return nutritionEntry;
     }
 
-    private ActivityEntry populateRows(ActivityEntry activityEntry, Cursor cursor)
-    {
+    private String getBase64Image(String uri) {
+        try {
+            java.net.URI URI = new java.net.URI(uri);
+            byte[] imageByteArray = ImageHandler.getImageByteArray(URI.toURL());
+            String imageBase64String = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
+            return imageBase64String;
+        }catch(URISyntaxException e)
+        {
+            e.printStackTrace();
+        }catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private ActivityEntry populateRows(ActivityEntry activityEntry, Cursor cursor) {
         activityEntry.setActivity_entry_id(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_activityEntryID)));
         activityEntry.setActivity_id(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_activityID)));
-       // activityEntry.setImage();
+
+        String image_uri = cursor.getString(cursor.getColumnIndex(ActivityEntry.column_image));
+        activityEntry.setImage(image_uri);
+
+        //Now populate the base64 form of the image.
+
+        activityEntry.setBase64Image(getBase64Image(image_uri));
+
         activityEntry.setTimestamp(cursor.getString(cursor.getColumnIndex(ActivityEntry.column_timestamp)));
         activityEntry.setIs_sync(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_sync)));
         activityEntry.setNotes(cursor.getString(cursor.getColumnIndex(ActivityEntry.column_notes)));

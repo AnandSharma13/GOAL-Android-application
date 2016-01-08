@@ -257,9 +257,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 ActivityEntry activityEntry = new ActivityEntry();
                 activityEntry.setActivity_entry_id(row.getInt(ActivityEntry.column_activityEntryID));
                 activityEntry.setActivity_id(row.getInt(ActivityEntry.column_activityID));
-                // activityEntry.setImage();
+                 activityEntry.setImage(row.getString(ActivityEntry.column_image));
                 activityEntry.setTimestamp(row.getString(ActivityEntry.column_timestamp));
-                activityEntry.setIs_sync(row.getInt(ActivityEntry.column_sync));
+                //activityEntry.setIs_sync(row.getInt(ActivityEntry.column_sync));
                 activityEntry.setNotes(row.getString(ActivityEntry.column_notes));
                 activityEntry.setActivity_length(row.getString(ActivityEntry.column_activitylength));
                 activityEntry.setCount_towards_goal(row.getInt(ActivityEntry.column_counttowardsgoal));
@@ -268,7 +268,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 activityEntry.setIs_sync(1);
                 long id = uop.insertRow(activityEntry);
 
-                Log.i("ActivityEntryTableRows", "A row with an ID " + String.valueOf(id) + " has been inserted into user table");
+                Log.i("ActivityEntryTableRows", "A row with an ID " + String.valueOf(id) + " has been inserted into activity_entry table");
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -409,6 +409,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 Map<String, String> params = new HashMap<String, String>();
                 String JSON = "";
                 Gson gson = new Gson();
+
             JSON = gson.toJson(syncData); //Could take a while.
 
                 Log.d("OnPerformSync", "the request json is " + JSON);

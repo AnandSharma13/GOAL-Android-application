@@ -68,4 +68,24 @@
         android:id="@+id/imageView"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="user_steps" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ActivityEntry"
+        android:id="@+id/activity_entry_button"
+        android:layout_below="@+id/user_steps_button"
+        android:layout_alignStart="@+id/user_steps_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nutrition Entry"
+        android:id="@+id/nutrition_entry_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/activity_button"
+        android:layout_marginBottom="72dp" />
 </RelativeLayout>

@@ -95,7 +95,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + ActivityEntry.column_activitylength + " INTEGER, "
                 + ActivityEntry.column_counttowardsgoal + " INTEGER, "
                 + ActivityEntry.column_notes + " TEXT, "
-                + ActivityEntry.column_image + " BLOB, "
+                + ActivityEntry.column_image + " TEXT, "
                 + ActivityEntry.column_sync + " INTEGER, "
                 + "FOREIGN KEY (" + ActivityEntry.column_goalID + ") REFERENCES " + UserGoal.tableName + "(" + UserGoal.column_goalID + "), "
                 + "FOREIGN KEY (" + ActivityEntry.column_activityID + ") REFERENCES " + Activity.tableName + "(" + Activity.column_activityID + ")" + ")";

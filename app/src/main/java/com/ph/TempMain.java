@@ -1,6 +1,5 @@
 package com.ph;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,9 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.ph.model.Activity;
+import com.ph.model.ActivityEntry;
 import com.ph.model.DBOperations;
 import com.ph.model.User;
 import com.ph.model.UserGoal;
@@ -27,10 +26,8 @@ import com.ph.view.ImageHandler;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -43,13 +40,12 @@ public class TempMain extends AppCompatActivity {
 
 
     public final ArrayList<String> tablesList = new ArrayList<String>() {{
-        add(User.tableName);
+        //add(User.tableName);
         add(UserGoal.tableName);
         add(Activity.tableName);
         add(UserSteps.tableName);
 
-
-        //add(ActivityEntry.tableName);
+        add(ActivityEntry.tableName);
         //add(NutritionEntry.tableName);
     }};
 
@@ -59,8 +55,10 @@ public class TempMain extends AppCompatActivity {
         setContentView(R.layout.activity_temp_main);
         Button insertButton = (Button) findViewById(R.id.btnInsert);
         Button newGoalButton = (Button) findViewById(R.id.btnNewGoal);
-        Button activityButton = (Button) findViewById(R.id.activity_button);
+        final Button activityButton = (Button) findViewById(R.id.activity_button);
         Button userStepsButton = (Button) findViewById(R.id.user_steps_button);
+        final Button activityEntryButton = (Button) findViewById(R.id.activity_entry_button);
+        Button nutritionButton = (Button) findViewById(R.id.nutrition_entry_button);
 
 
         insertButton.setOnClickListener(new View.OnClickListener() {
@@ -149,14 +147,77 @@ public class TempMain extends AppCompatActivity {
 
             }
         });
+
+        activityEntryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                takePhoto();
+
+            }
+        });
+        nutritionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
 
 
+    public void addActivityEntrytoDB() throws IOException, URISyntaxException {
 
+        DBOperations ut = new DBOperations(getApplicationContext());
+
+        ActivityEntry activityEntry = new ActivityEntry();
+
+        activityEntry.setGoal_id(1);
+        activityEntry.setActivity_id(1);
+        activityEntry.setRpe(2);
+        activityEntry.setActivity_length("some_length");
+        activityEntry.setCount_towards_goal(3);
+        activityEntry.setNotes("some notes");
+
+        activityEntry.setImage(imageUri.toString());
+
+        ut.insertRow(activityEntry);
+
+
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putString("Type", "ClientSync");
+
+        settingsBundle.putInt("ListSize", tablesList.size());
+        for (int i = 0; i < tablesList.size(); i++) {
+            settingsBundle.putString("Table " + i, tablesList.get(i));
+        }
+        SyncUtils.TriggerRefresh(settingsBundle);
+        //Snackbar.make(v, "Activity Entry button pressed ", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+
+
+    }
     public void takePhoto(View view) {
+        takePhoto();
+    }
+
+    public void takePhoto()
+    {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        File photo = new File(Environment.getExternalStorageDirectory(),  "Picture.jpg");
+
+        /*
+        Proposed logic for creating a unique file_name:
+
+        FileName = user's ID + "_" + current timestamp.
+         */
+        String user_id = "1"; //get user's actual user_id here.
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
+
+        String timestamp = dateFormat.format(new Date());
+        String filename = user_id+"_"+timestamp;
+
+        File photo = new File(Environment.getExternalStorageDirectory(),  filename);
+
         intent.putExtra(MediaStore.EXTRA_OUTPUT,
                 Uri.fromFile(photo));
         imageUri = Uri.fromFile(photo);
@@ -172,8 +233,23 @@ public class TempMain extends AppCompatActivity {
                 if (resultCode == android.app.Activity.RESULT_OK) {
                     Uri selectedImage = imageUri;
                     Log.i("Image", selectedImage.toString());
+
+                    try {
+                        addActivityEntrytoDB();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+
                 }
         }
+    }
+
+    public byte[] getImageByteArray() throws URISyntaxException, IOException {
+        java.net.URI uri = new java.net.URI(imageUri.toString());
+        byte[] imageByteArray = ImageHandler.getImageByteArray(uri.toURL());
+        return imageByteArray;
     }
 
 
@@ -183,7 +259,7 @@ public class TempMain extends AppCompatActivity {
         imageBase64String = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
         byte [] byteArray = Base64.decode(imageBase64String, Base64.DEFAULT);
         Snackbar.make(view, "value saved in imageBase64String variable", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        produceImage(byteArray);
+        produceImage(imageByteArray);
 
     }
 

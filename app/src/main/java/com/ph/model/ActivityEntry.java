@@ -1,7 +1,5 @@
 package com.ph.model;
 
-import android.media.Image;
-
 /**
  * Created by Anand on 12/27/2015.
  */
@@ -15,8 +13,9 @@ public class ActivityEntry {
     private String activity_length;
     private int count_towards_goal;
     private String notes;
-    private Image image;
+    private String image;
     private int is_sync;
+    private String base64Image;
 
     public final static String tableName = "activity_entry";
     public static String column_activityEntryID = "activity_entry_id";
@@ -33,7 +32,7 @@ public class ActivityEntry {
     ;
 
 
-    public ActivityEntry(int activity_entry_id, int goalID, int activityID, String timeStamp, int rpe, String activityLength, int countTowardsGoal, String notes, Image image) {
+    public ActivityEntry(int activity_entry_id, int goalID, int activityID, String timeStamp, int rpe, String activityLength, int countTowardsGoal, String notes, String image) {
         this.activity_entry_id = activity_entry_id;
         this.goal_id = goalID;
         this.activity_id = activityID;
@@ -114,11 +113,11 @@ public class ActivityEntry {
         this.notes = notes;
     }
 
-    public Image getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -128,5 +127,13 @@ public class ActivityEntry {
 
     public void setIs_sync(int is_sync) {
         this.is_sync = is_sync;
+    }
+
+    public String getBase64Image() {
+        return base64Image;
+    }
+
+    public void setBase64Image(String base64Image) {
+        this.base64Image = base64Image;
     }
 }
