@@ -25,7 +25,11 @@ import com.ph.net.SyncUtils;
 import com.ph.view.ImageHandler;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +40,6 @@ public class TempMain extends AppCompatActivity {
     private static final int TAKE_PICTURE = 1;
     private android.net.Uri imageUri;
     String imageBase64String;
-
 
 
     public final ArrayList<String> tablesList = new ArrayList<String>() {{
@@ -165,7 +168,6 @@ public class TempMain extends AppCompatActivity {
     }
 
 
-
     public void addActivityEntrytoDB() throws IOException, URISyntaxException {
 
         DBOperations ut = new DBOperations(getApplicationContext());
@@ -195,32 +197,31 @@ public class TempMain extends AppCompatActivity {
         //Snackbar.make(v, "Activity Entry button pressed ", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
 
-
     }
+
     public void takePhoto(View view) {
         takePhoto();
     }
 
-    public void takePhoto()
-    {
+    public void takePhoto() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 
         /*
         Proposed logic for creating a unique file_name:
-
         FileName = user's ID + "_" + current timestamp.
          */
         String user_id = "1"; //get user's actual user_id here.
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
 
         String timestamp = dateFormat.format(new Date());
-        String filename = user_id+"_"+timestamp;
+        String filename = user_id + "_" + timestamp;
 
-        File photo = new File(Environment.getExternalStorageDirectory(),  filename);
+        File photo = new File(Environment.getExternalStorageDirectory(), filename);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
+        intent.putExtra("name", filename);
 
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                Uri.fromFile(photo));
         imageUri = Uri.fromFile(photo);
+        Log.i("Take Photo", imageUri.toString());
         startActivityForResult(intent, TAKE_PICTURE);
     }
 
@@ -232,8 +233,13 @@ public class TempMain extends AppCompatActivity {
             case TAKE_PICTURE:
                 if (resultCode == android.app.Activity.RESULT_OK) {
                     Uri selectedImage = imageUri;
-                    Log.i("Image", selectedImage.toString());
 
+                    File file = new File(imageUri.getPath());
+                    Bitmap bitmap = decodeSampledBitmapFromFile(file.getAbsolutePath(), 500, 500);
+                    int size = bitmap.getAllocationByteCount();
+                    Log.i("Size", String.valueOf(size));
+                    file.delete();
+                    writeBitmapToFile(imageUri.getPath(), bitmap);
                     try {
                         addActivityEntrytoDB();
                     } catch (IOException e) {
@@ -244,6 +250,40 @@ public class TempMain extends AppCompatActivity {
 
                 }
         }
+    }
+
+    public void writeBitmapToFile(String path, Bitmap bitmap) {
+
+        try {
+            OutputStream stream = new FileOutputStream(path);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth, int reqHeight) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+
+        // Calculate inSampleSize, Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        int inSampleSize = 1;
+
+        if (height > reqHeight) {
+            inSampleSize = Math.round((float) height / (float) reqHeight);
+        }
+        int expectedWidth = width / inSampleSize;
+        if (expectedWidth > reqWidth) {
+            inSampleSize = Math.round((float) width / (float) reqWidth);
+        }
+        options.inSampleSize = inSampleSize;
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(path, options);
     }
 
     public byte[] getImageByteArray() throws URISyntaxException, IOException {
@@ -257,24 +297,22 @@ public class TempMain extends AppCompatActivity {
         java.net.URI uri = new java.net.URI(imageUri.toString());
         byte[] imageByteArray = ImageHandler.getImageByteArray(uri.toURL());
         imageBase64String = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
-        byte [] byteArray = Base64.decode(imageBase64String, Base64.DEFAULT);
+        byte[] byteArray = Base64.decode(imageBase64String, Base64.DEFAULT);
         Snackbar.make(view, "value saved in imageBase64String variable", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         produceImage(imageByteArray);
 
     }
 
 
-
     //To test the correctness of byte array
     //Producing image from byte array
-    public void produceImage(byte[] imageByteArray){
+    public void produceImage(byte[] imageByteArray) {
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
         imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200, false));
 
     }
-
 
 
 }
