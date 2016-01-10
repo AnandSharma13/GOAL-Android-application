@@ -29,7 +29,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -211,10 +210,10 @@ public class TempMain extends AppCompatActivity {
         FileName = user's ID + "_" + current timestamp.
          */
         String user_id = "1"; //get user's actual user_id here.
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
 
         String timestamp = dateFormat.format(new Date());
-        String filename = user_id + "_" + timestamp;
+        String filename = user_id + "_" + timestamp+".jpg";
 
         File photo = new File(Environment.getExternalStorageDirectory(), filename);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
