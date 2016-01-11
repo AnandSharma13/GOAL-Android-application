@@ -1,6 +1,9 @@
 package com.ph;
 
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -13,8 +16,12 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.ph.Utils.DateOperations;
+import com.ph.Utils.StartEndDateObject;
 import com.ph.model.Activity;
 import com.ph.model.ActivityEntry;
 import com.ph.model.DBOperations;
@@ -32,13 +39,19 @@ import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class TempMain extends AppCompatActivity {
 
     private static final int TAKE_PICTURE = 1;
     private android.net.Uri imageUri;
     String imageBase64String;
+    private Calendar calendar;
+    private DatePickerDialog.OnDateSetListener date;
+    private EditText nutriDate;
+
 
 
     public final ArrayList<String> tablesList = new ArrayList<String>() {{
@@ -61,6 +74,7 @@ public class TempMain extends AppCompatActivity {
         Button userStepsButton = (Button) findViewById(R.id.user_steps_button);
         final Button activityEntryButton = (Button) findViewById(R.id.activity_entry_button);
         Button nutritionButton = (Button) findViewById(R.id.nutrition_entry_button);
+        nutriDate = (EditText) findViewById(R.id.nutrition_date);
 
 
         insertButton.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +178,73 @@ public class TempMain extends AppCompatActivity {
 
             }
         });
+
+
+
+        //Date related stuff...
+
+        calendar = Calendar.getInstance();
+
+         date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+               updateLabel();
+            }
+        };
+
+
+        nutriDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(TempMain.this, date, calendar
+                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH));
+
+                datePickerDialog.show();
+            }
+        });
+    }
+
+
+    private void updateLabel() {
+
+        String myFormat = "MM/dd/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        nutriDate.setText(sdf.format(calendar.getTime()));
+
+        logWeekStats(calendar.getTime());
+    }
+
+    private void logWeekStats(Date givenDate)
+    {
+        DateOperations dateOperations = new DateOperations(TempMain.this);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("user_values", Context.MODE_PRIVATE);
+
+        String progStartDate = dateOperations.getUniformDateFormat().format(dateOperations.getProgramStartDate());
+
+        Log.d("WeekStats","Program Start Date = "+progStartDate);
+
+        int numWeeks = dateOperations.getWeeksTillDate(givenDate);
+        Log.d("WeekStats","Number of weeks for the above date= "+ String.valueOf(numWeeks));
+
+        StartEndDateObject startEndDateObject = dateOperations.getDatesforDate(givenDate);
+
+        String weekStart = dateOperations.getUniformDateFormat().format(startEndDateObject.startDate);
+
+        String weekEnd = dateOperations.getUniformDateFormat().format(startEndDateObject.endDate);
+
+        Log.d("WeekStats","Start Date = "+weekStart+" start end "+weekEnd);
+
+
+
+
+
     }
 
 

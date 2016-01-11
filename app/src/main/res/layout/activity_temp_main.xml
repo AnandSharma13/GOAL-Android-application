@@ -88,4 +88,16 @@
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/activity_button"
         android:layout_marginBottom="72dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/nutrition_date"
+        android:layout_above="@+id/nutrition_entry_button"
+        android:layout_alignStart="@+id/nutrition_entry_button"
+        android:layout_marginBottom="54dp"
+        android:focusable="false"/>
+
 </RelativeLayout>

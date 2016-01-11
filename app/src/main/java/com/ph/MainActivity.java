@@ -8,39 +8,30 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Canvas;
 import android.os.Bundle;
-
-import android.preference.Preference;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-
 
 import com.ph.Activities.NewGoal;
 import com.ph.Activities.RecordActivity;
 import com.ph.Activities.RecordFood;
-import com.ph.R;
-import com.ph.TempMain;
+import com.ph.fragments.NavigationDrawerFragment;
 import com.ph.model.ActivityEntry;
 import com.ph.model.DBHandler;
 import com.ph.model.NutritionEntry;
-import com.ph.model.UserGoal;
 import com.ph.model.User;
+import com.ph.model.UserGoal;
 import com.ph.net.SyncUtils;
-import com.ph.fragments.NavigationDrawerFragment;
 import com.ph.view.CustomProgressBar;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-
+import java.util.Date;
 
 
 /**
@@ -55,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private Button newGoalButton;
     private ContentResolver mContentResolver;
     private int userID;
+    SharedPreferences sharedPreferences;
 
 
     // Constants
@@ -93,6 +85,26 @@ public class MainActivity extends AppCompatActivity {
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
+        sharedPreferences =  getSharedPreferences("user_values",Context.MODE_PRIVATE);
+
+
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+        //Inserting a sample user information.
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM'/'DD'/'yyyy");
+        String date = simpleDateFormat.format(new Date());
+        editor.putInt("user_id", 2);
+        editor.putString("first_name", "John");
+        editor.putString("last_name", "Smith");
+        editor.putString("type", "U");
+        editor.putInt("age", 24);
+        editor.putString("start_date", date);
+        editor.putInt("program_length", 12);
+
+        editor.commit();
+
 
         mdrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -123,10 +135,10 @@ public class MainActivity extends AppCompatActivity {
 //        animation1.setInterpolator(new DecelerateInterpolator());
 //        animation1.start();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("userID", 1);
-        editor.commit();
+        editor.commit();*/
 
     }
 
