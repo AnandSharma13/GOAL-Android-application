@@ -315,6 +315,8 @@ public class TempMain extends AppCompatActivity {
                     Uri selectedImage = imageUri;
 
                     File file = new File(imageUri.getPath());
+
+                    //Specify the pixels of compressed image here
                     Bitmap bitmap = decodeSampledBitmapFromFile(file.getAbsolutePath(), 500, 500);
                     int size = bitmap.getAllocationByteCount();
                     Log.i("Size", String.valueOf(size));

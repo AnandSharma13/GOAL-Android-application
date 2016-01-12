@@ -43,14 +43,15 @@
                         android:numeric="integer"
                         android:ems="2"
                         android:layout_marginRight="8dp"
-                        />
+                        android:id="@+id/nutritionGoalTens" />
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLength="1"
                         android:numeric="integer"
                         android:background="@drawable/edittextdesign"
-                        android:ems="2"/>
+                        android:ems="2"
+                        android:id="@+id/nutritionGoalOnes" />
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -58,7 +59,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.2">
                 <EditText
-                    android:id="@+id/nutritionText"
+                    android:id="@+id/nutritionGoalText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/edittextdesign"
@@ -109,15 +110,7 @@
                             android:numeric="integer"
                             android:ems="2"
                             android:layout_marginRight="8dp"
-                            />
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLength="1"
-                            android:background="@drawable/edittextdesign"
-                            android:numeric="integer"
-                            android:ems="2"
-                            android:layout_marginRight="8dp"/>
+                            android:id="@+id/activityGoalHundreds" />
                         <EditText
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -126,7 +119,16 @@
                             android:numeric="integer"
                             android:ems="2"
                             android:layout_marginRight="8dp"
-                            />
+                            android:id="@+id/activityGoalTens" />
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLength="1"
+                            android:background="@drawable/edittextdesign"
+                            android:numeric="integer"
+                            android:ems="2"
+                            android:layout_marginRight="8dp"
+                            android:id="@+id/activityGoalOnes" />
                     </LinearLayout>
 
 
@@ -141,7 +143,7 @@
                 android:layout_weight="1.2">
 
                     <EditText
-                        android:id="@+id/activityText"
+                        android:id="@+id/activityGoalText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/edittextdesign"
@@ -164,7 +166,7 @@
             android:layout_weight="1.6"
             android:orientation="vertical">
             <Button
-                android:id="@+id/btnTestGoal"
+                android:id="@+id/btnSaveGoal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

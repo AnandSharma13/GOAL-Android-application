@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -85,9 +86,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
-        sharedPreferences =  getSharedPreferences("user_values",Context.MODE_PRIVATE);
+//        sharedPreferences =  getSharedPreferences("user_values",Context.MODE_PRIVATE);
 
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -104,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("program_length", 12);
 
         editor.commit();
+
+        //initializing shared preferences for Goal
+        initGoalSharedPrefs();
 
 
         mdrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -176,6 +180,21 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MainActivity", "There is a problem in setting the account");
         }
         return newAccount;
+    }
+
+
+    private void initGoalSharedPrefs(){
+//        sharedPreferences =  getSharedPreferences("goal_values",Context.MODE_PRIVATE);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("nutrition_goal_count", -1);
+        editor.putString("nutrition_goal_text", "");
+        editor.putInt("activity_goal_count", -1);
+        editor.putString("activity_goal_text", "");
+        editor.commit();
+
     }
 
 
