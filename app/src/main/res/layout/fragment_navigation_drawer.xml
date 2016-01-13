@@ -5,10 +5,34 @@
     android:background="@color/navigationDrawer"
     tools:context="com.ph.fragments.NavigationDrawerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <!--TODO adjust the height of top layout-->
 
+    <LinearLayout
+        android:id="@+id/headerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+      <RelativeLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/navUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GOAL user"
+            android:textSize="20dp"
+            />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/navUserName"
+              android:text="ID: 89656552"/>
+        </RelativeLayout>
+    </LinearLayout>
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/drawerList"
+    android:layout_width="match_parent"
+    android:layout_below="@+id/headerContainer"
+    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 </RelativeLayout>
