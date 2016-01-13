@@ -114,7 +114,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + NutritionEntry.column_grain + " INTEGER, "
                 + NutritionEntry.column_waterintake + " INTEGER, "
                 + NutritionEntry.column_notes + " TEXT, "
-                + NutritionEntry.column_image + " BLOB, "
+                + NutritionEntry.column_image + " TEXT, "
                 + NutritionEntry.column_sync + " INTEGER, "
                 + "FOREIGN KEY (" + NutritionEntry.column_goalID + ") REFERENCES " + UserGoal.tableName + "(" + UserGoal.column_goalID + ")" + ")";
 

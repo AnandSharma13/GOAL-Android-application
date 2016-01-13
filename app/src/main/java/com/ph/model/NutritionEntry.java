@@ -1,7 +1,5 @@
 package com.ph.model;
 
-import android.media.Image;
-
 /**
  * Created by Anand on 12/27/2015.
  */
@@ -19,7 +17,8 @@ public class NutritionEntry {
     private int grain;
     private int water_intake;
     private String notes;
-    private Image image;
+    private String image;
+    private String base64Image;
     private int is_sync;
 
     public final static String tableName = "nutrition_entry";
@@ -40,7 +39,7 @@ public class NutritionEntry {
     public static String column_sync = "is_sync";
 
 
-    public NutritionEntry(int nutritionEntryID, int goalID, String nutritionType, String timeStamp, int countTowardsGoal, String type, int atticFood, int dairy, int vegetable, int fruit, int grain, int waterIntake, String notes, Image image) {
+    public NutritionEntry(int nutritionEntryID, int goalID, String nutritionType, String timeStamp, int countTowardsGoal, String type, int atticFood, int dairy, int vegetable, int fruit, int grain, int waterIntake, String notes) {
         this.nutrition_entry_id = nutritionEntryID;
         this.goal_id = goalID;
         this.nutrition_type = nutritionType;
@@ -54,7 +53,7 @@ public class NutritionEntry {
         this.grain = grain;
         this.water_intake = waterIntake;
         this.notes = notes;
-        this.image = image;
+        //this.image = image;
     }
 
     public NutritionEntry()
@@ -166,11 +165,11 @@ public class NutritionEntry {
         this.notes = notes;
     }
 
-    public Image getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -180,5 +179,13 @@ public class NutritionEntry {
 
     public void setIs_sync(int is_sync) {
         this.is_sync = is_sync;
+    }
+
+    public String getBase64Image() {
+        return base64Image;
+    }
+
+    public void setBase64Image(String base64Image) {
+        this.base64Image = base64Image;
     }
 }

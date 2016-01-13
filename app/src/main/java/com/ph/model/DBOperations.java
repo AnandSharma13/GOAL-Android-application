@@ -144,7 +144,7 @@ public class DBOperations {
         val.put(NutritionEntry.column_dairy,nutritionEntry.getDairy());
         val.put(NutritionEntry.column_fruit,nutritionEntry.getFruit());
         val.put(NutritionEntry.column_grain,nutritionEntry.getGrain());
-        //val.put(NutritionEntry.column_image,nutritionEntry.getImage());
+        val.put(NutritionEntry.column_image,nutritionEntry.getImage());
         val.put(NutritionEntry.column_notes,nutritionEntry.getNotes());
         val.put(NutritionEntry.column_nutritiontype,nutritionEntry.getNutrition_type());
         val.put(NutritionEntry.column_sync,nutritionEntry.getIs_sync());
@@ -223,6 +223,12 @@ public class DBOperations {
         nutritionEntry.setVegetable(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_vegetable)));
         nutritionEntry.setWater_intake(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_waterintake)));
         nutritionEntry.setNotes(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_notes)));
+
+
+        String image_uri = cursor.getString(cursor.getColumnIndex(ActivityEntry.column_image));
+
+        nutritionEntry.setImage(image_uri);
+
 
 
 
