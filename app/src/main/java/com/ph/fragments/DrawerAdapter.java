@@ -43,6 +43,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.MyViewHold
         holder.image.setImageResource(current.getListId());
     }
 
+
     @Override
     public int getItemCount() {
         return list.size();
@@ -58,5 +59,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.MyViewHold
             title = (TextView) itemView.findViewById(R.id.listText);
             image = (ImageView) itemView.findViewById(R.id.listIcon);
         }
+        
     }
 }

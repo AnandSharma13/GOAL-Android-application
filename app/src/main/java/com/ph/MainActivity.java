@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.ph.Activities.FoodDetail;
 import com.ph.Activities.NewGoal;
 import com.ph.Activities.RecordActivity;
 import com.ph.Activities.RecordFood;
@@ -199,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onNutritionProgressBarClick(View view){
-        Intent intent = new Intent(this, RecordFood.class);
+        Intent intent = new Intent(this, FoodDetail.class);
         startActivity(intent);
 
     }
