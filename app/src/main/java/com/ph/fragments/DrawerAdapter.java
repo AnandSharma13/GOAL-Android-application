@@ -59,6 +59,5 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.MyViewHold
             title = (TextView) itemView.findViewById(R.id.listText);
             image = (ImageView) itemView.findViewById(R.id.listIcon);
         }
-        
     }
 }

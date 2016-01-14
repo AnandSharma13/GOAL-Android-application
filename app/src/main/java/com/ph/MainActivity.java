@@ -202,7 +202,6 @@ public class MainActivity extends AppCompatActivity {
     public void onNutritionProgressBarClick(View view){
         Intent intent = new Intent(this, FoodDetail.class);
         startActivity(intent);
-
     }
 
     public void onActivityProgressBarClick(View view){
