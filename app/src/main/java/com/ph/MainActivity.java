@@ -15,13 +15,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.ph.Activities.FoodDetail;
 import com.ph.Activities.NewGoal;
 import com.ph.Activities.RecordActivity;
 import com.ph.Activities.RecordFood;
+import com.ph.Utils.StringAdapter;
+import com.ph.Utils.SwipeListener;
 import com.ph.fragments.NavigationDrawerFragment;
 import com.ph.model.ActivityEntry;
 import com.ph.model.DBHandler;
@@ -48,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private Button newGoalButton;
     private ContentResolver mContentResolver;
     private int userID;
+    private ArrayList array;
+    private ListView mHomeListView;
     SharedPreferences sharedPreferences;
 
 
@@ -122,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
         //Below code would be move to an appropriate function
         CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
         nutritionProgressBar.setText("Nutrition");
@@ -144,6 +149,18 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("userID", 1);
         editor.commit();*/
+
+
+        array = new ArrayList<>();
+        array.add("Goal Button");
+
+
+
+        mHomeListView = (ListView) findViewById(R.id.home_list);
+        SwipeListener sw = new SwipeListener(this, mHomeListView);
+        StringAdapter adapter = new StringAdapter (this, array, sw);
+
+        mHomeListView.setAdapter(adapter);
 
     }
 
