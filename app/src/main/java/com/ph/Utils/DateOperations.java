@@ -76,6 +76,7 @@ public class DateOperations {
     {
         DateTime startDate = new DateTime(programStartDate);
         DateTime endDate = new DateTime(givenDate);
+
         return Weeks.weeksBetween(startDate,endDate).getWeeks();
 
     }

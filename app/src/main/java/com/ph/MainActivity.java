@@ -15,16 +15,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.ph.Activities.ActivityEntryMain;
 import com.ph.Activities.FoodDetail;
 import com.ph.Activities.NewGoal;
 import com.ph.Activities.RecordActivity;
-import com.ph.Activities.RecordFood;
 import com.ph.Utils.StringAdapter;
 import com.ph.Utils.SwipeListener;
 import com.ph.fragments.NavigationDrawerFragment;
@@ -83,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle("G.O.A.L.");
+        toolbar.setTitle("G.O.A.L");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -233,6 +231,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void startNext(View view) {
         Intent intent = new Intent(this, TempMain.class);
+        startActivity(intent);
+    }
+
+    public void activityEntryButtonClick(View view)
+    {
+        Intent intent = new Intent(this, ActivityEntryMain.class);
         startActivity(intent);
     }
 
