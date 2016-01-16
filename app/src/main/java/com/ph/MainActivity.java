@@ -14,19 +14,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ph.Activities.FoodDetail;
 import com.ph.Activities.NewGoal;
 import com.ph.Activities.RecordActivity;
-import com.ph.Activities.RecordFood;
-import com.ph.Utils.StringAdapter;
-import com.ph.Utils.SwipeListener;
+import com.ph.Utils.MyGestureDetector;
 import com.ph.fragments.NavigationDrawerFragment;
 import com.ph.model.ActivityEntry;
 import com.ph.model.DBHandler;
@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList array;
     private ListView mHomeListView;
     SharedPreferences sharedPreferences;
+    GestureDetector mGestureDetector = null;
+    View.OnTouchListener mGestureListener = null;
+
 
 
     // Constants
@@ -157,12 +160,25 @@ public class MainActivity extends AppCompatActivity {
 
 
         mHomeListView = (ListView) findViewById(R.id.home_list);
-        SwipeListener sw = new SwipeListener(this, mHomeListView);
-        StringAdapter adapter = new StringAdapter (this, array, sw);
 
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.home_list_item, array);
         mHomeListView.setAdapter(adapter);
 
-    }
+
+
+
+    mGestureDetector = new GestureDetector(this, new MyGestureDetector(getApplicationContext()));
+    mGestureListener = new View.OnTouchListener() {
+        public boolean onTouch(View v, MotionEvent aEvent) {
+            if (mGestureDetector.onTouchEvent(aEvent))
+                return true;
+            else
+                return false;
+        }
+    };
+    mHomeListView.setOnTouchListener(mGestureListener);
+}
 
 
     /**

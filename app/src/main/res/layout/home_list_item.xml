@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:id="@+id/list_tv"
-    android:background="@color/black"
-    android:textAlignment="center"
-    android:textColor="@color/colorPrimaryDark"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+<!--<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:id="@+id/list_switcher"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/gray"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark" />
+    <!--<Button-->
+        <!--android:id="@+id/new_goal"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="New Goal"/>-->
+    <!--</ViewSwitcher>-->
 

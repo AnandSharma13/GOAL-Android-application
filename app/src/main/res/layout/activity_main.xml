@@ -34,16 +34,7 @@
             android:layout_marginStart="69dp"
             android:onClick="onNewGoalClick"
             android:text="Create Goal" />
-        <Button
-            android:id="@+id/b_edit_in_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/app_bar"
-            android:text="Edit"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:visibility="invisible"
-            />
+
         <ListView
             android:id="@+id/home_list"
             android:layout_width="match_parent"
