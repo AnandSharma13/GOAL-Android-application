@@ -1,6 +1,7 @@
 package com.ph.Activities;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.ph.Utils.DateOperations;
 import com.ph.Utils.Dateutils;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Anup on 1/15/2016.
@@ -32,7 +34,11 @@ public class ActivityEntryMain extends AppCompatActivity {
         calendar = Calendar.getInstance();
         activityDate = (EditText) findViewById(R.id.activity_entry_date_text_view);
 
+
+
         dateOperations = new DateOperations(this);
+
+        activityDate.setText(dateOperations.getUniformDateFormat().format(new Date()));
 
 
 
@@ -68,6 +74,27 @@ public class ActivityEntryMain extends AppCompatActivity {
     private void updateLabel()
     {
         activityDate.setText(dateOperations.getUniformDateFormat().format(calendar.getTime()));
-        Log.i("updateLabel","Time has been set to the Edit Text");
+        Log.i("updateLabel", "Time has been set to the Edit Text");
+    }
+
+    public void activityClick(View view)
+    {
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent(ActivityEntryMain.this, ActivityEntryCreate.class);
+        switch (view.getId())
+        {
+            case R.id.cardio_layout:
+                bundle.putString("key","Cardio");
+                startActivity(intent);
+                break;
+            case R.id.strength_layout:
+                bundle.putString("key","Strength");
+                startActivity(intent);
+                break;
+            case R.id.lifestyle_layout:
+                bundle.putString("key","Lifestyle");
+                startActivity(intent);
+                break;
+        }
     }
 }

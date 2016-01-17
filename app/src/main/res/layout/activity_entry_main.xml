@@ -41,7 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cardio_layout"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:onClick="activityClick">
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:id="@+id/strength_layout"
-        android:background="@color/gray">
+        android:background="@color/gray"
+        android:onClick="activityClick">
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,7 +77,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:id="@+id/lifestyle_layout"
-        android:background="@color/colorAccent">
+        android:background="@color/colorAccent"
+        android:onClick="activityClick">
 
         <TextView
             android:layout_width="wrap_content"

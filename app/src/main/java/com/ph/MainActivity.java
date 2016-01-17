@@ -21,14 +21,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.ph.Activities.ActivityEntryMain;
 import com.ph.Activities.FoodDetail;
 import com.ph.Activities.NewGoal;
 import com.ph.Activities.RecordActivity;
-import com.ph.Utils.StringAdapter;
-import com.ph.Utils.SwipeListener;
 import com.ph.Utils.MyGestureDetector;
 import com.ph.fragments.NavigationDrawerFragment;
 import com.ph.model.ActivityEntry;
