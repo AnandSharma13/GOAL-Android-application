@@ -71,6 +71,7 @@
         <activity android:name=".Activities.FoodDetail"></activity>
         <activity android:name=".Activities.ActivityEntryMain"></activity>
         <activity android:name=".Activities.ActivityEntryCreate"></activity>
+        <activity android:name=".Activities.LoginActivity"></activity>
     </application>
 
 </manifest>

@@ -25,7 +25,6 @@ import android.widget.ListView;
 import com.ph.Activities.ActivityEntryMain;
 import com.ph.Activities.FoodDetail;
 import com.ph.Activities.NewGoal;
-import com.ph.Activities.RecordActivity;
 import com.ph.Utils.MyGestureDetector;
 import com.ph.fragments.NavigationDrawerFragment;
 import com.ph.model.ActivityEntry;
@@ -33,6 +32,7 @@ import com.ph.model.DBHandler;
 import com.ph.model.NutritionEntry;
 import com.ph.model.User;
 import com.ph.model.UserGoal;
+import com.ph.net.SessionManager;
 import com.ph.net.SyncUtils;
 import com.ph.view.CustomProgressBar;
 
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     GestureDetector mGestureDetector = null;
     View.OnTouchListener mGestureListener = null;
+    private SessionManager sessionManager;
 
 
 
@@ -85,6 +86,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Check LOGIN status
+        sessionManager = new SessionManager(this);
+
+        sessionManager.checkLogin();
+
+
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("G.O.A.L");
         setSupportActionBar(toolbar);
@@ -238,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onActivityProgressBarClick(View view){
-        Intent intent = new Intent(this,RecordActivity.class);
+        Intent intent = new Intent(this,ActivityEntryMain.class);
         startActivity(intent);
     }
 
@@ -254,8 +262,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void activityEntryButtonClick(View view)
     {
-        Intent intent = new Intent(this, ActivityEntryMain.class);
-        startActivity(intent);
+        sessionManager.logoutUser();
     }
 
 }
