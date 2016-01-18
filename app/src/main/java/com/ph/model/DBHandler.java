@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -14,7 +13,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ph.R;
-import com.ph.net.SyncUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +26,7 @@ import java.util.Map;
  */
 public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 2;
-    private static final String DATABASE_NAME = "goal.db";
+    public static final String DATABASE_NAME = "goal.db";
     private Context mContext;
     private String URL;
 
@@ -143,11 +141,6 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.i("DBHandler", "Activity entry table created");
         db.execSQL(nutritionEntryTable);
         Log.i("DBHandler", "Nutrition entry table created");
-
-        Bundle bundle = new Bundle();
-
-        bundle.putString("Type", "ServerSync");
-        SyncUtils.TriggerRefresh(bundle);
 
     }
 

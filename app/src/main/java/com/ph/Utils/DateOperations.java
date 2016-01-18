@@ -2,6 +2,7 @@ package com.ph.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import org.joda.time.DateTime;
 import org.joda.time.Weeks;
@@ -18,17 +19,18 @@ public class DateOperations {
     private Date programStartDate;
     private int programLength;
     private SimpleDateFormat uniformDateFormat;
+    private SimpleDateFormat mysqlDateFormat;
     private Date currentDate;
     private SharedPreferences sharedPreferences;
 
     public DateOperations(Context context)
     {
-        sharedPreferences =  context.getSharedPreferences("user_values", Context.MODE_PRIVATE);
-        programLength = sharedPreferences.getInt("program_length", -1);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        programLength = Integer.parseInt(sharedPreferences.getString("program_length", "-1"));
         uniformDateFormat = new SimpleDateFormat("MM'/'DD'/'yyyy");//Problem with the format
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+        mysqlDateFormat = new SimpleDateFormat("yyyy-MM-DD");
         try {
-            programStartDate = uniformDateFormat.parse(sharedPreferences.getString("start_date", ""));
+            programStartDate = mysqlDateFormat.parse(sharedPreferences.getString("program_start_date", ""));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -89,6 +91,10 @@ public class DateOperations {
     public Date getProgramStartDate() {
 
         return programStartDate;
+    }
+
+    public SimpleDateFormat getMysqlDateFormat() {
+        return mysqlDateFormat;
     }
 
     /*public void setUniformDateFormat(SimpleDateFormat uniformDateFormat) {

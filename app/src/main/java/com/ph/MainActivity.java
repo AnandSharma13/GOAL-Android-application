@@ -36,9 +36,7 @@ import com.ph.net.SessionManager;
 import com.ph.net.SyncUtils;
 import com.ph.view.CustomProgressBar;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 /**
@@ -107,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        sharedPreferences =  getSharedPreferences("user_values",Context.MODE_PRIVATE);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+       /* sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -123,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("start_date", date);
         editor.putInt("program_length", 12);
 
-        editor.commit();
+        editor.commit();*/
 
         //initializing shared preferences for Goal
         initGoalSharedPrefs();
