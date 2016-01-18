@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         mHomeListView = (ListView) findViewById(R.id.home_list);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.home_list_item, array);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.home_list_item, array);
         mHomeListView.setAdapter(adapter);
 
 
