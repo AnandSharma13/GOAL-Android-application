@@ -1,9 +1,10 @@
 package com.ph.fragments;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,9 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ph.R;
 
@@ -36,6 +37,9 @@ public class NavigationDrawerFragment extends Fragment {
     private View containerView;
     private DrawerAdapter adapter;
 
+    private TextView userNameView;
+    private TextView userIdView;
+
     public NavigationDrawerFragment() {
 
     }
@@ -50,6 +54,19 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View drawerLayout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+
+
+        userNameView = (TextView) drawerLayout.findViewById(R.id.navUserName);
+        userIdView = (TextView) drawerLayout.findViewById(R.id.navUserId);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        userNameView.setText(sharedPreferences.getString("first_name","GOAL User")+" "+sharedPreferences.getString("last_name",""));
+        userIdView.setText("ID: "+sharedPreferences.getString("user_id",""));
+
+        
+
+
         mRecyclerView = (RecyclerView) drawerLayout.findViewById(R.id.drawerList);
         adapter = new DrawerAdapter(getActivity(),getData());
         mRecyclerView.setAdapter(adapter);
