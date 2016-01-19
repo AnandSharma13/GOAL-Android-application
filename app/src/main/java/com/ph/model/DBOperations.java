@@ -128,7 +128,7 @@ public class DBOperations {
         val.put(ActivityEntry.column_notes,activityEntry.getNotes());
         val.put(ActivityEntry.column_rpe,activityEntry.getRpe());
         val.put(ActivityEntry.column_sync,activityEntry.getIs_sync());
-        //val.put(ActivityEntry.column_timestamp,activityEntry.getTimestamp());
+        val.put(ActivityEntry.column_date,getSqlDate(activityEntry.getDate()).toString());
 
 
         long id = db.insert(ActivityEntry.tableName, null, val);
@@ -294,8 +294,10 @@ public class DBOperations {
         activityEntry.setImage(image_uri);
 
         //Now populate the base64 form of the image.
-
-        activityEntry.setBase64Image(getBase64Image(image_uri));
+        if(image_uri.equals(""))
+            activityEntry.setBase64Image("");
+        else
+            activityEntry.setBase64Image(getBase64Image(image_uri));
 
         activityEntry.setTimestamp(cursor.getString(cursor.getColumnIndex(ActivityEntry.column_timestamp)));
         activityEntry.setIs_sync(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_sync)));
@@ -304,6 +306,8 @@ public class DBOperations {
         activityEntry.setCount_towards_goal(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_counttowardsgoal)));
         activityEntry.setGoal_id(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_goalID)));
         activityEntry.setRpe(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_rpe)));
+        activityEntry.setDate(cursor.getString(cursor.getColumnIndex(ActivityEntry.column_date)));
+
 
         return activityEntry;
     }
@@ -397,10 +401,15 @@ public class DBOperations {
         db.close(); //Close the db after the operation is finished.
     }
 
-    public java.sql.Date  getSqlDate(String date) throws ParseException {
+    public java.sql.Date  getSqlDate(String date) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date parsed = format.parse(date);
+        Date parsed = null;
+        try {
+            parsed = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
         return sqlDate;
     }

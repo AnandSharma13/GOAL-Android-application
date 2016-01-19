@@ -107,7 +107,7 @@ public class ServerSync {
                 activityEntry.setActivity_id(row.getInt(ActivityEntry.column_activityID));
                 activityEntry.setImage(row.getString(ActivityEntry.column_image));
                 activityEntry.setTimestamp(row.getString(ActivityEntry.column_timestamp));
-                //activityEntry.setIs_sync(row.getInt(ActivityEntry.column_sync));
+                activityEntry.setDate(row.getString(ActivityEntry.column_date));
                 activityEntry.setNotes(row.getString(ActivityEntry.column_notes));
                 activityEntry.setActivity_length(row.getString(ActivityEntry.column_activitylength));
                 activityEntry.setCount_towards_goal(row.getInt(ActivityEntry.column_counttowardsgoal));

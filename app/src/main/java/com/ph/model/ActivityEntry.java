@@ -7,6 +7,7 @@ public class ActivityEntry {
 
     private int activity_entry_id;
     private int goal_id;
+    private String date;
     private int activity_id;
     private String timestamp;
     private int rpe;
@@ -28,6 +29,7 @@ public class ActivityEntry {
     public static String column_notes = "notes";
     public static String column_image = "image";
     public static String column_sync = "is_sync";
+    public static String column_date = "date"
 
     ;
 
@@ -135,5 +137,13 @@ public class ActivityEntry {
 
     public void setBase64Image(String base64Image) {
         this.base64Image = base64Image;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

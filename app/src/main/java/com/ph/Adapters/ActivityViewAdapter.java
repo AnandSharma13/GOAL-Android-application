@@ -21,6 +21,7 @@ public class ActivityViewAdapter extends RecyclerView.Adapter<ActivityViewAdapte
     private final LayoutInflater inflater;
 
     List<Activity> list = Collections.emptyList();
+    private int selectedPos = 0;
 
 
     public ActivityViewAdapter(Context context, List<Activity> list)
@@ -42,24 +43,50 @@ public class ActivityViewAdapter extends RecyclerView.Adapter<ActivityViewAdapte
         Activity current = list.get(position);
         holder.title.setText(current.getName());
         holder.id.setText(String.valueOf(current.getActivity_id()));
+
+
+        holder.itemView.setSelected(selectedPos == position);
         //TODO: Handle images once they're available
     }
+
+
+
 
     @Override
     public int getItemCount() {
         return list.size();
     }
 
+    public int getSelectedPos() {
+        return selectedPos;
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView id;
         ImageView image;
+        View parent;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            parent = itemView;
             title = (TextView) itemView.findViewById(R.id.activity_name);
             image = (ImageView) itemView.findViewById(R.id.activity_image);
             id = (TextView) itemView.findViewById(R.id.activity_id);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Redraw the old selection and the new
+                    notifyItemChanged(selectedPos);
+                    selectedPos = getLayoutPosition();
+                    notifyItemChanged(selectedPos);
+
+
+                }
+            });
+
         }
+
     }
 }

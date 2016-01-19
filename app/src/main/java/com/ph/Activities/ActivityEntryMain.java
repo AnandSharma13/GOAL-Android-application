@@ -81,6 +81,7 @@ public class ActivityEntryMain extends AppCompatActivity {
     {
 
         Intent intent = new Intent(ActivityEntryMain.this, ActivityEntryCreate.class);
+        intent.putExtra("date",dateOperations.getMysqlDateFormat().format(calendar.getTime()));
         switch (view.getId())
         {
             case R.id.cardio_layout:

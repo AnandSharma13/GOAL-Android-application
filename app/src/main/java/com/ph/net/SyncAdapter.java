@@ -209,6 +209,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 params.put("tableName", tableName);
                 params.put("tableRows", JSON);
                 params.put("syncMode", "CS");
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                params.put("user_id",sharedPreferences.getString("user_id","0"));
                 CustomVolleyGsonRequest req = new CustomVolleyGsonRequest(url, Object.class, params, new Response.Listener<Object>() {
                     @Override
                     public void onResponse(Object response) {
