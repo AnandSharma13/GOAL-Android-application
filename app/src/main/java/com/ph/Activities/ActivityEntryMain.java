@@ -79,20 +79,20 @@ public class ActivityEntryMain extends AppCompatActivity {
 
     public void activityClick(View view)
     {
-        Bundle bundle = new Bundle();
+
         Intent intent = new Intent(ActivityEntryMain.this, ActivityEntryCreate.class);
         switch (view.getId())
         {
             case R.id.cardio_layout:
-                bundle.putString("key","Cardio");
+                intent.putExtra("key", "Cardio");
                 startActivity(intent);
                 break;
             case R.id.strength_layout:
-                bundle.putString("key","Strength");
+                intent.putExtra("key", "Strength");
                 startActivity(intent);
                 break;
             case R.id.lifestyle_layout:
-                bundle.putString("key","Lifestyle");
+                intent.putExtra("key","Lifestyle");
                 startActivity(intent);
                 break;
         }

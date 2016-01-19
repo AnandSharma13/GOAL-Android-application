@@ -27,12 +27,12 @@ public class Dateutils {
         StartEndDateObject startEndDateObject = dateOperations.getDatesForToday();
 
 
-        Date endDate = startEndDateObject.endDate;
+        Date startDate = startEndDateObject.startDate;
 
         Date currentDate = new Date();
 
-        datePickerDialog.getDatePicker().setMinDate(new DateTime(currentDate).getMillis());
-        datePickerDialog.getDatePicker().setMaxDate(new DateTime(endDate).getMillis());
+        datePickerDialog.getDatePicker().setMaxDate(new DateTime(currentDate).getMillis());
+        datePickerDialog.getDatePicker().setMinDate(new DateTime(startDate).getMillis());
 
         return datePickerDialog;
     }

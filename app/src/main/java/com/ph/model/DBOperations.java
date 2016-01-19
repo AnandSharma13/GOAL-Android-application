@@ -2,9 +2,11 @@ package com.ph.model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 
@@ -16,14 +18,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Anup on 23-12-15.
  */
 public class DBOperations {
     private DBHandler dbHandler;
+    private Context context;
 
     public DBOperations(Context context) {
+        this.context = context;
         dbHandler = new DBHandler(context);
     }
 
@@ -179,6 +184,30 @@ public class DBOperations {
         db.close(); //Close the db.
         cursor.close();
         return rows;
+    }
+
+
+    public List<Activity> getActivities(String type)
+    {
+        SQLiteDatabase db = dbHandler.getWritableDatabase();
+        List<Activity> activityList = new ArrayList<>();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String user_id =sharedPreferences.getString("user_id", "0");
+
+        String query = "select * from activity where user_id in ("+user_id+", 0) and type = '"+type+"'";
+
+        Cursor cursor = db.rawQuery(query,null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Activity activity = new Activity();
+                activity = populateRows(activity,cursor);
+                activityList.add(activity);
+            } while (cursor.moveToNext());
+        }
+        db.close(); //Close the db.
+        cursor.close();
+        return activityList;
     }
 
     //some polymorphism here
