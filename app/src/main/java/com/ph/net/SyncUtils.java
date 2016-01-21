@@ -23,6 +23,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import com.ph.model.ActivityEntry;
+import com.ph.model.NutritionEntry;
+import com.ph.model.User;
+import com.ph.model.UserGoal;
+
+import java.util.ArrayList;
+
 /**
  * Static helper methods for working with the sync framework.
  */
@@ -35,6 +42,7 @@ public class SyncUtils {
     public static final String ACCOUNT_TYPE = "example.com";
     // The account name
     public static final String ACCOUNT = "dummyaccount";
+
 
     /**
      * Create an entry for this application in the system account list, if it isn't already there.
@@ -98,6 +106,7 @@ public class SyncUtils {
         // Disable sync backoff and ignore sync preferences. In other words...perform sync NOW!
         b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         b.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+
         ContentResolver.requestSync(
                 AuthenticatorService.GetAccount(),      // Sync account
                 AUTHORITY, // Content authority

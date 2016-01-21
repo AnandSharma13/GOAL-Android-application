@@ -63,12 +63,9 @@
             android:name=".Activities.NewGoal"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Activities.RecordActivity"
+            android:name=".Activities.NutritionEntryCreate"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".Activities.RecordFood"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".Activities.FoodDetail"></activity>
+        <activity android:name=".Activities.NutritionEntryMain"></activity>
         <activity android:name=".Activities.ActivityEntryMain"></activity>
         <activity android:name=".Activities.ActivityEntryCreate"></activity>
         <activity android:name=".Activities.LoginActivity"></activity>

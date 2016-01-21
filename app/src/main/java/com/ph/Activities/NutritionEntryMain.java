@@ -8,14 +8,14 @@ import android.widget.EditText;
 
 import com.ph.R;
 
-public class FoodDetail extends AppCompatActivity {
+public class NutritionEntryMain extends AppCompatActivity {
 
     EditText mGoalDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_detail);
+        setContentView(R.layout.activity_nutrition_entry_main);
 
         mGoalDetails = (EditText) findViewById(R.id.goalDetailsText);
     }
@@ -26,7 +26,7 @@ public class FoodDetail extends AppCompatActivity {
         Bundle bundle =  new Bundle();
         String goalText = mGoalDetails.getText().toString();
         bundle.putString("goalText", goalText);
-        Intent intent = new Intent(this, RecordFood.class);
+        Intent intent = new Intent(this, NutritionEntryCreate.class);
         intent.putExtras(bundle);
         startActivity(intent);
 

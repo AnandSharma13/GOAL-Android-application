@@ -23,7 +23,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.ph.Activities.ActivityEntryMain;
-import com.ph.Activities.FoodDetail;
+import com.ph.Activities.NutritionEntryMain;
 import com.ph.Activities.NewGoal;
 import com.ph.Utils.MyGestureDetector;
 import com.ph.fragments.NavigationDrawerFragment;
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("last_name", "Smith");
         editor.putString("type", "U");
         editor.putInt("age", 24);
-        editor.putString("start_date", date);
+        editor.putString("program_start_date", "01/15/2016");
         editor.putInt("program_length", 12);
 
         editor.commit();*/
@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onNutritionProgressBarClick(View view){
-        Intent intent = new Intent(this, FoodDetail.class);
+        Intent intent = new Intent(this, NutritionEntryMain.class);
         startActivity(intent);
     }
 

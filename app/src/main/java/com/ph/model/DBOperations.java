@@ -160,7 +160,6 @@ public class DBOperations {
 
         long id = db.insert(NutritionEntry.tableName, null, val);
         db.close();
-
         return id;
 
     }

@@ -1,6 +1,7 @@
 package com.ph.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -97,7 +98,6 @@ public class NewGoal extends AppCompatActivity {
 
     public void onRandomClick(View view) throws ParseException {
 
-
         int nutritionGoalOnes = Integer.parseInt(mEditNutGoalOnes.getText().toString());
         int nutritionGoalTens = Integer.parseInt(mEditNutGoalTens.getText().toString());
         String nutritionGoalText = mEditNutGoalText.getText().toString();
@@ -116,7 +116,7 @@ public class NewGoal extends AppCompatActivity {
 
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        userId = prefs.getInt("user_id", -1);
+        userId = Integer.parseInt(prefs.getString("user_id", "-1"));
 
         int prefsNutCount = prefs.getInt("nutrition_goal_count", -1);
         String prefsNutText = prefs.getString("nutrition_goal_text", "");

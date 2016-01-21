@@ -94,7 +94,6 @@ public class SessionManager {
 
 
 
-
                 //Parse response to see if the login information is valid.
                 Map<String,String> responseMap = (Map<String,String>)response;
 

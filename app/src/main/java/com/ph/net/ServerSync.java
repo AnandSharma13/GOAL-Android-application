@@ -24,8 +24,7 @@ public class ServerSync {
     private Context context;
     private DBOperations dbOperations;
 
-    public ServerSync(Context context)
-    {
+    public ServerSync(Context context) {
         this.context = context;
         dbOperations = new DBOperations(context);
 
@@ -60,8 +59,7 @@ public class ServerSync {
         }
     }
 
-    private void insertNutritionEntryTableRows(JSONArray jArray)
-    {
+    private void insertNutritionEntryTableRows(JSONArray jArray) {
         for (int i = 0; i < jArray.length(); i++) {
 
 
@@ -84,6 +82,7 @@ public class ServerSync {
                 nutritionEntry.setWater_intake(row.getInt(NutritionEntry.column_waterintake));
                 nutritionEntry.setNotes(row.getString(NutritionEntry.column_notes));
                 //nutritionEntry.setImage(row.getInt(NutritionEntry.column_image)));
+                nutritionEntry.setIs_sync(1);
                 long id = dbOperations.insertRow(nutritionEntry);
 
                 Log.i("NutritionTableEntry", "A row with an ID " + String.valueOf(id) + " has been inserted into user table");
@@ -95,8 +94,7 @@ public class ServerSync {
         }
     }
 
-    private void insertActivityEntryTableRows(JSONArray jArray)
-    {
+    private void insertActivityEntryTableRows(JSONArray jArray) {
         for (int i = 0; i < jArray.length(); i++) {
 
 
@@ -189,7 +187,6 @@ public class ServerSync {
     private void insertActivityTableRows(JSONArray jArray) {
         for (int i = 0; i < jArray.length(); i++) {
 
-
             try {
                 JSONObject row = jArray.optJSONObject(i);
 
@@ -216,7 +213,6 @@ public class ServerSync {
 
     private void insertUserStepsTableRows(JSONArray jArray) {
         for (int i = 0; i < jArray.length(); i++) {
-
 
             try {
                 JSONObject row = jArray.optJSONObject(i);
