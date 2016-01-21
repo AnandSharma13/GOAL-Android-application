@@ -1,23 +1,18 @@
 package com.ph.Activities;
 
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.os.Handler;
 
 import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.StartEndDateObject;
-import com.ph.model.Activity;
 import com.ph.model.DBOperations;
 import com.ph.model.NutritionEntry;
-import com.ph.model.UserGoal;
-import com.ph.model.UserSteps;
 import com.ph.net.SyncUtils;
 
 import java.util.ArrayList;
@@ -74,10 +69,13 @@ public class NutritionEntryCreate extends AppCompatActivity {
 
         settingsBundle.putString("Type", "ClientSync");
 
-        settingsBundle.putInt("ListSize", tablesList.size());
+        /*settingsBundle.putInt("ListSize", tablesList.size());
         for (int i = 0; i < tablesList.size(); i++) {
             settingsBundle.putString("Table " + i, tablesList.get(i));
-        }
+        }*/
+
+        settingsBundle.putInt("ListSize",1);
+        settingsBundle.putString("Table "+0, "nutrition_entry");
 
         nutritionEntry.setGoal_id(1);
         nutritionEntry.setNutrition_type("BreakFast");
