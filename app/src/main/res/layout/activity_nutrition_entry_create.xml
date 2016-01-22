@@ -68,8 +68,10 @@
                         android:id="@+id/nutrition_entry_create_tv_dairy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Dairy"
                         android:layout_toStartOf="@+id/nutrition_entry_create_chkBx_Dairy_three"
-                        android:text="Dairy" />
+                        android:layout_alignParentTop="true" />
+
 
                     <CheckBox
                         android:id="@+id/nutrition_entry_create_chkBx_Dairy_one"
@@ -115,7 +117,7 @@
                         android:id="@+id/nutrition_entry_create_tv_protein"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
+
                         android:layout_toStartOf="@+id/nutrition_entry_create_chkBx_protein_four"
                         android:text="Protein" />
 
@@ -353,9 +355,10 @@
             android:layout_weight="1.1">
 
             <Button
+                android:id="@+id/nutrition_entry_create_btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Next Step" />
+                android:text="Save" />
         </LinearLayout>
 
     </LinearLayout>

@@ -21,6 +21,7 @@ public class NutritionEntry {
     private String base64Image;
     private int is_sync;
 
+    //TODO Add protein column
     public final static String tableName = "nutrition_entry";
     public static String column_nutritionEntryID = "nutrition_entry_id";
     public static String column_goalID = "goal_id";
