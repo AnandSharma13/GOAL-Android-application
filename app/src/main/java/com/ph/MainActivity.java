@@ -23,8 +23,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.ph.Activities.ActivityEntryMain;
-import com.ph.Activities.NutritionEntryMain;
 import com.ph.Activities.NewGoal;
+import com.ph.Activities.NutritionEntryMain;
+import com.ph.Utils.DateOperations;
 import com.ph.Utils.MyGestureDetector;
 import com.ph.fragments.NavigationDrawerFragment;
 import com.ph.model.ActivityEntry;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     GestureDetector mGestureDetector = null;
     View.OnTouchListener mGestureListener = null;
     private SessionManager sessionManager;
+    private DateOperations dateOperations;
 
 
 
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Check LOGIN status
         sessionManager = new SessionManager(this);
+        dateOperations = new DateOperations(this);
 
         sessionManager.checkLogin();
 
@@ -222,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
         return newAccount;
     }
 
-
+    @Deprecated
     private void initGoalSharedPrefs(){
 //        sharedPreferences =  getSharedPreferences("goal_values",Context.MODE_PRIVATE);
 

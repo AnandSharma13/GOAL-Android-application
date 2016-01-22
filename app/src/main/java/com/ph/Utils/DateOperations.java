@@ -27,8 +27,8 @@ public class DateOperations {
     {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         programLength = Integer.parseInt(sharedPreferences.getString("program_length", "-1"));
-        uniformDateFormat = new SimpleDateFormat("MM'/'DD'/'yyyy");//Problem with the format
-        mysqlDateFormat = new SimpleDateFormat("yyyy-MM-DD");
+        uniformDateFormat = new SimpleDateFormat("MM'/'dd'/'yyyy");//Problem with the format
+        mysqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
             programStartDate = mysqlDateFormat.parse(sharedPreferences.getString("program_start_date", ""));
         } catch (ParseException e) {

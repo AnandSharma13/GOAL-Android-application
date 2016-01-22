@@ -1,9 +1,13 @@
 package com.ph.Utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.Toast;
+
+import java.util.Date;
 
 /**
  * Created by Anand on 1/16/2016.
@@ -46,9 +50,23 @@ public class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
                 Math.abs(velocityX) >= SWIPE_THRESHOLD_VELOCITY &&
                 Math.abs(dX) >= SWIPE_MIN_DISTANCE) {
             if (dX > 0) {
-                Toast.makeText(context, "Right Swipe", Toast.LENGTH_SHORT).show();
+
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                int operatingWeek = new DateOperations(context).getWeeksTillDate(new Date());
+                editor.putInt("operating_week",operatingWeek);
+                editor.commit();
+                Toast.makeText(context, "Right Swipe and set operating week to "+String.valueOf(operatingWeek), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(context, "Left Swipe", Toast.LENGTH_SHORT).show();
+                //Set the goal period to next week;
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                int operatingWeek;
+                    operatingWeek = new DateOperations(context).getWeeksTillDate(new Date())+1;
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("operating_week",operatingWeek);
+                editor.commit();
+                Toast.makeText(context, "Left Swipe snd operating week set to "+operatingWeek, Toast.LENGTH_SHORT).show();
             }
             return true;
         }

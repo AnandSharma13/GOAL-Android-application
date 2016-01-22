@@ -1,7 +1,5 @@
 package com.ph.Activities;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,19 +10,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-
+import com.google.gson.Gson;
 import com.ph.R;
+import com.ph.Utils.DateOperations;
+import com.ph.Utils.StartEndDateObject;
 import com.ph.model.Activity;
 import com.ph.model.DBOperations;
 import com.ph.model.UserGoal;
 import com.ph.model.UserSteps;
 import com.ph.net.SyncUtils;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -42,8 +40,18 @@ public class NewGoal extends AppCompatActivity {
     private EditText mEditActGoalHundreds;
     private EditText mEditActGoalText;
 
+    private DateOperations dateOperations;
 
-    int userId;
+    UserGoal currentActivityGoal;
+    UserGoal currentNutritionGoal;
+    int prefsNutCount;
+    String prefsNutText;
+    int prefsActCount;
+    String prefsActText;
+
+
+
+    int userId,operatingWeek;
     static int count = 0;
 
     public final ArrayList<String> tablesList = new ArrayList<String>() {{
@@ -69,10 +77,72 @@ public class NewGoal extends AppCompatActivity {
         mEditActGoalHundreds = (EditText) findViewById(R.id.activityGoalHundreds);
         mEditActGoalText = (EditText) findViewById(R.id.activityGoalText);
 
-
+        dateOperations = new DateOperations(this);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        int prefNutCount = prefs.getInt("nutrition_goal_count", -1);
-        String prefsNutText = prefs.getString("nutrition_goal_text", "");
+
+        //Get the operating week of the program. It could be the current or period or the next one.
+
+        operatingWeek = prefs.getInt("operating_week",-1);
+
+        if(operatingWeek == -1)
+        {
+            operatingWeek = dateOperations.getWeeksTillDate(new Date());
+        }
+
+
+        currentActivityGoal = getCurrentGoalInfo("Activity");
+
+
+        if(currentActivityGoal == null)
+        {
+            prefsActCount = -1;
+            prefsActText="";
+        }
+        else
+        {
+            prefsActCount = currentActivityGoal.getWeekly_count();
+            prefsActText = currentActivityGoal.getText();
+            int tempActCount = prefsActCount,tens,ones,hundreds,temp;
+            hundreds = tempActCount/100;
+            temp = tempActCount %100;
+            tens = temp/10;
+            ones = temp%10;
+
+            mEditActGoalHundreds.setText(String.valueOf(hundreds));
+            mEditActGoalTens.setText(String.valueOf(tens));
+            mEditActGoalOnes.setText(String.valueOf(ones));
+            mEditActGoalText.setText(prefsActText);
+
+
+        }
+
+
+
+        currentNutritionGoal = getCurrentGoalInfo("Nutrition");
+
+        if(currentNutritionGoal == null)
+        {
+            prefsNutCount = -1;
+            prefsNutText = "";
+        }
+        else
+        {
+            prefsNutCount = currentNutritionGoal.getWeekly_count();
+            prefsNutText = currentNutritionGoal.getText();
+
+            int tens,ones;
+
+            tens = prefsNutCount/10;
+            ones = prefsNutCount%10;
+
+            mEditNutGoalTens.setText(String.valueOf(tens));
+            mEditNutGoalOnes.setText(String.valueOf(ones));
+            mEditNutGoalText.setText(prefsNutText);
+        }
+
+
+
+
 //
 //        if (prefNutCount != -1 || !prefsNutText.equals("")) {
 //            int prefsNutTens = prefNutCount / 10;
@@ -118,32 +188,31 @@ public class NewGoal extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         userId = Integer.parseInt(prefs.getString("user_id", "-1"));
 
-        int prefsNutCount = prefs.getInt("nutrition_goal_count", -1);
-        String prefsNutText = prefs.getString("nutrition_goal_text", "");
-        int prefsActCount = prefs.getInt("activity_goal_count", -1);
-        String prefsActText = prefs.getString("activity_goal_text", "");
+
 
         //checking for nutrition goal
         if (prefsNutCount != nutritionGoalCount || !prefsNutText.equals(nutritionGoalText)) {
 
             UserGoal nutritionGoal = new UserGoal(userId, "Nutrition", startDate, endDate, nutritionGoalCount, nutritionGoalText);
             insertGoal(nutritionGoal, view);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("nutrition_goal_count", nutritionGoalCount);
-            editor.putString("nutrition_goal_text", nutritionGoalText);
-            editor.commit();
+            Gson gson = new Gson();
+            String nutritionUserGoal = gson.toJson(nutritionGoal);
 
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("current_nutrition_goal",nutritionUserGoal); //stored as json.
+            editor.commit();
         }
 
 
-        //checking for nutrition goal
+        //checking for activity goal
         if (prefsActCount != activityGoalCount || !prefsActText.equals(activityGoalText)) {
             UserGoal activityGoal = new UserGoal(userId, "Activity", startDate, endDate, activityGoalCount, activityGoalText);
             insertGoal(activityGoal, view);
 
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("activity_goal_count", activityGoalCount);
-            editor.putString("activity_goal_text", activityGoalText);
+            Gson gson = new Gson();
+            String activityUserGoal = gson.toJson(activityGoal);
+            editor.putString("current_activity_goal",activityUserGoal); //stored as json.
             editor.commit();
 
         }
@@ -169,15 +238,66 @@ public class NewGoal extends AppCompatActivity {
     }
 
     public GoalPeriod getGoalPeriod() {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar cal = Calendar.getInstance();
-        String startDateTime = df.format(cal.getTime());
-        cal.setTime(new java.util.Date());
-        //Counting today's date as well
-        cal.add(Calendar.DATE, 6);
-        String endDateTime = df.format(cal.getTime());
-        GoalPeriod goalPeriod = new GoalPeriod(startDateTime, endDateTime);
+
+
+
+        StartEndDateObject goalWeek = dateOperations.getDatesFromWeekNumber(operatingWeek);
+
+
+        Date startDate;
+        if(operatingWeek == dateOperations.getWeeksTillDate(new Date()))
+            startDate = new Date();
+        else
+            startDate = goalWeek.startDate;
+
+                    Date endDate = goalWeek.endDate;
+
+
+        GoalPeriod goalPeriod = new GoalPeriod(dateOperations.getMysqlDateFormat().format(startDate), dateOperations.getMysqlDateFormat().format(endDate));
         return goalPeriod;
+    }
+
+
+    private UserGoal getCurrentGoalInfo(String type)
+    {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(NewGoal.this);
+        Gson gson = new Gson();
+        DBOperations dbOperations = new DBOperations(NewGoal.this);
+        String currentGoalJson;
+        if(type.equals("Activity"))
+        {
+            currentGoalJson = sharedPreferences.getString("current_activity_goal","");
+            if(currentGoalJson.equals(""))
+            {
+                //Get it from the Database.
+
+                return dbOperations.getCurrentUserGoalFromDB(type);
+            }
+            else
+            {
+                UserGoal userGoal = gson.fromJson(currentGoalJson, UserGoal.class);
+                return userGoal;
+            }
+        }
+        else if(type.equals("Nutrition"))
+        {
+            currentGoalJson = sharedPreferences.getString("current_nutrition_goal","");
+            if(currentGoalJson.equals(""))
+            {
+                //Get it from the Database.
+                return dbOperations.getCurrentUserGoalFromDB(type);
+            }
+            else
+            {
+                UserGoal userGoal = gson.fromJson(currentGoalJson, UserGoal.class);
+                return userGoal;
+            }
+        }
+        else
+        {
+            return null;
+        }
+
     }
 
 }

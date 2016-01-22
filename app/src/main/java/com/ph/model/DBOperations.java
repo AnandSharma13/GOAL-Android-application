@@ -10,6 +10,8 @@ import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 
+import com.ph.Utils.DateOperations;
+import com.ph.Utils.StartEndDateObject;
 import com.ph.view.ImageHandler;
 
 import java.io.IOException;
@@ -398,6 +400,28 @@ public class DBOperations {
         String query = "Update " + tableName + " set is_sync=1 where is_sync=0"; //A little optimization to reduce query runtime.
         db.execSQL(query);
         db.close(); //Close the db after the operation is finished.
+    }
+
+    public UserGoal getCurrentUserGoalFromDB(String type)
+    {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        DateOperations dateOperations = new DateOperations(context);
+        UserGoal userGoal = new UserGoal();
+        StartEndDateObject startEndDateObject = dateOperations.getDatesForToday();
+        String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
+        String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
+        String query = "select * from user_goal where timestamp between '"+startDate+"' and '"+endDate+"' and type= '"+type+"' order by timestamp";
+        Cursor cursor = db.rawQuery(query,null);
+
+        if(cursor.getCount() == 0)
+        {
+            return null;
+        }
+        if(cursor.moveToFirst())
+        {
+            userGoal = populateRows(userGoal,cursor);
+        }
+        return userGoal;
     }
 
     public java.sql.Date  getSqlDate(String date) {
