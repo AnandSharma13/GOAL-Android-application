@@ -8,6 +8,11 @@ import android.widget.EditText;
 
 import com.ph.R;
 
+
+/**
+ * Created by Anand on 1/20/2016.
+ */
+
 public class NutritionEntryMain extends AppCompatActivity {
 
     EditText mGoalDetails;

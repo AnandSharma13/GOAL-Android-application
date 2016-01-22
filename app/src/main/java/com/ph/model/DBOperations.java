@@ -75,7 +75,7 @@ public class DBOperations {
         val.put(UserGoal.column_weeklyCount, usergoal.getWeekly_count());
         val.put(UserGoal.column_text, usergoal.getText());
         val.put(UserGoal.column_sync, usergoal.getIs_sync());
-        long id = db.insert(UserGoal.tableName, null,val);
+        long id = db.insert(UserGoal.tableName, null, val);
         db.close();
         return id;
     }
@@ -115,22 +115,21 @@ public class DBOperations {
         return id;
     }
 
-    public long insertRow(ActivityEntry activityEntry)
-    {
+    public long insertRow(ActivityEntry activityEntry) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         ContentValues val = new ContentValues();
 
-        if(activityEntry.getActivity_entry_id() != 0)
-            val.put(ActivityEntry.column_activityID,activityEntry.getActivity_entry_id());
-        val.put(ActivityEntry.column_activityID,activityEntry.getActivity_id());
-        val.put(ActivityEntry.column_activitylength,activityEntry.getActivity_length());
-        val.put(ActivityEntry.column_counttowardsgoal,activityEntry.getCount_towards_goal());
-        val.put(ActivityEntry.column_goalID,activityEntry.getGoal_id());
-        val.put(ActivityEntry.column_image,activityEntry.getImage());
-        val.put(ActivityEntry.column_notes,activityEntry.getNotes());
-        val.put(ActivityEntry.column_rpe,activityEntry.getRpe());
-        val.put(ActivityEntry.column_sync,activityEntry.getIs_sync());
-        val.put(ActivityEntry.column_date,getSqlDate(activityEntry.getDate()).toString());
+        if (activityEntry.getActivity_entry_id() != 0)
+            val.put(ActivityEntry.column_activityID, activityEntry.getActivity_entry_id());
+        val.put(ActivityEntry.column_activityID, activityEntry.getActivity_id());
+        val.put(ActivityEntry.column_activitylength, activityEntry.getActivity_length());
+        val.put(ActivityEntry.column_counttowardsgoal, activityEntry.getCount_towards_goal());
+        val.put(ActivityEntry.column_goalID, activityEntry.getGoal_id());
+        val.put(ActivityEntry.column_image, activityEntry.getImage());
+        val.put(ActivityEntry.column_notes, activityEntry.getNotes());
+        val.put(ActivityEntry.column_rpe, activityEntry.getRpe());
+        val.put(ActivityEntry.column_sync, activityEntry.getIs_sync());
+        val.put(ActivityEntry.column_date, getSqlDate(activityEntry.getDate()).toString());
 
 
         long id = db.insert(ActivityEntry.tableName, null, val);
@@ -140,34 +139,30 @@ public class DBOperations {
 
     }
 
-    public long insertRow(NutritionEntry nutritionEntry)
-    {
+    public long insertRow(NutritionEntry nutritionEntry) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         ContentValues val = new ContentValues();
-        if(nutritionEntry.getNutrition_entry_id() != 0)
-            val.put(NutritionEntry.column_nutritionEntryID,nutritionEntry.getNutrition_entry_id());
-        val.put(NutritionEntry.column_goalID,nutritionEntry.getGoal_id());
-        val.put(NutritionEntry.column_atticFood,nutritionEntry.getAttic_food());
-        val.put(NutritionEntry.column_dairy,nutritionEntry.getDairy());
-        val.put(NutritionEntry.column_fruit,nutritionEntry.getFruit());
-        val.put(NutritionEntry.column_grain,nutritionEntry.getGrain());
-        val.put(NutritionEntry.column_image,nutritionEntry.getImage());
-        val.put(NutritionEntry.column_notes,nutritionEntry.getNotes());
-        val.put(NutritionEntry.column_nutritiontype,nutritionEntry.getNutrition_type());
-        val.put(NutritionEntry.column_sync,nutritionEntry.getIs_sync());
-       // val.put(NutritionEntry.column_timestamp,nutritionEntry.getTimestamp());
-        val.put(NutritionEntry.column_type,nutritionEntry.getType());
-        val.put(NutritionEntry.column_vegetable,nutritionEntry.getVegetable());
-        val.put(NutritionEntry.column_waterintake,nutritionEntry.getWater_intake());
+        if (nutritionEntry.getNutrition_entry_id() != 0)
+            val.put(NutritionEntry.column_nutritionEntryID, nutritionEntry.getNutrition_entry_id());
+        val.put(NutritionEntry.column_goalID, nutritionEntry.getGoal_id());
+        val.put(NutritionEntry.column_atticFood, nutritionEntry.getAttic_food());
+        val.put(NutritionEntry.column_dairy, nutritionEntry.getDairy());
+        val.put(NutritionEntry.column_fruit, nutritionEntry.getFruit());
+        val.put(NutritionEntry.column_grain, nutritionEntry.getGrain());
+        val.put(NutritionEntry.column_image, nutritionEntry.getImage());
+        val.put(NutritionEntry.column_notes, nutritionEntry.getNotes());
+        val.put(NutritionEntry.column_nutritiontype, nutritionEntry.getNutrition_type());
+        val.put(NutritionEntry.column_sync, nutritionEntry.getIs_sync());
+        // val.put(NutritionEntry.column_timestamp,nutritionEntry.getTimestamp());
+        val.put(NutritionEntry.column_type, nutritionEntry.getType());
+        val.put(NutritionEntry.column_vegetable, nutritionEntry.getVegetable());
+        val.put(NutritionEntry.column_waterintake, nutritionEntry.getWater_intake());
 
         long id = db.insert(NutritionEntry.tableName, null, val);
         db.close();
         return id;
 
     }
-
-
-
 
 
     public ArrayList<Object> getSyncRows(String tableName) {
@@ -178,7 +173,7 @@ public class DBOperations {
         Cursor cursor = db.rawQuery(q, null);
         if (cursor.moveToFirst()) {
             do {
-                Object rowObj = populateRows(tableName,cursor);
+                Object rowObj = populateRows(tableName, cursor);
                 rows.add(rowObj);
             } while (cursor.moveToNext());
         }
@@ -188,21 +183,20 @@ public class DBOperations {
     }
 
 
-    public List<Activity> getActivities(String type)
-    {
+    public List<Activity> getActivities(String type) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         List<Activity> activityList = new ArrayList<>();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String user_id =sharedPreferences.getString("user_id", "0");
+        String user_id = sharedPreferences.getString("user_id", "0");
 
-        String query = "select * from activity where user_id in ("+user_id+", 0) and type = '"+type+"'";
+        String query = "select * from activity where user_id in (" + user_id + ", 0) and type = '" + type + "'";
 
-        Cursor cursor = db.rawQuery(query,null);
+        Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
                 Activity activity = new Activity();
-                activity = populateRows(activity,cursor);
+                activity = populateRows(activity, cursor);
                 activityList.add(activity);
             } while (cursor.moveToNext());
         }
@@ -212,16 +206,14 @@ public class DBOperations {
     }
 
     //some polymorphism here
-    private Object populateRows(String tableName, Cursor cursor)
-    {
-        switch (tableName)
-        {
+    private Object populateRows(String tableName, Cursor cursor) {
+        switch (tableName) {
             case User.tableName:
                 User user = new User();
-                return populateRows(user,cursor);
+                return populateRows(user, cursor);
             case UserGoal.tableName:
                 UserGoal usergoal = new UserGoal();
-                return populateRows(usergoal,cursor);
+                return populateRows(usergoal, cursor);
             case Activity.tableName:
                 Activity activity = new Activity();
                 return populateRows(activity, cursor);
@@ -229,16 +221,16 @@ public class DBOperations {
                 UserSteps userSteps = new UserSteps();
                 return populateRows(userSteps, cursor);
             case ActivityEntry.tableName:
-                return populateRows(new ActivityEntry(),cursor);
+                return populateRows(new ActivityEntry(), cursor);
             case NutritionEntry.tableName:
-                return populateRows(new NutritionEntry(),cursor);
-            default: return null;
+                return populateRows(new NutritionEntry(), cursor);
+            default:
+                return null;
         }
     }
 
 
-    private NutritionEntry populateRows(NutritionEntry nutritionEntry, Cursor cursor)
-    {
+    private NutritionEntry populateRows(NutritionEntry nutritionEntry, Cursor cursor) {
         nutritionEntry.setNutrition_entry_id(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_nutritionEntryID)));
         nutritionEntry.setTimestamp(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_timestamp)));
         nutritionEntry.setIs_sync(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_sync)));
@@ -260,8 +252,6 @@ public class DBOperations {
         nutritionEntry.setImage(image_uri);
 
 
-
-
         //nutritionEntry.setImage(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_image)));
 
 
@@ -274,14 +264,11 @@ public class DBOperations {
             byte[] imageByteArray = ImageHandler.getImageByteArray(URI.toURL());
             String imageBase64String = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
             return imageBase64String;
-        }catch(URISyntaxException e)
-        {
+        } catch (URISyntaxException e) {
             e.printStackTrace();
-        }catch (IOException ex)
-        {
+        } catch (IOException ex) {
             ex.printStackTrace();
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
@@ -295,7 +282,7 @@ public class DBOperations {
         activityEntry.setImage(image_uri);
 
         //Now populate the base64 form of the image.
-        if(image_uri.equals(""))
+        if (image_uri.equals(""))
             activityEntry.setBase64Image("");
         else
             activityEntry.setBase64Image(getBase64Image(image_uri));
@@ -335,12 +322,12 @@ public class DBOperations {
 
     /**
      * Puts the contents of the row from the user table into the user object
-     * @param user The user object
+     *
+     * @param user   The user object
      * @param cursor cursor returned from the query
      * @return user object
      */
-    private User populateRows(User user, Cursor cursor)
-    {
+    private User populateRows(User user, Cursor cursor) {
         user.setUser_id(cursor.getInt(cursor.getColumnIndex(User.column_userID)));
         user.setFirst_name(cursor.getString(cursor.getColumnIndex(User.column_firstName)));
         user.setLast_name(cursor.getString(cursor.getColumnIndex(User.column_lastName)));
@@ -353,8 +340,7 @@ public class DBOperations {
         return user;
     }
 
-    private UserGoal populateRows(UserGoal userGoal, Cursor cursor)
-    {
+    private UserGoal populateRows(UserGoal userGoal, Cursor cursor) {
         userGoal.setGoal_id(cursor.getInt(cursor.getColumnIndex(UserGoal.column_goalID)));
         userGoal.setUser_id(cursor.getInt(cursor.getColumnIndex(UserGoal.column_userID)));
         userGoal.setTimestamp(cursor.getString(cursor.getColumnIndex(UserGoal.column_timeStamp)));
@@ -367,12 +353,25 @@ public class DBOperations {
         return userGoal;
     }
 
+
+    public Cursor getNutritionDayRecords() {
+
+        SQLiteDatabase db = dbHandler.getWritableDatabase();
+        String tableName = NutritionEntry.tableName;
+        String query = "select SUM(attic_food) as attic_food, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry where DATE(`timestamp`) = date()";
+        Cursor cursor = db.rawQuery(query, null);
+
+        cursor.moveToFirst();
+        db.close();
+
+        return cursor;
+    }
+
     @Deprecated
-    public boolean setSyncUserRows(ArrayList<User> userList)
-    {
+    public boolean setSyncUserRows(ArrayList<User> userList) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
 
-        String updateQuery="";
+        String updateQuery = "";
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
         ContentValues val = new ContentValues();
@@ -386,16 +385,14 @@ public class DBOperations {
 
             db.close();
             return true;
-        }catch (Exception ex)
-        {
-            Log.e("setSyncUserRows",ex.getLocalizedMessage());
+        } catch (Exception ex) {
+            Log.e("setSyncUserRows", ex.getLocalizedMessage());
             db.close();
             return false;
         }
     }
 
-    public void setSyncFlag(String tableName)
-    {
+    public void setSyncFlag(String tableName) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         String query = "Update " + tableName + " set is_sync=1 where is_sync=0"; //A little optimization to reduce query runtime.
         db.execSQL(query);
@@ -424,7 +421,7 @@ public class DBOperations {
         return userGoal;
     }
 
-    public java.sql.Date  getSqlDate(String date) {
+    public java.sql.Date getSqlDate(String date) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date parsed = null;
@@ -436,5 +433,6 @@ public class DBOperations {
         java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
         return sqlDate;
     }
+
 
 }
