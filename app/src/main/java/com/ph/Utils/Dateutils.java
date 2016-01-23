@@ -13,14 +13,12 @@ import java.util.Date;
 public class Dateutils {
     private Context context;
 
-    public Dateutils(Context context)
-    {
+    public Dateutils(Context context) {
         this.context = context;
     }
 
 
-    public DatePickerDialog setGoalPeriodWeek(DatePickerDialog datePickerDialog)
-    {
+    public DatePickerDialog setGoalPeriodWeek(DatePickerDialog datePickerDialog) {
         //Implement logic related to current week.
         DateOperations dateOperations = new DateOperations(context);
 

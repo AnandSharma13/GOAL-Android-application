@@ -61,9 +61,7 @@ public class ActivityEntryMain extends AppCompatActivity {
                         calendar.get(Calendar.DAY_OF_MONTH));
 
                 Dateutils dateutils = new Dateutils(ActivityEntryMain.this);
-
                 datePickerDialog = dateutils.setGoalPeriodWeek(datePickerDialog);
-
                 datePickerDialog.show();
             }
         });

@@ -25,6 +25,7 @@ import android.widget.ListView;
 import com.ph.Activities.ActivityEntryMain;
 import com.ph.Activities.NewGoal;
 import com.ph.Activities.NutritionEntryMain;
+import com.ph.Activities.NutritionEntrySelect;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.MyGestureDetector;
 import com.ph.fragments.NavigationDrawerFragment;
@@ -242,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onNutritionProgressBarClick(View view){
-        Intent intent = new Intent(this, NutritionEntryMain.class);
+        Intent intent = new Intent(this, NutritionEntrySelect.class);
         startActivity(intent);
     }
 

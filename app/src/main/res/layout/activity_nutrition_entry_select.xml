@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ph.Activities.NutritionEntrySelect">
+
+    <include
+        android:id="@id/app_bar"
+        layout="@layout/app_bar"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/nutrition_entry_select_et_date_picker"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/nutrition_entry_select_btn_breakfast"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Breakfast"
+                android:onClick="onClickBreakFast"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/nutrition_entry_select_btn_lunch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Lunch"
+                android:onClick="onClickLunch"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/nutrition_entry_select_btn_dinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Dinner"
+                android:onClick="onClickDinner"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

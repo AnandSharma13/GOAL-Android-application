@@ -104,6 +104,7 @@ public class NutritionEntryCreate extends AppCompatActivity {
         mDecrementFlag = false;
         mIncrementFlag = false;
         dbOperations = new DBOperations(getApplicationContext());
+
         getDayRecord();
         initControls();
 

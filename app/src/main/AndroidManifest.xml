@@ -65,10 +65,11 @@
         <activity
             android:name=".Activities.NutritionEntryCreate"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".Activities.NutritionEntryMain"></activity>
-        <activity android:name=".Activities.ActivityEntryMain"></activity>
-        <activity android:name=".Activities.ActivityEntryCreate"></activity>
-        <activity android:name=".Activities.LoginActivity"></activity>
+        <activity android:name=".Activities.NutritionEntryMain" />
+        <activity android:name=".Activities.ActivityEntryMain" />
+        <activity android:name=".Activities.ActivityEntryCreate" />
+        <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".Activities.NutritionEntrySelect"></activity>
     </application>
 
 </manifest>
