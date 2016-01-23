@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.StartEndDateObject;
 import com.ph.view.ImageHandler;
@@ -28,10 +29,14 @@ import java.util.List;
 public class DBOperations {
     private DBHandler dbHandler;
     private Context context;
+    private SharedPreferences sharedPreferences;
+    private DateOperations dateOperations;
 
     public DBOperations(Context context) {
         this.context = context;
         dbHandler = new DBHandler(context);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        dateOperations = new DateOperations(context);
     }
 
     public DBOperations(DBHandler dbHandler) {
@@ -399,15 +404,71 @@ public class DBOperations {
         db.close(); //Close the db after the operation is finished.
     }
 
+    public UserGoal getCurrentGoalInfo(String type)
+    {
+        Gson gson = new Gson();
+        int weekRecordInSharedPreferences = sharedPreferences.getInt("current_goal_week_record",-1);
+        int currentWeek = dateOperations.getWeeksTillDate(new Date());
+        String currentGoalJson="";
+        if(type.equals("Activity"))
+        {
+            if(currentWeek == weekRecordInSharedPreferences)
+                currentGoalJson = sharedPreferences.getString("current_activity_goal","");
+            if(currentGoalJson.equals(""))
+            {
+                //Get it from the Database.
+                UserGoal currentGoal = getCurrentUserGoalFromDB(type);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+                String activityUserGoal = gson.toJson(currentGoal);
+                editor.putString("current_activity_goal", activityUserGoal); //stored as json.
+                editor.putInt("current_goal_week_record",currentWeek);
+                editor.commit();
+                return currentGoal;
+            }
+            else
+            {
+                UserGoal userGoal = gson.fromJson(currentGoalJson, UserGoal.class);
+                return userGoal;
+            }
+        }
+        else if(type.equals("Nutrition"))
+        {
+            if(currentWeek == weekRecordInSharedPreferences)
+                currentGoalJson = sharedPreferences.getString("current_nutrition_goal","");
+            if(currentGoalJson.equals(""))
+            {
+                //Get it from the Database.
+                UserGoal currentGoal = getCurrentUserGoalFromDB(type);
+                String nutritionUserGoal = gson.toJson(currentGoal);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("current_nutrition_goal", nutritionUserGoal); //stored as json.
+                editor.putInt("current_goal_week_record", currentWeek);
+                editor.commit();
+                return currentGoal;
+            }
+            else
+            {
+                UserGoal userGoal = gson.fromJson(currentGoalJson, UserGoal.class);
+                return userGoal;
+            }
+        }
+        else
+        {
+            return null;
+        }
+
+    }
+
     public UserGoal getCurrentUserGoalFromDB(String type)
     {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        DateOperations dateOperations = new DateOperations(context);
         UserGoal userGoal = new UserGoal();
         StartEndDateObject startEndDateObject = dateOperations.getDatesForToday();
         String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
         String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
-        String query = "select * from user_goal where timestamp between '"+startDate+"' and '"+endDate+"' and type= '"+type+"' order by timestamp";
+        String query = "select * from user_goal where start_date between '"+startDate+"' and '"+endDate+"' and type= '"+type+"' order by timestamp DESC";
         Cursor cursor = db.rawQuery(query,null);
 
         if(cursor.getCount() == 0)

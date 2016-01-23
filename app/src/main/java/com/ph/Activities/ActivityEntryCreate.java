@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,9 +16,11 @@ import android.widget.Toast;
 import com.ph.Adapters.ActivityViewAdapter;
 import com.ph.MainActivity;
 import com.ph.R;
+import com.ph.Utils.AlertDialogManager;
 import com.ph.model.Activity;
 import com.ph.model.ActivityEntry;
 import com.ph.model.DBOperations;
+import com.ph.model.UserGoal;
 import com.ph.net.SyncUtils;
 
 import java.util.List;
@@ -41,6 +44,7 @@ public class ActivityEntryCreate extends AppCompatActivity {
     private TextView timeIndicator;
     private Button saveButton;
     private String date;
+    private CheckBox countGoal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,7 @@ public class ActivityEntryCreate extends AppCompatActivity {
 
         timeSeekBar = (SeekBar) findViewById(R.id.activity_entry_time_seek);
         timeIndicator = (TextView) findViewById(R.id.time_indicator);
+        countGoal = (CheckBox) findViewById(R.id.activity_entry_count_goal);
 
 
         //Set Onchange listeners...
@@ -135,10 +140,17 @@ public class ActivityEntryCreate extends AppCompatActivity {
                 int timeVal = timeSeekBar.getProgress();
 
 
-
-                activityEntry.setGoal_id(14);//TODO: calculate goal id here.
+                UserGoal userGoal = dbOperations.getCurrentGoalInfo("Activity");
+                if(userGoal == null)
+                {
+                    AlertDialogManager alertDialogManager = new AlertDialogManager();
+                    alertDialogManager.showAlertDialog(ActivityEntryCreate.this,"No Goal found!","There was no goal created for this week. Please create a goal before you enter any activity.");
+                    return;
+                }
+                int countasGoal = countGoal.isChecked()?1:0;
+                activityEntry.setGoal_id(userGoal.getGoal_id());
                 activityEntry.setActivity_id(activityId);
-                activityEntry.setCount_towards_goal(0); //TODO: Logic for count towards goal.
+                activityEntry.setCount_towards_goal(countasGoal);
                 activityEntry.setNotes("Coming from activity Entry page");//TODO: Logic for Notes
                 activityEntry.setImage(""); //TODO: Discuss about the image
                 activityEntry.setRpe(rpeVal);
