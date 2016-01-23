@@ -358,6 +358,7 @@ public class DBOperations {
 
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         String tableName = NutritionEntry.tableName;
+        //TODO implement previous days functionality
         String query = "select SUM(attic_food) as attic_food, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry where DATE(`timestamp`) = date()";
         Cursor cursor = db.rawQuery(query, null);
 
