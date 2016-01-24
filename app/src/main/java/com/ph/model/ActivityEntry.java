@@ -29,9 +29,7 @@ public class ActivityEntry {
     public static String column_notes = "notes";
     public static String column_image = "image";
     public static String column_sync = "is_sync";
-    public static String column_date = "date"
-
-    ;
+    public static String column_date = "date";
 
 
     public ActivityEntry(int activity_entry_id, int goalID, int activityID, String timeStamp, int rpe, String activityLength, int countTowardsGoal, String notes, String image) {

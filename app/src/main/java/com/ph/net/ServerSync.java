@@ -1,10 +1,13 @@
 package com.ph.net;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.ph.model.Activity;
 import com.ph.model.ActivityEntry;
+import com.ph.model.DBHandler;
 import com.ph.model.DBOperations;
 import com.ph.model.NutritionEntry;
 import com.ph.model.User;
@@ -55,11 +58,14 @@ public class ServerSync {
             case NutritionEntry.tableName:
                 Log.i("insertRows", "Insert Nutrition Entry Table");
                 insertNutritionEntryTableRows(jArray);
+
                 break;
         }
     }
 
     private void insertNutritionEntryTableRows(JSONArray jArray) {
+
+
         for (int i = 0; i < jArray.length(); i++) {
 
 

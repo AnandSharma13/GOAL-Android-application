@@ -33,6 +33,7 @@ public class NutritionEntrySelect extends AppCompatActivity {
         calendar = Calendar.getInstance();
         mNutritionEntryDate = (EditText) findViewById(R.id.nutrition_entry_select_et_date_picker);
         mDateOperations = new DateOperations(NutritionEntrySelect.this);
+        updateLabel();
 
         datePicker = new DatePickerDialog.OnDateSetListener() {
             @Override

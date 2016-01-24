@@ -18,12 +18,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center"
+            >
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/nutrition_entry_select_et_date_picker"/>
+                android:id="@+id/nutrition_entry_select_et_date_picker"
+                />
         </LinearLayout>
 
         <LinearLayout

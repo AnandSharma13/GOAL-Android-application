@@ -1,5 +1,6 @@
 package com.ph.Activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -15,10 +16,12 @@ import android.widget.TextView;
 
 import com.ph.R;
 import com.ph.Utils.DateOperations;
+import com.ph.model.Activity;
 import com.ph.model.DBOperations;
 import com.ph.model.NutritionEntry;
 import com.ph.net.SyncUtils;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 
@@ -69,6 +72,9 @@ public class NutritionEntryCreate extends AppCompatActivity {
     private int grainsCount;
     private int waterIntakeCount;
 
+    private String mNutritionType;
+    private String mSqlDateFormatString;
+
    private ArrayList<CheckBox> dairyChkbxList;
 // = new ArrayList<CheckBox>(){{
 //        add(mDairyOne);
@@ -98,6 +104,9 @@ public class NutritionEntryCreate extends AppCompatActivity {
 
         mDateOperations = new DateOperations(this);
         mDBOperations = new DBOperations(getApplicationContext());
+        mNutritionType= getIntent().getExtras().getString("NutritionType");
+        mSqlDateFormatString = getIntent().getExtras().getString("Date");
+
 
 
         repeatUpdateHandler = new Handler();
@@ -233,45 +242,10 @@ public class NutritionEntryCreate extends AppCompatActivity {
 
 
 
-    //TODO remove this function once done with entries
-    public void addNutritionEntryToDB() {
-        NutritionEntry nutritionEntry = new NutritionEntry();
-        Bundle settingsBundle = new Bundle();
-        SyncUtils syncUtils = new SyncUtils();
-
-        settingsBundle.putString("Type", "ClientSync");
-
-        /*settingsBundle.putInt("ListSize", tablesList.size());
-        for (int i = 0; i < tablesList.size(); i++) {
-            settingsBundle.putString("Table " + i, tablesList.get(i));
-        }*/
-
-        settingsBundle.putInt("ListSize", 1);
-        settingsBundle.putString("Table " + 0, "nutrition_entry");
-
-        nutritionEntry.setGoal_id(1);
-        nutritionEntry.setNutrition_type("BreakFast");
-        nutritionEntry.setTowards_goal(1);
-        nutritionEntry.setType("Some Text");
-        nutritionEntry.setAttic_food(1);
-        nutritionEntry.setDairy(1);
-        nutritionEntry.setVegetable(1);
-        nutritionEntry.setGrain(2);
-        nutritionEntry.setWater_intake(5);
-        nutritionEntry.setImage("Image URI here");
-        nutritionEntry.setNotes("Nutrition Text here");
-
-        mDBOperations.insertRow(nutritionEntry);
-
-        syncUtils.TriggerRefresh(settingsBundle);
-        Log.i("NutritionEntryCreate", "Sync called for nutrition entry");
-        getDayRecord();
-
-    }
 
     public void getDayRecord() {
 
-        Cursor dayRecordCursor = mDBOperations.getNutritionDayRecords();
+        Cursor dayRecordCursor = mDBOperations.getNutritionDayRecords(mSqlDateFormatString,mNutritionType);
         dayRecordCursor.moveToFirst();
         atticFoodCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_atticFood));
         dairyCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_dairy));
@@ -306,7 +280,6 @@ public class NutritionEntryCreate extends AppCompatActivity {
         int waterIntakeEntry = waterIntakeNow - waterIntakeCount;
 
 
-
         NutritionEntry nutritionEntry = new NutritionEntry();
         Bundle settingsBundle = new Bundle();
         SyncUtils syncUtils = new SyncUtils();
@@ -323,10 +296,11 @@ public class NutritionEntryCreate extends AppCompatActivity {
 
         nutritionEntry.setGoal_id(1);
         //TODO Passed from the first intent of nutrition entry
-        nutritionEntry.setNutrition_type("BreakFast");
+        nutritionEntry.setNutrition_type(mNutritionType);
         nutritionEntry.setTowards_goal(1);
         nutritionEntry.setType("Some Text");
         nutritionEntry.setAttic_food(atticFoodEntry);
+        nutritionEntry.setProtein(proteinEntry);
         nutritionEntry.setDairy(dairyEntry);
         nutritionEntry.setVegetable(vegetableEntry);
         nutritionEntry.setFruit(fruitEntry);
@@ -335,11 +309,15 @@ public class NutritionEntryCreate extends AppCompatActivity {
         nutritionEntry.setImage("Image URI here");
         //TODO passed from previous intent
         nutritionEntry.setNotes("Nutrition Text here");
-
+        DateOperations ds = new DateOperations(getApplicationContext());
+        nutritionEntry.setDate(mSqlDateFormatString);
         mDBOperations.insertRow(nutritionEntry);
-
         syncUtils.TriggerRefresh(settingsBundle);
         Log.i("NutritionEntryCreate", "Sync called for nutrition entry");
+
+        Intent returnIntent = new Intent();
+        setResult(android.app.Activity.RESULT_OK,returnIntent);
+        finish();
 
 
     }

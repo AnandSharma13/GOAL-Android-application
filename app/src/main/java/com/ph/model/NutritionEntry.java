@@ -11,6 +11,7 @@ public class NutritionEntry {
     private int towards_goal;
     private String type;
     private int attic_food;
+    private int protein;
     private int dairy;
     private int vegetable;
     private int fruit;
@@ -20,6 +21,7 @@ public class NutritionEntry {
     private String image;
     private String base64Image;
     private int is_sync;
+    private String date;
 
     //TODO Add protein column
     public final static String tableName = "nutrition_entry";
@@ -30,6 +32,7 @@ public class NutritionEntry {
     public static String column_counttowardsgoal = "towards_goal";
     public static String column_type = "type";
     public static String column_atticFood = "attic_food";
+    public static String column_protein = "protein";
     public static String column_dairy = "dairy";
     public static String column_vegetable = "vegetable";
     public static String column_fruit = "fruit";
@@ -38,9 +41,10 @@ public class NutritionEntry {
     public static String column_notes =  "notes";
     public static String column_image =  "image";
     public static String column_sync = "is_sync";
+    public static String column_date = "date";
 
 
-    public NutritionEntry(int nutritionEntryID, int goalID, String nutritionType, String timeStamp, int countTowardsGoal, String type, int atticFood, int dairy, int vegetable, int fruit, int grain, int waterIntake, String notes) {
+    public NutritionEntry(int nutritionEntryID, int goalID, String nutritionType, String timeStamp, int countTowardsGoal, String type, int atticFood, int protein, int dairy, int vegetable, int fruit, int grain, int waterIntake, String notes) {
         this.nutrition_entry_id = nutritionEntryID;
         this.goal_id = goalID;
         this.nutrition_type = nutritionType;
@@ -48,6 +52,7 @@ public class NutritionEntry {
         this.towards_goal = countTowardsGoal;
         this.type = type;
         this.attic_food = atticFood;
+        this.protein = protein;
         this.dairy = dairy;
         this.vegetable = vegetable;
         this.fruit = fruit;
@@ -188,5 +193,21 @@ public class NutritionEntry {
 
     public void setBase64Image(String base64Image) {
         this.base64Image = base64Image;
+    }
+
+    public int getProtein() {
+        return protein;
+    }
+
+    public void setProtein(int protein) {
+        this.protein = protein;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

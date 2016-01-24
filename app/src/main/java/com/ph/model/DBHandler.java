@@ -25,7 +25,7 @@ import java.util.Map;
  * Created by Anand on 25-12-15.
  */
 public class DBHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "goal.db";
     private Context mContext;
     private String URL;
@@ -107,6 +107,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + NutritionEntry.column_counttowardsgoal + " INTEGER, "
                 + NutritionEntry.column_type + " INTEGER, "
                 + NutritionEntry.column_atticFood + " INTEGER, "
+                + NutritionEntry.column_protein + " INTEGER, "
                 + NutritionEntry.column_dairy + " TEXT, "
                 + NutritionEntry.column_vegetable + " INTEGER, "
                 + NutritionEntry.column_fruit + " INTEGER, "
@@ -115,6 +116,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + NutritionEntry.column_notes + " TEXT, "
                 + NutritionEntry.column_image + " TEXT, "
                 + NutritionEntry.column_sync + " INTEGER, "
+                + NutritionEntry.column_date + " DATE, "
                 + "FOREIGN KEY (" + NutritionEntry.column_goalID + ") REFERENCES " + UserGoal.tableName + "(" + UserGoal.column_goalID + ")" + ")";
 
         String userStepsTable = "create table " + UserSteps.tableName + "("
