@@ -122,25 +122,47 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:id="@+id/steps_count_layout">
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Steps Count" />
+                        android:text="Steps Count"
+                        android:layout_marginTop="50dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:id="@+id/steps_count"
+                        android:text="0"
+                        android:layout_marginTop="10dp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:id="@+id/average_steps_count_layout">
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Average steps" />
+                        android:text="Average steps"
+                        android:layout_marginTop="50dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:id="@+id/average_steps_count"
+                        android:text="- -"
+                        android:layout_marginTop="10dp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

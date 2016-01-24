@@ -470,6 +470,22 @@ public class DBOperations {
 
     }
 
+    public int getStepsCount()
+    {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        String query = "select sum(steps_count) from user_steps where timestamp >= date('now', 'start of day')";
+        Cursor cursor = db.rawQuery(query,null);
+        int count = 0;
+        if(cursor.getCount() > 0 && cursor.moveToFirst())
+        {
+            if(cursor.getColumnCount()>0)
+                count = cursor.getInt(0);
+        }
+        db.close();
+        cursor.close();
+        return count;
+    }
+
     public UserGoal getCurrentUserGoalFromDB(String type)
     {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
@@ -488,6 +504,8 @@ public class DBOperations {
         {
             userGoal = populateRows(userGoal,cursor);
         }
+        db.close();
+        cursor.close();
         return userGoal;
     }
 

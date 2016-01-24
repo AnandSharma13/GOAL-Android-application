@@ -3,11 +3,12 @@ package com.ph;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
@@ -15,25 +16,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ph.Activities.ActivityEntryMain;
 import com.ph.Activities.NewGoal;
-import com.ph.Activities.NutritionEntryMain;
 import com.ph.Activities.NutritionEntrySelect;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.MyGestureDetector;
 import com.ph.fragments.NavigationDrawerFragment;
 import com.ph.model.ActivityEntry;
-import com.ph.model.DBHandler;
+import com.ph.model.DBOperations;
 import com.ph.model.NutritionEntry;
 import com.ph.model.User;
 import com.ph.model.UserGoal;
+import com.ph.model.UserSteps;
 import com.ph.net.SessionManager;
 import com.ph.net.SyncUtils;
 import com.ph.view.CustomProgressBar;
@@ -52,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private Button insertButton;
     private Button newGoalButton;
     private ContentResolver mContentResolver;
-    private int userID;
     private ArrayList array;
     private ListView mHomeListView;
     SharedPreferences sharedPreferences;
@@ -60,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
     View.OnTouchListener mGestureListener = null;
     private SessionManager sessionManager;
     private DateOperations dateOperations;
+    private DBOperations dbOperations;
+    private TextView stepsCount;
+    private LinearLayout userStepsLayout;
 
 
 
@@ -91,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         //Check LOGIN status
         sessionManager = new SessionManager(this);
         dateOperations = new DateOperations(this);
+        dbOperations = new DBOperations(this);
 
         sessionManager.checkLogin();
 
@@ -132,13 +140,74 @@ public class MainActivity extends AppCompatActivity {
 
 
         mdrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        stepsCount = (TextView) findViewById(R.id.steps_count);
+        userStepsLayout = (LinearLayout) findViewById(R.id.steps_count_layout);
+
+
+        userStepsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LayoutInflater li = LayoutInflater.from(MainActivity.this);
+                View dialogView = li.inflate(R.layout.user_steps_input, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                builder.setView(dialogView);
+
+                final EditText userStepsInput = (EditText) dialogView.findViewById(R.id.user_steps_input);
+
+                builder
+                        .setCancelable(false)
+                        .setPositiveButton("Save",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        int steps = Integer.parseInt(userStepsInput.getText().toString());
+
+                                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                                        int user_id = Integer.parseInt(sharedPreferences.getString("user_id", "-1"));
+
+                                        UserSteps userSteps = new UserSteps();
+
+                                        userSteps.setSteps_count(steps);
+                                        userSteps.setUser_id(user_id);
+
+                                        dbOperations.insertRow(userSteps);
+
+                                        Bundle settingsBundle = new Bundle();
+                                        settingsBundle.putString("Type", "ClientSync");
+
+                                        settingsBundle.putInt("ListSize", 1);
+
+                                        settingsBundle.putString("Table " + 0, UserSteps.tableName);
+
+                                        SyncUtils.TriggerRefresh(settingsBundle);
+
+                                        stepsCount.setText(String.valueOf(dbOperations.getStepsCount()));
+
+                                        Toast.makeText(MainActivity.this,"Successfully saved the steps count",Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                // create alert dialog
+                AlertDialog alertDialog = builder.create();
+
+                // show it
+                alertDialog.show();
+
+            }
+        });
 
         SyncUtils.CreateSyncAccount(this);
         mContentResolver = getContentResolver();
-        DBHandler dbHandler = new DBHandler(getApplicationContext());
-        SQLiteDatabase db = dbHandler.getWritableDatabase();
 
 
+
+        stepsCount.setText(String.valueOf(dbOperations.getStepsCount()));
 
 
 
