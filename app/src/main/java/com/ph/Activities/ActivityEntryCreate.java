@@ -1,14 +1,18 @@
 package com.ph.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,8 +47,10 @@ public class ActivityEntryCreate extends AppCompatActivity {
     private SeekBar timeSeekBar;
     private TextView timeIndicator;
     private Button saveButton;
+    private Button commentButton;
     private String date;
     private CheckBox countGoal;
+    private String userNotes = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,43 @@ public class ActivityEntryCreate extends AppCompatActivity {
         timeSeekBar = (SeekBar) findViewById(R.id.activity_entry_time_seek);
         timeIndicator = (TextView) findViewById(R.id.time_indicator);
         countGoal = (CheckBox) findViewById(R.id.activity_entry_count_goal);
+
+        commentButton = (Button) findViewById(R.id.activity_entry_comment);
+
+
+        commentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater li = LayoutInflater.from(ActivityEntryCreate.this);
+                View dialogView = li.inflate(R.layout.activity_entry_comment, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ActivityEntryCreate.this);
+
+                builder.setView(dialogView);
+
+                final EditText notes = (EditText) dialogView.findViewById(R.id.activity_entry_notes);
+
+                builder
+                        .setCancelable(false)
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        userNotes = notes.getText().toString();
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                // create alert dialog
+                AlertDialog alertDialog = builder.create();
+
+                // show it
+                alertDialog.show();
+
+            }
+        });
 
 
         //Set Onchange listeners...
@@ -151,8 +194,8 @@ public class ActivityEntryCreate extends AppCompatActivity {
                 activityEntry.setGoal_id(userGoal.getGoal_id());
                 activityEntry.setActivity_id(activityId);
                 activityEntry.setCount_towards_goal(countasGoal);
-                activityEntry.setNotes("Coming from activity Entry page");//TODO: Logic for Notes
-                activityEntry.setImage(""); //TODO: Discuss about the image
+                activityEntry.setNotes(userNotes);
+                activityEntry.setImage(""); //TODO: There shouldn't be an image in activity_entry
                 activityEntry.setRpe(rpeVal);
                 activityEntry.setActivity_length(String.valueOf(timeVal));
                 activityEntry.setDate(date);
