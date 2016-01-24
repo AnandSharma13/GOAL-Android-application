@@ -92,15 +92,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //Check LOGIN status
         sessionManager = new SessionManager(this);
+
+        if(!sessionManager.checkLogin())
+        {
+            return;
+        }
+
+
         dateOperations = new DateOperations(this);
         dbOperations = new DBOperations(this);
-
-        sessionManager.checkLogin();
 
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
@@ -114,29 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
-
-//        sharedPreferences =  getSharedPreferences("user_values",Context.MODE_PRIVATE);
-
-       /* sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-
-        //Inserting a sample user information.
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM'/'DD'/'yyyy");
-        String date = simpleDateFormat.format(new Date());
-        editor.putInt("user_id", 2);
-        editor.putString("first_name", "John");
-        editor.putString("last_name", "Smith");
-        editor.putString("type", "U");
-        editor.putInt("age", 24);
-        editor.putString("program_start_date", "01/15/2016");
-        editor.putInt("program_length", 12);
-
-        editor.commit();*/
-
-        //initializing shared preferences for Goal
-        initGoalSharedPrefs();
 
 
         mdrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

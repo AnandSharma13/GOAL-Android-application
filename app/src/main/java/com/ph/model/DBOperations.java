@@ -36,7 +36,6 @@ public class DBOperations {
         this.context = context;
         dbHandler = new DBHandler(context);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        dateOperations = new DateOperations(context);
     }
 
     public DBOperations(DBHandler dbHandler) {
@@ -261,7 +260,12 @@ public class DBOperations {
         nutritionEntry.setImage(image_uri);
 
 
-        //nutritionEntry.setImage(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_image)));
+
+        //Now populate the base64 form of the image.
+        if (image_uri.equals(""))
+            nutritionEntry.setBase64Image("");
+        else
+            nutritionEntry.setBase64Image(getBase64Image(image_uri));
 
 
         return nutritionEntry;
@@ -415,6 +419,7 @@ public class DBOperations {
 
     public UserGoal getCurrentGoalInfo(String type)
     {
+        dateOperations = new DateOperations(context);
         Gson gson = new Gson();
         int weekRecordInSharedPreferences = sharedPreferences.getInt("current_goal_week_record",-1);
         int currentWeek = dateOperations.getWeeksTillDate(new Date());
@@ -488,6 +493,7 @@ public class DBOperations {
 
     public UserGoal getCurrentUserGoalFromDB(String type)
     {
+        dateOperations = new DateOperations(context);
         SQLiteDatabase db = dbHandler.getReadableDatabase();
         UserGoal userGoal = new UserGoal();
         StartEndDateObject startEndDateObject = dateOperations.getDatesForToday();

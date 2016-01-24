@@ -1,13 +1,10 @@
 package com.ph.net;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.ph.model.Activity;
 import com.ph.model.ActivityEntry;
-import com.ph.model.DBHandler;
 import com.ph.model.DBOperations;
 import com.ph.model.NutritionEntry;
 import com.ph.model.User;
@@ -75,7 +72,6 @@ public class ServerSync {
                 NutritionEntry nutritionEntry = new NutritionEntry();
                 nutritionEntry.setNutrition_entry_id(row.getInt(NutritionEntry.column_nutritionEntryID));
                 nutritionEntry.setTimestamp(row.getString(NutritionEntry.column_timestamp));
-                nutritionEntry.setIs_sync(row.getInt(NutritionEntry.column_sync));
                 nutritionEntry.setAttic_food(row.getInt(NutritionEntry.column_atticFood));
                 nutritionEntry.setDairy(row.getInt(NutritionEntry.column_dairy));
                 nutritionEntry.setFruit(row.getInt(NutritionEntry.column_fruit));
@@ -91,7 +87,7 @@ public class ServerSync {
                 nutritionEntry.setIs_sync(1);
                 long id = dbOperations.insertRow(nutritionEntry);
 
-                Log.i("NutritionTableEntry", "A row with an ID " + String.valueOf(id) + " has been inserted into user table");
+                Log.i("NutritionTableEntry", "A row with an ID " + String.valueOf(id) + " has been inserted into nutrition_entry table");
 
             } catch (JSONException e) {
                 e.printStackTrace();
