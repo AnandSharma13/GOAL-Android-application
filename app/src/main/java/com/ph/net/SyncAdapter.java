@@ -228,7 +228,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     public void onErrorResponse(VolleyError error) {
 
                         Log.e("Volley", "Error in getting the response");
-//                        Log.e("Volley", error.getLocalizedMessage());
+                        Log.e("Volley", error.getLocalizedMessage());
 
                     }
                 });
