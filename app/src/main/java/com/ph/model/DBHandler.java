@@ -63,7 +63,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String userGoalTable = "create table " + UserGoal.tableName + "("
                 + UserGoal.column_goalID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
                 + UserGoal.column_userID + " INTEGER, "
-                + UserGoal.column_timeStamp + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
+                + UserGoal.column_timeStamp + " DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME')), "
                 + UserGoal.column_type + " TEXT, "
                 + UserGoal.column_startDate + " DATETIME, " //Don't we need a DATETIME type here?
                 + UserGoal.column_endDate + " DATETIME, "
@@ -79,8 +79,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 + Activity.column_name + " TEXT, "
                 + Activity.column_type + " TEXT, "
                 + Activity.column_hitCount + " INTEGER, "
-                + Activity.column_lastUsed + " TEXT, " //Don't we need Datetime type here?
-                + Activity.column_timestamp + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
+                + Activity.column_lastUsed + " TEXT, "
+                + Activity.column_timestamp + " DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME')), "
                 + Activity.column_isSync + " INTEGER, "
                 + "FOREIGN KEY (" + Activity.column_userID + ") REFERENCES " + com.ph.model.User.tableName + "(" + com.ph.model.User.column_userID + ")" + ")";
 
@@ -88,7 +88,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + ActivityEntry.column_activityEntryID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
                 + ActivityEntry.column_goalID + " INTEGER, "
                 + ActivityEntry.column_activityID + " INTEGER, "
-                + ActivityEntry.column_timestamp + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
+                + ActivityEntry.column_timestamp + " DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME')), "
                 + ActivityEntry.column_rpe + " INTEGER, "
                 + ActivityEntry.column_activitylength + " INTEGER, "
                 + ActivityEntry.column_counttowardsgoal + " INTEGER, "
@@ -103,7 +103,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + NutritionEntry.column_nutritionEntryID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
                 + NutritionEntry.column_goalID + " INTEGER, "
                 + NutritionEntry.column_nutritiontype + " TEXT, "
-                + NutritionEntry.column_timestamp + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
+                + NutritionEntry.column_timestamp + " DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME')), "
                 + NutritionEntry.column_counttowardsgoal + " INTEGER, "
                 + NutritionEntry.column_type + " INTEGER, "
                 + NutritionEntry.column_atticFood + " INTEGER, "
@@ -123,7 +123,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + UserSteps.column_stepsID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
                 + UserSteps.column_userID + " INTEGER, "
                 + UserSteps.column_stepscount + " INTEGER, "
-                + UserSteps.column_timestamp + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
+                + UserSteps.column_timestamp + " DATETIME DEFAULT (DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME')), "
                 + UserSteps.column_sync + " INTEGER, "
                 + "FOREIGN KEY (" + UserSteps.column_userID + ") REFERENCES " + com.ph.model.User.tableName + "(" + com.ph.model.User.column_userID + ")" + ")";
 

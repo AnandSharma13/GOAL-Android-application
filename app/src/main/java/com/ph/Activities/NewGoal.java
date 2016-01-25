@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.ph.R;
@@ -99,8 +100,8 @@ public class NewGoal extends AppCompatActivity {
             currentNutritionGoal = dbOperations.getCurrentGoalInfo("Nutrition");
         }
         else {
-            currentActivityGoal = null;
-            currentNutritionGoal = null;
+            currentActivityGoal = dbOperations.getuserGoalFromDB("Activity", operatingWeek);
+            currentNutritionGoal = dbOperations.getuserGoalFromDB("Nutrition", operatingWeek);
         }
 
 
@@ -238,6 +239,8 @@ public class NewGoal extends AppCompatActivity {
             }
 
         }
+        Toast.makeText(NewGoal.this,"Changes Saved",Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     public long insertGoal(UserGoal goal, View view) throws ParseException {

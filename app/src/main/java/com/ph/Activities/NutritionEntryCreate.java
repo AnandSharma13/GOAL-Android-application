@@ -12,16 +12,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.ph.R;
+import com.ph.Utils.AlertDialogManager;
 import com.ph.Utils.DateOperations;
-import com.ph.model.Activity;
 import com.ph.model.DBOperations;
 import com.ph.model.NutritionEntry;
+import com.ph.model.UserGoal;
 import com.ph.net.SyncUtils;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 
@@ -294,8 +293,15 @@ public class NutritionEntryCreate extends AppCompatActivity {
 
         settingsBundle.putInt("ListSize", 1);
         settingsBundle.putString("Table " + 0, "nutrition_entry");
+        UserGoal userGoal = dbOperations.getCurrentGoalInfo("Nutrition");
 
-        nutritionEntry.setGoal_id(1);
+        if(userGoal == null)
+        {
+            AlertDialogManager alertDialogManager = new AlertDialogManager();
+            alertDialogManager.showAlertDialog(NutritionEntryCreate.this,"No goal found","There is no goal associated for the current week");
+            return;
+        }
+        nutritionEntry.setGoal_id(userGoal.getGoal_id());
         //TODO Passed from the first intent of nutrition entry
         nutritionEntry.setNutrition_type(mNutritionType);
         nutritionEntry.setTowards_goal(1);
