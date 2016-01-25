@@ -71,6 +71,9 @@ public class DBOperations {
         java.sql.Date endDate = getSqlDate(usergoal.getEnd_date());
 
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+        if( usergoal.getGoal_id()!=0)
+            val.put(UserGoal.column_goalID,usergoal.getGoal_id());
+
         //setting userId from user class
         val.put(UserGoal.column_userID, usergoal.getUser_id());
         val.put(UserGoal.column_type, usergoal.getType());
@@ -79,6 +82,10 @@ public class DBOperations {
         val.put(UserGoal.column_weeklyCount, usergoal.getWeekly_count());
         val.put(UserGoal.column_text, usergoal.getText());
         val.put(UserGoal.column_sync, usergoal.getIs_sync());
+        if(usergoal.getTimestamp()!= null)
+        {
+            val.put(UserGoal.column_timeStamp,usergoal.getTimestamp());
+        }
         long id = db.insert(UserGoal.tableName, null, val);
         db.close();
         return id;
@@ -96,6 +103,11 @@ public class DBOperations {
         // val.put(UserSteps.column_timestamp,userSteps.getTimestamp());
         val.put(UserSteps.column_sync, userSteps.getIs_sync());
 
+        if(userSteps.getTimestamp()!=null)
+        {
+            val.put(UserSteps.column_timestamp,userSteps.getTimestamp());
+        }
+
         long id = db.insert(UserSteps.tableName, null, val);
         db.close();
         return id;
@@ -111,7 +123,8 @@ public class DBOperations {
         val.put(Activity.column_hitCount, activity.getHit_count());
         val.put(Activity.column_lastUsed, activity.getLast_used());
         val.put(Activity.column_type, activity.getType());
-        //  val.put(activity.column_timestamp, activity.getTimestamp());
+        if(activity.getTimestamp()!=null)
+          val.put(activity.column_timestamp, activity.getTimestamp());
         val.put(Activity.column_isSync, activity.getIs_sync());
 
         long id = db.insert(Activity.tableName, null, val);
@@ -134,6 +147,9 @@ public class DBOperations {
         val.put(ActivityEntry.column_rpe, activityEntry.getRpe());
         val.put(ActivityEntry.column_sync, activityEntry.getIs_sync());
         val.put(ActivityEntry.column_date, getSqlDate(activityEntry.getDate()).toString());
+
+        if(activityEntry.getTimestamp()!=null)
+            val.put(ActivityEntry.column_timestamp,activityEntry.getTimestamp());
 
 
         long id = db.insert(ActivityEntry.tableName, null, val);
@@ -161,7 +177,8 @@ public class DBOperations {
         val.put(NutritionEntry.column_notes, nutritionEntry.getNotes());
         val.put(NutritionEntry.column_nutritiontype, nutritionEntry.getNutrition_type());
         val.put(NutritionEntry.column_sync, nutritionEntry.getIs_sync());
-        // val.put(NutritionEntry.column_timestamp,nutritionEntry.getTimestamp());
+        if(nutritionEntry.getTimestamp()!=null)
+         val.put(NutritionEntry.column_timestamp,nutritionEntry.getTimestamp());
         val.put(NutritionEntry.column_type, nutritionEntry.getType());
         val.put(NutritionEntry.column_vegetable, nutritionEntry.getVegetable());
         val.put(NutritionEntry.column_waterintake, nutritionEntry.getWater_intake());
@@ -247,12 +264,14 @@ public class DBOperations {
         nutritionEntry.setFruit(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_fruit)));
         nutritionEntry.setGoal_id(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_goalID)));
         nutritionEntry.setGrain(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_grain)));
+        nutritionEntry.setProtein(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_protein)));
         nutritionEntry.setNutrition_type(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_nutritiontype)));
         nutritionEntry.setTowards_goal(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_counttowardsgoal)));
         nutritionEntry.setType(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_type)));
         nutritionEntry.setVegetable(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_vegetable)));
         nutritionEntry.setWater_intake(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_waterintake)));
         nutritionEntry.setNotes(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_notes)));
+        nutritionEntry.setDate(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_date)));
 
 
         String image_uri = cursor.getString(cursor.getColumnIndex(ActivityEntry.column_image));
@@ -431,7 +450,7 @@ public class DBOperations {
             if(currentGoalJson.equals(""))
             {
                 //Get it from the Database.
-                UserGoal currentGoal = getCurrentUserGoalFromDB(type);
+                UserGoal currentGoal = getuserGoalFromDB(type, currentWeek);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
 
@@ -454,7 +473,7 @@ public class DBOperations {
             if(currentGoalJson.equals(""))
             {
                 //Get it from the Database.
-                UserGoal currentGoal = getCurrentUserGoalFromDB(type);
+                UserGoal currentGoal = getuserGoalFromDB(type, currentWeek);
                 String nutritionUserGoal = gson.toJson(currentGoal);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("current_nutrition_goal", nutritionUserGoal); //stored as json.
@@ -478,7 +497,7 @@ public class DBOperations {
     public int getStepsCount()
     {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        String query = "select sum(steps_count) from user_steps where timestamp >= date('now', 'start of day')";
+        String query = "select sum(steps_count) from user_steps where timestamp >= date('now', 'start of day','localtime')";
         Cursor cursor = db.rawQuery(query,null);
         int count = 0;
         if(cursor.getCount() > 0 && cursor.moveToFirst())
@@ -491,15 +510,15 @@ public class DBOperations {
         return count;
     }
 
-    public UserGoal getCurrentUserGoalFromDB(String type)
+    public UserGoal getuserGoalFromDB(String type, int week)
     {
         dateOperations = new DateOperations(context);
         SQLiteDatabase db = dbHandler.getReadableDatabase();
         UserGoal userGoal = new UserGoal();
-        StartEndDateObject startEndDateObject = dateOperations.getDatesForToday();
+        StartEndDateObject startEndDateObject = dateOperations.getDatesFromWeekNumber(week);
         String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
         String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
-        String query = "select * from user_goal where start_date between '"+startDate+"' and '"+endDate+"' and type= '"+type+"' order by timestamp DESC";
+        String query = "select * from user_goal where start_date between '"+startDate+"' and '"+endDate+"' and type= '"+type+"' ORDER BY `timestamp` DESC";
         Cursor cursor = db.rawQuery(query,null);
 
         if(cursor.getCount() == 0)
