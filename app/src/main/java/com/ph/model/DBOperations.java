@@ -370,7 +370,7 @@ public class DBOperations {
         //TODO implement previous days functionality
       //  String query = "select SUM(attic_food) as attic_food, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry where DATE(`timestamp`) =date()";
 
-        String query = "select SUM(attic_food) as attic_food, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry WHERE date = ? and nutrition_type = ?";
+        String query = "select SUM(attic_food) as attic_food, SUM(protein) as protein, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry WHERE date = ? and nutrition_type = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{mSqlDateFormatString,mNutritionType});
 

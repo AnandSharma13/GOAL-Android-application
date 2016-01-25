@@ -248,6 +248,7 @@ public class NutritionEntryCreate extends AppCompatActivity {
         Cursor dayRecordCursor = mDBOperations.getNutritionDayRecords(mSqlDateFormatString,mNutritionType);
         dayRecordCursor.moveToFirst();
         atticFoodCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_atticFood));
+        proteinCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_protein));
         dairyCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_dairy));
         vegetableCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_vegetable));
         fruitCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_fruit));
