@@ -1,5 +1,6 @@
 package com.ph.Activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ph.R;
 import com.ph.Utils.DateOperations;
@@ -26,6 +28,7 @@ public class NutritionEntrySelect extends AppCompatActivity {
     private EditText mNutritionEntryDate;
     private DateOperations mDateOperations;
     private String mSqlDateFormatString;
+    static final int RESULT_CODE=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,16 +68,30 @@ public class NutritionEntrySelect extends AppCompatActivity {
         Intent intent = new Intent(NutritionEntrySelect.this, NutritionEntryMain.class);
         intent.putExtra("NutritionType", "BreakFast");
         intent.putExtra("Date", mSqlDateFormatString);
-        startActivity(intent);
+
+        startActivityForResult(intent, RESULT_CODE);
 
     }
 
-    public void onClickLunch(View view){
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode)
+        {
+            case RESULT_CODE:
+                if(resultCode == Activity.RESULT_OK)
+                {
+                    Toast.makeText(this,"Entry Saved...",Toast.LENGTH_LONG).show();
+                }
+        }
+
+    }
+        public void onClickLunch(View view){
 
         Intent intent = new Intent(NutritionEntrySelect.this, NutritionEntryMain.class);
         intent.putExtra("NutritionType", "Lunch");
         intent.putExtra("Date", mSqlDateFormatString);
-        startActivity(intent);
+        startActivityForResult(intent, RESULT_CODE);
 
     }
     public void onClickDinner(View view){
@@ -82,7 +99,7 @@ public class NutritionEntrySelect extends AppCompatActivity {
         Intent intent = new Intent(NutritionEntrySelect.this, NutritionEntryMain.class);
         intent.putExtra("NutritionType", "Dinner");
         intent.putExtra("Date", mSqlDateFormatString);
-        startActivity(intent);
+        startActivityForResult(intent, RESULT_CODE);
 
     }
 
@@ -92,4 +109,7 @@ public class NutritionEntrySelect extends AppCompatActivity {
         mSqlDateFormatString = mDateOperations.getMysqlDateFormat().format(calendar.getTime());
         Log.i("updateLabel", "Time has been set to the Edit Text");
     }
+
+
+
 }
