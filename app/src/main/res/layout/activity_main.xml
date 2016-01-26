@@ -109,7 +109,6 @@
                     android:progressDrawable="@drawable/circular"
                     android:secondaryProgress="80" />
 
-
             </LinearLayout>
 
 

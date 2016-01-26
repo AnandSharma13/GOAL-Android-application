@@ -330,6 +330,7 @@ public class NutritionEntryCreate extends AppCompatActivity {
 
     }
 
+
     public int isCheckedBoxChecked(CheckBox chkbx) {
         if (chkbx.isChecked()) {
             return 1;

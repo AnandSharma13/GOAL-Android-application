@@ -3,7 +3,6 @@ package com.ph.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
@@ -12,7 +11,17 @@ import android.widget.ProgressBar;
  */
 public class CustomProgressBar extends ProgressBar{
 
-    private String text="";
+    private String text ="";
+
+    public String getAim_text() {
+        return aim_text;
+    }
+
+    public void setAim_text(String aim_text) {
+        this.aim_text = aim_text;
+    }
+
+    private String aim_text= "Aim";
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -20,7 +29,16 @@ public class CustomProgressBar extends ProgressBar{
         int width = this.getMeasuredWidth()/2;
         int height = this.getMeasuredHeight()/2;
         textPaint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText(text,width,height, textPaint);
+        textPaint.setTextSize(30);
+        canvas.drawText(text, width, height, textPaint);
+
+        Paint aimTextPaint = new Paint();
+        int wh = this.getMeasuredWidth()/2;
+        int ht = this.getMeasuredHeight()*3/4;
+        aimTextPaint.setTextAlign(Paint.Align.CENTER);
+        aimTextPaint.setTextSize(20);
+        canvas.drawText(aim_text,wh,ht, aimTextPaint);
+
     }
 
     public CustomProgressBar(Context context) {

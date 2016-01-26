@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout userStepsLayout;
 
 
-
     // Constants
     // The authority for the sync adapter's content provider
     public static final String AUTHORITY = "com.ph";
@@ -195,24 +194,25 @@ public class MainActivity extends AppCompatActivity {
 
         //Below code would be move to an appropriate function
         CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
-        nutritionProgressBar.setText("Nutrition");
+
+        UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
+
+        nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
         ObjectAnimator animation = ObjectAnimator.ofInt(nutritionProgressBar, "progress", 0, 100);
 //        animation.setDuration(5000);
 //        animation.setInterpolator(new DecelerateInterpolator());
 //        animation.start();
 
         CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
-        activityProgressBar.setText("Activity+");
+        UserGoal userGoalActivity = dbOperations.getCurrentGoalInfo("Activity");
+        activityProgressBar.setAim_text("Aim "+String.valueOf(userGoalActivity.getWeekly_count()));
 
 //        ObjectAnimator animation1 = ObjectAnimator.ofInt(activityProgressBar, "progress", 0, 100);
 //        animation1.setDuration(5000); //in milliseconds
 //        animation1.setInterpolator(new DecelerateInterpolator());
 //        animation1.start();
 
-        /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("userID", 1);
-        editor.commit();*/
+
 
 
         array = new ArrayList<>();
