@@ -277,21 +277,19 @@ public class MainActivity extends AppCompatActivity {
         return newAccount;
     }
 
-    @Deprecated
-    private void initGoalSharedPrefs(){
-//        sharedPreferences =  getSharedPreferences("goal_values",Context.MODE_PRIVATE);
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
+        UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
+        nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
 
-        editor.putInt("nutrition_goal_count", -1);
-        editor.putString("nutrition_goal_text", "");
-        editor.putInt("activity_goal_count", -1);
-        editor.putString("activity_goal_text", "");
-        editor.commit();
 
+        CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
+        UserGoal userGoalActivity = dbOperations.getCurrentGoalInfo("Activity");
+        activityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
     }
-
 
     public void onNutritionProgressBarClick(View view){
         Intent intent = new Intent(this, NutritionEntrySelect.class);
