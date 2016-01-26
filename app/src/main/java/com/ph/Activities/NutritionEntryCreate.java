@@ -70,16 +70,16 @@ public class NutritionEntryCreate extends AppCompatActivity {
     private int fruitCount;
     private int grainsCount;
     private int waterIntakeCount;
+    private String mNutritionEntryText;
+    private String mImagePath;
+    private int mGoalCount;
+
 
     private String mNutritionType;
     private String mSqlDateFormatString;
 
    private ArrayList<CheckBox> dairyChkbxList;
-// = new ArrayList<CheckBox>(){{
-//        add(mDairyOne);
-//        add(mDairyTwo);
-//        add(mDairyThree);
-//    }};
+
 
     private ArrayList<CheckBox> proteinChkbxList;
 
@@ -90,8 +90,7 @@ public class NutritionEntryCreate extends AppCompatActivity {
     private ArrayList<CheckBox> grainsChkbxList;
 
     public final ArrayList<String> tablesList = new ArrayList<String>() {{
-        // add(User.tableName);
-        //add(ActivityEntry.tableName);
+
         add(NutritionEntry.tableName);
     }};
 
@@ -152,6 +151,9 @@ public class NutritionEntryCreate extends AppCompatActivity {
         mGrainsSix = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_grains_six);
         mWaterIntake = (SeekBar) findViewById(R.id.nutrition_entry_create_sb_water_intake);
 
+        mNutritionEntryText = getIntent().getStringExtra("nutritionDetailsText");
+        mImagePath = getIntent().getStringExtra("imagePath");
+        mGoalCount= getIntent().getIntExtra("GoalCount",0);
 
         dairyChkbxList = new ArrayList<CheckBox>(){{
             add(mDairyOne);
@@ -304,8 +306,8 @@ public class NutritionEntryCreate extends AppCompatActivity {
         nutritionEntry.setGoal_id(userGoal.getGoal_id());
         //TODO Passed from the first intent of nutrition entry
         nutritionEntry.setNutrition_type(mNutritionType);
-        nutritionEntry.setTowards_goal(1);
-        nutritionEntry.setType("Some Text");
+        nutritionEntry.setTowards_goal(mGoalCount);
+        nutritionEntry.setType("Nutrition");
         nutritionEntry.setAttic_food(atticFoodEntry);
         nutritionEntry.setProtein(proteinEntry);
         nutritionEntry.setDairy(dairyEntry);
@@ -313,10 +315,9 @@ public class NutritionEntryCreate extends AppCompatActivity {
         nutritionEntry.setFruit(fruitEntry);
         nutritionEntry.setGrain(grainEntry);
         nutritionEntry.setWater_intake(waterIntakeEntry);
-        nutritionEntry.setImage("Image URI here");
+        nutritionEntry.setImage(mImagePath);
         //TODO passed from previous intent
-        nutritionEntry.setNotes("Nutrition Text here");
-        DateOperations ds = new DateOperations(getApplicationContext());
+        nutritionEntry.setNotes(mNutritionEntryText);
         nutritionEntry.setDate(mSqlDateFormatString);
         mDBOperations.insertRow(nutritionEntry);
         syncUtils.TriggerRefresh(settingsBundle);

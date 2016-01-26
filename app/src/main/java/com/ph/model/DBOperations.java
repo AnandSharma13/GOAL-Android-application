@@ -169,6 +169,7 @@ public class DBOperations {
             val.put(NutritionEntry.column_nutritionEntryID, nutritionEntry.getNutrition_entry_id());
         val.put(NutritionEntry.column_goalID, nutritionEntry.getGoal_id());
         val.put(NutritionEntry.column_atticFood, nutritionEntry.getAttic_food());
+        val.put(NutritionEntry.column_counttowardsgoal,nutritionEntry.getTowards_goal());
         val.put(NutritionEntry.column_protein, nutritionEntry.getProtein());
         val.put(NutritionEntry.column_dairy, nutritionEntry.getDairy());
         val.put(NutritionEntry.column_fruit, nutritionEntry.getFruit());

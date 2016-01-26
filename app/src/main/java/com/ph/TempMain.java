@@ -225,44 +225,28 @@ public class TempMain extends AppCompatActivity {
     private void logWeekStats(Date givenDate)
     {
         DateOperations dateOperations = new DateOperations(TempMain.this);
-
         SharedPreferences sharedPreferences = getSharedPreferences("user_values", Context.MODE_PRIVATE);
-
         String progStartDate = dateOperations.getUniformDateFormat().format(dateOperations.getProgramStartDate());
-
         Log.d("WeekStats","Program Start Date = "+progStartDate);
-
         int numWeeks = dateOperations.getWeeksTillDate(givenDate);
         Log.d("WeekStats","Number of weeks for the above date= "+ String.valueOf(numWeeks));
-
         StartEndDateObject startEndDateObject = dateOperations.getDatesforDate(givenDate);
-
         String weekStart = dateOperations.getUniformDateFormat().format(startEndDateObject.startDate);
-
         String weekEnd = dateOperations.getUniformDateFormat().format(startEndDateObject.endDate);
-
         Log.d("WeekStats","Start Date = "+weekStart+" start end "+weekEnd);
-
-
-
-
 
     }
 
 
     public void addActivityEntrytoDB() throws IOException, URISyntaxException {
-
         DBOperations ut = new DBOperations(getApplicationContext());
-
         ActivityEntry activityEntry = new ActivityEntry();
-
         activityEntry.setGoal_id(1);
         activityEntry.setActivity_id(1);
         activityEntry.setRpe(2);
         activityEntry.setActivity_length("some_length");
         activityEntry.setCount_towards_goal(3);
         activityEntry.setNotes("some notes");
-
         activityEntry.setImage(imageUri.toString());
 
         ut.insertRow(activityEntry);
