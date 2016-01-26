@@ -392,17 +392,39 @@ public class DBOperations {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         String tableName = NutritionEntry.tableName;
         //TODO implement previous days functionality
-      //  String query = "select SUM(attic_food) as attic_food, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry where DATE(`timestamp`) =date()";
+        //  String query = "select SUM(attic_food) as attic_food, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry where DATE(`timestamp`) =date()";
 
         String query = "select SUM(attic_food) as attic_food, SUM(protein) as protein, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry WHERE date = ? and nutrition_type = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{mSqlDateFormatString,mNutritionType});
 
+        cursor.moveToFirst();
+        db.close();
+        return cursor;
+    }
+
+    public int getWeekProgress(String tableName) {
+
+        DateOperations dateOperations = new DateOperations(context);
+        StartEndDateObject startEndDateObject = dateOperations.getDatesForToday();
+
+        SQLiteDatabase db = dbHandler.getWritableDatabase();
+
+        String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
+        String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
+        //TODO implement previous days functionality
+        //  String query = "select SUM(attic_food) as attic_food, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry where DATE(`timestamp`) =date()";
+        String query = "";
+        if(tableName.equals("Nutrition"))
+            query = "select SUM(towards_goal) as towards_goal from nutrition_entry WHERE date between ? and ?";
+        else
+          query = "select SUM(count_towards_goal) as towards_goal from activity_entry WHERE date between ? and ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{startDate,endDate});
 
         cursor.moveToFirst();
         db.close();
-
-        return cursor;
+        return cursor.getInt(cursor.getColumnIndex("towards_goal"));
     }
 
     @Deprecated

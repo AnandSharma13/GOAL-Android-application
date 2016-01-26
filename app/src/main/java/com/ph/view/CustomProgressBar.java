@@ -29,14 +29,14 @@ public class CustomProgressBar extends ProgressBar{
         int width = this.getMeasuredWidth()/2;
         int height = this.getMeasuredHeight()/2;
         textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setTextSize(30);
+        textPaint.setTextSize(45);
         canvas.drawText(text, width, height, textPaint);
 
         Paint aimTextPaint = new Paint();
         int wh = this.getMeasuredWidth()/2;
         int ht = this.getMeasuredHeight()*3/4;
         aimTextPaint.setTextAlign(Paint.Align.CENTER);
-        aimTextPaint.setTextSize(20);
+        aimTextPaint.setTextSize(25);
         canvas.drawText(aim_text,wh,ht, aimTextPaint);
 
     }

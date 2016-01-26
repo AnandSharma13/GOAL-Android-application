@@ -196,6 +196,8 @@ public class MainActivity extends AppCompatActivity {
         CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
 
         UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
+        int  nutritionProgress= dbOperations.getWeekProgress("Nutrition");
+        nutritionProgressBar.setText(String.valueOf(nutritionProgress));
 
         nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
         ObjectAnimator animation = ObjectAnimator.ofInt(nutritionProgressBar, "progress", 0, 100);
@@ -206,6 +208,8 @@ public class MainActivity extends AppCompatActivity {
         CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
         UserGoal userGoalActivity = dbOperations.getCurrentGoalInfo("Activity");
         activityProgressBar.setAim_text("Aim "+String.valueOf(userGoalActivity.getWeekly_count()));
+        int  activityProgress= dbOperations.getWeekProgress("Activity");
+        activityProgressBar.setText(String.valueOf(activityProgress));
 
 //        ObjectAnimator animation1 = ObjectAnimator.ofInt(activityProgressBar, "progress", 0, 100);
 //        animation1.setDuration(5000); //in milliseconds
