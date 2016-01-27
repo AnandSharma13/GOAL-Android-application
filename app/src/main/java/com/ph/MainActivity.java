@@ -285,6 +285,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if(!sessionManager.checkLogin())
+        {
+            return;
+        }
+
         CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
         UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
         nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
