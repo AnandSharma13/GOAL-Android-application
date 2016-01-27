@@ -281,10 +281,30 @@ public class MainActivity extends AppCompatActivity {
         return newAccount;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        if(!sessionManager.checkLogin())
+//        {
+//            return;
+//        }
+//
+//        CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
+//        UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
+//        nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
+//
+//
+//        CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
+//        UserGoal userGoalActivity = dbOperations.getCurrentGoalInfo("Activity");
+//        activityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
+//    }
+//
 
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
         if(!sessionManager.checkLogin())
         {
             return;
@@ -292,10 +312,14 @@ public class MainActivity extends AppCompatActivity {
 
         CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
         UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
+        int  nutritionProgress= dbOperations.getWeekProgress("Nutrition");
+        nutritionProgressBar.setText(String.valueOf(nutritionProgress));
         nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
 
 
         CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
+        int  activityProgress= dbOperations.getWeekProgress("Activity");
+        activityProgressBar.setText(String.valueOf(activityProgress));
         UserGoal userGoalActivity = dbOperations.getCurrentGoalInfo("Activity");
         activityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
     }

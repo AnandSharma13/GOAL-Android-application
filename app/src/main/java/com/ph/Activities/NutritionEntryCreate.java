@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.ph.R;
 import com.ph.Utils.AlertDialogManager;
@@ -323,6 +324,7 @@ public class NutritionEntryCreate extends AppCompatActivity {
         syncUtils.TriggerRefresh(settingsBundle);
         Log.i("NutritionEntryCreate", "Sync called for nutrition entry");
 
+        Toast.makeText(this, "Entry Saved.. ", Toast.LENGTH_LONG).show();
         Intent returnIntent = new Intent();
         setResult(android.app.Activity.RESULT_OK,returnIntent);
         finish();
