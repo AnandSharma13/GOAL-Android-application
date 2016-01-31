@@ -326,7 +326,7 @@ public class NutritionEntryCreate extends AppCompatActivity {
 
         Toast.makeText(this, "Entry Saved.. ", Toast.LENGTH_LONG).show();
         Intent returnIntent = new Intent();
-        setResult(android.app.Activity.RESULT_OK,returnIntent);
+        setResult(android.app.Activity.RESULT_OK,returnIntent); 
         finish();
 
 

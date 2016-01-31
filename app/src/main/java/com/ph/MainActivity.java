@@ -9,8 +9,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,7 +38,9 @@ import com.ph.Activities.NewGoal;
 import com.ph.Activities.NutritionEntrySelect;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.MyGestureDetector;
+import com.ph.fragments.HomeFragment;
 import com.ph.fragments.NavigationDrawerFragment;
+import com.ph.fragments.NextGoalFragment;
 import com.ph.model.ActivityEntry;
 import com.ph.model.DBOperations;
 import com.ph.model.NutritionEntry;
@@ -44,13 +52,14 @@ import com.ph.net.SyncUtils;
 import com.ph.view.CustomProgressBar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by Anand on 12/24/2016.
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener{
 
     private EditText nameView;
     private EditText emailView;
@@ -67,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
     private DBOperations dbOperations;
     private TextView stepsCount;
     private LinearLayout userStepsLayout;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
 
     // Constants
@@ -121,95 +132,95 @@ public class MainActivity extends AppCompatActivity {
 
 
         mdrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        stepsCount = (TextView) findViewById(R.id.steps_count);
-        userStepsLayout = (LinearLayout) findViewById(R.id.steps_count_layout);
+        //stepsCount = (TextView) findViewById(R.id.steps_count);
+        //userStepsLayout = (LinearLayout) findViewById(R.id.steps_count_layout);
 
 
-        userStepsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                LayoutInflater li = LayoutInflater.from(MainActivity.this);
-                View dialogView = li.inflate(R.layout.user_steps_input, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
-                builder.setView(dialogView);
-
-                final EditText userStepsInput = (EditText) dialogView.findViewById(R.id.user_steps_input);
-
-                builder
-                        .setCancelable(false)
-                        .setPositiveButton("Save",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
-                                        int steps = Integer.parseInt(userStepsInput.getText().toString());
-
-                                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                                        int user_id = Integer.parseInt(sharedPreferences.getString("user_id", "-1"));
-
-                                        UserSteps userSteps = new UserSteps();
-
-                                        userSteps.setSteps_count(steps);
-                                        userSteps.setUser_id(user_id);
-
-                                        dbOperations.insertRow(userSteps);
-
-                                        Bundle settingsBundle = new Bundle();
-                                        settingsBundle.putString("Type", "ClientSync");
-
-                                        settingsBundle.putInt("ListSize", 1);
-
-                                        settingsBundle.putString("Table " + 0, UserSteps.tableName);
-
-                                        SyncUtils.TriggerRefresh(settingsBundle);
-
-                                        stepsCount.setText(String.valueOf(dbOperations.getStepsCount()));
-
-                                        Toast.makeText(MainActivity.this,"Successfully saved the steps count",Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                        .setNegativeButton("Cancel",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                // create alert dialog
-                AlertDialog alertDialog = builder.create();
-
-                // show it
-                alertDialog.show();
-
-            }
-        });
+//        userStepsLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                LayoutInflater li = LayoutInflater.from(MainActivity.this);
+//                View dialogView = li.inflate(R.layout.user_steps_input, null);
+//                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//
+//                builder.setView(dialogView);
+//
+//                final EditText userStepsInput = (EditText) dialogView.findViewById(R.id.user_steps_input);
+//
+//                builder
+//                        .setCancelable(false)
+//                        .setPositiveButton("Save",
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog,int id) {
+//                                        int steps = Integer.parseInt(userStepsInput.getText().toString());
+//
+//                                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+//                                        int user_id = Integer.parseInt(sharedPreferences.getString("user_id", "-1"));
+//
+//                                        UserSteps userSteps = new UserSteps();
+//
+//                                        userSteps.setSteps_count(steps);
+//                                        userSteps.setUser_id(user_id);
+//
+//                                        dbOperations.insertRow(userSteps);
+//
+//                                        Bundle settingsBundle = new Bundle();
+//                                        settingsBundle.putString("Type", "ClientSync");
+//
+//                                        settingsBundle.putInt("ListSize", 1);
+//
+//                                        settingsBundle.putString("Table " + 0, UserSteps.tableName);
+//
+//                                        SyncUtils.TriggerRefresh(settingsBundle);
+//
+//                                        stepsCount.setText(String.valueOf(dbOperations.getStepsCount()));
+//
+//                                        Toast.makeText(MainActivity.this,"Successfully saved the steps count",Toast.LENGTH_SHORT).show();
+//                                    }
+//                                })
+//                        .setNegativeButton("Cancel",
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        dialog.cancel();
+//                                    }
+//                                });
+//                // create alert dialog
+//                AlertDialog alertDialog = builder.create();
+//
+//                // show it
+//                alertDialog.show();
+//
+//            }
+//        });
 
         SyncUtils.CreateSyncAccount(this);
         mContentResolver = getContentResolver();
 
 
 
-        stepsCount.setText(String.valueOf(dbOperations.getStepsCount()));
+     //  stepsCount.setText(String.valueOf(dbOperations.getStepsCount()));
 
 
 
         //Below code would be move to an appropriate function
-        CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
+   //    CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
 
-        UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
-        int  nutritionProgress= dbOperations.getWeekProgress("Nutrition");
-        nutritionProgressBar.setText(String.valueOf(nutritionProgress));
-
-        nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
-        ObjectAnimator animation = ObjectAnimator.ofInt(nutritionProgressBar, "progress", 0, 100);
+//        UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
+//        int  nutritionProgress= dbOperations.getWeekProgress("Nutrition");
+//        nutritionProgressBar.setText(String.valueOf(nutritionProgress));
+//
+//        nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
+//        ObjectAnimator animation = ObjectAnimator.ofInt(nutritionProgressBar, "progress", 0, 100);
 //        animation.setDuration(5000);
 //        animation.setInterpolator(new DecelerateInterpolator());
 //        animation.start();
 
-        CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
-        UserGoal userGoalActivity = dbOperations.getCurrentGoalInfo("Activity");
-        activityProgressBar.setAim_text("Aim "+String.valueOf(userGoalActivity.getWeekly_count()));
-        int  activityProgress= dbOperations.getWeekProgress("Activity");
-        activityProgressBar.setText(String.valueOf(activityProgress));
+//        CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
+//        UserGoal userGoalActivity = dbOperations.getCurrentGoalInfo("Activity");
+//        activityProgressBar.setAim_text("Aim "+String.valueOf(userGoalActivity.getWeekly_count()));
+//        int  activityProgress= dbOperations.getWeekProgress("Activity");
+//        activityProgressBar.setText(String.valueOf(activityProgress));
 
 //        ObjectAnimator animation1 = ObjectAnimator.ofInt(activityProgressBar, "progress", 0, 100);
 //        animation1.setDuration(5000); //in milliseconds
@@ -220,30 +231,80 @@ public class MainActivity extends AppCompatActivity {
 
 
         array = new ArrayList<>();
-        array.add("Goal Button");
+ //       array.add("Goal Button");
 
 
 
-        mHomeListView = (ListView) findViewById(R.id.home_list);
+   //     mHomeListView = (ListView) findViewById(R.id.home_list);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.home_list_item, array);
-        mHomeListView.setAdapter(adapter);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.home_list_item, array);
+//        mHomeListView.setAdapter(adapter);
 
 
 
 
-    mGestureDetector = new GestureDetector(this, new MyGestureDetector(getApplicationContext()));
-    mGestureListener = new View.OnTouchListener() {
-        public boolean onTouch(View v, MotionEvent aEvent) {
-            if (mGestureDetector.onTouchEvent(aEvent))
-                return true;
-            else
-                return false;
-        }
-    };
-    mHomeListView.setOnTouchListener(mGestureListener);
+//    mGestureDetector = new GestureDetector(this, new MyGestureDetector(getApplicationContext()));
+//    mGestureListener = new View.OnTouchListener() {
+//        public boolean onTouch(View v, MotionEvent aEvent) {
+//            if (mGestureDetector.onTouchEvent(aEvent))
+//                return true;
+//            else
+//                return false;
+//        }
+//    };
+//    mHomeListView.setOnTouchListener(mGestureListener);
+
+
+        //new code here
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        setupViewPages(viewPager);
+
 }
+
+    public void setupViewPages(ViewPager viewPager){
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new HomeFragment(), "Current Goal");
+        adapter.addFragment(new NextGoalFragment(), "Next Goal");
+        viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter{
+
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
 
 
     /**
@@ -281,25 +342,6 @@ public class MainActivity extends AppCompatActivity {
         return newAccount;
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        if(!sessionManager.checkLogin())
-//        {
-//            return;
-//        }
-//
-//        CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
-//        UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
-//        nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
-//
-//
-//        CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
-//        UserGoal userGoalActivity = dbOperations.getCurrentGoalInfo("Activity");
-//        activityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
-//    }
-//
 
 
     @Override
@@ -309,44 +351,44 @@ public class MainActivity extends AppCompatActivity {
         {
             return;
         }
+//
+//        CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
+//        UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
+//        int  nutritionProgress= dbOperations.getWeekProgress("Nutrition");
+//        nutritionProgressBar.setText(String.valueOf(nutritionProgress));
+//        nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
 
-        CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
-        UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
-        int  nutritionProgress= dbOperations.getWeekProgress("Nutrition");
-        nutritionProgressBar.setText(String.valueOf(nutritionProgress));
-        nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
 
-
-        CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
-        int  activityProgress= dbOperations.getWeekProgress("Activity");
-        activityProgressBar.setText(String.valueOf(activityProgress));
-        UserGoal userGoalActivity = dbOperations.getCurrentGoalInfo("Activity");
-        activityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
+//        CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
+//        int  activityProgress= dbOperations.getWeekProgress("Activity");
+//        activityProgressBar.setText(String.valueOf(activityProgress));
+//        UserGoal userGoalActivity = dbOperations.getCurrentGoalInfo("Activity");
+//        activityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
     }
 
-    public void onNutritionProgressBarClick(View view){
-        Intent intent = new Intent(this, NutritionEntrySelect.class);
-        startActivity(intent);
-    }
-
-    public void onActivityProgressBarClick(View view){
-        Intent intent = new Intent(this,ActivityEntryMain.class);
-        startActivity(intent);
-    }
-
-    public void  onNewGoalClick (View view){
-        Intent newGoalIntent = new Intent(this, NewGoal.class);
-        startActivity(newGoalIntent);
-    }
-
-    public void startNext(View view) {
-        Intent intent = new Intent(this, TempMain.class);
-        startActivity(intent);
-    }
-
-    public void activityEntryButtonClick(View view)
-    {
-        sessionManager.logoutUser();
-    }
+//    public void onNutritionProgressBarClick(View view){
+//        Intent intent = new Intent(this, NutritionEntrySelect.class);
+//        startActivity(intent);
+//    }
+//
+//    public void onActivityProgressBarClick(View view){
+//        Intent intent = new Intent(this,ActivityEntryMain.class);
+//        startActivity(intent);
+//    }
+//
+//    public void  onNewGoalClick (View view){
+//        Intent newGoalIntent = new Intent(this, NewGoal.class);
+//        startActivity(newGoalIntent);
+//    }
+//
+//    public void startNext(View view) {
+//        Intent intent = new Intent(this, TempMain.class);
+//        startActivity(intent);
+//    }
+//
+//    public void activityEntryButtonClick(View view)
+//    {
+//        sessionManager.logoutUser();
+//    }
 
 }
