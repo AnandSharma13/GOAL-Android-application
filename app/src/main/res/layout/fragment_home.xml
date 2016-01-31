@@ -42,22 +42,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Logout"
-            android:id="@+id/activity_entry"
+            android:id="@+id/fragment_home_btn_log_out"
             android:layout_alignTop="@+id/btnNext"
             android:layout_toEndOf="@+id/btnNext"
             android:onClick="activityEntryButtonClick"/>
-
-        <ListView
-            android:id="@+id/home_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btnNext"></ListView>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/home_list"
+            android:layout_below="@+id/btnNext"
             android:orientation="vertical">
 
             <LinearLayout
@@ -68,14 +62,14 @@
                 android:orientation="horizontal">
 
                 <com.ph.view.CustomProgressBar
-                    android:id="@+id/nutritionProgressBar"
+                    android:id="@+id/fragment_home_progress_bar_nutrition"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:max="100"
                     android:progress="75"
                     android:clickable="true"
-                    android:onClick="onNutritionProgressBarClick"
+                    android:onClick="onNutritionProgressBarClick11"
                     android:background="@drawable/ripple"
                     android:progressDrawable="@drawable/circular"
                     android:secondaryProgress="100" />
@@ -89,7 +83,7 @@
                 android:orientation="horizontal">
 
                 <com.ph.view.CustomProgressBar
-                    android:id="@+id/activityProgressBar"
+                    android:id="@+id/fragment_home_progress_bar_activity"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="150dp"
                     android:layout_height="150dp"

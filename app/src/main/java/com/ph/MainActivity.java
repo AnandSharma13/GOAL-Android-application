@@ -132,8 +132,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
 
         mdrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //stepsCount = (TextView) findViewById(R.id.steps_count);
-        //userStepsLayout = (LinearLayout) findViewById(R.id.steps_count_layout);
+//        stepsCount = (TextView) findViewById(R.id.steps_count);
+//        userStepsLayout = (LinearLayout) findViewById(R.id.steps_count_layout);
 
 
 //        userStepsLayout.setOnClickListener(new View.OnClickListener() {
@@ -351,44 +351,15 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         {
             return;
         }
-//
-//        CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
-//        UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
-//        int  nutritionProgress= dbOperations.getWeekProgress("Nutrition");
-//        nutritionProgressBar.setText(String.valueOf(nutritionProgress));
-//        nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
 
-
-//        CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
-//        int  activityProgress= dbOperations.getWeekProgress("Activity");
-//        activityProgressBar.setText(String.valueOf(activityProgress));
-//        UserGoal userGoalActivity = dbOperations.getCurrentGoalInfo("Activity");
-//        activityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
     }
 
-//    public void onNutritionProgressBarClick(View view){
-//        Intent intent = new Intent(this, NutritionEntrySelect.class);
-//        startActivity(intent);
-//    }
-//
-//    public void onActivityProgressBarClick(View view){
-//        Intent intent = new Intent(this,ActivityEntryMain.class);
-//        startActivity(intent);
-//    }
-//
-//    public void  onNewGoalClick (View view){
-//        Intent newGoalIntent = new Intent(this, NewGoal.class);
-//        startActivity(newGoalIntent);
-//    }
-//
-//    public void startNext(View view) {
-//        Intent intent = new Intent(this, TempMain.class);
-//        startActivity(intent);
-//    }
-//
-//    public void activityEntryButtonClick(View view)
-//    {
-//        sessionManager.logoutUser();
-//    }
+
+
+    //Do not delete this..... Logout of fragments still point here
+    public void activityEntryButtonClick(View view)
+    {
+        sessionManager.logoutUser();
+    }
 
 }
