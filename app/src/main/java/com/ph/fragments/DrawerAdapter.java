@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.ph.R;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,7 +19,7 @@ import java.util.List;
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.MyViewHolder> {
     private final LayoutInflater inflater;
 
-    List<DrawerListData> list = Collections.emptyList();
+    private List<DrawerListData> list = Collections.emptyList();
 
     public DrawerAdapter(Context context, List<DrawerListData> list) {
         inflater = LayoutInflater.from(context);
@@ -47,6 +45,10 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.MyViewHold
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public List<DrawerListData> getList() {
+        return list;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

@@ -22,7 +22,6 @@ import com.ph.Activities.ActivityEntryMain;
 import com.ph.Activities.NewGoal;
 import com.ph.Activities.NutritionEntrySelect;
 import com.ph.R;
-import com.ph.TempMain;
 import com.ph.model.DBOperations;
 import com.ph.model.UserGoal;
 import com.ph.model.UserSteps;
@@ -147,14 +146,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        mBtnNext.setOnClickListener(new View.OnClickListener() {
+/*        mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), TempMain.class);
                     startActivity(intent);
                 }
 
-        });
+        });*/
 
 
         mUserStepsLayout.setOnClickListener(new View.OnClickListener() {

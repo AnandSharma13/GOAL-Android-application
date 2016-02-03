@@ -2,16 +2,12 @@ package com.ph;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.animation.ObjectAnimator;
-import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,13 +15,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -33,11 +28,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ph.Activities.ActivityEntryMain;
-import com.ph.Activities.NewGoal;
-import com.ph.Activities.NutritionEntrySelect;
 import com.ph.Utils.DateOperations;
-import com.ph.Utils.MyGestureDetector;
+import com.ph.fragments.DrawerAdapter;
 import com.ph.fragments.HomeFragment;
 import com.ph.fragments.NavigationDrawerFragment;
 import com.ph.fragments.NextGoalFragment;
@@ -46,10 +38,8 @@ import com.ph.model.DBOperations;
 import com.ph.model.NutritionEntry;
 import com.ph.model.User;
 import com.ph.model.UserGoal;
-import com.ph.model.UserSteps;
 import com.ph.net.SessionManager;
 import com.ph.net.SyncUtils;
-import com.ph.view.CustomProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     private LinearLayout userStepsLayout;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private RecyclerView drawerRecylerView;
 
 
     // Constants
@@ -132,6 +123,57 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
 
         mdrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        drawerRecylerView = (RecyclerView) mdrawerLayout.findViewById(R.id.drawerList);
+
+        final GestureDetector drawerGestureDector = new GestureDetector(MainActivity.this, new GestureDetector.SimpleOnGestureListener() {
+
+            @Override public boolean onSingleTapUp(MotionEvent e) {
+                return true;
+            }
+
+        });
+
+
+        drawerRecylerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                View child = rv.findChildViewUnder(e.getX(),e.getY());
+
+                if(child!=null && drawerGestureDector.onTouchEvent(e)){
+                    mdrawerLayout.closeDrawers();
+                    RecyclerView.ViewHolder vh = rv.getChildViewHolder(child);
+                    DrawerAdapter drawerAdapter = (DrawerAdapter) rv.getAdapter();
+
+                    String title = drawerAdapter.getList().get(rv.getChildAdapterPosition(child)).getTitle();
+
+
+                    switch (title)
+                    {
+                        case "Logout": sessionManager.logoutUser(); break;
+                        case "Temp": Intent intent = new Intent(MainActivity.this, TempMain.class);
+                            startActivity(intent);break;
+                        default:Toast.makeText(MainActivity.this,"The Item Clicked is: "+title,Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
 //        stepsCount = (TextView) findViewById(R.id.steps_count);
 //        userStepsLayout = (LinearLayout) findViewById(R.id.steps_count_layout);
 

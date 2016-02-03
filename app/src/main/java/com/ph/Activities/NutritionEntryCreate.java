@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -74,6 +75,7 @@ public class NutritionEntryCreate extends AppCompatActivity {
     private String mNutritionEntryText;
     private String mImagePath;
     private int mGoalCount;
+    int checkCount=0;
 
 
     private String mNutritionType;
@@ -116,11 +118,69 @@ public class NutritionEntryCreate extends AppCompatActivity {
         getDayRecord();
         initControls();
 
+        if(checkCount == 0)
+            mSave.setEnabled(false);
+
+        mWaterIntake.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if((progress-waterIntakeCount)>0)
+                    mSave.setEnabled(true);
+                else if((progress - waterIntakeCount) ==0 && checkCount ==0 && (mAtticFoodCountNp.getValue() - atticFoodCount ) == 0)
+                    mSave.setEnabled(false);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        mAtticFoodCountNp.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                if((newVal - atticFoodCount)>0)
+                    mSave.setEnabled(true);
+                else if((newVal - atticFoodCount) ==0 && checkCount ==0 && (mWaterIntake.getProgress() - atticFoodCount) ==0)
+                    mSave.setEnabled(false);
+            }
+        });
+
         //For testing
     //   addNutritionEntryToDB();
 
         setViewUnclickable();
+
+        addListenerstoCheckBoxes();
         return;
+    }
+
+    private void addListenerstoCheckBoxes() {
+        for(CheckBox cb: dairyChkbxList)
+        {
+            cb.setOnCheckedChangeListener(new MyCheckedChangeListener());
+        }
+        for(CheckBox cb: proteinChkbxList)
+        {
+            cb.setOnCheckedChangeListener(new MyCheckedChangeListener());
+        }
+        for(CheckBox cb: vegetableChkbxList)
+        {
+            cb.setOnCheckedChangeListener(new MyCheckedChangeListener());
+        }
+        for(CheckBox cb: fruitChkbxList)
+        {
+            cb.setOnCheckedChangeListener(new MyCheckedChangeListener());
+        }
+        for(CheckBox cb: grainsChkbxList)
+        {
+            cb.setOnCheckedChangeListener(new MyCheckedChangeListener());
+        }
     }
 
 
@@ -129,6 +189,8 @@ public class NutritionEntryCreate extends AppCompatActivity {
         mIncreaseBtn = (Button) findViewById(R.id.nutrition_entry_create_btn_increase);
         mSave = (Button) findViewById(R.id.nutrition_entry_create_btn_save);
         mAtticFoodCountNp = (NumberPicker) findViewById(R.id.nutrition_entry_create_np_attic_food_count);
+
+
 
         mDairyOne = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_Dairy_one);
         mDairyTwo = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_Dairy_two);
@@ -233,11 +295,19 @@ public class NutritionEntryCreate extends AppCompatActivity {
 
     public void onClickIncreaseBtn(View view){
         mAtticFoodCountNp.setValue(mAtticFoodCountNp.getValue() + 1);
+        int newVal = mAtticFoodCountNp.getValue();
+        if((newVal - atticFoodCount)>0)
+            mSave.setEnabled(true);
+
 
     }
 
     public void onClickDecreaseBtn(View view){
         mAtticFoodCountNp.setValue(mAtticFoodCountNp.getValue() -1);
+        int newVal = mAtticFoodCountNp.getValue();
+        if((newVal - atticFoodCount) ==0 && checkCount ==0 && (mWaterIntake.getProgress() - atticFoodCount) ==0)
+            mSave.setEnabled(false);
+
 
     }
 
@@ -353,6 +423,25 @@ public class NutritionEntryCreate extends AppCompatActivity {
             }
         }
     }
+
+    class MyCheckedChangeListener implements CompoundButton.OnCheckedChangeListener{
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(isChecked)
+                ++checkCount;
+            else
+                --checkCount;
+
+            if(checkCount>0)
+                mSave.setEnabled(true);
+            else if(checkCount<=0 && (mWaterIntake.getProgress() - waterIntakeCount)==0 && (mAtticFoodCountNp.getValue() - atticFoodCount) == 0){
+                checkCount=0;
+                mSave.setEnabled(false);
+            }
+        }
+    }
+
 
 
 }

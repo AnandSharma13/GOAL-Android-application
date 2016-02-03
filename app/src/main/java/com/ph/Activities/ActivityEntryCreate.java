@@ -102,12 +102,20 @@ public class ActivityEntryCreate extends AppCompatActivity {
         });
 
 
+        saveButton = (Button) findViewById(R.id.activity_entry_save);
+
+        if(rpeSeekBar.getProgress() ==0 || timeSeekBar.getProgress() ==0)
+            saveButton.setEnabled(false);
         //Set Onchange listeners...
 
         rpeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 rpeIndicator.setText(String.valueOf(progress));
+                if(progress>0 && timeSeekBar.getProgress()>0)
+                    saveButton.setEnabled(true);
+                else
+                    saveButton.setEnabled(false);
             }
 
             @Override
@@ -125,6 +133,10 @@ public class ActivityEntryCreate extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 timeIndicator.setText(String.valueOf(progress));
+                if(progress>0 && rpeSeekBar.getProgress()>0)
+                    saveButton.setEnabled(true);
+                else
+                    saveButton.setEnabled(false);
             }
 
             @Override
@@ -170,7 +182,6 @@ public class ActivityEntryCreate extends AppCompatActivity {
 
 
 
-        saveButton = (Button) findViewById(R.id.activity_entry_save);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
