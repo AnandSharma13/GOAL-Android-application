@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -173,6 +175,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         .setPositiveButton("Save",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
+
                                         int steps = Integer.parseInt(userStepsInput.getText().toString());
 
                                         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -210,6 +213,35 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 // show it
                 alertDialog.show();
+
+                final Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+
+                positiveButton.setEnabled(false);
+
+                userStepsInput.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        String val = s.toString();
+
+                        if (val.equals(""))
+                            positiveButton.setEnabled(false);
+                        else
+                            positiveButton.setEnabled(true);
+
+                    }
+                });
+
+
 
             }
         });
