@@ -70,6 +70,7 @@
         <activity android:name=".Activities.ActivityEntryCreate" />
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.NutritionEntrySelect"></activity>
+        <activity android:name=".Activities.SettingsActivity"></activity>
     </application>
 
 </manifest>

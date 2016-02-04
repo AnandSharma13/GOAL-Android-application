@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
+        android:layout_marginTop="15dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Program"
+                android:id="@+id/textView9"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                android:textSize="16dp"
+                android:layout_weight="0.12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/programName"
+                android:layout_weight="0.12"
+                android:layout_gravity="center"
+                android:textSize="16dp"
+                android:layout_marginLeft="30dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
+        android:layout_marginTop="5dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start date"
+                android:id="@+id/textView10"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                android:textSize="16dp"
+                android:layout_weight="0.12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/programStartDate"
+                android:layout_weight="0.12"
+                android:layout_gravity="center"
+                android:textSize="16dp"
+                android:layout_marginLeft="30dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/phoneSupport"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:src="@mipmap/ic_phone_icon"
+            android:layout_weight="0.31" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact Technical Support"
+            android:id="@+id/textView11"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.31" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log out"
+        android:id="@+id/logOutButton"
+        android:background="@color/white"
+        android:layout_gravity="center_horizontal" />
+
+
+</LinearLayout>

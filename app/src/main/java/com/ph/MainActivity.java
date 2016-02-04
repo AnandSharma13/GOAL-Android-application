@@ -28,6 +28,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ph.Activities.SettingsActivity;
 import com.ph.Utils.DateOperations;
 import com.ph.fragments.DrawerAdapter;
 import com.ph.fragments.HomeFragment;
@@ -146,12 +147,14 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                     DrawerAdapter drawerAdapter = (DrawerAdapter) rv.getAdapter();
 
                     String title = drawerAdapter.getList().get(rv.getChildAdapterPosition(child)).getTitle();
-
+                    Intent intent;
 
                     switch (title)
                     {
                         case "Logout": sessionManager.logoutUser(); break;
-                        case "Temp": Intent intent = new Intent(MainActivity.this, TempMain.class);
+                        case "Temp":  intent = new Intent(MainActivity.this, TempMain.class);
+                            startActivity(intent);break;
+                        case "Settings": intent = new Intent(MainActivity.this, SettingsActivity.class);
                             startActivity(intent);break;
                         default:Toast.makeText(MainActivity.this,"The Item Clicked is: "+title,Toast.LENGTH_SHORT).show();
                     }
