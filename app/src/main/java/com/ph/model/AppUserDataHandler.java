@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.Set;
 
-/**
- * Created by Anand on 1/4/2016.
- */
+
 public class AppUserDataHandler extends AppCompatActivity {
 
     //Setting UserID in shared preferences

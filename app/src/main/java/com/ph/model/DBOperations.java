@@ -23,9 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Anup on 23-12-15.
- */
+
 public class DBOperations {
     private DBHandler dbHandler;
     private Context context;
@@ -418,7 +416,7 @@ public class DBOperations {
         if(tableName.equals("Nutrition"))
             query = "select SUM(towards_goal) as towards_goal from nutrition_entry WHERE date between ? and ?";
         else
-          query = "select SUM(count_towards_goal) as towards_goal from activity_entry WHERE date between ? and ?";
+           query = "select SUM(activity_length) as towards_goal from activity_entry WHERE date between ? and ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{startDate,endDate});
 

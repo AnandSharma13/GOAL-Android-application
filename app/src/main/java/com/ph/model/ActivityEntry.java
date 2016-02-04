@@ -1,8 +1,6 @@
 package com.ph.model;
 
-/**
- * Created by Anand on 12/27/2015.
- */
+
 public class ActivityEntry {
 
     private int activity_entry_id;

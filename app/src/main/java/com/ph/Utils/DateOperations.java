@@ -11,9 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by Anup on 1/10/2016.
- */
+
 public class DateOperations {
 
     private Date programStartDate;

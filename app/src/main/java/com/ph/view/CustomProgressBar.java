@@ -13,6 +13,8 @@ public class CustomProgressBar extends ProgressBar{
 
     private String text ="";
 
+
+
     public String getAim_text() {
         return aim_text;
     }
