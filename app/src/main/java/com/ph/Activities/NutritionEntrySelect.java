@@ -17,9 +17,6 @@ import com.ph.Utils.Dateutils;
 
 import java.util.Calendar;
 
-/**
- * Created by Anand on 1/20/2016.
- */
 
 public class NutritionEntrySelect extends AppCompatActivity {
 

@@ -16,9 +16,7 @@ import com.ph.Utils.Dateutils;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by Anup on 1/15/2016.
- */
+
 public class ActivityEntryMain extends AppCompatActivity {
     private Calendar calendar;
     private DatePickerDialog.OnDateSetListener datePicker;

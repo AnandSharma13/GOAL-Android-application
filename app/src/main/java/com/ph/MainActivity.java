@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -43,12 +44,10 @@ import com.ph.net.SessionManager;
 import com.ph.net.SyncUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
-/**
- * Created by Anand on 12/24/2016.
- */
 
 public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener{
 
@@ -68,8 +67,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     private TextView stepsCount;
     private LinearLayout userStepsLayout;
     private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private RecyclerView drawerRecylerView;
+    private ViewPager mViewPager;
+    private RecyclerView mDrawerRecylerView;
 
 
     // Constants
@@ -79,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     public static final String ACCOUNT_TYPE = "example.com";
     // The account name
     public static final String ACCOUNT = "dummyaccount";
+    public static final int HOME_FRAGMENT_POSITION=0;
+    public static final int NEWGOAL_FRAGMENT_POSITION=1;
+
     private Toolbar toolbar;
 
     //This will go inside the onPerformSync bundle
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
         mdrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        drawerRecylerView = (RecyclerView) mdrawerLayout.findViewById(R.id.drawerList);
+        mDrawerRecylerView = (RecyclerView) mdrawerLayout.findViewById(R.id.drawerList);
 
         final GestureDetector drawerGestureDector = new GestureDetector(MainActivity.this, new GestureDetector.SimpleOnGestureListener() {
 
@@ -136,12 +138,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         });
 
 
-        drawerRecylerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+        mDrawerRecylerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                View child = rv.findChildViewUnder(e.getX(),e.getY());
+                View child = rv.findChildViewUnder(e.getX(), e.getY());
 
-                if(child!=null && drawerGestureDector.onTouchEvent(e)){
+                if (child != null && drawerGestureDector.onTouchEvent(e)) {
                     mdrawerLayout.closeDrawers();
                     RecyclerView.ViewHolder vh = rv.getChildViewHolder(child);
                     DrawerAdapter drawerAdapter = (DrawerAdapter) rv.getAdapter();
@@ -149,14 +151,20 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                     String title = drawerAdapter.getList().get(rv.getChildAdapterPosition(child)).getTitle();
                     Intent intent;
 
-                    switch (title)
-                    {
-                        case "Logout": sessionManager.logoutUser(); break;
-                        case "Temp":  intent = new Intent(MainActivity.this, TempMain.class);
-                            startActivity(intent);break;
-                        case "Settings": intent = new Intent(MainActivity.this, SettingsActivity.class);
-                            startActivity(intent);break;
-                        default:Toast.makeText(MainActivity.this,"The Item Clicked is: "+title,Toast.LENGTH_SHORT).show();
+                    switch (title) {
+                        case "Logout":
+                            sessionManager.logoutUser();
+                            break;
+                        case "Temp":
+                            intent = new Intent(MainActivity.this, TempMain.class);
+                            startActivity(intent);
+                            break;
+                        case "Settings":
+                            intent = new Intent(MainActivity.this, SettingsActivity.class);
+                            startActivity(intent);
+                            break;
+                        default:
+                            Toast.makeText(MainActivity.this, "The Item Clicked is: " + title, Toast.LENGTH_SHORT).show();
                     }
 
                     return true;
@@ -302,9 +310,45 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
 
         //new code here
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        setupViewPages(viewPager);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i("selected page\t", String.valueOf(position));
+
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                int operatingWeek;
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                switch (position) {
+                    case HOME_FRAGMENT_POSITION:
+                        operatingWeek = new DateOperations(getApplicationContext()).getWeeksTillDate(new Date());
+                        editor.putInt("operating_week", operatingWeek);
+                        editor.commit();
+                        Toast.makeText(getApplicationContext(), "Current week selected",Toast.LENGTH_SHORT).show();
+                        break;
+                    case NEWGOAL_FRAGMENT_POSITION:
+                        operatingWeek = new DateOperations(getApplicationContext()).getWeeksTillDate(new Date())+1;
+                        editor.putInt("operating_week", operatingWeek);
+                        editor.commit();
+                        Toast.makeText(getApplicationContext(), "Next Goal selected",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                Log.i("Page scroller", "page swiped");
+            }
+        });
+
+        setupViewPages(mViewPager);
 
 }
 
@@ -348,6 +392,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
     }
 
 

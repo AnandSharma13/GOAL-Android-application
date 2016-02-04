@@ -103,8 +103,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mStepsCount = (TextView) view.findViewById(R.id.steps_count);
         mUserStepsLayout = (LinearLayout) view.findViewById(R.id.steps_count_layout);
         mNewGoalButton = (Button) view.findViewById(R.id.btnNewGoal);
-        mBtnNext = (Button) view.findViewById(R.id.btnNext);
-
+       
         //sets up click listeners..
         setBtnClickListeners();
 
