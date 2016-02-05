@@ -33,11 +33,9 @@ public class ActivityEntryMain extends AppCompatActivity {
         activityDate = (EditText) findViewById(R.id.activity_entry_date_text_view);
 
 
-
         dateOperations = new DateOperations(this);
 
         activityDate.setText(dateOperations.getUniformDateFormat().format(new Date()));
-
 
 
         datePicker = new DatePickerDialog.OnDateSetListener() {
@@ -67,19 +65,16 @@ public class ActivityEntryMain extends AppCompatActivity {
 
     }
 
-    private void updateLabel()
-    {
+    private void updateLabel() {
         activityDate.setText(dateOperations.getUniformDateFormat().format(calendar.getTime()));
         Log.i("updateLabel", "Time has been set to the Edit Text");
     }
 
-    public void activityClick(View view)
-    {
+    public void activityClick(View view) {
 
         Intent intent = new Intent(ActivityEntryMain.this, ActivityEntryCreate.class);
-        intent.putExtra("date",dateOperations.getMysqlDateFormat().format(calendar.getTime()));
-        switch (view.getId())
-        {
+        intent.putExtra("date", dateOperations.getMysqlDateFormat().format(calendar.getTime()));
+        switch (view.getId()) {
             case R.id.cardio_layout:
                 intent.putExtra("key", "Cardio");
                 startActivity(intent);
@@ -89,7 +84,7 @@ public class ActivityEntryMain extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.lifestyle_layout:
-                intent.putExtra("key","Lifestyle");
+                intent.putExtra("key", "Lifestyle");
                 startActivity(intent);
                 break;
         }

@@ -29,7 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ph.Activities.ActivityProgressMain;
+import com.ph.Activities.HistoryActivity;
 import com.ph.Activities.SettingsActivity;
 import com.ph.Utils.DateOperations;
 import com.ph.fragments.DrawerAdapter;
@@ -152,16 +152,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                     String title = drawerAdapter.getList().get(rv.getChildAdapterPosition(child)).getTitle();
                     Intent intent;
 
-                    switch (title)
-                    {
-                        case "Logout": sessionManager.logoutUser(); break;
-                        case "Temp":  intent = new Intent(MainActivity.this, TempMain.class);
-                            startActivity(intent);break;
-                        case "Settings": intent = new Intent(MainActivity.this, SettingsActivity.class);
-                            startActivity(intent);break;
-                        case "Progress": intent = new Intent(MainActivity.this, ActivityProgressMain.class);
-                            startActivity(intent); break;
-                        default:Toast.makeText(MainActivity.this,"The Item Clicked is: "+title,Toast.LENGTH_SHORT).show();
                     switch (title) {
                         case "Logout":
                             sessionManager.logoutUser();
@@ -172,6 +162,10 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                             break;
                         case "Settings":
                             intent = new Intent(MainActivity.this, SettingsActivity.class);
+                            startActivity(intent);
+                            break;
+                        case "History":
+                            intent = new Intent(MainActivity.this, HistoryActivity.class);
                             startActivity(intent);
                             break;
                         default:
