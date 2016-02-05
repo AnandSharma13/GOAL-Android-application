@@ -539,7 +539,7 @@ public class DBOperations {
         StartEndDateObject startEndDateObject = dateOperations.getDatesFromWeekNumber(week);
         String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
         String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
-        String query = "select * from user_goal where start_date between '"+startDate+"' and '"+endDate+"' and type= '"+type+"' ORDER BY `timestamp` DESC";
+        String query = "select * from user_goal where start_date >= '"+startDate+"' and start_date <= '"+endDate+"' and type= '"+type+"' ORDER BY `timestamp` DESC";
         Cursor cursor = db.rawQuery(query,null);
 
         if(cursor.getCount() == 0)

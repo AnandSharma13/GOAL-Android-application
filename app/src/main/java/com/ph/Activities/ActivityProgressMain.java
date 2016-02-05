@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.ph.R;
 import com.ph.fragments.ProgressActivityDetails;
 import com.ph.fragments.ProgressActivityFragment;
+import com.ph.fragments.ProgressNutritionDetails;
 import com.ph.fragments.ProgressNutritionFragment;
 import com.ph.fragments.ProgressStepsFragment;
 
@@ -22,10 +23,11 @@ import java.util.List;
 /**
  * Created by Anup on 2/4/2016 .
  */
-public class ActivityProgressMain extends AppCompatActivity implements ProgressActivityFragment.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener {
+public class ActivityProgressMain extends AppCompatActivity implements ProgressActivityFragment.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener {
 
     ViewPager pager;
     TabLayout tabLayout;
+    private android.support.v7.widget.Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,9 @@ public class ActivityProgressMain extends AppCompatActivity implements ProgressA
 
         
         tabLayout.setupWithViewPager(pager);
+
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
+        toolbar.setTitle("Progress");
 
 
 

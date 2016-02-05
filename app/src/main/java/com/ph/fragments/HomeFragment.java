@@ -110,7 +110,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         setBtnClickListeners();
 
 
+
         UserGoal userGoalNutrition = mDbOperations.getCurrentGoalInfo("Nutrition");
+        if(userGoalNutrition == null)
+        {
+            return view;
+        }
         int  nutritionProgress= mDbOperations.getWeekProgress("Nutrition");
         mNutritionProgressBar.setText(String.valueOf(nutritionProgress));
         mNutritionProgressBar.setAim_text("Aim " + String.valueOf(userGoalNutrition.getWeekly_count()));
@@ -121,8 +126,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
         int  activityProgress= mDbOperations.getWeekProgress("Activity");
+
         mActivityProgressBar.setText(String.valueOf(activityProgress));
         UserGoal userGoalActivity = mDbOperations.getCurrentGoalInfo("Activity");
+        if(userGoalActivity == null) {
+            mActivityProgressBar.setVisibility(View.GONE);
+            return view;
+        }
         mActivityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
 
         ObjectAnimator animation1 = ObjectAnimator.ofInt(mActivityProgressBar, "progress",activityProgress);
@@ -164,6 +174,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
 
         });*/
+
+        mStepsCount.setText(String.valueOf(mDbOperations.getStepsCount()));
 
 
         mUserStepsLayout.setOnClickListener(new View.OnClickListener() {

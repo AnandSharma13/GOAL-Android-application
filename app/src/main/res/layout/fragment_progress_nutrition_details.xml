@@ -8,9 +8,9 @@
 
 
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Space for Progress bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Space for Progress bar"
         android:layout_weight="0.44" />
 
     <RelativeLayout
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/progress_activity_info" />
+            android:id="@+id/progress_nutrition_info" />
     </RelativeLayout>
 
 
