@@ -28,6 +28,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ph.Activities.ActivityProgressMain;
 import com.ph.Activities.SettingsActivity;
 import com.ph.Utils.DateOperations;
 import com.ph.fragments.DrawerAdapter;
@@ -156,6 +157,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                             startActivity(intent);break;
                         case "Settings": intent = new Intent(MainActivity.this, SettingsActivity.class);
                             startActivity(intent);break;
+                        case "Progress": intent = new Intent(MainActivity.this, ActivityProgressMain.class);
+                            startActivity(intent); break;
                         default:Toast.makeText(MainActivity.this,"The Item Clicked is: "+title,Toast.LENGTH_SHORT).show();
                     }
 

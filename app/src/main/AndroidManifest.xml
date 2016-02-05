@@ -71,6 +71,7 @@
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.NutritionEntrySelect"></activity>
         <activity android:name=".Activities.SettingsActivity"></activity>
+        <activity android:name=".Activities.ActivityProgressMain"></activity>
     </application>
 
 </manifest>
