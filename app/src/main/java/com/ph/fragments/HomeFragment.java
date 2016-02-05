@@ -1,5 +1,6 @@
 package com.ph.fragments;
 
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +15,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -103,7 +105,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mStepsCount = (TextView) view.findViewById(R.id.steps_count);
         mUserStepsLayout = (LinearLayout) view.findViewById(R.id.steps_count_layout);
         mNewGoalButton = (Button) view.findViewById(R.id.btnNewGoal);
-        mBtnNext = (Button) view.findViewById(R.id.btnNext);
 
         //sets up click listeners..
         setBtnClickListeners();
@@ -113,7 +114,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int  nutritionProgress= mDbOperations.getWeekProgress("Nutrition");
         mNutritionProgressBar.setText(String.valueOf(nutritionProgress));
         mNutritionProgressBar.setAim_text("Aim " + String.valueOf(userGoalNutrition.getWeekly_count()));
-
+        ObjectAnimator animation2 = ObjectAnimator.ofInt(mActivityProgressBar, "progress", nutritionProgress);
+        animation2.setDuration(5000); //in milliseconds
+        animation2.setInterpolator(new DecelerateInterpolator());
+        animation2.start();
 
 
         int  activityProgress= mDbOperations.getWeekProgress("Activity");
@@ -121,6 +125,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         UserGoal userGoalActivity = mDbOperations.getCurrentGoalInfo("Activity");
         mActivityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
 
+        ObjectAnimator animation1 = ObjectAnimator.ofInt(mActivityProgressBar, "progress",activityProgress);
+        animation1.setDuration(5000); //in milliseconds
+        animation1.setInterpolator(new DecelerateInterpolator());
+        animation1.start();
         return view;
     }
 

@@ -11,9 +11,6 @@ import android.widget.TextView;
 import com.ph.R;
 import com.ph.net.SessionManager;
 
-/**
- * Created by Anup on 2/3/2016 .
- */
 public class SettingsActivity extends AppCompatActivity {
 
     private TextView programName;

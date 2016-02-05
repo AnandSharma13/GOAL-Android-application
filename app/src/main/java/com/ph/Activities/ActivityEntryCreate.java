@@ -176,8 +176,6 @@ public class ActivityEntryCreate extends AppCompatActivity {
 
 
 
-
-
         mRecyclerView.setAdapter(adapter);
 
 

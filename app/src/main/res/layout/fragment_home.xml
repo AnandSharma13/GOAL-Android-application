@@ -23,29 +23,17 @@
             android:layout_height="wrap_content"
             android:onClick="onNewGoalClick"
             android:text="Create Goal"
-            android:layout_below="@+id/b_edit_in_list"
             android:layout_centerHorizontal="true" />
-        <Button
-            android:id="@+id/b_edit_in_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/app_bar"
-            android:text="Edit"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:visibility="gone"
-
-            />
-       <!-- <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:id="@+id/fragment_home_btn_log_out"
-            android:layout_alignTop="@+id/btnNext"
-            android:layout_toEndOf="@+id/btnNext"
-            android:onClick="activityEntryButtonClick"/>-->
-
+        <!--<Button-->
+            <!--android:id="@+id/b_edit_in_list"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/app_bar"-->
+            <!--android:text="Edit"-->
+            <!--android:paddingLeft="20dp"-->
+            <!--android:paddingRight="20dp"-->
+            <!--android:visibility="gone"-->
+            <!--/>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,16 +50,16 @@
 
                 <com.ph.view.CustomProgressBar
                     android:id="@+id/fragment_home_progress_bar_nutrition"
-                    style="?android:attr/progressBarStyleHorizontal"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:max="100"
-                    android:progress="75"
+                    android:max="10"
                     android:clickable="true"
-                    android:onClick="onNutritionProgressBarClick11"
+                    android:progress="0"
                     android:background="@drawable/ripple"
+                    android:onClick="onNutritionProgressBarClick11"
                     android:progressDrawable="@drawable/circular"
-                    android:secondaryProgress="100" />
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -81,18 +69,19 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
+                <!--style="?android:attr/progressBarStyleHorizontal"-->
                 <com.ph.view.CustomProgressBar
                     android:id="@+id/fragment_home_progress_bar_activity"
-                    style="?android:attr/progressBarStyleHorizontal"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:max="100"
-                    android:progress="40"
+                    android:progress="0"
                     android:clickable="true"
                     android:background="@drawable/ripple"
                     android:onClick="onActivityProgressBarClick"
                     android:progressDrawable="@drawable/circular"
-                    android:secondaryProgress="80" />
+                    />
 
             </LinearLayout>
 

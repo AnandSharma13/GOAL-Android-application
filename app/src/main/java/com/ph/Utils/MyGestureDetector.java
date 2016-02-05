@@ -9,9 +9,7 @@ import android.widget.Toast;
 
 import java.util.Date;
 
-/**
- * Created by Anand on 1/16/2016.
- */
+
 
 public class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
     private static final int SWIPE_MIN_DISTANCE = 150;

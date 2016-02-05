@@ -26,9 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-/**
- * Created by Anand on 12/28/2016.
- */
+
 
 public class NewGoal extends AppCompatActivity {
 
