@@ -152,16 +152,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                     String title = drawerAdapter.getList().get(rv.getChildAdapterPosition(child)).getTitle();
                     Intent intent;
 
-                    switch (title)
-                    {
-                        case "Logout": sessionManager.logoutUser(); break;
-                        case "Temp":  intent = new Intent(MainActivity.this, TempMain.class);
-                            startActivity(intent);break;
-                        case "Settings": intent = new Intent(MainActivity.this, SettingsActivity.class);
-                            startActivity(intent);break;
-                        case "Progress": intent = new Intent(MainActivity.this, ActivityProgressMain.class);
-                            startActivity(intent); break;
-                        default:Toast.makeText(MainActivity.this,"The Item Clicked is: "+title,Toast.LENGTH_SHORT).show();
                     switch (title) {
                         case "Logout":
                             sessionManager.logoutUser();
@@ -174,12 +164,16 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                             intent = new Intent(MainActivity.this, SettingsActivity.class);
                             startActivity(intent);
                             break;
+                        case "Progress":
+                            intent = new Intent(MainActivity.this, ActivityProgressMain.class);
+                            startActivity(intent);
+                            break;
                         default:
                             Toast.makeText(MainActivity.this, "The Item Clicked is: " + title, Toast.LENGTH_SHORT).show();
+
+                            return true;
+
                     }
-
-                    return true;
-
                 }
 
                 return false;
