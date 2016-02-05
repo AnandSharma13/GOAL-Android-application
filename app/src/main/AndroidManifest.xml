@@ -72,6 +72,7 @@
         <activity android:name=".Activities.NutritionEntrySelect"/>
         <activity android:name=".Activities.SettingsActivity"/>
         <activity android:name=".Activities.HistoryActivity"/>
+        <activity android:name=".Activities.ActivityProgressMain"/>
 
     </application>
 
