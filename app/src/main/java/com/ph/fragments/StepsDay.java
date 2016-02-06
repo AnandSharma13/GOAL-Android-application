@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.model.DBOperations;
@@ -34,6 +37,7 @@ public class StepsDay extends Fragment {
     private TextView stepsDay;
     private DBOperations dbOperations;
     private DateOperations dateOperations;
+    private GraphView lineGraph;
 
     private OnFragmentInteractionListener mListener;
 
@@ -79,6 +83,21 @@ public class StepsDay extends Fragment {
         int stepsCount = dbOperations.getStepsCount();
         stepsDay = (TextView) v.findViewById(R.id.progress_steps_day_mine);
         stepsDay.setText(String.valueOf(stepsCount));
+
+
+        //Graph Testing
+        GraphView graph = (GraphView) v.findViewById(R.id.progress_steps_day_line);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
+        });
+
+        graph.addSeries(series);
+
+
         return v;
     }
 

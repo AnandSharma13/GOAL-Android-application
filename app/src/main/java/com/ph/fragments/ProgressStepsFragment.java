@@ -87,8 +87,8 @@ public class ProgressStepsFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new StepsDay(), "Week");
-        adapter.addFragment(new StepsWeek(),"Day");
+        adapter.addFragment(new StepsDay(), "Day");
+        adapter.addFragment(new StepsWeek(),"Week");
 
         viewPager.setAdapter(adapter);
     }
