@@ -517,9 +517,30 @@ public class DBOperations {
 
     public int getStepsCount()
     {
+        dateOperations = new DateOperations(context);
         SQLiteDatabase db = dbHandler.getReadableDatabase();
         String query = "select sum(steps_count) from user_steps where timestamp >= date('now', 'start of day','localtime')";
         Cursor cursor = db.rawQuery(query,null);
+        int count = 0;
+        if(cursor.getCount() > 0 && cursor.moveToFirst())
+        {
+            if(cursor.getColumnCount()>0)
+                count = cursor.getInt(0);
+        }
+        db.close();
+        cursor.close();
+        return count;
+    }
+
+    public int getStepsCountForThisWeek()
+    {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        dateOperations = new DateOperations(context);
+        StartEndDateObject startEndDateObject = dateOperations.getDatesForToday();
+        String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
+        String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
+        String query = "select sum(steps_count) from user_steps where timestamp between ? and ?";
+        Cursor cursor = db.rawQuery(query,new String[]{startDate,endDate});
         int count = 0;
         if(cursor.getCount() > 0 && cursor.moveToFirst())
         {

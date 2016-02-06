@@ -4,10 +4,12 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+
 
 import com.ph.R;
 import com.ph.Utils.DateOperations;
@@ -22,6 +24,7 @@ public class ActivityEntryMain extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener datePicker;
     private EditText activityDate;
     private DateOperations dateOperations;
+    private Toolbar toolbar;
 
 
     @Override
@@ -36,6 +39,16 @@ public class ActivityEntryMain extends AppCompatActivity {
         dateOperations = new DateOperations(this);
 
         activityDate.setText(dateOperations.getUniformDateFormat().format(new Date()));
+
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getSupportActionBar().setTitle("Activity Goal");
+
+
 
 
         datePicker = new DatePickerDialog.OnDateSetListener() {

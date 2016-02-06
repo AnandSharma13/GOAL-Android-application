@@ -41,7 +41,6 @@ public class ActivityEntryCreate extends AppCompatActivity {
     private List<Activity> mData;
     private DBOperations dbOperations;
     private String activity_type;
-    private Toolbar toolbar;
     private SeekBar rpeSeekBar;
     private TextView rpeIndicator;
     private SeekBar timeSeekBar;
@@ -52,10 +51,19 @@ public class ActivityEntryCreate extends AppCompatActivity {
     private CheckBox countGoal;
     private String userNotes = "";
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry_create);
+
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         rpeSeekBar = (SeekBar) findViewById(R.id.activity_entry_rpe_seek);
         rpeIndicator = (TextView) findViewById(R.id.rpe_indicator);
@@ -163,10 +171,12 @@ public class ActivityEntryCreate extends AppCompatActivity {
         activity_type = getIntent().getExtras().getString("key");
         date = getIntent().getExtras().getString("date");
 
+        getSupportActionBar().setTitle(activity_type);
 
 
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle(activity_type);
+
+
+
 
 
 

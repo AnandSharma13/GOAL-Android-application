@@ -16,6 +16,8 @@ import com.ph.fragments.ProgressActivityFragment;
 import com.ph.fragments.ProgressNutritionDetails;
 import com.ph.fragments.ProgressNutritionFragment;
 import com.ph.fragments.ProgressStepsFragment;
+import com.ph.fragments.StepsDay;
+import com.ph.fragments.StepsWeek;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ import java.util.List;
 /**
  * Created by Anup on 2/4/2016 .
  */
-public class ActivityProgressMain extends AppCompatActivity implements ProgressActivityFragment.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener {
+public class ActivityProgressMain extends AppCompatActivity implements ProgressActivityFragment.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener , StepsDay.OnFragmentInteractionListener, StepsWeek.OnFragmentInteractionListener{
 
     ViewPager pager;
     TabLayout tabLayout;
@@ -42,7 +44,12 @@ public class ActivityProgressMain extends AppCompatActivity implements ProgressA
         tabLayout.setupWithViewPager(pager);
 
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle("Progress");
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        getSupportActionBar().setTitle("Progress");
 
 
 
