@@ -100,6 +100,15 @@ public class NutritionEntrySelect extends AppCompatActivity {
 
     }
 
+    public void onClickSnack(View view){
+
+        Intent intent = new Intent(NutritionEntrySelect.this, NutritionEntryMain.class);
+        intent.putExtra("NutritionType", "Snack");
+        intent.putExtra("Date", mSqlDateFormatString);
+        startActivityForResult(intent, RESULT_CODE);
+
+    }
+
     public void updateLabel()
     {
         mNutritionEntryDate.setText(mDateOperations.getUniformDateFormat().format(calendar.getTime()));

@@ -29,7 +29,7 @@
             android:orientation="horizontal">
 
             <com.ph.view.CustomProgressBar
-                android:id="@+id/fragment_home_progress_bar_nutrition"
+                android:id="@+id/fragment_next_goal_progress_bar_nutrition"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="150dp"
                 android:layout_height="150dp"

@@ -385,16 +385,17 @@ public class DBOperations {
     }
 
 
-    public Cursor getNutritionDayRecords(String mSqlDateFormatString,String mNutritionType) {
-
+//    public Cursor getNutritionDayRecords(String mSqlDateFormatString,String mNutritionType) {
+    public Cursor getNutritionDayRecords(String mSqlDateFormatString) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         String tableName = NutritionEntry.tableName;
         //TODO implement previous days functionality
-        //  String query = "select SUM(attic_food) as attic_food, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry where DATE(`timestamp`) =date()";
 
-        String query = "select SUM(attic_food) as attic_food, SUM(protein) as protein, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry WHERE date = ? and nutrition_type = ?";
+   //     String query = "select SUM(attic_food) as attic_food, SUM(protein) as protein, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry WHERE date = ? and nutrition_type = ?";
 
-        Cursor cursor = db.rawQuery(query, new String[]{mSqlDateFormatString,mNutritionType});
+        String query = "select SUM(attic_food) as attic_food, SUM(protein) as protein, SUM(dairy) as dairy, SUM(fruit) as fruit, SUM(vegetable) as vegetable, SUM(grain) as grain, SUM(water_intake) as water_intake from nutrition_entry WHERE date = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{mSqlDateFormatString});
 
         cursor.moveToFirst();
         db.close();

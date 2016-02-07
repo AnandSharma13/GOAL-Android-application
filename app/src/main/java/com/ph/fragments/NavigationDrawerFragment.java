@@ -21,9 +21,6 @@ import com.ph.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Anand on 12/26/2016.
- */
 
 public class NavigationDrawerFragment extends Fragment {
 
