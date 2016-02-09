@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list
 xmlns:android="http://schemas.android.com/apk/res/android">
+
+
 <item>
-    <shape android:shape="ring"
+    <shape android:shape="oval"
     android:innerRadiusRatio="2.3"
     android:thickness="3.8sp"
     android:useLevel="false">
-    <solid android:color="@color/gray"/>
+    <solid android:color="@color/white"/>
     </shape>
 </item>
+    <item>
+        <shape android:shape="ring"
+            android:innerRadiusRatio="2.3"
+            android:thickness="3.8sp"
+            android:useLevel="false">
+            <solid android:color="@color/gray"/>
+        </shape>
+    </item>
 <item>
     <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="?android:colorControlHighlight">

@@ -21,12 +21,10 @@
         android:layout_below="@+id/fragment_next_goal_btn_create_Goal"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_weight="1">
 
             <com.ph.view.CustomProgressBar
                 android:id="@+id/fragment_next_goal_progress_bar_nutrition"
@@ -37,16 +35,16 @@
                 android:progress="75"
                 android:clickable="true"
                 android:background="@drawable/ripple"
+                android:layout_centerInParent="true"
                 android:progressDrawable="@drawable/circular"
                 android:secondaryProgress="100" />
-        </LinearLayout>
 
-        <LinearLayout
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_weight="1">
 
             <com.ph.view.CustomProgressBar
                 android:id="@+id/fragment_home_progress_bar_activity"
@@ -57,10 +55,11 @@
                 android:progress="40"
                 android:clickable="true"
                 android:background="@drawable/ripple"
+                android:layout_centerInParent="true"
                 android:progressDrawable="@drawable/circular"
                 android:secondaryProgress="80" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
         <LinearLayout

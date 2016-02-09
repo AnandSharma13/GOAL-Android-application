@@ -19,6 +19,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,14 +52,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private String mParam2;
     private Button insertButton;
     private Button mNewGoalButton;
-    private Button mBtnNext;
+
     private SharedPreferences sharedPreferences;
     private TextView mStepsCount;
     private CustomProgressBar mNutritionProgressBar;
     private CustomProgressBar mActivityProgressBar;
     private DBOperations mDbOperations;
-    private LinearLayout mUserStepsLayout;
-
+    private RelativeLayout mUserStepsLayout;
 
     private OnFragmentInteractionListener mListener;
 
@@ -102,8 +102,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
         mActivityProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_home_progress_bar_activity);
         mNutritionProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_home_progress_bar_nutrition);
-        mStepsCount = (TextView) view.findViewById(R.id.steps_count);
-        mUserStepsLayout = (LinearLayout) view.findViewById(R.id.steps_count_layout);
+        mStepsCount = (TextView) view.findViewById(R.id.fragment_home_tv_steps_count);
+        mUserStepsLayout = (RelativeLayout) view.findViewById(R.id.steps_count_layout);
         mNewGoalButton = (Button) view.findViewById(R.id.btnNewGoal);
 
         //sets up click listeners..
@@ -140,7 +140,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         animation1.start();
         return view;
     }
-
 
 
     public void setBtnClickListeners(){
