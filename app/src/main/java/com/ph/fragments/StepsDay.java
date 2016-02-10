@@ -16,6 +16,8 @@ import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.model.DBOperations;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -80,22 +82,29 @@ public class StepsDay extends Fragment {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_steps_day, container, false);
-        int stepsCount = dbOperations.getStepsCount();
+        int stepsCount = dbOperations.getStepsCountForToday();
         stepsDay = (TextView) v.findViewById(R.id.progress_steps_day_mine);
         stepsDay.setText(String.valueOf(stepsCount));
 
+        ArrayList<Integer> data = dbOperations.getStepsForToday();
 
-        //Graph Testing
+        DataPoint[] dataPointArray = new DataPoint[data.size()];
+
+        for(int i=0;i<data.size();i++)
+        {
+            dataPointArray[i] = new DataPoint(i,data.get(i));
+        }
+
+
         GraphView graph = (GraphView) v.findViewById(R.id.progress_steps_day_line);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-        });
+        if(dataPointArray.length>0) {
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPointArray);
 
-        graph.addSeries(series);
+            series.setDrawDataPoints(true);
+
+
+            graph.addSeries(series);
+        }
 
 
         return v;

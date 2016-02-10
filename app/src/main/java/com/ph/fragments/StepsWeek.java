@@ -9,9 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.model.DBOperations;
+
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +40,7 @@ public class StepsWeek extends Fragment {
     private TextView stepsWeek;
     private DBOperations dbOperations;
     private DateOperations dateOperations;
+    private GraphView barGraph;
 
     private OnFragmentInteractionListener mListener;
 
@@ -78,6 +85,42 @@ public class StepsWeek extends Fragment {
         int stepsCount = dbOperations.getStepsCountForThisWeek();
         stepsWeek = (TextView) v.findViewById(R.id.progress_steps_week_mine);
         stepsWeek.setText(String.valueOf(stepsCount));
+        HashMap<String, Integer> data = dbOperations.getStepsForThisWeek();
+
+        DataPoint[] dataPointArray = new DataPoint[data.size()];
+        int i=0;
+        String[] labels = new String[data.size()];
+        for(String date: data.keySet())
+        {
+
+
+                dataPointArray[i] = new DataPoint(i,data.get(date));
+                labels[i] = date;
+                i++;
+
+        }
+
+
+        barGraph = (GraphView) v.findViewById(R.id.progress_steps_week_bar);
+        if(dataPointArray.length>0) {
+            BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPointArray);
+
+            series.setDrawValuesOnTop(true);
+            series.setSpacing(5);
+
+
+            barGraph.addSeries(series);
+            StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(barGraph);
+            staticLabelsFormatter.setHorizontalLabels(labels);
+
+            barGraph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+            //barGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getContext()));
+           // barGraph.getGridLabelRenderer().setNumHorizontalLabels(data.size());
+        }
+
+
+
+
         return v;
     }
 

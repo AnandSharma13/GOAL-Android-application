@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -175,7 +174,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         });*/
 
-        mStepsCount.setText(String.valueOf(mDbOperations.getStepsCount()));
+        mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
 
 
         mUserStepsLayout.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +216,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                                         SyncUtils.TriggerRefresh(settingsBundle);
 
-                                        mStepsCount.setText(String.valueOf(mDbOperations.getStepsCount()));
+                                        mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
 
                                         Toast.makeText(getActivity(), "Successfully saved the steps count", Toast.LENGTH_SHORT).show();
                                     }
