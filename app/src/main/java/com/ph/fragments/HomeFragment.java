@@ -1,36 +1,29 @@
 package com.ph.fragments;
 
-import android.animation.ObjectAnimator;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ph.Activities.ActivityEntryMain;
-import com.ph.Activities.NewGoal;
-import com.ph.Activities.NutritionEntrySelect;
 import com.ph.R;
-import com.ph.model.DBOperations;
-import com.ph.model.UserGoal;
-import com.ph.model.UserSteps;
-import com.ph.net.SyncUtils;
-import com.ph.view.CustomProgressBar;
+import com.ph.Utils.DateOperations;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,30 +33,24 @@ import com.ph.view.CustomProgressBar;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment implements View.OnClickListener, NewGoalFragment.OnFragmentInteractionListener {
+public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    @Bind(R.id.fragment_new_goal_viewpager) ViewPager mViewPager;
+    public static final int HOME_FRAGMENT_POSITION = 0;
+    public static final int NEWGOAL_FRAGMENT_POSITION = 1;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Button insertButton;
-    private Button mNewGoalButton;
-
-    private SharedPreferences sharedPreferences;
-    private TextView mStepsCount;
-    private CustomProgressBar mNutritionProgressBar;
-    private CustomProgressBar mActivityProgressBar;
-    private DBOperations mDbOperations;
-    private RelativeLayout mUserStepsLayout;
 
     private OnFragmentInteractionListener mListener;
 
     public HomeFragment() {
         // Required empty public constructor
-
     }
 
     /**
@@ -91,185 +78,58 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NewG
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_new_goal, container, false);
+        ButterKnife.bind(this, view);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        mDbOperations = new DBOperations(getContext());
-        View view =  inflater.inflate(R.layout.fragment_home, container, false);
-        mActivityProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_home_progress_bar_activity);
-        mNutritionProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_home_progress_bar_nutrition);
-        mStepsCount = (TextView) view.findViewById(R.id.fragment_home_tv_steps_count);
-        mUserStepsLayout = (RelativeLayout) view.findViewById(R.id.steps_count_layout);
-        mNewGoalButton = (Button) view.findViewById(R.id.btnNewGoal);
+            }
 
-        //sets up click listeners..
-        setBtnClickListeners();
+            @Override
+            public void onPageSelected(int position) {
+                Log.i("selected page\t", String.valueOf(position));
+
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                int operatingWeek;
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                switch (position) {
+                    case HOME_FRAGMENT_POSITION:
+                        operatingWeek = new DateOperations(getContext()).getWeeksTillDate(new Date());
+                        editor.putInt("operating_week", operatingWeek);
+                        editor.commit();
+                        Toast.makeText(getActivity(), "Current week selected", Toast.LENGTH_SHORT).show();
+                        break;
+                    case NEWGOAL_FRAGMENT_POSITION:
+                        operatingWeek = new DateOperations(getContext()).getWeeksTillDate(new Date()) + 1;
+                        editor.putInt("operating_week", operatingWeek);
+                        editor.commit();
+                        Toast.makeText(getContext(), "Next Goal selected", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                Log.i("Page scroller", "page swiped");
+            }
+        });
+
+        setupViewPages(mViewPager);
 
 
-        UserGoal userGoalNutrition = mDbOperations.getCurrentGoalInfo("Nutrition");
-        if(userGoalNutrition == null)
-        {
-            return view;
-        }
-        int  nutritionProgress= mDbOperations.getWeekProgress("Nutrition");
-        mNutritionProgressBar.setText(String.valueOf(nutritionProgress));
-        mNutritionProgressBar.setAim_text("Aim " + String.valueOf(userGoalNutrition.getWeekly_count()));
-        ObjectAnimator animation2 = ObjectAnimator.ofInt(mNutritionProgressBar, "progress", nutritionProgress);
-        animation2.setDuration(5000); //in milliseconds
-        animation2.setInterpolator(new DecelerateInterpolator());
-        animation2.start();
-
-
-        int  activityProgress= mDbOperations.getWeekProgress("Activity");
-
-        mActivityProgressBar.setText(String.valueOf(activityProgress));
-        UserGoal userGoalActivity = mDbOperations.getCurrentGoalInfo("Activity");
-        if(userGoalActivity == null) {
-            mActivityProgressBar.setVisibility(View.GONE);
-            return view;
-        }
-        mActivityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
-
-        ObjectAnimator animation1 = ObjectAnimator.ofInt(mActivityProgressBar, "progress",activityProgress);
-        animation1.setDuration(5000); //in milliseconds
-        animation1.setInterpolator(new DecelerateInterpolator());
-        animation1.start();
         return view;
     }
-
-
-    public void setBtnClickListeners(){
-        mActivityProgressBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),ActivityEntryMain.class);
-                startActivity(intent);
-            }
-        });
-
-        mNutritionProgressBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),NutritionEntrySelect.class);
-                startActivity(intent);
-            }
-        });
-        mNewGoalButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent newGoalIntent = new Intent(getActivity(), NewGoal.class);
-                startActivity(newGoalIntent);
-            }
-        });
-
-/*        mBtnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), TempMain.class);
-                    startActivity(intent);
-                }
-
-        });*/
-
-        mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
-
-
-        mUserStepsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                LayoutInflater li = LayoutInflater.from(getActivity());
-                View dialogView = li.inflate(R.layout.user_steps_input, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                builder.setView(dialogView);
-
-                final EditText userStepsInput = (EditText) dialogView.findViewById(R.id.user_steps_input);
-
-                builder
-                        .setCancelable(false)
-                        .setPositiveButton("Save",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
-
-                                        int steps = Integer.parseInt(userStepsInput.getText().toString());
-
-                                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                                        int user_id = Integer.parseInt(sharedPreferences.getString("user_id", "-1"));
-
-                                        UserSteps userSteps = new UserSteps();
-
-                                        userSteps.setSteps_count(steps);
-                                        userSteps.setUser_id(user_id);
-
-                                        mDbOperations.insertRow(userSteps);
-
-                                        Bundle settingsBundle = new Bundle();
-                                        settingsBundle.putString("Type", "ClientSync");
-
-                                        settingsBundle.putInt("ListSize", 1);
-
-                                        settingsBundle.putString("Table " + 0, UserSteps.tableName);
-
-                                        SyncUtils.TriggerRefresh(settingsBundle);
-
-                                        mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
-
-                                        Toast.makeText(getActivity(), "Successfully saved the steps count", Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                        .setNegativeButton("Cancel",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                // create alert dialog
-                AlertDialog alertDialog = builder.create();
-
-                // show it
-                alertDialog.show();
-
-                final Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-
-                positiveButton.setEnabled(false);
-
-                userStepsInput.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        String val = s.toString();
-
-                        if (val.equals(""))
-                            positiveButton.setEnabled(false);
-                        else
-                            positiveButton.setEnabled(true);
-
-                    }
-                });
-
-
-
-            }
-        });
-
-
-
-
-    }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -277,9 +137,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NewG
             mListener.onFragmentInteraction(uri);
         }
     }
-
-
-
 
     @Override
     public void onAttach(Context context) {
@@ -292,24 +149,52 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NewG
         }
     }
 
-
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+
+    public void setupViewPages(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        adapter.addFragment(new NewGoalFragment(), "Current Goal");
+        adapter.addFragment(new NextGoalFragment(), "Next Goal");
+        viewPager.setAdapter(adapter);
+    }
+
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
 
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
     /**
      * This interface must be implemented by activities that contain this

@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -24,10 +22,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ph.Activities.ActivityProgressMain;
@@ -35,9 +30,9 @@ import com.ph.Activities.HistoryActivity;
 import com.ph.Activities.SettingsActivity;
 import com.ph.Utils.DateOperations;
 import com.ph.fragments.DrawerAdapter;
-import com.ph.fragments.HomeFragment;
-import com.ph.fragments.NavigationDrawerFragment;
 import com.ph.fragments.NewGoalFragment;
+import com.ph.fragments.NavigationDrawerFragment;
+import com.ph.fragments.HomeFragment;
 import com.ph.fragments.NextGoalFragment;
 import com.ph.model.ActivityEntry;
 import com.ph.model.DBOperations;
@@ -48,11 +43,10 @@ import com.ph.net.SessionManager;
 import com.ph.net.SyncUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements NewGoalFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, NewGoalFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener {
 
 
     private Button newGoalButton;
@@ -263,26 +257,7 @@ public class MainActivity extends AppCompatActivity implements NewGoalFragment.O
         //Below code would be move to an appropriate function
         //    CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
 
-//        UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
-//        int  nutritionProgress= dbOperations.getWeekProgress("Nutrition");
-//        nutritionProgressBar.setText(String.valueOf(nutritionProgress));
-//
-//        nutritionProgressBar.setAim_text("Aim "+String.valueOf(userGoalNutrition.getWeekly_count()));
-//        ObjectAnimator animation = ObjectAnimator.ofInt(nutritionProgressBar, "progress", 0, 100);
-//        animation.setDuration(5000);
-//        animation.setInterpolator(new DecelerateInterpolator());
-//        animation.start();
 
-//        CustomProgressBar activityProgressBar = (CustomProgressBar) findViewById(R.id.activityProgressBar);
-//        UserGoal userGoalActivity = dbOperations.getCurrentGoalInfo("Activity");
-//        activityProgressBar.setAim_text("Aim "+String.valueOf(userGoalActivity.getWeekly_count()));
-//        int  activityProgress= dbOperations.getWeekProgress("Activity");
-//        activityProgressBar.setText(String.valueOf(activityProgress));
-
-//        ObjectAnimator animation1 = ObjectAnimator.ofInt(activityProgressBar, "progress", 0, 100);
-//        animation1.setDuration(5000); //in milliseconds
-//        animation1.setInterpolator(new DecelerateInterpolator());
-//        animation1.start();
 
 
         array = new ArrayList<>();
@@ -350,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements NewGoalFragment.O
 //        setupViewPages(mViewPager);
 
 
-        setFragment(new NewGoalFragment());
+        setFragment(new HomeFragment());
 
     }
 
@@ -363,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements NewGoalFragment.O
 
     public void setupViewPages(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new NewGoalFragment(), "Current Goal");
+        adapter.addFragment(new HomeFragment(), "Current Goal");
         adapter.addFragment(new NextGoalFragment(), "Next Goal");
         viewPager.setAdapter(adapter);
     }
