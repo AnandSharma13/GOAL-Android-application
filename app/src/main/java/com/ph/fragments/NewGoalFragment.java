@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -93,7 +95,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         mDbOperations = new DBOperations(getContext());
-        View view =  inflater.inflate(R.layout.fragment_home, container, false);
+        View view =  inflater.inflate(R.layout.fragment_new_goal, container, false);
         mActivityProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_home_progress_bar_activity);
         mNutritionProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_home_progress_bar_nutrition);
         mStepsCount = (TextView) view.findViewById(R.id.fragment_home_tv_steps_count);
@@ -140,8 +142,10 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         mActivityProgressBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),ActivityEntryMain.class);
-                startActivity(intent);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.activity_main_frame_layout,new ActivityEntryMain());
+                fragmentTransaction.commit();
             }
         });
 

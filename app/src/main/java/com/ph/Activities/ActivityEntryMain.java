@@ -3,12 +3,15 @@ package com.ph.Activities;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 
 import com.ph.R;
@@ -18,39 +21,49 @@ import com.ph.Utils.Dateutils;
 import java.util.Calendar;
 import java.util.Date;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-public class ActivityEntryMain extends AppCompatActivity {
+
+public class ActivityEntryMain extends Fragment {
     private Calendar calendar;
     private DatePickerDialog.OnDateSetListener datePicker;
-    private EditText activityDate;
+    @Bind(R.id.activity_entry_date_text_view)
+    EditText activityDate;
     private DateOperations dateOperations;
     private Toolbar toolbar;
+    @Bind(R.id.fragement_activity_entry_main_linear_layout_strength)
+    LinearLayout mLinearLayoutStrength;
+
+    @Bind(R.id.fragement_activity_entry_main_linear_layout_cardio)
+    LinearLayout mLinearLayoutCardio;
+
+    @Bind(R.id.fragement_activity_entry_main_linear_layout_lifestyle)
+    LinearLayout mLinearLayoutLifstyle;
+
+
+
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entry_main);
+        //   setContentView(R.layout.activity_entry_main);
 
         calendar = Calendar.getInstance();
-        activityDate = (EditText) findViewById(R.id.activity_entry_date_text_view);
 
 
-        dateOperations = new DateOperations(this);
+        dateOperations = new DateOperations(getContext());
 
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_entry_main, container, false);
+        ButterKnife.bind(this, view);
         activityDate.setText(dateOperations.getUniformDateFormat().format(new Date()));
-
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
-
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        getSupportActionBar().setTitle("Activity Goal");
-
-
-
-
         datePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -65,17 +78,36 @@ public class ActivityEntryMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(ActivityEntryMain.this, datePicker, calendar
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), datePicker, calendar
                         .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
 
-                Dateutils dateutils = new Dateutils(ActivityEntryMain.this);
+                Dateutils dateutils = new Dateutils(getContext());
                 datePickerDialog = dateutils.setGoalPeriodWeek(datePickerDialog);
                 datePickerDialog.show();
             }
         });
 
+        mLinearLayoutCardio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityClick(v);
+            }
+        });
 
+        mLinearLayoutStrength.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityClick(v);
+            }
+        });
+        mLinearLayoutLifstyle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityClick(v);
+            }
+        });
+        return view;
     }
 
     private void updateLabel() {
@@ -85,18 +117,18 @@ public class ActivityEntryMain extends AppCompatActivity {
 
     public void activityClick(View view) {
 
-        Intent intent = new Intent(ActivityEntryMain.this, ActivityEntryCreate.class);
+        Intent intent = new Intent(getContext(), ActivityEntryCreate.class);
         intent.putExtra("date", dateOperations.getMysqlDateFormat().format(calendar.getTime()));
         switch (view.getId()) {
-            case R.id.cardio_layout:
+            case R.id.fragement_activity_entry_main_linear_layout_cardio:
                 intent.putExtra("key", "Cardio");
                 startActivity(intent);
                 break;
-            case R.id.strength_layout:
+            case R.id.fragement_activity_entry_main_linear_layout_strength:
                 intent.putExtra("key", "Strength");
                 startActivity(intent);
                 break;
-            case R.id.lifestyle_layout:
+            case R.id.fragement_activity_entry_main_linear_layout_lifestyle:
                 intent.putExtra("key", "Lifestyle");
                 startActivity(intent);
                 break;

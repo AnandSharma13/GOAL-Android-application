@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="@color/backgroundColor">
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/app_bar" />
+    android:background="@color/backgroundColor"
+    tools:context=".Activities.ActivityEntryMain">
 
     <LinearLayout
         android:orientation="vertical"
@@ -40,7 +40,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cardio_layout"
+        android:id="@+id/fragement_activity_entry_main_linear_layout_cardio"
         android:background="@color/white"
         android:onClick="activityClick">
 
@@ -58,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/strength_layout"
+        android:id="@+id/fragement_activity_entry_main_linear_layout_strength"
         android:background="@color/gray"
         android:onClick="activityClick">
 
@@ -76,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/lifestyle_layout"
+        android:id="@+id/fragement_activity_entry_main_linear_layout_lifestyle"
         android:background="@color/colorAccent"
         android:onClick="activityClick">
 
