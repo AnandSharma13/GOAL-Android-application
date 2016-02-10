@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:background="@color/backgroundColor"
-    tools:context=".Activities.ActivityEntryMain">
+    tools:context=".fragments.ActivityEntryMainFragment">
 
     <LinearLayout
         android:orientation="vertical"

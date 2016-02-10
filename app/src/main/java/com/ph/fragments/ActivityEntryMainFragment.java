@@ -1,4 +1,4 @@
-package com.ph.Activities;
+package com.ph.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 
+import com.ph.Activities.ActivityEntryCreate;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.Dateutils;
@@ -25,7 +26,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class ActivityEntryMain extends Fragment {
+public class ActivityEntryMainFragment extends Fragment {
     private Calendar calendar;
     private DatePickerDialog.OnDateSetListener datePicker;
     @Bind(R.id.activity_entry_date_text_view)
@@ -48,7 +49,7 @@ public class ActivityEntryMain extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //   setContentView(R.layout.activity_entry_main);
+        //   setContentView(R.layout.fragment_activity_entry_main);
 
         calendar = Calendar.getInstance();
 
@@ -61,7 +62,7 @@ public class ActivityEntryMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_entry_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_activity_entry_main, container, false);
         ButterKnife.bind(this, view);
         activityDate.setText(dateOperations.getUniformDateFormat().format(new Date()));
         datePicker = new DatePickerDialog.OnDateSetListener() {

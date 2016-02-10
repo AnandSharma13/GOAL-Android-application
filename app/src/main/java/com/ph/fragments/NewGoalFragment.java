@@ -24,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ph.Activities.ActivityEntryMain;
 import com.ph.Activities.NewGoal;
 import com.ph.Activities.NutritionEntrySelect;
 import com.ph.R;
@@ -144,7 +143,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.activity_main_frame_layout,new ActivityEntryMain());
+                fragmentTransaction.add(R.id.activity_main_frame_layout,new ActivityEntryMainFragment());
                 fragmentTransaction.commit();
             }
         });
