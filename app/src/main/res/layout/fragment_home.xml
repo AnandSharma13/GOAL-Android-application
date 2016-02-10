@@ -1,148 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:background="@color/home_fragment_layout_steps_count_color">
+
+            <RelativeLayout
+                android:id="@+id/steps_count_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/fragment_home_tv_steps_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="0"
+                    android:textSize="30dp"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_home_tv_steps_count"
+                    android:layout_centerInParent="true"
+                    android:text="Steps Count"
+                    android:textColor="@color/white"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/average_steps_count_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+
+                    android:id="@+id/fragment_home_tv_average_steps_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="- -"
+                    android:textSize="30dp"
+                    android:fontFamily="EurostileRegular"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_home_tv_average_steps_count"
+                    android:layout_centerInParent="true"
+                    android:text="Average steps"
+                    android:fontFamily="EurostileRegular"
+                    android:textColor="@color/white"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/home_nutrition_background_color">
+
+            <com.ph.view.CustomProgressBar
+                android:id="@+id/fragment_home_progress_bar_nutrition"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/home_nutrition_progress_bar_background"
+                android:clickable="true"
+                android:max="100"
+                android:onClick="onNutritionProgressBarClick11"
+                android:progress="0"
+                android:progressDrawable="@drawable/circular" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/fragment_home_progress_bar_nutrition"
+                android:layout_toEndOf="@+id/fragment_home_progress_bar_nutrition"
+                android:text="Nutrition" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/home_activity_background_color">
+
+            <!--style="?android:attr/progressBarStyleHorizontal"-->
+            <com.ph.view.CustomProgressBar
+                android:id="@+id/fragment_home_progress_bar_activity"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/home_activity_progress_bar_background"
+                android:clickable="true"
+                android:max="100"
+                android:onClick="onActivityProgressBarClick"
+                android:progress="0"
+                android:progressDrawable="@drawable/circular" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/fragment_home_progress_bar_activity"
+                android:layout_toEndOf="@+id/fragment_home_progress_bar_activity"
+                android:text="Activity" />
+
+
+        </RelativeLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.2">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:id="@+id/steps_count_layout">
+            android:layout_weight="1.3"
+            android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/fragment_home_tv_steps_count"
-                        android:textSize="30dp"
-                        android:text="0"
-                        android:layout_centerInParent="true"
-                       />
-
-                    <TextView
-                        android:layout_below="@+id/fragment_home_tv_steps_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="Steps Count"
-                         />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/average_steps_count_layout"
-                    android:layout_weight="1">
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                       android:layout_centerInParent="true"
-                        android:id="@+id/fragment_home_tv_average_steps_count"
-                        android:text="- -"
-                        android:textSize="30dp"
-                      />
-                    <TextView
-                        android:layout_below="@+id/fragment_home_tv_average_steps_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="Average steps"
-                      />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/nutrition_background_color">
-
-                <com.ph.view.CustomProgressBar
-                    android:id="@+id/fragment_home_progress_bar_nutrition"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:max="100"
-                    android:clickable="true"
-                    android:progress="0"
-                    android:background="@drawable/ripple"
-                    android:layout_centerInParent="true"
-                    android:onClick="onNutritionProgressBarClick11"
-                    android:progressDrawable="@drawable/circular"
-                     />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nutrition"
-                    android:layout_toEndOf="@+id/fragment_home_progress_bar_nutrition"
-                    android:layout_alignBottom="@+id/fragment_home_progress_bar_nutrition"
-                    />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <!--style="?android:attr/progressBarStyleHorizontal"-->
-                <com.ph.view.CustomProgressBar
-                    android:id="@+id/fragment_home_progress_bar_activity"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:max="100"
-                    android:progress="0"
-                    android:clickable="true"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/ripple"
-                    android:onClick="onActivityProgressBarClick"
-                    android:progressDrawable="@drawable/circular"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Activity"
-                    android:layout_toEndOf="@+id/fragment_home_progress_bar_activity"
-                    android:layout_alignBottom="@+id/fragment_home_progress_bar_activity"/>
-
-
-            </RelativeLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.3"
-                android:orientation="horizontal">
-
-                <Button
+            <Button
                 android:id="@+id/btnNewGoal"
+                style="@style/home_fragment_buttons_theme"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
                 android:onClick="onNewGoalClick"
                 android:text="New Goal"
-                android:layout_centerHorizontal="true" />
-            </LinearLayout>
+                android:backgroundTint="@color/home_fragment_btn_new_goal_color"/>
         </LinearLayout>
+    </LinearLayout>
 
 
-    </RelativeLayout>
+</RelativeLayout>
 
 
 

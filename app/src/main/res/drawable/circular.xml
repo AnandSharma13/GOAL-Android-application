@@ -9,8 +9,8 @@
         android:useLevel="true">
         <gradient
             android:angle="0"
-            android:endColor="#007DD6"
-            android:startColor="#007DD6"
+            android:endColor="@color/home_nutrition_progress_outer_ring_color"
+            android:startColor="@color/white"
             android:type="sweep"
             android:useLevel="false" />
     </shape>

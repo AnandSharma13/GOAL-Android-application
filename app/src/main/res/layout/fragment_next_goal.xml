@@ -34,7 +34,7 @@
                 android:max="100"
                 android:progress="75"
                 android:clickable="true"
-                android:background="@drawable/ripple"
+                android:background="@drawable/home_nutrition_progress_bar_background"
                 android:layout_centerInParent="true"
                 android:progressDrawable="@drawable/circular"
                 android:secondaryProgress="100" />
@@ -54,7 +54,7 @@
                 android:max="100"
                 android:progress="40"
                 android:clickable="true"
-                android:background="@drawable/ripple"
+                android:background="@drawable/home_nutrition_progress_bar_background"
                 android:layout_centerInParent="true"
                 android:progressDrawable="@drawable/circular"
                 android:secondaryProgress="80" />
