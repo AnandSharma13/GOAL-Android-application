@@ -13,6 +13,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +37,7 @@ import com.ph.Utils.DateOperations;
 import com.ph.fragments.DrawerAdapter;
 import com.ph.fragments.HomeFragment;
 import com.ph.fragments.NavigationDrawerFragment;
+import com.ph.fragments.NewGoalFragment;
 import com.ph.fragments.NextGoalFragment;
 import com.ph.model.ActivityEntry;
 import com.ph.model.DBOperations;
@@ -50,12 +52,9 @@ import java.util.Date;
 import java.util.List;
 
 
+public class MainActivity extends AppCompatActivity implements NewGoalFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener {
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener{
 
-    private EditText nameView;
-    private EditText emailView;
-    private Button insertButton;
     private Button newGoalButton;
     private ContentResolver mContentResolver;
     private ArrayList array;
@@ -66,9 +65,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     private SessionManager sessionManager;
     private DateOperations dateOperations;
     private DBOperations dbOperations;
-    private TextView stepsCount;
-    private LinearLayout userStepsLayout;
-    private TabLayout tabLayout;
     private ViewPager mViewPager;
     private RecyclerView mDrawerRecylerView;
 
@@ -80,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     public static final String ACCOUNT_TYPE = "example.com";
     // The account name
     public static final String ACCOUNT = "dummyaccount";
-    public static final int HOME_FRAGMENT_POSITION=0;
-    public static final int NEWGOAL_FRAGMENT_POSITION=1;
+    public static final int HOME_FRAGMENT_POSITION = 0;
+    public static final int NEWGOAL_FRAGMENT_POSITION = 1;
 
     private Toolbar toolbar;
 
@@ -104,8 +100,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         //Check LOGIN status
         sessionManager = new SessionManager(this);
 
-        if(!sessionManager.checkLogin())
-        {
+        if (!sessionManager.checkLogin()) {
             return;
         }
 
@@ -133,7 +128,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
         final GestureDetector drawerGestureDector = new GestureDetector(MainActivity.this, new GestureDetector.SimpleOnGestureListener() {
 
-            @Override public boolean onSingleTapUp(MotionEvent e) {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
                 return true;
             }
 
@@ -146,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                 View child = rv.findChildViewUnder(e.getX(), e.getY());
 
                 if (child != null && drawerGestureDector.onTouchEvent(e)) {
-                   mdrawerLayout.closeDrawers();
+                    mdrawerLayout.closeDrawers();
                     RecyclerView.ViewHolder vh = rv.getChildViewHolder(child);
                     DrawerAdapter drawerAdapter = (DrawerAdapter) rv.getAdapter();
 
@@ -261,13 +257,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         mContentResolver = getContentResolver();
 
 
-
-     //  stepsCount.setText(String.valueOf(dbOperations.getStepsCountForToday()));
-
+        //  stepsCount.setText(String.valueOf(dbOperations.getStepsCountForToday()));
 
 
         //Below code would be move to an appropriate function
-   //    CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
+        //    CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
 
 //        UserGoal userGoalNutrition = dbOperations.getCurrentGoalInfo("Nutrition");
 //        int  nutritionProgress= dbOperations.getWeekProgress("Nutrition");
@@ -291,20 +285,15 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 //        animation1.start();
 
 
-
-
         array = new ArrayList<>();
- //       array.add("Goal Button");
+        //       array.add("Goal Button");
 
 
-
-   //     mHomeListView = (ListView) findViewById(R.id.home_list);
+        //     mHomeListView = (ListView) findViewById(R.id.home_list);
 
 
 //        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.home_list_item, array);
 //        mHomeListView.setAdapter(adapter);
-
-
 
 
 //    mGestureDetector = new GestureDetector(this, new MyGestureDetector(getApplicationContext()));
@@ -320,51 +309,61 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
 
         //new code here
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+//        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+//
+//        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                Log.i("selected page\t", String.valueOf(position));
+//
+//                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//                int operatingWeek;
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//                switch (position) {
+//                    case HOME_FRAGMENT_POSITION:
+//                        operatingWeek = new DateOperations(getApplicationContext()).getWeeksTillDate(new Date());
+//                        editor.putInt("operating_week", operatingWeek);
+//                        editor.commit();
+//                        Toast.makeText(getApplicationContext(), "Current week selected",Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case NEWGOAL_FRAGMENT_POSITION:
+//                        operatingWeek = new DateOperations(getApplicationContext()).getWeeksTillDate(new Date())+1;
+//                        editor.putInt("operating_week", operatingWeek);
+//                        editor.commit();
+//                        Toast.makeText(getApplicationContext(), "Next Goal selected",Toast.LENGTH_SHORT).show();
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//                Log.i("Page scroller", "page swiped");
+//            }
+//        });
+//
+//        setupViewPages(mViewPager);
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
+        setFragment(new NewGoalFragment());
 
-            @Override
-            public void onPageSelected(int position) {
-                Log.i("selected page\t", String.valueOf(position));
+    }
 
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                int operatingWeek;
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+    protected void setFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.activity_main_frame_layout, fragment);
+        fragmentTransaction.commit();
+    }
 
-                switch (position) {
-                    case HOME_FRAGMENT_POSITION:
-                        operatingWeek = new DateOperations(getApplicationContext()).getWeeksTillDate(new Date());
-                        editor.putInt("operating_week", operatingWeek);
-                        editor.commit();
-                        Toast.makeText(getApplicationContext(), "Current week selected",Toast.LENGTH_SHORT).show();
-                        break;
-                    case NEWGOAL_FRAGMENT_POSITION:
-                        operatingWeek = new DateOperations(getApplicationContext()).getWeeksTillDate(new Date())+1;
-                        editor.putInt("operating_week", operatingWeek);
-                        editor.commit();
-                        Toast.makeText(getApplicationContext(), "Next Goal selected",Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                Log.i("Page scroller", "page swiped");
-            }
-        });
-
-        setupViewPages(mViewPager);
-
-}
-
-    public void setupViewPages(ViewPager viewPager){
+    public void setupViewPages(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HomeFragment(), "Current Goal");
+        adapter.addFragment(new NewGoalFragment(), "Current Goal");
         adapter.addFragment(new NextGoalFragment(), "Next Goal");
         viewPager.setAdapter(adapter);
     }
@@ -374,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter{
+    class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -404,7 +403,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         }
 
     }
-
 
 
     /**
@@ -443,22 +441,18 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     }
 
 
-
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        if(!sessionManager.checkLogin())
-        {
+        if (!sessionManager.checkLogin()) {
             return;
         }
 
     }
 
 
-
     //Do not delete this..... Logout of fragments still point here
-    public void activityEntryButtonClick(View view)
-    {
+    public void activityEntryButtonClick(View view) {
         sessionManager.logoutUser();
     }
 
