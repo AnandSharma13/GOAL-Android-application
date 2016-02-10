@@ -66,6 +66,16 @@
                     android:layout_centerInParent="true" />
             </RelativeLayout>
         </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp">
+            <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/progress_steps_week_bar" />
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>

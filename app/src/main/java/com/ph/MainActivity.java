@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 //
 //                                        SyncUtils.TriggerRefresh(settingsBundle);
 //
-//                                        stepsCount.setText(String.valueOf(dbOperations.getStepsCount()));
+//                                        stepsCount.setText(String.valueOf(dbOperations.getStepsCountForToday()));
 //
 //                                        Toast.makeText(MainActivity.this,"Successfully saved the steps count",Toast.LENGTH_SHORT).show();
 //                                    }
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
 
 
-     //  stepsCount.setText(String.valueOf(dbOperations.getStepsCount()));
+     //  stepsCount.setText(String.valueOf(dbOperations.getStepsCountForToday()));
 
 
 
