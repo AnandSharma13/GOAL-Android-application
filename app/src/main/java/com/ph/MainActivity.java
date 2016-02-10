@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                 View child = rv.findChildViewUnder(e.getX(), e.getY());
 
                 if (child != null && drawerGestureDector.onTouchEvent(e)) {
-                    mdrawerLayout.closeDrawers();
+                   mdrawerLayout.closeDrawers();
                     RecyclerView.ViewHolder vh = rv.getChildViewHolder(child);
                     DrawerAdapter drawerAdapter = (DrawerAdapter) rv.getAdapter();
 

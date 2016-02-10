@@ -1,13 +1,16 @@
 package com.ph.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.ph.Activities.NewGoal;
 import com.ph.R;
 
 /**
@@ -23,6 +26,7 @@ public class NextGoalFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private Button nextGoalButton;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,7 +69,17 @@ public class NextGoalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_next_goal, container, false);
+        View v = inflater.inflate(R.layout.fragment_next_goal, container, false);
+
+        nextGoalButton = (Button) v.findViewById(R.id.fragment_next_goal_btn_create_Goal);
+        nextGoalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newGoalIntent = new Intent(getActivity(), NewGoal.class);
+                startActivity(newGoalIntent);
+            }
+        });
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

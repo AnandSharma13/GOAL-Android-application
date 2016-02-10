@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -96,13 +97,17 @@ public class NutritionEntryCreate extends AppCompatActivity {
 
         add(NutritionEntry.tableName);
     }};
+    private Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nutrition_entry_create);
-
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Nutrition Entry");
         mDateOperations = new DateOperations(this);
         mDBOperations = new DBOperations(getApplicationContext());
         mNutritionType= getIntent().getExtras().getString("NutritionType");

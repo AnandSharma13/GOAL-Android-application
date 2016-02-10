@@ -99,7 +99,7 @@
                 android:layout_marginLeft="25px"
                 android:layout_weight="0.85"
                 android:indeterminate="false"
-                android:max="60" />
+                android:max="120" />
         </LinearLayout>
 
     </LinearLayout>

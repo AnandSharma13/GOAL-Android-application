@@ -3,8 +3,8 @@ package com.ph.Activities;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -26,6 +26,7 @@ public class NutritionEntrySelect extends AppCompatActivity {
     private DateOperations mDateOperations;
     private String mSqlDateFormatString;
     static final int RESULT_CODE=1;
+    private android.support.v7.widget.Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +35,10 @@ public class NutritionEntrySelect extends AppCompatActivity {
         mNutritionEntryDate = (EditText) findViewById(R.id.nutrition_entry_select_et_date_picker);
         mDateOperations = new DateOperations(NutritionEntrySelect.this);
         updateLabel();
-
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Nutrition Entry");
         datePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {

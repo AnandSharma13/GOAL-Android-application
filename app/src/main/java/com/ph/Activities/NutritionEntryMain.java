@@ -2,27 +2,24 @@ package com.ph.Activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ph.R;
-import com.ph.Utils.AlertDialogManager;
 import com.ph.Utils.DateOperations;
-import com.ph.Utils.Dateutils;
 import com.ph.model.DBOperations;
 import com.ph.model.UserGoal;
 
@@ -30,7 +27,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -52,12 +48,18 @@ public class NutritionEntryMain extends AppCompatActivity {
     DBOperations dbOperations;
     private TextView mCurrentGoalTv;
     private RadioGroup mGoalRadioGroup;
+    private Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nutrition_entry_main);
+
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Nutrition Entry");
         dbOperations = new DBOperations(getApplicationContext());
         mNutritionType = getIntent().getExtras().getString("NutritionType");
         mGoalRadioGroup = (RadioGroup) findViewById(R.id.nutrition_entry_main_rg_count_towards_goal);
