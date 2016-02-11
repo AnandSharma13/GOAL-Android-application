@@ -330,9 +330,10 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     }
 
     protected void setFragment(Fragment fragment) {
+        String fragmentName = fragment.getClass().getName();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.activity_main_frame_layout, fragment);
+        fragmentTransaction.replace(R.id.activity_main_frame_layout, fragment).setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
         fragmentTransaction.commit();
     }
 
@@ -424,6 +425,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         }
 
     }
+
 
 
     //Do not delete this..... Logout of fragments still point here

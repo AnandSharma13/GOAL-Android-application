@@ -12,9 +12,12 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -47,10 +50,8 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
 
 
 
-    private Button insertButton;
     private Button mNewGoalButton;
 
-    private SharedPreferences sharedPreferences;
     private TextView mStepsCount;
     private CustomProgressBar mNutritionProgressBar;
     private CustomProgressBar mActivityProgressBar;
@@ -133,6 +134,8 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         animation1.setDuration(5000); //in milliseconds
         animation1.setInterpolator(new DecelerateInterpolator());
         animation1.start();
+
+
         return view;
     }
 
@@ -141,9 +144,9 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         mActivityProgressBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = getFragmentManager();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.activity_main_frame_layout,new ActivityEntryMainFragment());
+                fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,android.R.anim.fade_in, android.R.anim.fade_out).add(R.id.activity_main_frame_layout,new ActivityEntryMainFragment()).addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
