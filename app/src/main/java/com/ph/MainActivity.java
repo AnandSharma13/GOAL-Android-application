@@ -14,15 +14,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
+
 import android.widget.Toast;
 
 import com.ph.Activities.ActivityProgressMain;
@@ -34,6 +36,7 @@ import com.ph.fragments.NewGoalFragment;
 import com.ph.fragments.NavigationDrawerFragment;
 import com.ph.fragments.HomeFragment;
 import com.ph.fragments.NextGoalFragment;
+import com.ph.fragments.RewardsFragment;
 import com.ph.model.ActivityEntry;
 import com.ph.model.DBOperations;
 import com.ph.model.NutritionEntry;
@@ -41,18 +44,19 @@ import com.ph.model.User;
 import com.ph.model.UserGoal;
 import com.ph.net.SessionManager;
 import com.ph.net.SyncUtils;
+import com.ph.view.OnBackPressedListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, NewGoalFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, NewGoalFragment.OnFragmentInteractionListener,
+        RewardsFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener {
 
 
     private Button newGoalButton;
     private ContentResolver mContentResolver;
-    private ArrayList array;
-    private ListView mHomeListView;
+
     SharedPreferences sharedPreferences;
     GestureDetector mGestureDetector = null;
     View.OnTouchListener mGestureListener = null;
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     private DBOperations dbOperations;
     private ViewPager mViewPager;
     private RecyclerView mDrawerRecylerView;
+    protected OnBackPressedListener mOnBackPressedListener;
 
 
     // Constants
@@ -72,8 +77,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     public static final String ACCOUNT = "dummyaccount";
     public static final int HOME_FRAGMENT_POSITION = 0;
     public static final int NEWGOAL_FRAGMENT_POSITION = 1;
+    ActionBarDrawerToggle mDrawerToggle;
 
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
 
     //This will go inside the onPerformSync bundle
     public final ArrayList<String> tablesList = new ArrayList<String>() {{
@@ -84,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     }};
 
 
-    DrawerLayout mdrawerLayout;
+    DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,9 +109,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         dbOperations = new DBOperations(this);
 
 
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle("G.O.A.L");
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.app_bar);
+        mToolbar.setTitle("G.O.A.L");
+        setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -113,12 +119,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
 
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
+        drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
 
 
-        mdrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        mDrawerRecylerView = (RecyclerView) mdrawerLayout.findViewById(R.id.drawerList);
+        mDrawerRecylerView = (RecyclerView) mDrawerLayout.findViewById(R.id.drawerList);
 
         final GestureDetector drawerGestureDector = new GestureDetector(MainActivity.this, new GestureDetector.SimpleOnGestureListener() {
 
@@ -129,6 +135,13 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
         });
 
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, mToolbar,
+                R.string.drawer_open, R.string.drawer_close
+        );
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
 
         mDrawerRecylerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
@@ -136,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                 View child = rv.findChildViewUnder(e.getX(), e.getY());
 
                 if (child != null && drawerGestureDector.onTouchEvent(e)) {
-                    mdrawerLayout.closeDrawers();
+                    mDrawerLayout.closeDrawers();
                     RecyclerView.ViewHolder vh = rv.getChildViewHolder(child);
                     DrawerAdapter drawerAdapter = (DrawerAdapter) rv.getAdapter();
 
@@ -158,6 +171,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                         case "History":
                             intent = new Intent(MainActivity.this, HistoryActivity.class);
                             startActivity(intent);
+                            break;
+
+                        case "Reward":
+                            mDrawerToggle.setDrawerIndicatorEnabled(false);
+                            setFragment(new RewardsFragment(), true);
                             break;
                         case "Progress":
                             intent = new Intent(MainActivity.this, ActivityProgressMain.class);
@@ -185,82 +203,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
             }
         });
 
-//        stepsCount = (TextView) findViewById(R.id.steps_count);
-//        userStepsLayout = (LinearLayout) findViewById(R.id.steps_count_layout);
-
-
-//        userStepsLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                LayoutInflater li = LayoutInflater.from(MainActivity.this);
-//                View dialogView = li.inflate(R.layout.user_steps_input, null);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//
-//                builder.setView(dialogView);
-//
-//                final EditText userStepsInput = (EditText) dialogView.findViewById(R.id.user_steps_input);
-//
-//                builder
-//                        .setCancelable(false)
-//                        .setPositiveButton("Save",
-//                                new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog,int id) {
-//                                        int steps = Integer.parseInt(userStepsInput.getText().toString());
-//
-//                                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-//                                        int user_id = Integer.parseInt(sharedPreferences.getString("user_id", "-1"));
-//
-//                                        UserSteps userSteps = new UserSteps();
-//
-//                                        userSteps.setSteps_count(steps);
-//                                        userSteps.setUser_id(user_id);
-//
-//                                        dbOperations.insertRow(userSteps);
-//
-//                                        Bundle settingsBundle = new Bundle();
-//                                        settingsBundle.putString("Type", "ClientSync");
-//
-//                                        settingsBundle.putInt("ListSize", 1);
-//
-//                                        settingsBundle.putString("Table " + 0, UserSteps.tableName);
-//
-//                                        SyncUtils.TriggerRefresh(settingsBundle);
-//
-//                                        stepsCount.setText(String.valueOf(dbOperations.getStepsCountForToday()));
-//
-//                                        Toast.makeText(MainActivity.this,"Successfully saved the steps count",Toast.LENGTH_SHORT).show();
-//                                    }
-//                                })
-//                        .setNegativeButton("Cancel",
-//                                new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        dialog.cancel();
-//                                    }
-//                                });
-//                // create alert dialog
-//                AlertDialog alertDialog = builder.create();
-//
-//                // show it
-//                alertDialog.show();
-//
-//            }
-//        });
-
-        SyncUtils.CreateSyncAccount(this);
+    SyncUtils.CreateSyncAccount(this);
         mContentResolver = getContentResolver();
 
 
-        //  stepsCount.setText(String.valueOf(dbOperations.getStepsCountForToday()));
 
-
-        //Below code would be move to an appropriate function
-        //    CustomProgressBar nutritionProgressBar = (CustomProgressBar) findViewById(R.id.nutritionProgressBar);
-
-
-
-
-        array = new ArrayList<>();
         //       array.add("Goal Button");
 
 
@@ -325,24 +272,24 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 //        setupViewPages(mViewPager);
 
 
-        setFragment(new HomeFragment());
+        setFragment(new HomeFragment() ,false);
 
     }
 
-    protected void setFragment(Fragment fragment) {
+    protected void setFragment(Fragment fragment, boolean isNavigationDrawerItem) {
         String fragmentName = fragment.getClass().getName();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activity_main_frame_layout, fragment).setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+
+        if(isNavigationDrawerItem)
+            fragmentTransaction.add(R.id.activity_main_frame_layout, fragment).addToBackStack(fragmentName);
+        else
+            fragmentTransaction.replace(R.id.activity_main_frame_layout, fragment);
+
+        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         fragmentTransaction.commit();
     }
 
-    public void setupViewPages(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HomeFragment(), "Current Goal");
-        adapter.addFragment(new NextGoalFragment(), "Next Goal");
-        viewPager.setAdapter(adapter);
-    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -416,6 +363,17 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         return newAccount;
     }
 
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener){
+        this.mOnBackPressedListener = onBackPressedListener;
+    }
+
+    @Override
+    public void onBackPressed() {
+       if(mOnBackPressedListener!=null && getSupportFragmentManager().getBackStackEntryCount()!=0)
+           mOnBackPressedListener.onBackPress();
+        else
+            super.onBackPressed();
+    }
 
     @Override
     protected void onResumeFragments() {
@@ -426,7 +384,17 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
 
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     //Do not delete this..... Logout of fragments still point here
     public void activityEntryButtonClick(View view) {
