@@ -6,9 +6,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
-/**
- * Created by Anand on 1/3/2016.
- */
+
 public class CustomProgressBar extends ProgressBar{
 
     private String text ="";

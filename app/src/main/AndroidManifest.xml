@@ -77,7 +77,7 @@
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".Activities.SettingsActivity"/>
         <activity android:name=".Activities.HistoryActivity"/>
-        <activity android:name=".Activities.ActivityProgressMain"
+        <activity android:name=".Activities.FragmentProgressMain"
             android:parentActivityName=".MainActivity"/>
 
     </application>

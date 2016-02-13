@@ -1,8 +1,6 @@
 package com.ph.view;
 
-/**
- * Created by Anup on 2/4/2016 .
- */
+
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;

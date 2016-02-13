@@ -10,9 +10,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-/**
- * Created by Anand on 1/5/2016.
- */
+
 public class ImageHandler {
 
     public  static byte[] getImageByteArray(URL url) throws IOException {

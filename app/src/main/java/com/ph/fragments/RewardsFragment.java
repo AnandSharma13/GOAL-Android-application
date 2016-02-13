@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -71,6 +70,8 @@ public class RewardsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Activity activity = getActivity();
+        ((MainActivity) activity).setOnBackPressedListener(new BaseBackPressedListener(activity));
+
         return inflater.inflate(R.layout.fragment_rewards, container, false);
     }
 
@@ -80,7 +81,6 @@ public class RewardsFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-
 
 
 
