@@ -12,12 +12,9 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -96,7 +93,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
 
         mDbOperations = new DBOperations(getContext());
         View view =  inflater.inflate(R.layout.fragment_new_goal, container, false);
-        mActivityProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_home_progress_bar_activity);
+        mActivityProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_next_goal_progress_bar_activity);
         mNutritionProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_home_progress_bar_nutrition);
         mStepsCount = (TextView) view.findViewById(R.id.fragment_home_tv_steps_count);
         mUserStepsLayout = (RelativeLayout) view.findViewById(R.id.steps_count_layout);

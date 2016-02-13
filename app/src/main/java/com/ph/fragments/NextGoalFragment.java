@@ -2,6 +2,11 @@ package com.ph.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.RippleDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,9 +14,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.ph.Activities.NewGoal;
 import com.ph.R;
+import com.ph.view.CustomProgressBar;
+import com.ph.view.ImageHandler;
+import com.ph.view.PieProgressBar;
+
+import java.io.InputStream;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +43,10 @@ public class NextGoalFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private Button nextGoalButton;
+    @Bind(R.id.fragment_next_goal_progress_bar_nutrition)
+    ImageView iv;
+    @Bind(R.id.fragment_next_goal_progress_bar_activity)
+    ProgressBar customProgressBar;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -68,8 +88,19 @@ public class NextGoalFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_next_goal, container, false);
+        ButterKnife.bind(this, v);
+        PieProgressBar p = new PieProgressBar();
+        RippleDrawable rippledImage = new
+                RippleDrawable(ColorStateList.valueOf(Color.RED), p, null);
+        p.onLevelChange(50);
+        iv.setImageDrawable(p);
+
+
+
+      //  iv.setBackground(new PieProgressBar());
 
         nextGoalButton = (Button) v.findViewById(R.id.fragment_next_goal_btn_create_Goal);
         nextGoalButton.setOnClickListener(new View.OnClickListener() {
