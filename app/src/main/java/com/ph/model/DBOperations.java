@@ -521,7 +521,7 @@ public class DBOperations {
     {
         dateOperations = new DateOperations(context);
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        String query = "select sum(steps_count) from user_steps where timestamp >= date('now', 'start of day','localtime')";
+        String query = "select sum(steps_count) from user_steps where date(timestamp) = date('now','localtime')";
         Cursor cursor = db.rawQuery(query, null);
         int count = 0;
         if(cursor.getCount() > 0 && cursor.moveToFirst())
@@ -561,7 +561,7 @@ public class DBOperations {
         String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
         String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        String query = "select sum(steps_count), date(timestamp) as date_timestamp from user_steps where timestamp between date('"+startDate+"', 'start of day','localtime') and date('"+endDate+"', 'start of day','localtime') group by date_timestamp order by date_timestamp";
+        String query = "select sum(steps_count), date(timestamp) as date_timestamp from user_steps where timestamp between date('"+startDate+"') and date('"+endDate+"') group by date_timestamp order by date_timestamp";
         Cursor cursor = db.rawQuery(query, null);
 
         if(cursor.moveToFirst()) {
@@ -580,7 +580,7 @@ public class DBOperations {
         ArrayList<Integer> userStepsArray = new ArrayList<>();
         dateOperations = new DateOperations(context);
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        String query = "select steps_count from user_steps where timestamp >= date('now', 'start of day', 'localtime')";
+        String query = "select steps_count from user_steps where date(timestamp) = date('now','localtime')";
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()) {
             do {
@@ -599,7 +599,7 @@ public class DBOperations {
         StartEndDateObject startEndDateObject = dateOperations.getDatesForToday();
         String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
         String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
-        String query = "select sum(steps_count) from user_steps where timestamp between ? and ?";
+        String query = "select sum(steps_count) from user_steps where date(timestamp) between ? and ?";
         Cursor cursor = db.rawQuery(query,new String[]{startDate,endDate});
         int count = 0;
         if(cursor.getCount() > 0 && cursor.moveToFirst())

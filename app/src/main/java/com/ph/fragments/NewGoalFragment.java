@@ -145,6 +145,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,android.R.anim.fade_in, android.R.anim.fade_out).add(R.id.activity_main_frame_layout,new ActivityEntryMainFragment()).addToBackStack(null);
                 fragmentTransaction.commit();
+
             }
         });
 
