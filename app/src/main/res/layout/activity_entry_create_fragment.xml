@@ -3,11 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1">
-
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/app_bar" />
+    android:weightSum="1"
+    android:clickable="true"
+    android:background="@color/backgroundColor">
 
     <LinearLayout
         android:layout_width="match_parent"

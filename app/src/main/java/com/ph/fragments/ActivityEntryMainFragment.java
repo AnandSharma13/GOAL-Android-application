@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 
-import com.ph.Activities.ActivityEntryCreate;
 import com.ph.MainActivity;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
@@ -131,20 +129,22 @@ public class ActivityEntryMainFragment extends Fragment {
 
     public void activityClick(View view) {
 
-        Intent intent = new Intent(getContext(), ActivityEntryCreate.class);
-        intent.putExtra("date", dateOperations.getMysqlDateFormat().format(calendar.getTime()));
+        Intent intent = new Intent(getContext(), ActivityEntryCreateFragment.class);
+        String date= dateOperations.getMysqlDateFormat().format(calendar.getTime());
+        Fragment fragment;
         switch (view.getId()) {
             case R.id.fragement_activity_entry_main_linear_layout_cardio:
                 intent.putExtra("key", "Cardio");
-                startActivity(intent);
+                fragment = ActivityEntryCreateFragment.newInstance("Cardio", date);
+                ((MainActivity) getActivity()).setFragment(fragment, false);
                 break;
             case R.id.fragement_activity_entry_main_linear_layout_strength:
-                intent.putExtra("key", "Strength");
-                startActivity(intent);
+                fragment = ActivityEntryCreateFragment.newInstance("Strength", date);
+                ((MainActivity) getActivity()).setFragment(fragment, false);
                 break;
             case R.id.fragement_activity_entry_main_linear_layout_lifestyle:
-                intent.putExtra("key", "Lifestyle");
-                startActivity(intent);
+                fragment = ActivityEntryCreateFragment.newInstance("Lifestyle", date);
+                ((MainActivity) getActivity()).setFragment(fragment, false);
                 break;
         }
     }

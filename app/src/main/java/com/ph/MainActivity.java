@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Check LOGIN status
-        sessionManager = new SessionManager(this);
 
+       //Check LOGIN status
+        sessionManager = new SessionManager(this);
         if (!sessionManager.checkLogin()) {
             return;
         }
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
             @Override
             public void onClick(View v) {
 
-                if (getSupportFragmentManager().getBackStackEntryCount() >= 0 && !getmDrawerToggle().isDrawerIndicatorEnabled()) {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 1 && !getmDrawerToggle().isDrawerIndicatorEnabled()) {
                     onBackPressed();
                 }
 
@@ -199,17 +199,17 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
     }
 
 
-    protected void setFragment(Fragment fragment, boolean isNavigationDrawerItem) {
+    public void setFragment(Fragment fragment, boolean isNavigationDrawerItem) {
         String fragmentName = fragment.getClass().getName();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if (isNavigationDrawerItem) {
-            while (fragmentManager.getBackStackEntryCount() != 0)
+            while (fragmentManager.getBackStackEntryCount() != 1)
                 fragmentManager.popBackStackImmediate();
             fragmentTransaction.add(R.id.activity_main_frame_layout, fragment).addToBackStack(fragmentName);
         } else
-            fragmentTransaction.replace(R.id.activity_main_frame_layout, fragment);
+            fragmentTransaction.add(R.id.activity_main_frame_layout, fragment).addToBackStack(fragmentName);
 
         fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         fragmentTransaction.commit();
@@ -229,13 +229,14 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
     @Override
     public void onBackPressed() {
-        if (mOnBackPressedListener != null && getSupportFragmentManager().getBackStackEntryCount() > 1)
+        if (mOnBackPressedListener != null && getSupportFragmentManager().getBackStackEntryCount() > 2)
             mOnBackPressedListener.onBackPress();
-        else if (mOnBackPressedListener != null && getSupportFragmentManager().getBackStackEntryCount() == 1) {
+        else if (mOnBackPressedListener != null && getSupportFragmentManager().getBackStackEntryCount() == 2) {
             getmDrawerToggle().setDrawerIndicatorEnabled(true);
             mOnBackPressedListener.onBackPress();
-        } else
-            super.onBackPressed();
+        } else{
+                super.finish();
+        }
     }
 
     @Override

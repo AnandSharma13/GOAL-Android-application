@@ -70,7 +70,7 @@
             android:parentActivityName=".Activities.NutritionEntrySelect"/>
         <activity android:name=".fragments.ActivityEntryMainFragment"
             android:parentActivityName=".MainActivity"/>
-        <activity android:name=".Activities.ActivityEntryCreate"
+        <activity android:name=".fragments.ActivityEntryCreateFragment"
             android:parentActivityName=".fragments.ActivityEntryMainFragment"/>
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.NutritionEntrySelect"

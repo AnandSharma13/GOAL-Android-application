@@ -1,15 +1,15 @@
-package com.ph.Activities;
+package com.ph.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ph.Adapters.ActivityViewAdapter;
-import com.ph.MainActivity;
 import com.ph.R;
 import com.ph.Utils.AlertDialogManager;
 import com.ph.model.Activity;
@@ -29,58 +28,68 @@ import com.ph.net.SyncUtils;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Anup on 1/16/2016.
  */
-public class ActivityEntryCreate extends AppCompatActivity {
+public class ActivityEntryCreateFragment extends Fragment {
 
-    private RecyclerView mRecyclerView;
+    @Bind(R.id.activity_recycler_view) RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     private ActivityViewAdapter activityViewAdapter;
-    private List<Activity> mData;
+    public List<Activity> mData;
     private DBOperations dbOperations;
-    private String activity_type;
-    private SeekBar rpeSeekBar;
-    private TextView rpeIndicator;
-    private SeekBar timeSeekBar;
-    private TextView timeIndicator;
-    private Button saveButton;
-    private Button commentButton;
-    private String date;
-    private CheckBox countGoal;
+    public static String activity_type = "";
+    @Bind(R.id.activity_entry_rpe_seek)
+    SeekBar rpeSeekBar;
+    @Bind(R.id.rpe_indicator)
+    TextView rpeIndicator;
+    @Bind(R.id.activity_entry_time_seek)
+    SeekBar timeSeekBar;
+    @Bind(R.id.time_indicator)
+    TextView timeIndicator;
+    @Bind(R.id.activity_entry_save)
+    Button saveButton;
+    @Bind(R.id.activity_entry_comment)
+    Button commentButton;
+    private static String date = "";
+    @Bind(R.id.activity_entry_count_goal)
+    CheckBox countGoal;
     private String userNotes = "";
 
     private Toolbar toolbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entry_create);
 
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        if (getArguments() != null) {
+            activity_type = getArguments().getString("ACTIVITY_TYPE");
+            date = getArguments().getString("DATE");
+        }
 
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
 
-        rpeSeekBar = (SeekBar) findViewById(R.id.activity_entry_rpe_seek);
-        rpeIndicator = (TextView) findViewById(R.id.rpe_indicator);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        timeSeekBar = (SeekBar) findViewById(R.id.activity_entry_time_seek);
-        timeIndicator = (TextView) findViewById(R.id.time_indicator);
-        countGoal = (CheckBox) findViewById(R.id.activity_entry_count_goal);
 
-        commentButton = (Button) findViewById(R.id.activity_entry_comment);
+        View view = inflater.inflate(R.layout.activity_entry_create_fragment,container,false);
+        ButterKnife.bind(this,view);
+
+
 
 
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayoutInflater li = LayoutInflater.from(ActivityEntryCreate.this);
+                LayoutInflater li = LayoutInflater.from(getContext());
                 View dialogView = li.inflate(R.layout.activity_entry_comment, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(ActivityEntryCreate.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
                 builder.setView(dialogView);
 
@@ -90,7 +99,7 @@ public class ActivityEntryCreate extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         userNotes = notes.getText().toString();
                                     }
                                 })
@@ -110,9 +119,9 @@ public class ActivityEntryCreate extends AppCompatActivity {
         });
 
 
-        saveButton = (Button) findViewById(R.id.activity_entry_save);
 
-        if(rpeSeekBar.getProgress() ==0 || timeSeekBar.getProgress() ==0)
+
+        if (rpeSeekBar.getProgress() == 0 || timeSeekBar.getProgress() == 0)
             saveButton.setEnabled(false);
         //Set Onchange listeners...
 
@@ -120,7 +129,7 @@ public class ActivityEntryCreate extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 rpeIndicator.setText(String.valueOf(progress));
-                if(progress>0 && timeSeekBar.getProgress()>0)
+                if (progress > 0 && timeSeekBar.getProgress() > 0)
                     saveButton.setEnabled(true);
                 else
                     saveButton.setEnabled(false);
@@ -141,7 +150,7 @@ public class ActivityEntryCreate extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 timeIndicator.setText(String.valueOf(progress));
-                if(progress>0 && rpeSeekBar.getProgress()>0)
+                if (progress > 0 && rpeSeekBar.getProgress() > 0)
                     saveButton.setEnabled(true);
                 else
                     saveButton.setEnabled(false);
@@ -158,37 +167,27 @@ public class ActivityEntryCreate extends AppCompatActivity {
             }
         });
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.activity_recycler_view);
+
 
         mRecyclerView.setHasFixedSize(true);
 
-        dbOperations = new DBOperations(this);
+        dbOperations = new DBOperations(getContext());
 
-        layoutManager = new GridLayoutManager(this,3);
+        layoutManager = new GridLayoutManager(getContext(), 3);
 
         mRecyclerView.setLayoutManager(layoutManager);
 
-        activity_type = getIntent().getExtras().getString("key");
-        date = getIntent().getExtras().getString("date");
-
-        getSupportActionBar().setTitle(activity_type);
-
-
-
-
-
+        // activity_type = getIntent().getExtras().getString("key");
+        // date = getIntent().getExtras().getString("date");
 
 
 
         mData = dbOperations.getActivities(activity_type);
-        activityViewAdapter = new ActivityViewAdapter(this, mData);
+        activityViewAdapter = new ActivityViewAdapter(getContext(), mData);
         adapter = activityViewAdapter;
 
 
-
         mRecyclerView.setAdapter(adapter);
-
-
 
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -203,13 +202,12 @@ public class ActivityEntryCreate extends AppCompatActivity {
 
 
                 UserGoal userGoal = dbOperations.getCurrentGoalInfo("Activity");
-                if(userGoal == null)
-                {
+                if (userGoal == null) {
                     AlertDialogManager alertDialogManager = new AlertDialogManager();
-                    alertDialogManager.showAlertDialog(ActivityEntryCreate.this,"No Goal found!","There was no goal created for this week. Please create a goal before you enter any activity.");
+                    alertDialogManager.showAlertDialog(getContext(), "No Goal found!", "There was no goal created for this week. Please create a goal before you enter any activity.");
                     return;
                 }
-                int countasGoal = countGoal.isChecked()?1:0;
+                int countasGoal = countGoal.isChecked() ? 1 : 0;
                 activityEntry.setGoal_id(userGoal.getGoal_id());
                 activityEntry.setActivity_id(activityId);
                 activityEntry.setCount_towards_goal(countasGoal);
@@ -232,18 +230,28 @@ public class ActivityEntryCreate extends AppCompatActivity {
                 SyncUtils.TriggerRefresh(settingsBundle);
 
                 //Notify the user.
-                Toast.makeText(ActivityEntryCreate.this,"Activity Entry succesfully recorded",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Activity Entry succesfully recorded", Toast.LENGTH_SHORT).show();
 
                 //Redirect to main activity.
-                Intent i = new Intent(ActivityEntryCreate.this, MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                ActivityEntryCreate.this.startActivity(i);
+//                Intent i = new Intent(ActivityEntryCreateFragment.this, MainActivity.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                ActivityEntryCreateFragment.this.startActivity(i);
 
 
             }
         });
 
 
+        return view;
+    }
 
+
+    public static ActivityEntryCreateFragment newInstance(String param1, String param2) {
+        ActivityEntryCreateFragment fragment = new ActivityEntryCreateFragment();
+        Bundle args = new Bundle();
+        args.putString("ACTIVITY_TYPE", param1);
+        args.putString("DATE", param2);
+        fragment.setArguments(args);
+        return fragment;
     }
 }

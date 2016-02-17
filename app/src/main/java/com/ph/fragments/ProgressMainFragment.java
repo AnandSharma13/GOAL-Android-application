@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ph.MainActivity;
 import com.ph.R;
 import com.ph.fragments.ProgressActivityDetails;
 import com.ph.fragments.ProgressActivityFragment;
@@ -20,6 +21,7 @@ import com.ph.fragments.ProgressNutritionFragment;
 import com.ph.fragments.ProgressStepsFragment;
 import com.ph.fragments.StepsDay;
 import com.ph.fragments.StepsWeek;
+import com.ph.view.BaseBackPressedListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,7 @@ public class ProgressMainFragment extends Fragment implements ProgressActivityFr
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_progress_main, container, false);
         ButterKnife.bind(this, view);
-
+        ((MainActivity) getActivity()).setOnBackPressedListener(new BaseBackPressedListener(getActivity()));
         setupViewPager(pager);
         mTabLayout.setupWithViewPager(pager);
         return view;
