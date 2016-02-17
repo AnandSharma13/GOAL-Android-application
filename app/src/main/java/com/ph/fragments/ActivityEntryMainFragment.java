@@ -1,9 +1,12 @@
 package com.ph.fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +18,11 @@ import android.widget.LinearLayout;
 
 
 import com.ph.Activities.ActivityEntryCreate;
+import com.ph.MainActivity;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.Dateutils;
+import com.ph.view.BaseBackPressedListener;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +46,7 @@ public class ActivityEntryMainFragment extends Fragment {
 
     @Bind(R.id.fragement_activity_entry_main_linear_layout_lifestyle)
     LinearLayout mLinearLayoutLifstyle;
+    ActionBarDrawerToggle mDrawerToggle;
 
 
 
@@ -51,7 +57,6 @@ public class ActivityEntryMainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //   setContentView(R.layout.fragment_activity_entry_main);
 
         calendar = Calendar.getInstance();
 
@@ -67,6 +72,12 @@ public class ActivityEntryMainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_activity_entry_main, container, false);
         ButterKnife.bind(this, view);
         activityDate.setText(dateOperations.getUniformDateFormat().format(new Date()));
+        ((MainActivity) getActivity()).setOnBackPressedListener(new BaseBackPressedListener(getActivity()));
+
+        Activity app = getActivity();
+        mDrawerToggle =((MainActivity) app).getmDrawerToggle();
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
+
         datePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {

@@ -18,7 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ph.Activities.FragmentProgressMain;
+import com.ph.fragments.ProgressMainFragment;
 import com.ph.Activities.HistoryActivity;
 import com.ph.Activities.SettingsActivity;
 import com.ph.fragments.DrawerAdapter;
@@ -40,7 +40,7 @@ import com.ph.view.OnBackPressedListener;
 
 
 public class MainActivity extends AppCompatActivity implements SettingsActivity.OnFragmentInteractionListener, NewGoalFragment.OnFragmentInteractionListener,
-        RewardsFragment.OnFragmentInteractionListener, StepsWeek.OnFragmentInteractionListener, StepsDay.OnFragmentInteractionListener,ProgressStepsFragment.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener, FragmentProgressMain.OnFragmentInteractionListener,ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressActivityFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener {
+        RewardsFragment.OnFragmentInteractionListener, StepsWeek.OnFragmentInteractionListener, StepsDay.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener, ProgressMainFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressActivityFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener {
 
 
     private SessionManager sessionManager;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
     public static final int HOME_FRAGMENT_POSITION = 0;
     public static final int NEWGOAL_FRAGMENT_POSITION = 1;
-    ActionBarDrawerToggle mDrawerToggle;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     private Toolbar mToolbar;
 
@@ -97,39 +97,38 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
         });
 
-        mDrawerToggle = new ActionBarDrawerToggle(
+        setmDrawerToggle(new ActionBarDrawerToggle(
                 this, mDrawerLayout, mToolbar,
-                R.string.drawer_open, R.string.drawer_close){
+                R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
-                mDrawerToggle.setDrawerIndicatorEnabled(true);
                 super.onDrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                mDrawerToggle.setDrawerIndicatorEnabled(false);
                 super.onDrawerOpened(drawerView);
             }
-        };
+        });
 
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
+        mDrawerLayout.setDrawerListener(getmDrawerToggle());
+        getmDrawerToggle().syncState();
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    mDrawerToggle.setDrawerIndicatorEnabled(true);
+                if (getSupportFragmentManager().getBackStackEntryCount() >= 0 && !getmDrawerToggle().isDrawerIndicatorEnabled()) {
+                    onBackPressed();
+                }
+
+                else if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
 
                 } else {
-                    mDrawerToggle.setDrawerIndicatorEnabled(false);
                     mDrawerLayout.openDrawer(Gravity.LEFT);
                 }
-
             }
         });
 
@@ -169,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
                             setFragment(new RewardsFragment(), true);
                             break;
                         case "Progress":
-                            setFragment(new FragmentProgressMain(), true);
+                            setFragment(new ProgressMainFragment(), true);
                             break;
                         default:
                             Toast.makeText(MainActivity.this, "The Item Clicked is: " + title, Toast.LENGTH_SHORT).show();
@@ -205,13 +204,14 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if (isNavigationDrawerItem)
+        if (isNavigationDrawerItem) {
+            while (fragmentManager.getBackStackEntryCount() != 0)
+                fragmentManager.popBackStackImmediate();
             fragmentTransaction.add(R.id.activity_main_frame_layout, fragment).addToBackStack(fragmentName);
-        else
+        } else
             fragmentTransaction.replace(R.id.activity_main_frame_layout, fragment);
 
         fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        //TODO: work on Fragment.detach()
         fragmentTransaction.commit();
     }
 
@@ -222,8 +222,6 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
     }
 
 
-
-
     public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
         this.mOnBackPressedListener = onBackPressedListener;
     }
@@ -231,9 +229,12 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
     @Override
     public void onBackPressed() {
-        if (mOnBackPressedListener != null && getSupportFragmentManager().getBackStackEntryCount() != 0)
+        if (mOnBackPressedListener != null && getSupportFragmentManager().getBackStackEntryCount() > 1)
             mOnBackPressedListener.onBackPress();
-        else
+        else if (mOnBackPressedListener != null && getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            getmDrawerToggle().setDrawerIndicatorEnabled(true);
+            mOnBackPressedListener.onBackPress();
+        } else
             super.onBackPressed();
     }
 
@@ -244,5 +245,13 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
             return;
         }
 
+    }
+
+    public ActionBarDrawerToggle getmDrawerToggle() {
+        return mDrawerToggle;
+    }
+
+    public void setmDrawerToggle(ActionBarDrawerToggle mDrawerToggle) {
+        this.mDrawerToggle = mDrawerToggle;
     }
 }

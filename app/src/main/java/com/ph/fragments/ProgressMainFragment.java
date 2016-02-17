@@ -1,4 +1,4 @@
-package com.ph.Activities;
+package com.ph.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -28,7 +28,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class FragmentProgressMain extends Fragment implements ProgressActivityFragment.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener , StepsDay.OnFragmentInteractionListener, StepsWeek.OnFragmentInteractionListener{
+public class ProgressMainFragment extends Fragment implements ProgressActivityFragment.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener , StepsDay.OnFragmentInteractionListener, StepsWeek.OnFragmentInteractionListener{
 
     @Bind(R.id.fragment_progress_view_pager) ViewPager pager;
     @Bind(R.id.fragment_progress_main_tab_layout_tabs)TabLayout mTabLayout;

@@ -10,7 +10,10 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
+
+import com.ph.R;
 
 
 /**
@@ -28,10 +31,14 @@ public class PieProgressBar extends Drawable {
         this.mDrawTo = mDrawTo;
     }
 
+    int mProgressBarBackGround = 0;
+    int mProgressBarOuterRing = 0;
     float mDrawTo;
 
-    public PieProgressBar() {
+    public PieProgressBar(int mProgressBarBackGround, int mProgressBarOuterRing) {
         super();
+        this.mProgressBarBackGround = mProgressBarBackGround;
+        this.mProgressBarOuterRing = mProgressBarOuterRing;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     }
 
@@ -53,18 +60,23 @@ public class PieProgressBar extends Drawable {
 
         canvas.rotate(-90f, getBounds().centerX(), getBounds().centerY());
         mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(5.0f);
+        mPaint.setColor(mProgressBarOuterRing);
         canvas.drawOval(mBoundsF, mPaint);
+
+        //canvas.drawArc(mBoundsF, START_ANGLE, mDrawTo, true, mPaint);
+        mPaint.setColor(mProgressBarBackGround);
+
         mPaint.setStyle(Paint.Style.FILL);
         canvas.drawArc(mInnerBoundsF, START_ANGLE, mDrawTo, true, mPaint);
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        mPaint.setShader(new RadialGradient(canvas.getWidth() / 2, canvas.getHeight() / 2,
-                canvas.getHeight() / 3, Color.TRANSPARENT, Color.BLACK, Shader.TileMode.MIRROR));
+//        mPaint.setShader(new RadialGradient(canvas.getWidth() / 2, canvas.getHeight() / 2,
+//                canvas.getHeight() / 3, Color.TRANSPARENT, Color.BLACK, Shader.TileMode.MIRROR));
 
 
         String text = "0";
         String aim_text = "AIM TEXT";
         Paint textPaint = new Paint();
-
 
 
         int xCenter = (canvas.getWidth() / 2);
@@ -74,14 +86,12 @@ public class PieProgressBar extends Drawable {
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(80);
         canvas.rotate(90, xCenter, yCenter);
-        textPaint.setColor(Color.RED);
-
 
 
         Rect rec = new Rect();
         mBoundsF.round(rec);
 
-        drawTextCentred(canvas, textPaint,rec,text.toCharArray(),xCenter,yCenter);
+        drawTextCentred(canvas, textPaint, rec, text.toCharArray(), xCenter, yCenter);
 
         Paint aimTextPaint = new Paint();
         aimTextPaint.setColor(Color.BLUE);
@@ -91,8 +101,8 @@ public class PieProgressBar extends Drawable {
         canvas.restore();
     }
 
-    public void drawTextCentred(Canvas canvas, Paint paint,Rect textBounds, char[] text, float cx, float cy){
-        paint.getTextBounds(text, 0,text.length, textBounds);
+    public void drawTextCentred(Canvas canvas, Paint paint, Rect textBounds, char[] text, float cx, float cy) {
+        paint.getTextBounds(text, 0, text.length, textBounds);
         canvas.drawText(String.valueOf(text), cx, cy - textBounds.exactCenterY(), paint);
     }
 

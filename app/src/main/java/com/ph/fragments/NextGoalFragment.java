@@ -1,5 +1,6 @@
 package com.ph.fragments;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -10,9 +11,11 @@ import android.graphics.drawable.RippleDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -92,15 +95,27 @@ public class NextGoalFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_next_goal, container, false);
         ButterKnife.bind(this, v);
-        PieProgressBar p = new PieProgressBar();
+
+
+        PieProgressBar p = new PieProgressBar(ContextCompat.getColor(getContext(), R.color.home_nutrition_progress_bar_background),ContextCompat.getColor(getContext(), R.color.home_nutrition_progress_outer_ring_color) );
         RippleDrawable rippledImage = new
                 RippleDrawable(ColorStateList.valueOf(Color.RED), p, null);
-        p.onLevelChange(50);
+        p.onLevelChange(10);
         iv.setImageDrawable(p);
+        iv.setImageLevel(80);
+
+        ObjectAnimator animation1 = ObjectAnimator.ofInt(iv, "progress",0, 80);
+        animation1.setDuration(5000); //in milliseconds
+        animation1.setInterpolator(new DecelerateInterpolator());
+        animation1.start();
 
 
 
-      //  iv.setBackground(new PieProgressBar());
+
+        //  iv.setBackground(new PieProgressBar());
+
+        p.setLevel(80);
+        customProgressBar.setProgressDrawable(p);
 
         nextGoalButton = (Button) v.findViewById(R.id.fragment_next_goal_btn_create_Goal);
         nextGoalButton.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +128,7 @@ public class NextGoalFragment extends Fragment {
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

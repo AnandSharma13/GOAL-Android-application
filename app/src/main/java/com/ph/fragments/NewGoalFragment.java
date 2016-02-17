@@ -127,6 +127,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         }
         mActivityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
 
+
         ObjectAnimator animation1 = ObjectAnimator.ofInt(mActivityProgressBar, "progress",activityProgress);
         animation1.setDuration(5000); //in milliseconds
         animation1.setInterpolator(new DecelerateInterpolator());

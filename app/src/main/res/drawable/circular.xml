@@ -7,12 +7,14 @@
         android:shape="ring"
         android:thickness="3.8sp"
         android:useLevel="true">
-        <gradient
-            android:angle="0"
-            android:endColor="@color/home_nutrition_progress_outer_ring_color"
-            android:startColor="@color/white"
-            android:type="sweep"
-            android:useLevel="false" />
+      <solid android:color="@color/colorPrimaryDark"></solid>
+        <!--<gradient-->
+            <!--android:angle="0"-->
+            <!--android:endColor="@color/home_nutrition_progress_bar_background"-->
+            <!--android:startColor="@color/white"-->
+            <!--android:type="sweep"-->
+            <!--android:useLevel="true" />-->
+
     </shape>
 </rotate>
 

@@ -14,7 +14,10 @@ public class BaseBackPressedListener implements OnBackPressedListener {
 
     @Override
     public void onBackPress() {
+
         ((AppCompatActivity) mActivity).getSupportFragmentManager().popBackStack();
+
+
     }
 
 

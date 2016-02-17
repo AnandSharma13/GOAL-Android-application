@@ -2,7 +2,11 @@ package com.ph.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
@@ -25,13 +29,15 @@ public class CustomProgressBar extends ProgressBar{
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         Paint textPaint = new Paint();
+
         int width = this.getMeasuredWidth()/2;
         int height = this.getMeasuredHeight()/2;
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(45);
         canvas.drawText(text, width, height, textPaint);
-
+        
         Paint aimTextPaint = new Paint();
         int wh = this.getMeasuredWidth()/2;
         int ht = this.getMeasuredHeight()*3/4;
@@ -52,6 +58,8 @@ public class CustomProgressBar extends ProgressBar{
     public CustomProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
+
 
     public CustomProgressBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);

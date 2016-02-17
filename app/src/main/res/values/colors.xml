@@ -14,6 +14,7 @@
     <color name="focused_color">#ffffff</color>
     <color name="home_nutrition_background_color">#2DF5D2</color>
     <color name="home_nutrition_progress_outer_ring_color">#00DAB4</color>
+    <color name="home_nutrition_progress_bar_background">#DBEAE7</color>
     <color name="home_activity_background_color">#FFCD1B</color>
     <color name="home_activity_progress_outer_ring_color">#FFA500</color>
     <color name="home_fragment_btn_new_goal_color">#F55369</color>
