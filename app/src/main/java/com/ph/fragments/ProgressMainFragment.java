@@ -14,13 +14,6 @@ import android.view.ViewGroup;
 
 import com.ph.MainActivity;
 import com.ph.R;
-import com.ph.fragments.ProgressActivityDetails;
-import com.ph.fragments.ProgressActivityFragment;
-import com.ph.fragments.ProgressNutritionDetails;
-import com.ph.fragments.ProgressNutritionFragment;
-import com.ph.fragments.ProgressStepsFragment;
-import com.ph.fragments.StepsDay;
-import com.ph.fragments.StepsWeek;
 import com.ph.view.BaseBackPressedListener;
 
 import java.util.ArrayList;
@@ -54,7 +47,7 @@ public class ProgressMainFragment extends Fragment implements ProgressActivityFr
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new ProgressActivityFragment(), "Activity");
         adapter.addFragment(new ProgressNutritionFragment(), "Nutrition");
         adapter.addFragment(new ProgressStepsFragment(), "User Steps");

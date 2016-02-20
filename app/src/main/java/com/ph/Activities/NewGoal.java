@@ -1,5 +1,6 @@
 package com.ph.Activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,7 +13,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.ph.MainActivity;
 import com.ph.R;
+import com.ph.Utils.AlertDialogManager;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.StartEndDateObject;
 import com.ph.model.Activity;
@@ -49,6 +52,9 @@ public class NewGoal extends AppCompatActivity {
     int prefsActCount;
     String prefsActText;
 
+    private Button pastGoalNutrition;
+    private Button pastGoalActivity;
+
 
 
     int userId,operatingWeek,currentWeek;
@@ -79,6 +85,27 @@ public class NewGoal extends AppCompatActivity {
 
         dateOperations = new DateOperations(this);
         dbOperations = new DBOperations(this);
+
+
+        pastGoalActivity = (Button) findViewById(R.id.past_goal_activity);
+        pastGoalNutrition = (Button) findViewById(R.id.past_goal_nutrition);
+
+        pastGoalActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialogManager alertDialogManager = new AlertDialogManager();
+                alertDialogManager.showPastGoalsDialog(NewGoal.this,"Use Past Goals","Activity");
+            }
+        });
+
+        pastGoalNutrition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialogManager alertDialogManager = new AlertDialogManager();
+                alertDialogManager.showPastGoalsDialog(NewGoal.this,"Use Past Goals","Nutrition");
+            }
+        });
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         //Get the operating week of the program. It could be the current or period or the next one. Known bug: operating_week is not reset. Change the
@@ -112,7 +139,7 @@ public class NewGoal extends AppCompatActivity {
         {
             prefsActCount = currentActivityGoal.getWeekly_count();
             prefsActText = currentActivityGoal.getText();
-            int tempActCount = prefsActCount,tens,ones,hundreds,temp;
+            /*int tempActCount = prefsActCount,tens,ones,hundreds,temp;
             hundreds = tempActCount/100;
             temp = tempActCount %100;
             tens = temp/10;
@@ -121,8 +148,8 @@ public class NewGoal extends AppCompatActivity {
             mEditActGoalHundreds.setText(String.valueOf(hundreds));
             mEditActGoalTens.setText(String.valueOf(tens));
             mEditActGoalOnes.setText(String.valueOf(ones));
-            mEditActGoalText.setText(prefsActText);
-
+            mEditActGoalText.setText(prefsActText);*/
+            setValues(prefsActCount,prefsActText,"Activity");
 
         }
 
@@ -141,40 +168,44 @@ public class NewGoal extends AppCompatActivity {
             prefsNutCount = currentNutritionGoal.getWeekly_count();
             prefsNutText = currentNutritionGoal.getText();
 
-            int tens,ones;
+            /*int tens,ones;
 
             tens = prefsNutCount/10;
             ones = prefsNutCount%10;
 
             mEditNutGoalTens.setText(String.valueOf(tens));
             mEditNutGoalOnes.setText(String.valueOf(ones));
-            mEditNutGoalText.setText(prefsNutText);
+            mEditNutGoalText.setText(prefsNutText);*/
+
+            setValues(prefsNutCount,prefsNutText,"Nutrition");
         }
 
+    }
 
+    public void setValues(int count,String text,String type) {
+        if (type == "Nutrition") {
+            int tens,ones;
 
+            tens = count/10;
+            ones = count%10;
 
-//
-//        if (prefNutCount != -1 || !prefsNutText.equals("")) {
-//            int prefsNutTens = prefNutCount / 10;
-//            int prefNutOnes = prefNutCount % 10;
-//            mEditNutGoalOnes.setText(prefNutOnes);
-//            mEditNutGoalTens.setText(prefsNutTens);
-//            mEditActGoalText.setText(prefsNutText);
-//        }
-//
-//        int prefActCount = prefs.getInt("activity_goal_count", -1);
-//        String prefsActText = prefs.getString("activity_goal_text", "");
-//        if (prefActCount != -1 || !prefsActText.equals("")) {
-//            int prefActHundreds = prefActCount / 100;
-//            int prefActTens = (prefActCount % 100) / 10;
-//            int prefsActOnes = (prefActCount % 100) % 10;
-//            mEditActGoalOnes.setText(prefsActOnes);
-//            mEditActGoalTens.setText(prefActTens);
-//            mEditActGoalHundreds.setText(prefActHundreds);
-//            mEditActGoalText.setText(prefsActText);
-//        }
+            mEditNutGoalTens.setText(String.valueOf(tens));
+            mEditNutGoalOnes.setText(String.valueOf(ones));
+            mEditNutGoalText.setText(text);
+        }
+        else if (type == "Activity") {
+            int tempActCount = count,tens,ones,hundreds,temp;
+            hundreds = tempActCount/100;
+            temp = tempActCount %100;
+            tens = temp/10;
+            ones = temp%10;
 
+            mEditActGoalHundreds.setText(String.valueOf(hundreds));
+            mEditActGoalTens.setText(String.valueOf(tens));
+            mEditActGoalOnes.setText(String.valueOf(ones));
+            mEditActGoalText.setText(text);
+
+        }
     }
 
     public void onRandomClick(View view) throws ParseException {
@@ -238,7 +269,12 @@ public class NewGoal extends AppCompatActivity {
 
         }
         Toast.makeText(NewGoal.this,"Changes Saved",Toast.LENGTH_SHORT).show();
-        finish();
+
+       // Redirect to main activity.
+                Intent i = new Intent(NewGoal.this, MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+
     }
 
     public long insertGoal(UserGoal goal, View view) throws ParseException {

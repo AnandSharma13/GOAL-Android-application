@@ -73,7 +73,8 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Use past Goals" />
+                    android:text="Use past Goals"
+                    android:id="@+id/past_goal_nutrition" />
             </LinearLayout>
 
         </LinearLayout>
@@ -157,7 +158,8 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Use past Goals" />
+                    android:text="Use past Goals"
+                    android:id="@+id/past_goal_activity" />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout

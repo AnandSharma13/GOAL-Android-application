@@ -43,7 +43,7 @@ public class HistoryActivity extends AppCompatActivity implements NutritionHisto
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new NutritionHistoryFragment(), "Nutrition");
         adapter.addFragment(new ActivityHistoryFragment(), "Activity");
-        adapter.addFragment(new StepsHistoryFragment(), "Steps");
+        adapter.addFragment(new StepsHistoryFragment(), "Goal");
         viewPager.setAdapter(adapter);
     }
 

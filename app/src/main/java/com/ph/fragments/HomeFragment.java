@@ -157,6 +157,10 @@ public class HomeFragment extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
         adapter.addFragment(new NewGoalFragment(), "Current Goal");
         adapter.addFragment(new NextGoalFragment(), "Next Goal");
+        //Proposed....
+        /*DateOperations dateOperations = new DateOperations(getContext());
+        adapter.addFragment(NewGoalFragment.newInstance(dateOperations.getWeeksTillDate(new Date())), "Current Goal");
+        adapter.addFragment(NewGoalFragment.newInstance((dateOperations.getWeeksTillDate(new Date())+1)), "Next Goal");*/
         viewPager.setAdapter(adapter);
     }
 

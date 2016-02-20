@@ -474,6 +474,9 @@ public class DBOperations {
             {
                 //Get it from the Database.
                 UserGoal currentGoal = getuserGoalFromDB(type, currentWeek);
+
+                if(currentGoal == null)
+                    return null;
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
 
@@ -497,6 +500,8 @@ public class DBOperations {
             {
                 //Get it from the Database.
                 UserGoal currentGoal = getuserGoalFromDB(type, currentWeek);
+                if(currentGoal == null)
+                    return null;
                 String nutritionUserGoal = gson.toJson(currentGoal);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("current_nutrition_goal", nutritionUserGoal); //stored as json.
@@ -634,6 +639,14 @@ public class DBOperations {
         db.close();
         cursor.close();
         return userGoal;
+    }
+
+    public Cursor getPastGoalsCursor(String type)
+    {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        String query = "select goal_id as _id, weekly_count, text, (weekly_count || ' - ' || text) as display_text from user_goal where type='"+type+"'";
+        Cursor cursor = db.rawQuery(query,null);
+        return cursor;
     }
 
     public java.sql.Date getSqlDate(String date) {

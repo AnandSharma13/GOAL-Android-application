@@ -84,6 +84,7 @@ public class ServerSync {
                 nutritionEntry.setWater_intake(row.getInt(NutritionEntry.column_waterintake));
                 nutritionEntry.setNotes(row.getString(NutritionEntry.column_notes));
                 //nutritionEntry.setImage(row.getInt(NutritionEntry.column_image)));
+                nutritionEntry.setDate(row.getString(NutritionEntry.column_date));
                 nutritionEntry.setIs_sync(1);
                 long id = dbOperations.insertRow(nutritionEntry);
 

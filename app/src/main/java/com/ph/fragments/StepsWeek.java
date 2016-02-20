@@ -4,19 +4,24 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
+import com.ph.Utils.StepsCountClick;
 import com.ph.model.DBOperations;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -43,6 +48,7 @@ public class StepsWeek extends Fragment {
     private GraphView barGraph;
 
     private OnFragmentInteractionListener mListener;
+    private RelativeLayout stepsLayout;
 
     public StepsWeek() {
         // Required empty public constructor
@@ -84,19 +90,31 @@ public class StepsWeek extends Fragment {
         View v = inflater.inflate(R.layout.fragment_steps_week, container, false);
         int stepsCount = dbOperations.getStepsCountForThisWeek();
         stepsWeek = (TextView) v.findViewById(R.id.progress_steps_week_mine);
+
+        stepsLayout = (RelativeLayout) v.findViewById(R.id.steps_week_relative_layout);
+
+        stepsLayout.setOnClickListener(new StepsCountClick(getActivity(),stepsWeek));
+
         stepsWeek.setText(String.valueOf(stepsCount));
         HashMap<String, Integer> data = dbOperations.getStepsForThisWeek();
 
         DataPoint[] dataPointArray = new DataPoint[data.size()];
         int i=0;
-        String[] labels = new String[data.size()];
+        final String[] labels = new String[data.size()];
         for(String date: data.keySet())
         {
 
+            try {
+                Date definedDate = dateOperations.getMysqlDateFormat().parse(date);
 
-                dataPointArray[i] = new DataPoint(i,data.get(date));
+                //dataPointArray[i] = new DataPoint(definedDate,data.get(date));
+                dataPointArray[i] = new DataPoint(i,data.get(date)); //TODO: Dates as labels
                 labels[i] = date;
                 i++;
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e("StepsWeek","Date parsing failed");
+            }
 
         }
 
@@ -110,12 +128,20 @@ public class StepsWeek extends Fragment {
 
 
             barGraph.addSeries(series);
-            StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(barGraph);
-            staticLabelsFormatter.setHorizontalLabels(labels);
+            NumberFormat nf = NumberFormat.getInstance();
+            nf.setMinimumFractionDigits(3);
+            nf.setMinimumIntegerDigits(2);
 
-            barGraph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
-            //barGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getContext()));
-           // barGraph.getGridLabelRenderer().setNumHorizontalLabels(data.size());
+         /*   barGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+            barGraph.getGridLabelRenderer().setNumHorizontalLabels(data.size());
+            try {
+                barGraph.getViewport().setMinX(dateOperations.getMysqlDateFormat().parse(labels[0]).getTime());
+                barGraph.getViewport().setMaxX(dateOperations.getMysqlDateFormat().parse(labels[labels.length - 1]).getTime());
+                barGraph.getViewport().setXAxisBoundsManual(true);
+            }catch (ParseException p)
+            {
+                p.printStackTrace();
+            }*/
         }
 
 

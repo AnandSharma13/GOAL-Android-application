@@ -1,36 +1,27 @@
 package com.ph.fragments;
 
 import android.animation.ObjectAnimator;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ph.Activities.NewGoal;
 import com.ph.Activities.NutritionEntrySelect;
 import com.ph.R;
+import com.ph.Utils.StepsCountClick;
 import com.ph.model.DBOperations;
 import com.ph.model.UserGoal;
-import com.ph.model.UserSteps;
-import com.ph.net.SyncUtils;
 import com.ph.view.CustomProgressBar;
 
 /**
@@ -42,8 +33,6 @@ import com.ph.view.CustomProgressBar;
  * create an instance of this fragment.
  */
 public class NewGoalFragment extends Fragment implements View.OnClickListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
 
 
@@ -54,7 +43,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
     private CustomProgressBar mActivityProgressBar;
     private DBOperations mDbOperations;
     private RelativeLayout mUserStepsLayout;
-
+    private int weekNumber;
     private OnFragmentInteractionListener mListener;
 
     public NewGoalFragment() {
@@ -66,16 +55,15 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment NewGoalFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NewGoalFragment newInstance(String param1, String param2) {
+    public static NewGoalFragment newInstance(int weekNumber) {
         NewGoalFragment fragment = new NewGoalFragment();
         Bundle args = new Bundle();
 
         fragment.setArguments(args);
+        fragment.weekNumber = weekNumber;
         return fragment;
     }
 
@@ -103,10 +91,22 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         setBtnClickListeners();
 
 
-        UserGoal userGoalNutrition = mDbOperations.getCurrentGoalInfo("Nutrition");
-        if(userGoalNutrition == null)
-        {
+//        UserGoal userGoalNutrition = mDbOperations.getCurrentGoalInfo("Nutrition");
+//        UserGoal userGoalActivity = mDbOperations.getCurrentGoalInfo("Activity");
+
+        UserGoal userGoalNutrition = mDbOperations.getuserGoalFromDB("Nutrition",weekNumber);
+        UserGoal userGoalActivity = mDbOperations.getuserGoalFromDB("Activity",weekNumber);
+
+
+        if(userGoalActivity == null || userGoalNutrition == null) {
+            mActivityProgressBar.setVisibility(View.INVISIBLE);
+            mNutritionProgressBar.setVisibility(View.INVISIBLE);
             return view;
+        }
+        else
+        {
+            mActivityProgressBar.setVisibility(View.VISIBLE);
+            mNutritionProgressBar.setVisibility(View.VISIBLE);
         }
         int  nutritionProgress= mDbOperations.getWeekProgress("Nutrition");
         mNutritionProgressBar.setText(String.valueOf(nutritionProgress));
@@ -120,11 +120,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         int  activityProgress= mDbOperations.getWeekProgress("Activity");
 
         mActivityProgressBar.setText(String.valueOf(activityProgress));
-        UserGoal userGoalActivity = mDbOperations.getCurrentGoalInfo("Activity");
-        if(userGoalActivity == null) {
-            mActivityProgressBar.setVisibility(View.GONE);
-            return view;
-        }
+
         mActivityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
 
 
@@ -169,7 +165,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
 
 
-        mUserStepsLayout.setOnClickListener(new View.OnClickListener() {
+        /*mUserStepsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -256,7 +252,8 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-
+*/
+        mUserStepsLayout.setOnClickListener(new StepsCountClick(getActivity(),mStepsCount));
     }
 
 

@@ -18,21 +18,24 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ph.fragments.ProgressMainFragment;
-import com.ph.Activities.HistoryActivity;
 import com.ph.Activities.SettingsActivity;
+import com.ph.fragments.ActivityHistoryFragment;
 import com.ph.fragments.DrawerAdapter;
+import com.ph.fragments.HistoryMainFragment;
 import com.ph.fragments.HomeFragment;
 import com.ph.fragments.NavigationDrawerFragment;
 import com.ph.fragments.NewGoalFragment;
 import com.ph.fragments.NextGoalFragment;
+import com.ph.fragments.NutritionHistoryFragment;
 import com.ph.fragments.ProgressActivityDetails;
 import com.ph.fragments.ProgressActivityFragment;
+import com.ph.fragments.ProgressMainFragment;
 import com.ph.fragments.ProgressNutritionDetails;
 import com.ph.fragments.ProgressNutritionFragment;
 import com.ph.fragments.ProgressStepsFragment;
 import com.ph.fragments.RewardsFragment;
 import com.ph.fragments.StepsDay;
+import com.ph.fragments.StepsHistoryFragment;
 import com.ph.fragments.StepsWeek;
 import com.ph.net.SessionManager;
 import com.ph.net.SyncUtils;
@@ -40,7 +43,7 @@ import com.ph.view.OnBackPressedListener;
 
 
 public class MainActivity extends AppCompatActivity implements SettingsActivity.OnFragmentInteractionListener, NewGoalFragment.OnFragmentInteractionListener,
-        RewardsFragment.OnFragmentInteractionListener, StepsWeek.OnFragmentInteractionListener, StepsDay.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener, ProgressMainFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressActivityFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener {
+        RewardsFragment.OnFragmentInteractionListener, StepsWeek.OnFragmentInteractionListener, StepsDay.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener, ProgressMainFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressActivityFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener, HistoryMainFragment.OnFragmentInteractionListener, ActivityHistoryFragment.OnFragmentInteractionListener,NutritionHistoryFragment.OnFragmentInteractionListener,StepsHistoryFragment.OnFragmentInteractionListener {
 
 
     private SessionManager sessionManager;
@@ -159,8 +162,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
                             setFragment(new SettingsActivity(), true);
                             break;
                         case "History":
-                            intent = new Intent(MainActivity.this, HistoryActivity.class);
-                            startActivity(intent);
+                            setFragment(new HistoryMainFragment(), true);
                             break;
 
                         case "Reward":
