@@ -81,9 +81,11 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
         mToolbar.setTitle("G.O.A.L");
         setSupportActionBar(mToolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayShowCustomEnabled(true);
+        }
 
 
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -247,9 +249,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        if (!sessionManager.checkLogin()) {
-            return;
-        }
+        sessionManager.checkLogin();
 
     }
 
