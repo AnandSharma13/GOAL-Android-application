@@ -7,8 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ph.R;
+import com.ph.Utils.DateOperations;
+import com.ph.model.DBOperations;
+import com.ph.model.UserGoal;
+
+import java.util.Date;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,10 +30,18 @@ import com.ph.R;
 public class GoalHistoryDetails extends Fragment {
 
     private static final String ARG_PARAM1 = "week";
-    private int weekNumber;
+    private int weekNumber=-1;
+    @Bind(R.id.goal_history_activity_info)
+    TextView activityGoalInfo;
+    @Bind(R.id.goal_history_nutrition_info)
+    TextView nutritionGoalInfo;
 
 
     private OnFragmentInteractionListener mListener;
+    private DateOperations dateOperations;
+    private DBOperations dbOperations;
+    private UserGoal activityInfo;
+    private UserGoal nutritionInfo;
 
     public GoalHistoryDetails() {
         // Required empty public constructor
@@ -35,7 +52,6 @@ public class GoalHistoryDetails extends Fragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment GoalHistoryDetails.
      */
-    // TODO: Rename and change types and number of parameters
     public static GoalHistoryDetails newInstance(int week) {
         GoalHistoryDetails fragment = new GoalHistoryDetails();
         Bundle args = new Bundle();
@@ -50,13 +66,40 @@ public class GoalHistoryDetails extends Fragment {
         if (getArguments() != null) {
             weekNumber = getArguments().getInt(ARG_PARAM1);
         }
+        dateOperations = new DateOperations(getContext());
+        dbOperations = new DBOperations(getContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_goal_history_details, container, false);
+        View v = inflater.inflate(R.layout.fragment_goal_history_details, container, false);
+
+        ButterKnife.bind(this,v);
+
+        if(weekNumber == -1)
+            weekNumber = dateOperations.getWeeksTillDate(new Date());
+
+        activityInfo = dbOperations.getuserGoalFromDB("Activity",weekNumber);
+        nutritionInfo = dbOperations.getuserGoalFromDB("Nutrition",weekNumber);
+
+        activityGoalInfo.setText(getFormattedGoalInfoText(activityInfo));
+        nutritionGoalInfo.setText(getFormattedGoalInfoText(nutritionInfo));
+
+
+        return v;
+    }
+
+    private String getFormattedGoalInfoText(UserGoal obj)
+    {
+        if(obj == null)
+            return "";
+        String text = obj.getText();
+        if(text.equals(""))
+            return  String.valueOf(obj.getWeekly_count());
+        else
+            return obj.getWeekly_count()+" - "+obj.getText();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

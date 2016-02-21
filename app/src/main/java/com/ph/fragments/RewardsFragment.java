@@ -1,6 +1,5 @@
 package com.ph.fragments;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;

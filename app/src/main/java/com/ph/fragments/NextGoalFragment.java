@@ -4,8 +4,6 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.RippleDrawable;
 import android.net.Uri;
@@ -17,17 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.ph.Activities.NewGoal;
 import com.ph.R;
-import com.ph.view.CustomProgressBar;
-import com.ph.view.ImageHandler;
 import com.ph.view.PieProgressBar;
-
-import java.io.InputStream;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
