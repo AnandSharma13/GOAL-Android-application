@@ -4,11 +4,24 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.ph.Adapters.ViewPagerAdapter;
 import com.ph.R;
+import com.ph.Utils.DateOperations;
+import com.ph.view.NonSwipeableViewPager;
+import com.ph.view.WeekNavigateButtonClickListener;
+import com.ph.view.WeekNavigatePageChangeListener;
+
+import java.util.Date;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,14 +32,14 @@ import com.ph.R;
  * create an instance of this fragment.
  */
 public class NutritionHistoryFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    @Bind(R.id.viewpager_history_nutrition)
+    NonSwipeableViewPager viewPager;
+    private DateOperations dateOperations;
+    @Bind(R.id.week_number_display)
+    TextView weekTitle;
+    @Bind(R.id.week_next)
+    Button prev;
+    @Bind(R.id.week_prev) Button next;
 
     private OnFragmentInteractionListener mListener;
 
@@ -46,8 +59,6 @@ public class NutritionHistoryFragment extends Fragment {
     public static NutritionHistoryFragment newInstance(String param1, String param2) {
         NutritionHistoryFragment fragment = new NutritionHistoryFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,20 +66,42 @@ public class NutritionHistoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nutrition_history, container, false);
+       View v = inflater.inflate(R.layout.fragment_nutrition_history, container, false);
+
+        ButterKnife.bind(this, v);
+
+        prev.setOnClickListener(new WeekNavigateButtonClickListener(viewPager));
+        next.setOnClickListener(new WeekNavigateButtonClickListener(viewPager));
+
+        setupViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new WeekNavigatePageChangeListener(weekTitle, viewPager));
+        return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager()
+        );
+
+        dateOperations = new DateOperations(getContext());
+
+        int week = dateOperations.getWeeksTillDate(new Date());
+
+        for(int i=0;i<=week;i++)
+        {
+            adapter.addFragment(NutritionHistoryDetails.newInstance(i), "Week " + (i + 1));
+        }
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(week);
+
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

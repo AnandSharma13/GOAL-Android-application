@@ -89,7 +89,7 @@ public class HistoryMainFragment extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new NutritionHistoryFragment(), "Nutrition");
         adapter.addFragment(new ActivityHistoryFragment(), "Activity");
-        adapter.addFragment(new StepsHistoryFragment(), "Goal");
+        adapter.addFragment(new GoalHistoryFragment(), "Goal");
         viewPager.setAdapter(adapter);
     }
 

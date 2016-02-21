@@ -9,7 +9,7 @@
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:text="&lt;"
-        android:id="@+id/progress_activity_details_prev"
+        android:id="@+id/week_prev"
         android:layout_alignParentStart="false"
         android:layout_alignParentEnd="false"
         android:layout_alignBaseline="@+id/week_number_display"
@@ -28,7 +28,7 @@
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:text=">"
-        android:id="@+id/progress_activity_details_next"
+        android:id="@+id/week_next"
         android:layout_alignParentEnd="true"
         android:layout_alignBaseline="@+id/week_number_display"
         android:layout_marginRight="30dp" />

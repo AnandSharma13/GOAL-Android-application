@@ -11,13 +11,13 @@ import android.os.Bundle;
 
 import com.ph.R;
 import com.ph.fragments.ActivityHistoryFragment;
+import com.ph.fragments.GoalHistoryFragment;
 import com.ph.fragments.NutritionHistoryFragment;
-import com.ph.fragments.StepsHistoryFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryActivity extends AppCompatActivity implements NutritionHistoryFragment.OnFragmentInteractionListener, ActivityHistoryFragment.OnFragmentInteractionListener, StepsHistoryFragment.OnFragmentInteractionListener {
+public class HistoryActivity extends AppCompatActivity implements NutritionHistoryFragment.OnFragmentInteractionListener, ActivityHistoryFragment.OnFragmentInteractionListener, GoalHistoryFragment.OnFragmentInteractionListener {
 
     private ViewPager mViewPager;
     private android.support.v7.widget.Toolbar mToolBar;
@@ -43,7 +43,7 @@ public class HistoryActivity extends AppCompatActivity implements NutritionHisto
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new NutritionHistoryFragment(), "Nutrition");
         adapter.addFragment(new ActivityHistoryFragment(), "Activity");
-        adapter.addFragment(new StepsHistoryFragment(), "Goal");
+        adapter.addFragment(new GoalHistoryFragment(), "Goal");
         viewPager.setAdapter(adapter);
     }
 
