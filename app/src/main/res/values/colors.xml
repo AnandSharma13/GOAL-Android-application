@@ -19,5 +19,7 @@
     <color name="home_activity_progress_outer_ring_color">#FFA500</color>
     <color name="home_fragment_btn_new_goal_color">#F55369</color>
     <color name="home_fragment_layout_steps_count_color">#FF6E00</color>
+    <color name="nutrition_entry_select_background">#EAFFFA</color>
+    <color name="nutrition_entry_select_border">#979797</color>
 
 </resources>
