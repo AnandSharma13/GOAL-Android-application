@@ -5,10 +5,12 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -59,15 +61,19 @@ public class NutritionEntryMain extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Nutrition Entry");
+        getSupportActionBar().setTitle("Food Detail");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.home_nutrition_background_color)));
+
+
         dbOperations = new DBOperations(getApplicationContext());
         mNutritionType = getIntent().getExtras().getString("NutritionType");
         mGoalRadioGroup = (RadioGroup) findViewById(R.id.nutrition_entry_main_rg_count_towards_goal);
         mSqlDateFormatString = getIntent().getExtras().getString("Date");
         mGoalDetails = (EditText) findViewById(R.id.goalDetailsText);
         mCurrentGoalTv = (TextView) findViewById(R.id.nutrition_entry_main_tv_goal_text);
-        UserGoal userGoal = dbOperations.getCurrentGoalInfo("Nutrition");
-        mCurrentGoalTv.setText(userGoal.getText());
+        UserGoal nutritionGoal = dbOperations.getCurrentGoalInfo("Nutrition");
+        UserGoal activityGoal = dbOperations.getCurrentGoalInfo("Activity");
+        mCurrentGoalTv.setText(nutritionGoal.getText() +"\n"+activityGoal.getText());
 
     }
 

@@ -21,5 +21,5 @@
     <color name="home_fragment_layout_steps_count_color">#FF6E00</color>
     <color name="nutrition_entry_select_background">#EAFFFA</color>
     <color name="nutrition_entry_select_border">#979797</color>
-
+    <color name="nutrition_entry_main_count_goal_layout">#FFC800</color>
 </resources>

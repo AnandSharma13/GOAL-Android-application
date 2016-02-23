@@ -30,6 +30,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nutrition_entry_select_et_date_picker"
+                android:textStyle="bold"
+                android:textColor="@color/home_nutrition_progress_outer_ring_color"
                 />
         </LinearLayout>
         <View

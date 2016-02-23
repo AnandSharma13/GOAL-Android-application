@@ -2,13 +2,19 @@ package com.ph.Activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ph.R;
@@ -33,12 +39,19 @@ public class NutritionEntrySelect extends AppCompatActivity {
         setContentView(R.layout.activity_nutrition_entry_select);
         calendar = Calendar.getInstance();
         mNutritionEntryDate = (EditText) findViewById(R.id.nutrition_entry_select_et_date_picker);
+        Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/Eurostile.ttf");
+        mNutritionEntryDate.setTypeface(custom_font);
+
+
+
         mDateOperations = new DateOperations(NutritionEntrySelect.this);
         updateLabel();
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Nutrition Entry");
+        getSupportActionBar().setTitle("Add Food Record");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.home_nutrition_background_color)));
+
         datePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -59,6 +72,7 @@ public class NutritionEntrySelect extends AppCompatActivity {
 
                 Dateutils dateutils = new Dateutils(NutritionEntrySelect.this);
                 datePickerDialog = dateutils.setGoalPeriodWeek(datePickerDialog);
+
                 datePickerDialog.show();
             }
         });
