@@ -3,6 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ph.fragments.NutritionHistoryDetails">
-    
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/nutrition_goal_history_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp" />
+
+    </RelativeLayout>
 
 </FrameLayout>

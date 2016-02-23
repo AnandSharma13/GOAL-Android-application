@@ -94,6 +94,7 @@ public class ActivityEntryCreateFragment extends Fragment {
                 builder.setView(dialogView);
 
                 final EditText notes = (EditText) dialogView.findViewById(R.id.activity_entry_notes);
+                notes.setText(userNotes);
 
                 builder
                         .setCancelable(false)

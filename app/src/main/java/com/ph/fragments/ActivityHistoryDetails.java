@@ -4,11 +4,21 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ph.Adapters.ActivityHistoryViewAdapter;
 import com.ph.R;
+import com.ph.model.ActivityEntry;
+import com.ph.model.DBOperations;
+
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +33,13 @@ public class ActivityHistoryDetails extends Fragment {
     private static final String ARG_PARAM1 = "week";
 
     private int weekNumber;
+
+    @Bind(R.id.activity_goal_history_recycler_view)
+    RecyclerView recyclerView;
+
+    private List<ActivityEntry> dataList;
+    private DBOperations dbOperations;
+    private ActivityHistoryViewAdapter activityHistoryViewAdapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -51,16 +68,29 @@ public class ActivityHistoryDetails extends Fragment {
         if (getArguments() != null) {
             weekNumber = getArguments().getInt(ARG_PARAM1);
         }
+        dbOperations = new DBOperations(getContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_activity_history_details, container, false);
+        View v = inflater.inflate(R.layout.fragment_activity_history_details, container, false);
+        ButterKnife.bind(this, v);
+       recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.requestDisallowInterceptTouchEvent(false);
+        recyclerView.setLayoutManager(layoutManager);
+        dataList = (List<ActivityEntry>)(List<?>) dbOperations.getGoalProgressForAWeek(weekNumber,"Activity");
+
+        activityHistoryViewAdapter = new ActivityHistoryViewAdapter(getContext(),dataList);
+
+        recyclerView.setAdapter((RecyclerView.Adapter)activityHistoryViewAdapter);
+
+
+        return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
