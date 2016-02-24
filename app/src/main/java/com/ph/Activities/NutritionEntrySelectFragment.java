@@ -33,8 +33,6 @@ public class NutritionEntrySelectFragment extends Fragment {
     private DateOperations mDateOperations;
     private String mSqlDateFormatString;
     static final int RESULT_CODE = 1;
-    @Bind(R.id.app_bar)
-    android.support.v7.widget.Toolbar toolbar;
 
 
     @Override

@@ -40,7 +40,6 @@ public class ProgressMainFragment extends Fragment implements ProgressActivityFr
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_progress_main, container, false);
         ButterKnife.bind(this, view);
-        ((MainActivity) getActivity()).setOnBackPressedListener(new BaseBackPressedListener(getActivity()));
         setupViewPager(pager);
         mTabLayout.setupWithViewPager(pager);
         return view;

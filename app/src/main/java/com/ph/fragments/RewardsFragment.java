@@ -69,8 +69,6 @@ public class RewardsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Activity activity = getActivity();
-        ((MainActivity) activity).setOnBackPressedListener(new BaseBackPressedListener(activity));
-
         return inflater.inflate(R.layout.fragment_rewards, container, false);
     }
 

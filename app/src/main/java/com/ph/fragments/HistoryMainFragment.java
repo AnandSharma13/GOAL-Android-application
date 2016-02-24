@@ -79,7 +79,6 @@ public class HistoryMainFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_history_main, container, false);
 
         ButterKnife.bind(this,v);
-        ((MainActivity) getActivity()).setOnBackPressedListener(new BaseBackPressedListener(getActivity()));
         setupViewPages(pager);
         mTabLayout.setupWithViewPager(pager);
         return v;

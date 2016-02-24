@@ -87,7 +87,6 @@ public class ActivityEntryMainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_activity_entry_main, container, false);
         ButterKnife.bind(this, view);
         activityDate.setText(dateOperations.getUniformDateFormat().format(new Date()));
-        ((MainActivity) getActivity()).setOnBackPressedListener(new BaseBackPressedListener(getActivity()));
 
         Activity app = getActivity();
         mDrawerToggle =((MainActivity) app).getmDrawerToggle();

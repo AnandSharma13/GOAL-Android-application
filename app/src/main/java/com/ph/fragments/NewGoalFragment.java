@@ -24,6 +24,7 @@ import com.ph.Utils.DateOperations;
 import com.ph.Utils.StepsCountClick;
 import com.ph.model.DBOperations;
 import com.ph.model.UserGoal;
+import com.ph.view.BaseBackPressedListener;
 import com.ph.view.CustomProgressBar;
 
 import java.util.Date;
@@ -149,8 +150,6 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         animation1.setDuration(5000);
         animation1.setInterpolator(new DecelerateInterpolator());
         animation1.start();
-
-
         return view;
     }
 

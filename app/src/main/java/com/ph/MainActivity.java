@@ -44,7 +44,6 @@ import com.ph.fragments.StepsDay;
 import com.ph.fragments.StepsWeek;
 import com.ph.net.SessionManager;
 import com.ph.net.SyncUtils;
-import com.ph.view.OnBackPressedListener;
 
 
 public class MainActivity extends AppCompatActivity implements SettingsActivity.OnFragmentInteractionListener, NewGoalFragment.OnFragmentInteractionListener,
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
     private SessionManager sessionManager;
     private RecyclerView mDrawerRecylerView;
-    protected OnBackPressedListener mOnBackPressedListener;
+
 
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -247,18 +246,16 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
     }
 
 
-    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-        this.mOnBackPressedListener = onBackPressedListener;
-    }
+
 
 
     @Override
     public void onBackPressed() {
-        if (mOnBackPressedListener != null && getSupportFragmentManager().getBackStackEntryCount() > 2)
-            mOnBackPressedListener.onBackPress();
-        else if (mOnBackPressedListener != null && getSupportFragmentManager().getBackStackEntryCount() == 2) {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 2)
+            getSupportFragmentManager().popBackStack();
+        else if (getSupportFragmentManager().getBackStackEntryCount() == 2) {
             getmDrawerToggle().setDrawerIndicatorEnabled(true);
-            mOnBackPressedListener.onBackPress();
+            getSupportFragmentManager().popBackStack();
         } else{
                 super.finish();
         }
