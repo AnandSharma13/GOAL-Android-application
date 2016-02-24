@@ -55,9 +55,6 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
     private RecyclerView mDrawerRecylerView;
     protected OnBackPressedListener mOnBackPressedListener;
 
-
-    public static final int HOME_FRAGMENT_POSITION = 0;
-    public static final int NEWGOAL_FRAGMENT_POSITION = 1;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private Toolbar mToolbar;
@@ -82,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
         mToolbar.setTitle("G.O.A.L");
         setSupportActionBar(mToolbar);
+
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.white)));
 
         if (getSupportActionBar() != null) {
@@ -232,15 +230,13 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
         String fragmentName = fragment.getClass().getName();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
+        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,android.R.anim.fade_in, android.R.anim.fade_out);
         if (isNavigationDrawerItem) {
             while (fragmentManager.getBackStackEntryCount() != 1)
                 fragmentManager.popBackStackImmediate();
             fragmentTransaction.add(R.id.activity_main_frame_layout, fragment).addToBackStack(fragmentName);
         } else
             fragmentTransaction.add(R.id.activity_main_frame_layout, fragment).addToBackStack(fragmentName);
-
-        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         fragmentTransaction.commit();
     }
 

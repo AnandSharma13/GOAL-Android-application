@@ -2,19 +2,16 @@ package com.ph.Activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ph.R;
@@ -23,35 +20,46 @@ import com.ph.Utils.Dateutils;
 
 import java.util.Calendar;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-public class NutritionEntrySelect extends AppCompatActivity {
+
+public class NutritionEntrySelectFragment extends Fragment {
 
     private DatePickerDialog.OnDateSetListener datePicker;
     private Calendar calendar;
-    private EditText mNutritionEntryDate;
+    @Bind(R.id.nutrition_entry_select_et_date_picker)
+    EditText mNutritionEntryDate;
     private DateOperations mDateOperations;
     private String mSqlDateFormatString;
-    static final int RESULT_CODE=1;
-    private android.support.v7.widget.Toolbar toolbar;
+    static final int RESULT_CODE = 1;
+    @Bind(R.id.app_bar)
+    android.support.v7.widget.Toolbar toolbar;
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nutrition_entry_select);
+
         calendar = Calendar.getInstance();
-        mNutritionEntryDate = (EditText) findViewById(R.id.nutrition_entry_select_et_date_picker);
-        Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/Eurostile.ttf");
-        mNutritionEntryDate.setTypeface(custom_font);
 
 
+        mDateOperations = new DateOperations(getContext());
 
-        mDateOperations = new DateOperations(NutritionEntrySelect.this);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setTitle("Add Food Record");
+//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.home_nutrition_background_color)));
+
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_nutrition_entry_select, container, false);
+        ButterKnife.bind(this, view);
         updateLabel();
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Food Record");
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.home_nutrition_background_color)));
-
         datePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -66,21 +74,22 @@ public class NutritionEntrySelect extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(NutritionEntrySelect.this, datePicker, calendar
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), datePicker, calendar
                         .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
 
-                Dateutils dateutils = new Dateutils(NutritionEntrySelect.this);
+                Dateutils dateutils = new Dateutils(getContext());
                 datePickerDialog = dateutils.setGoalPeriodWeek(datePickerDialog);
 
                 datePickerDialog.show();
             }
         });
+        return view;
     }
 
-    public void onClickBreakFast(View view){
+    public void onClickBreakFast(View view) {
 
-        Intent intent = new Intent(NutritionEntrySelect.this, NutritionEntryMain.class);
+        Intent intent = new Intent(getContext(), NutritionEntryMain.class);
         intent.putExtra("NutritionType", "BreakFast");
         intent.putExtra("Date", mSqlDateFormatString);
 
@@ -90,50 +99,48 @@ public class NutritionEntrySelect extends AppCompatActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode)
-        {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
             case RESULT_CODE:
-                if(resultCode == Activity.RESULT_OK)
-                {
-                    Toast.makeText(this,"Entry Saved...",Toast.LENGTH_LONG).show();
+                if (resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(getContext(), "Entry Saved...", Toast.LENGTH_LONG).show();
                 }
         }
 
     }
-        public void onClickLunch(View view){
 
-        Intent intent = new Intent(NutritionEntrySelect.this, NutritionEntryMain.class);
+    public void onClickLunch(View view) {
+
+        Intent intent = new Intent(getContext(), NutritionEntryMain.class);
         intent.putExtra("NutritionType", "Lunch");
         intent.putExtra("Date", mSqlDateFormatString);
         startActivityForResult(intent, RESULT_CODE);
 
     }
-    public void onClickDinner(View view){
 
-        Intent intent = new Intent(NutritionEntrySelect.this, NutritionEntryMain.class);
+    public void onClickDinner(View view) {
+
+        Intent intent = new Intent(getContext(), NutritionEntryMain.class);
         intent.putExtra("NutritionType", "Dinner");
         intent.putExtra("Date", mSqlDateFormatString);
         startActivityForResult(intent, RESULT_CODE);
 
     }
 
-    public void onClickSnack(View view){
+    public void onClickSnack(View view) {
 
-        Intent intent = new Intent(NutritionEntrySelect.this, NutritionEntryMain.class);
+        Intent intent = new Intent(getContext(), NutritionEntryMain.class);
         intent.putExtra("NutritionType", "Snack");
         intent.putExtra("Date", mSqlDateFormatString);
         startActivityForResult(intent, RESULT_CODE);
 
     }
 
-    public void updateLabel()
-    {
+    public void updateLabel() {
         mNutritionEntryDate.setText(mDateOperations.getUniformDateFormat().format(calendar.getTime()));
         mSqlDateFormatString = mDateOperations.getMysqlDateFormat().format(calendar.getTime());
         Log.i("updateLabel", "Time has been set to the Edit Text");
     }
-
 
 
 }

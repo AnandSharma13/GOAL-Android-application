@@ -65,15 +65,15 @@
         <activity
             android:name=".Activities.NutritionEntryCreate"
             android:windowSoftInputMode="adjustResize"
-            android:parentActivityName=".Activities.NutritionEntrySelect"/>
+            android:parentActivityName=".Activities.NutritionEntrySelectFragment"/>
         <activity android:name=".Activities.NutritionEntryMain"
-            android:parentActivityName=".Activities.NutritionEntrySelect"/>
+            android:parentActivityName=".Activities.NutritionEntrySelectFragment"/>
         <activity android:name=".fragments.ActivityEntryMainFragment"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".fragments.ActivityEntryCreateFragment"
             android:parentActivityName=".fragments.ActivityEntryMainFragment"/>
         <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.NutritionEntrySelect"
+        <activity android:name=".Activities.NutritionEntrySelectFragment"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".Activities.SettingsActivity"/>
         <activity android:name=".Activities.HistoryActivity"/>

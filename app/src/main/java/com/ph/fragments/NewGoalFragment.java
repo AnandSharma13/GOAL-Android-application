@@ -8,8 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ph.Activities.NewGoal;
-import com.ph.Activities.NutritionEntrySelect;
+import com.ph.Activities.NutritionEntrySelectFragment;
+import com.ph.MainActivity;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.StepsCountClick;
@@ -147,7 +146,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         mActivityProgressBar.setMax( userGoalActivity.getWeekly_count());
 
         ObjectAnimator animation1 = ObjectAnimator.ofInt(mActivityProgressBar, "progress",activityProgress);
-        animation1.setDuration(5000); //in milliseconds
+        animation1.setDuration(5000);
         animation1.setInterpolator(new DecelerateInterpolator());
         animation1.start();
 
@@ -160,10 +159,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         mActivityProgressBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,android.R.anim.fade_in, android.R.anim.fade_out).add(R.id.activity_main_frame_layout,new ActivityEntryMainFragment()).addToBackStack(null);
-                fragmentTransaction.commit();
+                ((MainActivity) getActivity()).setFragment(new ActivityEntryMainFragment(), true);
 
             }
         });
@@ -171,8 +167,8 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         mNutritionProgressBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),NutritionEntrySelect.class);
-                startActivity(intent);
+                ((MainActivity) getActivity()).setFragment(new NutritionEntrySelectFragment(), true);
+
             }
         });
         mNewGoalButton.setOnClickListener(new View.OnClickListener() {
@@ -275,7 +271,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
             }
         });
 */
-        mUserStepsLayout.setOnClickListener(new StepsCountClick(getActivity(),mStepsCount));
+        mUserStepsLayout.setOnClickListener(new StepsCountClick(getActivity(), mStepsCount));
     }
 
     @Override
