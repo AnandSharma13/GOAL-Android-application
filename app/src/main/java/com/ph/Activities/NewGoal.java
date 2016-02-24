@@ -2,10 +2,13 @@ package com.ph.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,11 +38,8 @@ public class NewGoal extends AppCompatActivity {
 
     private Button mSave;
     private EditText mEditNutGoalOnes;
-    private EditText mEditNutGoalTens;
     private EditText mEditNutGoalText;
     private EditText mEditActGoalOnes;
-    private EditText mEditActGoalTens;
-    private EditText mEditActGoalHundreds;
     private EditText mEditActGoalText;
 
     private DateOperations dateOperations;
@@ -54,19 +54,17 @@ public class NewGoal extends AppCompatActivity {
 
     private Button pastGoalNutrition;
     private Button pastGoalActivity;
-
+    private Toolbar toolbar;
 
 
     int userId,operatingWeek,currentWeek;
     static int count = 0;
 
     public final ArrayList<String> tablesList = new ArrayList<String>() {{
-        // add(User.tableName);
         add(UserGoal.tableName);
         add(Activity.tableName);
         add(UserSteps.tableName);
-        //add(ActivityEntry.tableName);
-        //add(NutrittionEntry.tableName);
+
     }};
 
     @Override
@@ -75,21 +73,20 @@ public class NewGoal extends AppCompatActivity {
         setContentView(R.layout.activity_new_goal);
 
         mEditNutGoalOnes = (EditText) findViewById(R.id.nutritionGoalOnes);
-        mEditNutGoalTens = (EditText) findViewById(R.id.nutritionGoalTens);
         mEditNutGoalText = (EditText) findViewById(R.id.nutritionGoalText);
-
         mEditActGoalOnes = (EditText) findViewById(R.id.activityGoalOnes);
-        mEditActGoalTens = (EditText) findViewById(R.id.activityGoalTens);
-        mEditActGoalHundreds = (EditText) findViewById(R.id.activityGoalHundreds);
         mEditActGoalText = (EditText) findViewById(R.id.activityGoalText);
-
         dateOperations = new DateOperations(this);
         dbOperations = new DBOperations(this);
 
-
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
         pastGoalActivity = (Button) findViewById(R.id.past_goal_activity);
         pastGoalNutrition = (Button) findViewById(R.id.past_goal_nutrition);
+        getSupportActionBar().setTitle("New Goal");
 
+
+       getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.home_fragment_btn_new_goal_color)));
         pastGoalActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,23 +136,9 @@ public class NewGoal extends AppCompatActivity {
         {
             prefsActCount = currentActivityGoal.getWeekly_count();
             prefsActText = currentActivityGoal.getText();
-            /*int tempActCount = prefsActCount,tens,ones,hundreds,temp;
-            hundreds = tempActCount/100;
-            temp = tempActCount %100;
-            tens = temp/10;
-            ones = temp%10;
-
-            mEditActGoalHundreds.setText(String.valueOf(hundreds));
-            mEditActGoalTens.setText(String.valueOf(tens));
-            mEditActGoalOnes.setText(String.valueOf(ones));
-            mEditActGoalText.setText(prefsActText);*/
             setValues(prefsActCount,prefsActText,"Activity");
 
         }
-
-
-
-
 
 
         if(currentNutritionGoal == null)
@@ -167,16 +150,6 @@ public class NewGoal extends AppCompatActivity {
         {
             prefsNutCount = currentNutritionGoal.getWeekly_count();
             prefsNutText = currentNutritionGoal.getText();
-
-            /*int tens,ones;
-
-            tens = prefsNutCount/10;
-            ones = prefsNutCount%10;
-
-            mEditNutGoalTens.setText(String.valueOf(tens));
-            mEditNutGoalOnes.setText(String.valueOf(ones));
-            mEditNutGoalText.setText(prefsNutText);*/
-
             setValues(prefsNutCount,prefsNutText,"Nutrition");
         }
 
@@ -184,43 +157,26 @@ public class NewGoal extends AppCompatActivity {
 
     public void setValues(int count,String text,String type) {
         if (type == "Nutrition") {
-            int tens,ones;
-
-            tens = count/10;
-            ones = count%10;
-
-            mEditNutGoalTens.setText(String.valueOf(tens));
-            mEditNutGoalOnes.setText(String.valueOf(ones));
+            mEditNutGoalOnes.setText(String.valueOf(count));
             mEditNutGoalText.setText(text);
         }
         else if (type == "Activity") {
-            int tempActCount = count,tens,ones,hundreds,temp;
-            hundreds = tempActCount/100;
-            temp = tempActCount %100;
-            tens = temp/10;
-            ones = temp%10;
-
-            mEditActGoalHundreds.setText(String.valueOf(hundreds));
-            mEditActGoalTens.setText(String.valueOf(tens));
-            mEditActGoalOnes.setText(String.valueOf(ones));
+            mEditActGoalOnes.setText(String.valueOf(count));
             mEditActGoalText.setText(text);
-
         }
     }
 
     public void onRandomClick(View view) throws ParseException {
 
-        int nutritionGoalOnes = Integer.parseInt(mEditNutGoalOnes.getText().toString());
-        int nutritionGoalTens = Integer.parseInt(mEditNutGoalTens.getText().toString());
+        int nutritionGoalCount = Integer.parseInt(mEditNutGoalOnes.getText().toString());
         String nutritionGoalText = mEditNutGoalText.getText().toString();
-        int nutritionGoalCount = nutritionGoalTens * 10 + nutritionGoalOnes * 1;
+    //    int nutritionGoalCount = nutritionGoalTens * 10 + nutritionGoalOnes * 1;
 
 
-        int activityGoalOnes = Integer.parseInt(mEditActGoalOnes.getText().toString());
-        int activityGoalTens = Integer.parseInt(mEditActGoalTens.getText().toString());
-        int activityGoalHundreds = Integer.parseInt(mEditActGoalHundreds.getText().toString());
+        int activityGoalCount = Integer.parseInt(mEditActGoalOnes.getText().toString());
+
         String activityGoalText = mEditActGoalText.getText().toString();
-        int activityGoalCount = activityGoalHundreds * 100 + activityGoalTens * 10 + activityGoalOnes * 1;
+    //    int activityGoalCount = activityGoalHundreds * 100 + activityGoalTens * 10 + activityGoalOnes * 1;
 
         GoalPeriod goalPeriod = getGoalPeriod();
         String startDate = goalPeriod.startDate;

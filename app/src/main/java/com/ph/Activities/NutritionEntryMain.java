@@ -74,7 +74,6 @@ public class NutritionEntryMain extends AppCompatActivity {
         UserGoal nutritionGoal = dbOperations.getCurrentGoalInfo("Nutrition");
         UserGoal activityGoal = dbOperations.getCurrentGoalInfo("Activity");
         mCurrentGoalTv.setText(nutritionGoal.getText() +"\n"+activityGoal.getText());
-
     }
 
     public void onClickCamera(View view) {

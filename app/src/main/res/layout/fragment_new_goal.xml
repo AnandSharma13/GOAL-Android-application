@@ -139,7 +139,6 @@
 
             <Button
                 android:id="@+id/btnNewGoal"
-                style="@style/home_fragment_buttons_theme"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"

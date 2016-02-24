@@ -11,6 +11,5 @@
     </style>
 
     <style name="home_fragment_buttons_theme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorButtonNormal">@color/home_fragment_btn_new_goal_color</item>
     </style>
 </resources>

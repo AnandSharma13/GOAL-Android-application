@@ -2,6 +2,7 @@ package com.ph.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ph.Adapters.ActivityViewAdapter;
+import com.ph.MainActivity;
 import com.ph.R;
 import com.ph.Utils.AlertDialogManager;
 import com.ph.model.Activity;
@@ -234,9 +236,9 @@ public class ActivityEntryCreateFragment extends Fragment {
                 Toast.makeText(getContext(), "Activity Entry succesfully recorded", Toast.LENGTH_SHORT).show();
 
                 //Redirect to main activity.
-//                Intent i = new Intent(ActivityEntryCreateFragment.this, MainActivity.class);
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                ActivityEntryCreateFragment.this.startActivity(i);
+                Intent i = new Intent(getContext(), MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                ActivityEntryCreateFragment.this.startActivity(i);
 
 
             }

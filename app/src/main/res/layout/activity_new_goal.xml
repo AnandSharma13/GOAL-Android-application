@@ -4,80 +4,103 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ph.Activities.NewGoal">
+
     <include
         android:id="@+id/app_bar"
-        layout="@layout/app_bar" />
+        layout="@layout/app_bar"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar"
+        android:background="#FFEAEA"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5">
+                    android:layout_weight="2.5">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Nutrition Goal"/>
+                        android:text="Nutrition Goal" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5">
+                    android:layout_weight="1.5"
+                    android:gravity="center">
+
                     <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLength="1"
-                        android:background="@drawable/edittextdesign"
+                        android:id="@+id/nutritionGoalOnes"
+                        android:layout_width="300dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/custom_edit_text_design"
+                        android:gravity="top|left"
+                        android:hint="Times"
                         android:numeric="integer"
-                        android:ems="2"
-                        android:layout_marginRight="8dp"
-                        android:id="@+id/nutritionGoalTens" />
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLength="1"
-                        android:numeric="integer"
-                        android:background="@drawable/edittextdesign"
-                        android:ems="2"
-                        android:id="@+id/nutritionGoalOnes" />
+                        android:maxLength="100"
+                        android:padding="5dip" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.2">
+                android:layout_weight="1.6"></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:gravity="center">
+
                 <EditText
                     android:id="@+id/nutritionGoalText"
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/edittextdesign"
-                    android:scrollbars="vertical"/>
+                    android:background="@drawable/custom_edit_text_design"
+                    android:gravity="top|left"
+                    android:hint="Details of Weekly Goal"
+                    android:padding="5dip"
+                    android:scrollbars="vertical" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.4">
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Use past Goals"
-                    android:id="@+id/past_goal_nutrition" />
-            </LinearLayout>
+                android:layout_weight="1.4"
+                android:gravity="center">
 
+                <Button
+                    android:id="@+id/past_goal_nutrition"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/home_fragment_btn_new_goal_color"
+                    android:text="Use past Goals" />
+                />
+            </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.75"
+            android:background="@color/white"></LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,90 +113,111 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1.5">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="Nutrition Goal"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1.5">
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLength="1"
-                            android:background="@drawable/edittextdesign"
-                            android:numeric="integer"
-                            android:ems="2"
-                            android:layout_marginRight="8dp"
-                            android:id="@+id/activityGoalHundreds" />
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLength="1"
-                            android:background="@drawable/edittextdesign"
-                            android:numeric="integer"
-                            android:ems="2"
-                            android:layout_marginRight="8dp"
-                            android:id="@+id/activityGoalTens" />
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLength="1"
-                            android:background="@drawable/edittextdesign"
-                            android:numeric="integer"
-                            android:ems="2"
-                            android:layout_marginRight="8dp"
-                            android:id="@+id/activityGoalOnes" />
-                    </LinearLayout>
 
-
-
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.2">
-
-                    <EditText
-                        android:id="@+id/activityGoalText"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/edittextdesign"
-                        android:scrollbars="vertical"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.4">
-                <Button
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Use past Goals"
-                    android:id="@+id/past_goal_activity" />
+                    android:layout_weight="2.5">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Activity Goal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/activityGoalOnes"
+                        android:layout_width="130dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="40dp"
+                        android:background="@drawable/custom_edit_text_design"
+                        android:gravity="top|left"
+                        android:hint="Minutes"
+                        android:maxLength="1000"
+                        android:numeric="integer"
+                        android:padding="5dip" />
+
+                    <EditText
+                        android:id="@+id/activity_tv_new_goal_times"
+                        android:layout_width="130dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/custom_edit_text_design"
+                        android:gravity="top|left"
+                        android:hint="Times"
+                        android:maxLength="50"
+                        android:numeric="integer"
+                        android:padding="5dip" />          android:id="@+id/nutritionGoalOnes"
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.6"></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/activityGoalText"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/custom_edit_text_design"
+                    android:gravity="top|left"
+                    android:hint="Details of Weekly Goal"
+                    android:padding="5dip"
+                    android:scrollbars="vertical" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/past_goal_activity"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="#FE576C"
+                    android:text="Use past Goals" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.6"
-            android:orientation="vertical">
-            <Button
-                android:id="@+id/btnSaveGoal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="onRandomClick"
-                android:text="Insert random Goal" />
+            android:layout_weight="1.65"
+            android:background="@color/white"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_button_save"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnSaveGoal"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:backgroundTint="@android:color/transparent"
+                    android:onClick="onRandomClick" />
+            </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>

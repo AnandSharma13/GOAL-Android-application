@@ -3,8 +3,10 @@ package com.ph.fragments;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,10 +21,13 @@ import android.widget.TextView;
 import com.ph.Activities.NewGoal;
 import com.ph.Activities.NutritionEntrySelect;
 import com.ph.R;
+import com.ph.Utils.DateOperations;
 import com.ph.Utils.StepsCountClick;
 import com.ph.model.DBOperations;
 import com.ph.model.UserGoal;
 import com.ph.view.CustomProgressBar;
+
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +48,8 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
     private CustomProgressBar mActivityProgressBar;
     private DBOperations mDbOperations;
     private RelativeLayout mUserStepsLayout;
-    private int weekNumber;
+    private int weekNumber= -1;
+    private int mFragmentPosition;
     private OnFragmentInteractionListener mListener;
 
     public NewGoalFragment() {
@@ -57,13 +63,14 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
      *
      * @return A new instance of fragment NewGoalFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static NewGoalFragment newInstance(int weekNumber) {
+    // TODO: Send week number from Main Activity
+    public static NewGoalFragment newInstance(int weekNumber, int fragmentPosition) {
         NewGoalFragment fragment = new NewGoalFragment();
         Bundle args = new Bundle();
 
         fragment.setArguments(args);
         fragment.weekNumber = weekNumber;
+        fragment.mFragmentPosition = fragmentPosition;
         return fragment;
     }
 
@@ -86,14 +93,19 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         mStepsCount = (TextView) view.findViewById(R.id.fragment_home_tv_steps_count);
         mUserStepsLayout = (RelativeLayout) view.findViewById(R.id.steps_count_layout);
         mNewGoalButton = (Button) view.findViewById(R.id.btnNewGoal);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
 
         //sets up click listeners..
         setBtnClickListeners();
 
-
-//        UserGoal userGoalNutrition = mDbOperations.getCurrentGoalInfo("Nutrition");
+    //    UserGoal userGoalNutrition = mDbOperations.getCurrentGoalInfo("Nutrition");
 //        UserGoal userGoalActivity = mDbOperations.getCurrentGoalInfo("Activity");
 
+        if(weekNumber == -1)
+            weekNumber = new DateOperations(getContext()).getWeeksTillDate(new Date());
         UserGoal userGoalNutrition = mDbOperations.getuserGoalFromDB("Nutrition",weekNumber);
         UserGoal userGoalActivity = mDbOperations.getuserGoalFromDB("Activity",weekNumber);
 
@@ -108,21 +120,27 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
             mActivityProgressBar.setVisibility(View.VISIBLE);
             mNutritionProgressBar.setVisibility(View.VISIBLE);
         }
-        int  nutritionProgress= mDbOperations.getWeekProgress("Nutrition");
-        mNutritionProgressBar.setText(String.valueOf(nutritionProgress));
+        int nutritionProgress =0;
+        int activityProgress =0;
+        if(mFragmentPosition == 0) {
+            nutritionProgress = mDbOperations.getWeekProgress("Nutrition");
+            mNutritionProgressBar.setText(String.valueOf(nutritionProgress));
+            activityProgress = mDbOperations.getWeekProgress("Activity");
+            mActivityProgressBar.setText(String.valueOf(activityProgress));
+
+        }
+
         mNutritionProgressBar.setAim_text("Aim " + String.valueOf(userGoalNutrition.getWeekly_count()));
+        mNutritionProgressBar.setMax(userGoalNutrition.getWeekly_count());
         ObjectAnimator animation2 = ObjectAnimator.ofInt(mNutritionProgressBar, "progress", nutritionProgress);
         animation2.setDuration(5000); //in milliseconds
         animation2.setInterpolator(new DecelerateInterpolator());
         animation2.start();
 
 
-        int  activityProgress= mDbOperations.getWeekProgress("Activity");
-
-        mActivityProgressBar.setText(String.valueOf(activityProgress));
 
         mActivityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
-
+        mActivityProgressBar.setMax( userGoalActivity.getWeekly_count());
 
         ObjectAnimator animation1 = ObjectAnimator.ofInt(mActivityProgressBar, "progress",activityProgress);
         animation1.setDuration(5000); //in milliseconds

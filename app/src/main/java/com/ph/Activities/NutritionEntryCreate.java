@@ -3,6 +3,7 @@ package com.ph.Activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
+import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -36,8 +39,8 @@ public class NutritionEntryCreate extends AppCompatActivity {
     private DateOperations mDateOperations;
     private DBOperations mDBOperations;
     private SharedPreferences prefs;
-    private Button mDecreaseBtn;
-    private Button mIncreaseBtn;
+    private ImageButton mDecreaseBtn;
+    private ImageButton mIncreaseBtn;
     private Button mSave;
     private NumberPicker mAtticFoodCountNp;
     private Handler repeatUpdateHandler;
@@ -65,6 +68,7 @@ public class NutritionEntryCreate extends AppCompatActivity {
     private CheckBox mGrainsFive;
     private CheckBox mGrainsSix;
     private SeekBar mWaterIntake;
+    private RatingBar mRatingBar;
 
     private int atticFoodCount;
     private int dairyCount;
@@ -129,9 +133,9 @@ public class NutritionEntryCreate extends AppCompatActivity {
         mWaterIntake.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if((progress-waterIntakeCount)>0)
+                if((progress-waterIntakeCount)>0) {
                     mSave.setEnabled(true);
-                else if((progress - waterIntakeCount) ==0 && checkCount ==0 && (mAtticFoodCountNp.getValue() - atticFoodCount ) == 0)
+                } else if((progress - waterIntakeCount) ==0 && checkCount ==0 && (mAtticFoodCountNp.getValue() - atticFoodCount ) == 0)
                     mSave.setEnabled(false);
             }
 
@@ -142,7 +146,7 @@ public class NutritionEntryCreate extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                mRatingBar.setRating(seekBar.getProgress());
             }
         });
 
@@ -190,8 +194,8 @@ public class NutritionEntryCreate extends AppCompatActivity {
 
 
     public void initControls() {
-        mDecreaseBtn = (Button) findViewById(R.id.nutrition_entry_create_btn_decrease);
-        mIncreaseBtn = (Button) findViewById(R.id.nutrition_entry_create_btn_increase);
+        mDecreaseBtn = (ImageButton) findViewById(R.id.nutrition_entry_create_btn_decrease);
+        mIncreaseBtn = (ImageButton) findViewById(R.id.nutrition_entry_create_btn_increase);
         mSave = (Button) findViewById(R.id.nutrition_entry_create_btn_save);
         mAtticFoodCountNp = (NumberPicker) findViewById(R.id.nutrition_entry_create_np_attic_food_count);
 
@@ -208,9 +212,9 @@ public class NutritionEntryCreate extends AppCompatActivity {
         mVegetableOne = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_vegetable_one);
         mVegetableTwo = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_vegetable_two);
         mVegetableThree = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_vegetable_three);
-        mFruitOne = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_fruit_one);
-        mFruitTwo = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_fruit_two);
-
+        mFruitOne = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_fruits_one);
+        mFruitTwo = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_fruits_two);
+        mRatingBar = (RatingBar) findViewById(R.id.nutrition_entry_create_rating_bar_water_intake);
         mGrainsOne = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_grains_one);
         mGrainsTwo = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_grains_two);
         mGrainsThree = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_grains_three);

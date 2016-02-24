@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment {
     @Bind(R.id.fragment_new_goal_viewpager) ViewPager mViewPager;
     public static final int HOME_FRAGMENT_POSITION = 0;
     public static final int NEWGOAL_FRAGMENT_POSITION = 1;
+    int operatingWeek;
 
 
     // TODO: Rename and change types of parameters
@@ -90,6 +91,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
+        operatingWeek = new DateOperations(getContext()).getWeeksTillDate(new Date());
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -101,19 +103,17 @@ public class HomeFragment extends Fragment {
                 Log.i("selected page\t", String.valueOf(position));
 
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                int operatingWeek;
+
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
                 switch (position) {
                     case HOME_FRAGMENT_POSITION:
-                        operatingWeek = new DateOperations(getContext()).getWeeksTillDate(new Date());
                         editor.putInt("operating_week", operatingWeek);
                         editor.commit();
                         Toast.makeText(getActivity(), "Current week selected", Toast.LENGTH_SHORT).show();
                         break;
                     case NEWGOAL_FRAGMENT_POSITION:
-                        operatingWeek = new DateOperations(getContext()).getWeeksTillDate(new Date()) + 1;
-                        editor.putInt("operating_week", operatingWeek);
+                        editor.putInt("operating_week", operatingWeek+1);
                         editor.commit();
                         Toast.makeText(getContext(), "Next Goal selected", Toast.LENGTH_SHORT).show();
                         break;
@@ -155,8 +155,8 @@ public class HomeFragment extends Fragment {
 
     public void setupViewPages(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-        adapter.addFragment(new NewGoalFragment(), "Current Goal");
-        adapter.addFragment(new NextGoalFragment(), "Next Goal");
+        adapter.addFragment(NewGoalFragment.newInstance(operatingWeek,0), "Current Goal");
+        adapter.addFragment(NewGoalFragment.newInstance(operatingWeek+1,1), "Next Goal");
         //Proposed....
         /*DateOperations dateOperations = new DateOperations(getContext());
         adapter.addFragment(NewGoalFragment.newInstance(dateOperations.getWeeksTillDate(new Date())), "Current Goal");

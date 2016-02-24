@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -79,7 +80,16 @@ public class ActivityHistoryDetails extends Fragment {
         ButterKnife.bind(this, v);
        recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.requestDisallowInterceptTouchEvent(false);
+//        recyclerView.requestDisallowInterceptTouchEvent(true);
+
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ((View) v.getParent()).callOnClick();
+                return false;
+            }
+        });
+
         recyclerView.setLayoutManager(layoutManager);
         dataList = (List<ActivityEntry>)(List<?>) dbOperations.getGoalProgressForAWeek(weekNumber,"Activity");
 
