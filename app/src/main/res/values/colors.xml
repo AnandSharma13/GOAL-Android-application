@@ -22,4 +22,8 @@
     <color name="nutrition_entry_select_background">#EAFFFA</color>
     <color name="nutrition_entry_select_border">#979797</color>
     <color name="nutrition_entry_main_count_goal_layout">#FFC800</color>
+    <color name="activity_entry_text">#E25200</color>
+    <color name="activity_entry_app_bar">#FFCD1B</color>
+    <color name="activity_entry_font_color">#FFCD1B</color>
+    <color name="activity_entry_activity_background">#FFF3C6</color>
 </resources>

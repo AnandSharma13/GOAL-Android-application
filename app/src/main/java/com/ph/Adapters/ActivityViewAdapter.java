@@ -1,7 +1,9 @@
 package com.ph.Adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +24,12 @@ public class ActivityViewAdapter extends RecyclerView.Adapter<ActivityViewAdapte
 
     List<Activity> list = Collections.emptyList();
     private int selectedPos = 0;
+    Context context;
 
 
     public ActivityViewAdapter(Context context, List<Activity> list)
     {
+        this.context = context;
         inflater = LayoutInflater.from(context);
         this.list = list;
     }
@@ -46,10 +50,24 @@ public class ActivityViewAdapter extends RecyclerView.Adapter<ActivityViewAdapte
 
 
         holder.itemView.setSelected(selectedPos == position);
+        String imageName = current.getName().toLowerCase();
         //TODO: Handle images once they're available
+
+        Drawable drawable = null;
+        try {
+             drawable = context.getDrawable(context.getResources().getIdentifier(imageName, "drawable", context.getPackageName()));
+        }catch (Exception ex)
+        {
+            Log.w("ActivityViewAdapter", "Drawable element not found for " + imageName);
+            drawable = null;
+        }
+        if(drawable!=null) {
+            holder.image.setImageDrawable(drawable);
+            holder.title.setVisibility(View.GONE);
+        }
+        else
+            holder.image.setImageResource(R.drawable.ic_launcher);
     }
-
-
 
 
     @Override

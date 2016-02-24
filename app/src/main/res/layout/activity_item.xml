@@ -18,7 +18,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/activity_name"
-        android:textColor="@drawable/activity_text_bg"
+        android:textColor="@color/activity_entry_font_color"
         android:layout_gravity="center" />
 
     <TextView

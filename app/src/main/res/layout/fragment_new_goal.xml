@@ -144,6 +144,7 @@
                 android:layout_centerHorizontal="true"
                 android:onClick="onNewGoalClick"
                 android:text="New Goal"
+                android:textColor="@color/white"
                 android:backgroundTint="@color/home_fragment_btn_new_goal_color"/>
         </LinearLayout>
     </LinearLayout>

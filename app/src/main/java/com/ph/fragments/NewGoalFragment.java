@@ -120,6 +120,10 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
             mActivityProgressBar.setVisibility(View.VISIBLE);
             mNutritionProgressBar.setVisibility(View.VISIBLE);
         }
+        String activityText = "A "+" "+userGoalActivity.getWeekly_count()+" mins / week";
+        String nutritionText = "N "+" "+userGoalNutrition.getWeekly_count()+" food / week";
+        String goalText = activityText+"\n"+nutritionText;
+        mNewGoalButton.setText(goalText);
         int nutritionProgress =0;
         int activityProgress =0;
         if(mFragmentPosition == 0) {
@@ -272,6 +276,16 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         });
 */
         mUserStepsLayout.setOnClickListener(new StepsCountClick(getActivity(),mStepsCount));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
 

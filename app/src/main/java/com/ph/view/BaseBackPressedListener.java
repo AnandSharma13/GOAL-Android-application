@@ -17,6 +17,8 @@ public class BaseBackPressedListener implements OnBackPressedListener {
 
         ((AppCompatActivity) mActivity).getSupportFragmentManager().popBackStack();
 
+        //((AppCompatActivity)mActivity).getSupportActionBar().setTitle("G.O.A.L");
+
 
     }
 

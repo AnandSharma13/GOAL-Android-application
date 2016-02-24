@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1"
+
     android:background="@color/backgroundColor"
     android:clickable="true"
     tools:context=".fragments.ActivityEntryMainFragment">
@@ -12,46 +12,75 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.23"
+        android:layout_height="200dp"
+        android:layout_weight="0"
         android:id="@+id/activity_entry_date_layout"
-        android:background="@color/gray">
+        android:background="@color/white">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Date"
-            android:id="@+id/activity_entry_date"
-            android:layout_margin="80px"
-            />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:text="Date"-->
+            <!--android:id="@+id/activity_entry_date"-->
+            <!--android:layout_margin="80px"-->
+            <!--/>-->
 
-        <EditText
-            android:layout_width="249dp"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/activity_entry_date_text_view"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50px"
-            android:focusable="false"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:ems="8"
+                android:id="@+id/activity_entry_date_text_view"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/activity_entry_text"
+                android:focusable="false"
+                android:layout_weight="0"
+                android:layout_marginLeft="15dp" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_activity_entry_calendar"
+                android:id="@+id/activity_entry_calendar_image"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:clickable="true"
+                android:longClickable="true"
+                android:background="?attr/selectableItemBackground"
+                />
+        </LinearLayout>
     </LinearLayout>
+
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/fragement_activity_entry_main_linear_layout_cardio"
-        android:background="@color/white"
-        android:onClick="activityClick">
+        android:background="@drawable/ic_btn_activity_entry_cardio"
+        android:layout_weight="0.33">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:text="Cardio"-->
+            <!--android:id="@+id/textView"-->
+            <!--android:layout_margin="80px" />-->
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Cardio"
-            android:id="@+id/textView"
-            android:layout_margin="80px" />
+            android:backgroundTint="@android:color/transparent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text=""
+            android:id="@+id/button"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -60,16 +89,25 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:id="@+id/fragement_activity_entry_main_linear_layout_strength"
-        android:background="@color/gray"
-        android:onClick="activityClick">
+        android:background="@drawable/ic_btn_activity_entry_strength"
 
-        <TextView
-            android:layout_width="wrap_content"
+        android:layout_weight="0.33">
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:text="Strength"-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_margin="80px" />-->
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Strength"
-            android:id="@+id/textView2"
-            android:layout_margin="80px" />
+            android:backgroundTint="@android:color/transparent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text=""
+            android:id="@+id/button1"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,15 +116,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:id="@+id/fragement_activity_entry_main_linear_layout_lifestyle"
-        android:background="@color/colorAccent"
-        android:onClick="activityClick">
+        android:background="@drawable/ic_btn_activity_entry_lifestyle"
+        android:onClick="activityClick"
+        android:layout_weight="0.33">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:text="Lifestyle"-->
+            <!--android:id="@+id/textView4"-->
+            <!--android:layout_margin="80px" />-->
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Lifestyle"
-            android:id="@+id/textView4"
-            android:layout_margin="80px" />
+            android:backgroundTint="@android:color/transparent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text=""
+            android:id="@+id/button3"
+            android:layout_weight="1" />
     </LinearLayout>
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +58,7 @@ public class ActivityEntryCreateFragment extends Fragment {
     @Bind(R.id.activity_entry_save)
     Button saveButton;
     @Bind(R.id.activity_entry_comment)
-    Button commentButton;
+    ImageButton commentButton;
     private static String date = "";
     @Bind(R.id.activity_entry_count_goal)
     CheckBox countGoal;
@@ -72,6 +74,10 @@ public class ActivityEntryCreateFragment extends Fragment {
             activity_type = getArguments().getString("ACTIVITY_TYPE");
             date = getArguments().getString("DATE");
         }
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(activity_type);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(getContext().getDrawable(R.color.activity_entry_app_bar));
+
 
     }
 

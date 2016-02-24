@@ -4,14 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:clickable="true"
-    android:background="@color/backgroundColor">
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/activity_entry_create_fragment_linear_layout_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/colorAccent"
+        android:background="@color/activity_entry_activity_background"
         android:orientation="vertical"
         android:scrollbars="vertical">
 
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="50px"
-            android:scrollbars="vertical" />
+             />
     </LinearLayout>
 
     <LinearLayout
@@ -57,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25px"
                 android:text="RPE "
+                android:textColor="@color/activity_entry_font_color"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <SeekBar
@@ -66,6 +67,7 @@
                 android:layout_marginLeft="25px"
                 android:layout_weight="0.85"
                 android:indeterminate="false"
+                android:background="@drawable/activity_entry_rpe_background"
                 android:max="100" />
 
         </LinearLayout>
@@ -91,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25px"
                 android:text="Time"
+                android:textColor="@color/activity_entry_font_color"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <SeekBar
@@ -110,38 +113,46 @@
         android:layout_below="@+id/activity_entry_create_fragment_linear_layout_time"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.5"
+        android:layout_weight="1.6"
         android:orientation="horizontal"
+        android:background="@drawable/activity_entry_count_goal"
         android:weightSum="1">
 
-        <TextView
+        <!--<TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="25px"
             android:text="Count as Goal"
-            android:visibility="gone"/>
+            android:textColor="@color/white"
+            android:visibility="gone"/>-->
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="25px"
-            android:text="Count as goal"
-            android:id="@+id/activity_entry_count_goal"
-            android:checked="false" />
 
         <Space
             android:layout_width="66dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.58" />
+            android:layout_weight="0.85" />
 
-        <Button
-            android:id="@+id/activity_entry_comment"
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10px"
-            android:text="Comment" />
+            android:id="@+id/activity_entry_count_goal"
+            android:buttonTint="@color/activity_entry_text"
+            android:checked="false"
+            android:layout_gravity="center" />
+
+
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/activity_entry_comment"
+        android:layout_width="34dp"
+        android:layout_height="30dp"
+        android:src="@drawable/activity_entry_comment"
+
+        android:visibility="visible"
+        android:layout_gravity="right"
+        android:layout_margin="10dp" />
 
     <LinearLayout
         android:layout_below="@+id/activity_entry_create_fragment_linear_layout_count_goal"

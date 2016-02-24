@@ -25,6 +25,7 @@ import com.ph.fragments.ActivityHistoryDetails;
 import com.ph.fragments.ActivityHistoryFragment;
 import com.ph.fragments.DrawerAdapter;
 import com.ph.fragments.GoalHistoryDetails;
+import com.ph.fragments.GoalHistoryFragment;
 import com.ph.fragments.HistoryMainFragment;
 import com.ph.fragments.HomeFragment;
 import com.ph.fragments.NavigationDrawerFragment;
@@ -40,7 +41,6 @@ import com.ph.fragments.ProgressNutritionFragment;
 import com.ph.fragments.ProgressStepsFragment;
 import com.ph.fragments.RewardsFragment;
 import com.ph.fragments.StepsDay;
-import com.ph.fragments.GoalHistoryFragment;
 import com.ph.fragments.StepsWeek;
 import com.ph.net.SessionManager;
 import com.ph.net.SyncUtils;
@@ -132,9 +132,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
                 if (getSupportFragmentManager().getBackStackEntryCount() > 1 && !getmDrawerToggle().isDrawerIndicatorEnabled()) {
                     onBackPressed();
-                }
-
-                else if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                } else if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
 
                 } else {
@@ -204,8 +202,29 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
         SyncUtils.CreateSyncAccount(this);
 
+        getSupportFragmentManager().addOnBackStackChangedListener(getListener());
+
         setFragment(new HomeFragment(), false);
 
+    }
+
+
+    private FragmentManager.OnBackStackChangedListener getListener() {
+        FragmentManager.OnBackStackChangedListener result = new FragmentManager.OnBackStackChangedListener() {
+            public void onBackStackChanged() {
+                FragmentManager manager = getSupportFragmentManager();
+                if (manager != null) {
+                    int backStackEntryCount = manager.getBackStackEntryCount();
+                    if (backStackEntryCount == 0) {
+                        finish();
+                    }
+                    Fragment fragment = manager.getFragments()
+                            .get(backStackEntryCount);
+                    fragment.onResume();
+                }
+            }
+        };
+        return result;
     }
 
 

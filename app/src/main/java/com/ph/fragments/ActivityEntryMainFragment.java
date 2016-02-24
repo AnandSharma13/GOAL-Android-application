@@ -3,18 +3,21 @@ package com.ph.fragments;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 
 import com.ph.MainActivity;
 import com.ph.R;
@@ -44,6 +47,9 @@ public class ActivityEntryMainFragment extends Fragment {
 
     @Bind(R.id.fragement_activity_entry_main_linear_layout_lifestyle)
     LinearLayout mLinearLayoutLifstyle;
+
+    @Bind(R.id.activity_entry_calendar_image)
+    ImageView calendarImage;
     ActionBarDrawerToggle mDrawerToggle;
 
 
@@ -61,7 +67,18 @@ public class ActivityEntryMainFragment extends Fragment {
 
         dateOperations = new DateOperations(getContext());
 
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Activity Record");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(getContext().getDrawable(R.color.activity_entry_app_bar));
 
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Activity Record");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(getContext().getDrawable(R.color.activity_entry_app_bar));
     }
 
     @Override
@@ -86,7 +103,7 @@ public class ActivityEntryMainFragment extends Fragment {
             }
         };
 
-        activityDate.setOnClickListener(new View.OnClickListener() {
+       /* activityDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -99,27 +116,55 @@ public class ActivityEntryMainFragment extends Fragment {
                 datePickerDialog.show();
             }
         });
+*/
+        activityDate.setOnClickListener(new ActivityEntryDateClickListener());
+        calendarImage.setOnClickListener(new ActivityEntryDateClickListener());
+        Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Eurostile.ttf");
+        activityDate.setTypeface(custom_font);
 
-        mLinearLayoutCardio.setOnClickListener(new View.OnClickListener() {
+
+        Button button, button1,button2;
+
+        button = (Button) view.findViewById(R.id.button);
+        button1 = (Button) view.findViewById(R.id.button1);
+        button2 = (Button) view.findViewById(R.id.button3);
+
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activityClick(v);
             }
         });
 
-        mLinearLayoutStrength.setOnClickListener(new View.OnClickListener() {
+        button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activityClick(v);
             }
         });
-        mLinearLayoutLifstyle.setOnClickListener(new View.OnClickListener() {
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activityClick(v);
             }
         });
         return view;
+    }
+
+
+    class ActivityEntryDateClickListener implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View v) {
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), datePicker, calendar
+                    .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH));
+
+            Dateutils dateutils = new Dateutils(getContext());
+            datePickerDialog = dateutils.setGoalPeriodWeek(datePickerDialog);
+            datePickerDialog.show();
+        }
     }
 
     private void updateLabel() {
@@ -129,10 +174,11 @@ public class ActivityEntryMainFragment extends Fragment {
 
     public void activityClick(View view) {
 
+        View parent = (View) view.getParent();
         Intent intent = new Intent(getContext(), ActivityEntryCreateFragment.class);
         String date= dateOperations.getMysqlDateFormat().format(calendar.getTime());
         Fragment fragment;
-        switch (view.getId()) {
+        switch (parent.getId()) {
             case R.id.fragement_activity_entry_main_linear_layout_cardio:
                 intent.putExtra("key", "Cardio");
                 fragment = ActivityEntryCreateFragment.newInstance("Cardio", date);
