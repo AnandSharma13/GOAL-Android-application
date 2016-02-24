@@ -9,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ph.MainActivity;
 import com.ph.R;
-import com.ph.view.BaseBackPressedListener;
 
 /**
  * A simple {@link Fragment} subclass.

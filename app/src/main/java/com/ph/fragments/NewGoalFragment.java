@@ -24,7 +24,6 @@ import com.ph.Utils.DateOperations;
 import com.ph.Utils.StepsCountClick;
 import com.ph.model.DBOperations;
 import com.ph.model.UserGoal;
-import com.ph.view.BaseBackPressedListener;
 import com.ph.view.CustomProgressBar;
 
 import java.util.Date;

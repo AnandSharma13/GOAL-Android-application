@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ph.Adapters.ViewPagerAdapter;
-import com.ph.MainActivity;
 import com.ph.R;
-import com.ph.view.BaseBackPressedListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -78,7 +76,7 @@ public class HistoryMainFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_history_main, container, false);
 
-        ButterKnife.bind(this,v);
+        ButterKnife.bind(this, v);
         setupViewPages(pager);
         mTabLayout.setupWithViewPager(pager);
         return v;
