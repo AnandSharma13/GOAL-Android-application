@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ph.MainActivity;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.Dateutils;
@@ -44,11 +45,7 @@ public class NutritionEntrySelectFragment extends Fragment {
 
         mDateOperations = new DateOperations(getContext());
 
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setTitle("Add Food Record");
-//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.home_nutrition_background_color)));
-
+        ((MainActivity)getActivity()).setDrawerState(false);
 
     }
 

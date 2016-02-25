@@ -92,9 +92,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         mStepsCount = (TextView) view.findViewById(R.id.fragment_home_tv_steps_count);
         mUserStepsLayout = (RelativeLayout) view.findViewById(R.id.steps_count_layout);
         mNewGoalButton = (Button) view.findViewById(R.id.btnNewGoal);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
 
 
         //sets up click listeners..

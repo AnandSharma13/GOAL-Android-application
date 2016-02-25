@@ -82,8 +82,6 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
-
     }
 
 
@@ -138,9 +136,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("G.O.A.L");
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(getContext().getDrawable(R.color.backgroundColor));
-
     }
 
     @Override
@@ -156,8 +151,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("G.O.A.L");
-      /*  if (context instanceof OnFragmentInteractionListener) {
+       /*  if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()

@@ -1,6 +1,7 @@
 package com.ph;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ph.Activities.SettingsActivity;
@@ -47,19 +49,16 @@ import com.ph.net.SyncUtils;
 
 
 public class MainActivity extends AppCompatActivity implements SettingsActivity.OnFragmentInteractionListener, NewGoalFragment.OnFragmentInteractionListener,
-        RewardsFragment.OnFragmentInteractionListener, StepsWeek.OnFragmentInteractionListener, StepsDay.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener, ProgressMainFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressActivityFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener, HistoryMainFragment.OnFragmentInteractionListener, ActivityHistoryFragment.OnFragmentInteractionListener,NutritionHistoryFragment.OnFragmentInteractionListener,GoalHistoryFragment.OnFragmentInteractionListener ,ActivityHistoryDetails.OnFragmentInteractionListener,NutritionHistoryDetails.OnFragmentInteractionListener,GoalHistoryDetails.OnFragmentInteractionListener{
+        RewardsFragment.OnFragmentInteractionListener, StepsWeek.OnFragmentInteractionListener, StepsDay.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener, ProgressMainFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressActivityFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener, HistoryMainFragment.OnFragmentInteractionListener, ActivityHistoryFragment.OnFragmentInteractionListener, NutritionHistoryFragment.OnFragmentInteractionListener, GoalHistoryFragment.OnFragmentInteractionListener, ActivityHistoryDetails.OnFragmentInteractionListener, NutritionHistoryDetails.OnFragmentInteractionListener, GoalHistoryDetails.OnFragmentInteractionListener {
 
 
     private SessionManager sessionManager;
     private RecyclerView mDrawerRecylerView;
-
-
     private ActionBarDrawerToggle mDrawerToggle;
-
     private Toolbar mToolbar;
-
-
     DrawerLayout mDrawerLayout;
+    private TextView mToolbarText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       //Check LOGIN status
+        //Check LOGIN status
         sessionManager = new SessionManager(this);
         if (!sessionManager.checkLogin()) {
             return;
@@ -75,17 +74,8 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
 
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
-
-        mToolbar.setTitle("G.O.A.L");
         setSupportActionBar(mToolbar);
-
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.white)));
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayShowCustomEnabled(true);
-        }
+        updateToolbar("GOAL", R.color.white, R.color.black);
 
 
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -160,8 +150,6 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
                             startActivity(intent);
                             break;
                         case "Settings":
-                            //intent = new Intent(MainActivity.this, SettingsActivity.class);
-                            //startActivity(intent);
                             setFragment(new SettingsActivity(), true);
                             break;
                         case "History":
@@ -169,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
                             break;
 
                         case "Reward":
-
                             setFragment(new RewardsFragment(), true);
                             break;
                         case "Progress":
@@ -179,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
                             Toast.makeText(MainActivity.this, "The Item Clicked is: " + title, Toast.LENGTH_SHORT).show();
 
                             return true;
-
                     }
                 }
 
@@ -229,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
         String fragmentName = fragment.getClass().getName();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,android.R.anim.fade_in, android.R.anim.fade_out);
+        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.fade_in, android.R.anim.fade_out);
         if (isNavigationDrawerItem) {
             while (fragmentManager.getBackStackEntryCount() != 1)
                 fragmentManager.popBackStackImmediate();
@@ -246,18 +232,17 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
     }
 
 
-
-
-
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 2)
             getSupportFragmentManager().popBackStack();
         else if (getSupportFragmentManager().getBackStackEntryCount() == 2) {
+            updateToolbar("GOAL", R.color.white, R.color.black);
             getmDrawerToggle().setDrawerIndicatorEnabled(true);
             getSupportFragmentManager().popBackStack();
-        } else{
-                super.finish();
+            setDrawerState(true);
+        } else {
+            super.finish();
         }
     }
 
@@ -275,4 +260,31 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
     public void setmDrawerToggle(ActionBarDrawerToggle mDrawerToggle) {
         this.mDrawerToggle = mDrawerToggle;
     }
+
+
+    public void updateToolbar(String text, int backgroundColor, int textColor) {
+        mToolbarText = (TextView) mToolbar.findViewById(R.id.app_bar_tv_title);
+        mToolbarText.setText(text);
+        mToolbarText.setTextColor(textColor);
+        Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/Eurostile.ttf");
+        mToolbarText.setTypeface(custom_font);
+        mToolbar.setBackground(new ColorDrawable(ContextCompat.getColor(this, backgroundColor)));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+    }
+
+    public void setDrawerState(boolean isEnabled) {
+        if (isEnabled) {
+            mDrawerLayout.setDrawerLockMode(mDrawerLayout.LOCK_MODE_UNLOCKED);
+            mDrawerToggle.setDrawerIndicatorEnabled(true);
+            mDrawerToggle.syncState();
+        } else {
+            mDrawerLayout.setDrawerLockMode(mDrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            mDrawerToggle.setDrawerIndicatorEnabled(false);
+            mDrawerToggle.syncState();
+        }
+    }
+
+
 }

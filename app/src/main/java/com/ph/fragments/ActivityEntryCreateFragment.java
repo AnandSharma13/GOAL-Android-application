@@ -255,6 +255,7 @@ public class ActivityEntryCreateFragment extends Fragment {
     }
 
 
+
     public static ActivityEntryCreateFragment newInstance(String param1, String param2) {
         ActivityEntryCreateFragment fragment = new ActivityEntryCreateFragment();
         Bundle args = new Bundle();

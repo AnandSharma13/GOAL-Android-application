@@ -167,21 +167,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2.9"
-                android:background="@color/white">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ic_btn_next"
-                    android:layout_gravity="bottom">
+                android:layout_weight="2.9">
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:backgroundTint="@android:color/transparent"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:text="text"
                         android:onClick="onClickNext"/>
-                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

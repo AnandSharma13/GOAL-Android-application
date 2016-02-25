@@ -55,30 +55,21 @@ public class ActivityEntryMainFragment extends Fragment {
 
 
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         calendar = Calendar.getInstance();
-
-
         dateOperations = new DateOperations(getContext());
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Activity Record");
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(getContext().getDrawable(R.color.activity_entry_app_bar));
-
-
+        ((MainActivity) getActivity()).setDrawerState(false);
+        ((MainActivity) getActivity()).updateToolbar("Add Activity Record", R.color.activity_entry_app_bar, R.color.black);
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Activity Record");
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(getContext().getDrawable(R.color.activity_entry_app_bar));
-    }
+      }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
