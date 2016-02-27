@@ -10,11 +10,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -23,6 +27,7 @@ import android.widget.TextView;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.model.DBOperations;
+import com.ph.model.NutritionEntry;
 import com.ph.model.UserGoal;
 
 import java.io.File;
@@ -32,14 +37,18 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 /**
  * Created by Anand on 1/20/2016.
  */
 
-public class NutritionEntryMain extends AppCompatActivity {
+public class NutritionEntryMain extends Fragment {
 
-    private EditText mGoalDetails;
+    @Bind(R.id.goalDetailsText)
+    EditText mGoalDetails;
     private DatePickerDialog.OnDateSetListener datePicker;
     private Calendar calendar;
     private EditText mNutritionEntryDate;
@@ -48,32 +57,47 @@ public class NutritionEntryMain extends AppCompatActivity {
     private String mSqlDateFormatString;
     private String mImagePath = "";
     DBOperations dbOperations;
-    private TextView mCurrentGoalTv;
-    private RadioGroup mGoalRadioGroup;
+    @Bind(R.id.nutrition_entry_main_tv_goal_text)
+    TextView mCurrentGoalTv;
+    @Bind(R.id.nutrition_entry_main_rg_count_towards_goal)
+    RadioGroup mGoalRadioGroup;
     private Toolbar toolbar;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nutrition_entry_main);
 
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Food Detail");
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.home_nutrition_background_color)));
+        if (getArguments() != null) {
+            mNutritionType = getArguments().getString("NUTRITION_TYPE");
+            mSqlDateFormatString = getArguments().getString("DATE");
+        }
 
 
-        dbOperations = new DBOperations(getApplicationContext());
-        mNutritionType = getIntent().getExtras().getString("NutritionType");
-        mGoalRadioGroup = (RadioGroup) findViewById(R.id.nutrition_entry_main_rg_count_towards_goal);
-        mSqlDateFormatString = getIntent().getExtras().getString("Date");
-        mGoalDetails = (EditText) findViewById(R.id.goalDetailsText);
-        mCurrentGoalTv = (TextView) findViewById(R.id.nutrition_entry_main_tv_goal_text);
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_nutrition_entry_main, container, false);
+        ButterKnife.bind(this, view);
+
+        dbOperations = new DBOperations(getContext());
+
         UserGoal nutritionGoal = dbOperations.getCurrentGoalInfo("Nutrition");
         UserGoal activityGoal = dbOperations.getCurrentGoalInfo("Activity");
-        mCurrentGoalTv.setText(nutritionGoal.getText() +"\n"+activityGoal.getText());
+        mCurrentGoalTv.setText(nutritionGoal.getText() + "\n" + activityGoal.getText());
+        return view;
+    }
+
+
+    public static NutritionEntryMain newInstance(String param1, String param2) {
+        NutritionEntryMain fragment = new NutritionEntryMain();
+        Bundle args = new Bundle();
+        args.putString("NUTRITION_TYPE", param1);
+        args.putString("DATE", param2);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public void onClickCamera(View view) {
@@ -125,7 +149,7 @@ public class NutritionEntryMain extends AppCompatActivity {
                 }
             case NEXT_INTENT:
                 if (resultCode == Activity.RESULT_OK) {
-                    finish();
+                    getActivity().finish();
                 }
                 break;
 
@@ -173,8 +197,8 @@ public class NutritionEntryMain extends AppCompatActivity {
         if (imageUri != null) {
             mImagePath = imageUri.toString();
         }
-        int goalCount = getRadioButtonClick();
-        Intent intent = new Intent(this, NutritionEntryCreate.class);
+        int goalCount = getRadioButtonClick(view);
+        Intent intent = new Intent(getContext(), NutritionEntryCreate.class);
         intent.putExtra("Date", mSqlDateFormatString);
         intent.putExtra("NutritionType", mNutritionType);
         intent.putExtra("GoalCount", goalCount);
@@ -183,11 +207,10 @@ public class NutritionEntryMain extends AppCompatActivity {
         startActivityForResult(intent, NEXT_INTENT);
     }
 
-    public int getRadioButtonClick() {
+    public int getRadioButtonClick(View v) {
         int selectedIndex = mGoalRadioGroup.getCheckedRadioButtonId();
-        RadioButton rb = (RadioButton) findViewById(selectedIndex);
+        RadioButton rb = (RadioButton) v.findViewById(selectedIndex);
         int count = Integer.parseInt(rb.getText().toString());
-
         return count;
     }
 

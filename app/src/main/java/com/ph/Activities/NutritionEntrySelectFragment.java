@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.ph.MainActivity;
@@ -23,6 +25,7 @@ import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class NutritionEntrySelectFragment extends Fragment {
@@ -34,7 +37,14 @@ public class NutritionEntrySelectFragment extends Fragment {
     private DateOperations mDateOperations;
     private String mSqlDateFormatString;
     static final int RESULT_CODE = 1;
-
+    @Bind(R.id.nutrition_entry_select_btn_breakfast)
+    Button mBreakFastBtn;
+    @Bind(R.id.nutrition_entry_select_btn_lunch)
+    Button mLunchBtn;
+    @Bind(R.id.nutrition_entry_select_btn_dinner)
+    Button mDinnerBtn;
+    @Bind(R.id.nutrition_entry_select_btn_snack)
+    Button mSnackBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,16 +89,59 @@ public class NutritionEntrySelectFragment extends Fragment {
                 datePickerDialog.show();
             }
         });
+        mBreakFastBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                NutritionEntryMain fragment = NutritionEntryMain.newInstance("BreakFast",mSqlDateFormatString);
+                ((MainActivity)getActivity()).setFragment(fragment, false);
+
+            }
+        });
+
+        mLunchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                NutritionEntryMain fragment = NutritionEntryMain.newInstance("Lunch",mSqlDateFormatString);
+
+                ((MainActivity)getActivity()).setFragment(fragment, false);
+
+            }
+        });
+        mDinnerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                NutritionEntryMain fragment = NutritionEntryMain.newInstance("Dinner",mSqlDateFormatString);
+                ((MainActivity)getActivity()).setFragment(fragment, false);
+            }
+        });
+        mSnackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NutritionEntryMain fragment = NutritionEntryMain.newInstance("Snack",mSqlDateFormatString);
+                ((MainActivity)getActivity()).setFragment(fragment, false);
+
+            }
+        });
+
+
         return view;
     }
 
     public void onClickBreakFast(View view) {
 
-        Intent intent = new Intent(getContext(), NutritionEntryMain.class);
-        intent.putExtra("NutritionType", "BreakFast");
-        intent.putExtra("Date", mSqlDateFormatString);
+//        Intent intent = new Intent(getContext(), NutritionEntryMain.class);
+//        intent.putExtra("NutritionType", "BreakFast");
+//        intent.putExtra("Date", mSqlDateFormatString);
+//
+//        startActivityForResult(intent, RESULT_CODE);
 
-        startActivityForResult(intent, RESULT_CODE);
+
+        NutritionEntryMain fragment = NutritionEntryMain.newInstance("BreakFast",mSqlDateFormatString);
+
+        ((MainActivity)getActivity()).setFragment(fragment, false);
 
     }
 
@@ -104,32 +157,45 @@ public class NutritionEntrySelectFragment extends Fragment {
 
     }
 
-    public void onClickLunch(View view) {
-
-        Intent intent = new Intent(getContext(), NutritionEntryMain.class);
-        intent.putExtra("NutritionType", "Lunch");
-        intent.putExtra("Date", mSqlDateFormatString);
-        startActivityForResult(intent, RESULT_CODE);
-
-    }
-
-    public void onClickDinner(View view) {
-
-        Intent intent = new Intent(getContext(), NutritionEntryMain.class);
-        intent.putExtra("NutritionType", "Dinner");
-        intent.putExtra("Date", mSqlDateFormatString);
-        startActivityForResult(intent, RESULT_CODE);
-
-    }
-
-    public void onClickSnack(View view) {
-
-        Intent intent = new Intent(getContext(), NutritionEntryMain.class);
-        intent.putExtra("NutritionType", "Snack");
-        intent.putExtra("Date", mSqlDateFormatString);
-        startActivityForResult(intent, RESULT_CODE);
-
-    }
+//    public void onClickLunch(View view) {
+//
+////        Intent intent = new Intent(getContext(), NutritionEntryMain.class);
+// //       intent.putExtra("NutritionType", "Lunch");
+//  //      intent.putExtra("Date", mSqlDateFormatString);
+//
+//        NutritionEntryMain fragment = NutritionEntryMain.newInstance("Lunch",mSqlDateFormatString);
+//
+//        ((MainActivity)getActivity()).setFragment(fragment, false);
+//
+//  //    startActivityForResult(intent, RESULT_CODE);
+//
+//    }
+//
+//    public void onClickDinner(View view) {
+//
+////        Intent intent = new Intent(getContext(), NutritionEntryMain.class);
+////        intent.putExtra("NutritionType", "Dinner");
+////        intent.putExtra("Date", mSqlDateFormatString);
+////        startActivityForResult(intent, RESULT_CODE);
+//
+//        NutritionEntryMain fragment = NutritionEntryMain.newInstance("Dinner",mSqlDateFormatString);
+//
+//        ((MainActivity)getActivity()).setFragment(fragment, false);
+//
+//
+//
+//    }
+//
+//    public void onClickSnack(View view) {
+//
+////        Intent intent = new Intent(getContext(), NutritionEntryMain.class);
+////        intent.putExtra("NutritionType", "Snack");
+////        intent.putExtra("Date", mSqlDateFormatString);
+////        startActivityForResult(intent, RESULT_CODE);
+//
+//        NutritionEntryMain fragment = NutritionEntryMain.newInstance("Dinner",mSqlDateFormatString);
+//        ((MainActivity)getActivity()).setFragment(fragment, false);
+//    }
 
     public void updateLabel() {
         mNutritionEntryDate.setText(mDateOperations.getUniformDateFormat().format(calendar.getTime()));

@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.NutritionEntryMain">
+    tools:context=".Activities.NutritionEntryMain"
+    android:background="@color/backgroundColor"
+    >
 
     <include
         android:id="@+id/app_bar"

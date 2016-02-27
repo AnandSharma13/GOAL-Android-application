@@ -40,12 +40,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/ic_btn_breakfast">
+            android:background="@drawable/ic_btn_breakfast"
+            >
 
             <Button
+                android:id="@+id/nutrition_entry_select_btn_breakfast"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@android:color/transparent"
+                android:scaleType="centerCrop"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="onClickBreakFast"/>
 

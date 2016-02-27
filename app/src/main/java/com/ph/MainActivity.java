@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
         String fragmentName = fragment.getClass().getName();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.fade_in, android.R.anim.fade_out);
+        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         if (isNavigationDrawerItem) {
             while (fragmentManager.getBackStackEntryCount() != 1)
                 fragmentManager.popBackStackImmediate();
@@ -262,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
     }
 
 
+    //TODO custom titles
     public void updateToolbar(String text, int backgroundColor, int textColor) {
         mToolbarText = (TextView) mToolbar.findViewById(R.id.app_bar_tv_title);
         mToolbarText.setText(text);
