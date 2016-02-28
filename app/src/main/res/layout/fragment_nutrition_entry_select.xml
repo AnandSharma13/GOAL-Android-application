@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.NutritionEntrySelectFragment"
+    tools:context=".Fragments.NutritionEntrySelectFragment"
     android:background="@color/nutrition_entry_select_background">
 
 
@@ -62,7 +62,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/ic_btn_lunch">
+            android:background="@drawable/ic_btn_lunch"
+            >
 
             <Button
                 android:id="@+id/nutrition_entry_select_btn_lunch"

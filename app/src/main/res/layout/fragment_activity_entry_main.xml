@@ -7,7 +7,7 @@
 
     android:background="@color/backgroundColor"
     android:clickable="true"
-    tools:context=".fragments.ActivityEntryMainFragment">
+    tools:context=".Fragments.ActivityEntryMainFragment">
 
     <LinearLayout
         android:orientation="vertical"

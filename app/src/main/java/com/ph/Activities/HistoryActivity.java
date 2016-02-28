@@ -10,9 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.ph.R;
-import com.ph.fragments.ActivityHistoryFragment;
-import com.ph.fragments.GoalHistoryFragment;
-import com.ph.fragments.NutritionHistoryFragment;
+import com.ph.Fragments.ActivityHistoryFragment;
+import com.ph.Fragments.GoalHistoryFragment;
+import com.ph.Fragments.NutritionHistoryFragment;
 
 import java.util.ArrayList;
 import java.util.List;

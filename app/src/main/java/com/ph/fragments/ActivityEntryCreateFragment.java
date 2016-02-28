@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

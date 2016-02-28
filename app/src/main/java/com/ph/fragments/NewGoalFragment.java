@@ -1,12 +1,10 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ph.Activities.NewGoal;
-import com.ph.Activities.NutritionEntrySelectFragment;
 import com.ph.MainActivity;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
