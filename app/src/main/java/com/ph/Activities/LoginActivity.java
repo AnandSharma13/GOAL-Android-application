@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ph.R;
+import com.ph.Utils.AlertDialogManager;
 import com.ph.net.SessionManager;
 
 /**
@@ -37,8 +38,12 @@ public class LoginActivity extends AppCompatActivity {
                 String id = ID.getText().toString();
 
 
-
-                sessionManager.createLoginSession(first_name,Integer.parseInt(id));
+                if(first_name.equals("") || id =="") {
+                    AlertDialogManager alert = new AlertDialogManager();
+                    alert.showAlertDialog(LoginActivity.this, "Error","User name or ID is missing");
+                }
+                else
+                    sessionManager.createLoginSession(first_name,Integer.parseInt(id));
             }
         });
 

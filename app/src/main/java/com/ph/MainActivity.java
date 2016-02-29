@@ -42,6 +42,7 @@ import com.ph.Fragments.ProgressNutritionDetails;
 import com.ph.Fragments.ProgressNutritionFragment;
 import com.ph.Fragments.ProgressStepsFragment;
 import com.ph.Fragments.RewardsFragment;
+import com.ph.Fragments.SimpleDividerItemDecoration;
 import com.ph.Fragments.StepsDay;
 import com.ph.Fragments.StepsWeek;
 import com.ph.net.SessionManager;
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         mDrawerRecylerView = (RecyclerView) mDrawerLayout.findViewById(R.id.drawerList);
+        mDrawerRecylerView.addItemDecoration(new SimpleDividerItemDecoration(ContextCompat.getDrawable(getApplicationContext(), R.drawable.navigation_drawer_row_line)));
 
         final GestureDetector drawerGestureDector = new GestureDetector(MainActivity.this, new GestureDetector.SimpleOnGestureListener() {
 
