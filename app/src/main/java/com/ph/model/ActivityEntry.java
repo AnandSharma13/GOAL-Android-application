@@ -3,10 +3,10 @@ package com.ph.model;
 
 public class ActivityEntry {
 
-    private int activity_entry_id;
-    private int goal_id;
+    private long activity_entry_id;
+    private long goal_id;
     private String date;
-    private int activity_id;
+    private long activity_id;
     private String timestamp;
     private int rpe;
     private String activity_length;
@@ -47,27 +47,27 @@ public class ActivityEntry {
 
     }
 
-    public int getActivity_entry_id() {
+    public long getActivity_entry_id() {
         return activity_entry_id;
     }
 
-    public void setActivity_entry_id(int activity_entry_id) {
+    public void setActivity_entry_id(long activity_entry_id) {
         this.activity_entry_id = activity_entry_id;
     }
 
-    public int getGoal_id() {
+    public long getGoal_id() {
         return goal_id;
     }
 
-    public void setGoal_id(int goal_id) {
+    public void setGoal_id(long goal_id) {
         this.goal_id = goal_id;
     }
 
-    public int getActivity_id() {
+    public long getActivity_id() {
         return activity_id;
     }
 
-    public void setActivity_id(int activity_id) {
+    public void setActivity_id(long activity_id) {
         this.activity_id = activity_id;
     }
 

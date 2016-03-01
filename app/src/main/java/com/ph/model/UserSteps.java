@@ -12,7 +12,7 @@ public class UserSteps {
     public static String column_timestamp = "timestamp";
     public static String column_sync = "is_sync";
     public static String column_type = "type";
-    private int steps_id;
+    private long steps_id;
     private int steps_count;
     private int user_id;
     private String timestamp;
@@ -29,11 +29,11 @@ public class UserSteps {
 
     }
 
-    public int getSteps_id() {
+    public long getSteps_id() {
         return steps_id;
     }
 
-    public void setSteps_id(int steps_id) {
+    public void setSteps_id(long steps_id) {
         this.steps_id = steps_id;
     }
 

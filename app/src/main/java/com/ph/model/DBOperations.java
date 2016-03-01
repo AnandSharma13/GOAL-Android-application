@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.preference.PreferenceManager;
@@ -13,6 +14,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.StartEndDateObject;
+import com.ph.net.SessionManager;
 import com.ph.view.ImageHandler;
 
 import java.io.IOException;
@@ -42,6 +44,7 @@ public class DBOperations {
     }
 
     ///Inserts a row into user table
+    @Deprecated
     public long insertRow(User user) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         ContentValues val = new ContentValues();
@@ -72,6 +75,16 @@ public class DBOperations {
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
         if (usergoal.getGoal_id() != 0)
             val.put(UserGoal.column_goalID, usergoal.getGoal_id());
+        else
+        {
+            long count = DatabaseUtils.queryNumEntries(db, UserGoal.tableName);
+            if(count == 0)
+                //usergoal.setGoal_id(SessionManager.seqConstant);
+                val.put(UserGoal.column_goalID, SessionManager.seqConstant);
+
+        }
+
+
 
         //setting userId from user class
         val.put(UserGoal.column_userID, usergoal.getUser_id());
@@ -84,7 +97,13 @@ public class DBOperations {
         if (usergoal.getTimestamp() != null) {
             val.put(UserGoal.column_timeStamp, usergoal.getTimestamp());
         }
+
+
         long id = db.insert(UserGoal.tableName, null, val);
+
+
+
+
         db.close();
         return id;
     }
@@ -96,6 +115,13 @@ public class DBOperations {
 
         if (userSteps.getSteps_id() != 0)
             val.put(UserSteps.column_stepsID, userSteps.getSteps_id());
+        else
+        {
+            long count = DatabaseUtils.queryNumEntries(db, UserSteps.tableName);
+            if(count == 0)
+                //userSteps.setSteps_id(SessionManager.seqConstant);
+                val.put(UserSteps.column_stepsID,SessionManager.seqConstant);
+        }
         val.put(UserSteps.column_userID, userSteps.getUser_id());
         val.put(UserSteps.column_stepscount, userSteps.getSteps_count());
         // val.put(UserSteps.column_timestamp,userSteps.getTimestamp());
@@ -115,6 +141,18 @@ public class DBOperations {
         ContentValues val = new ContentValues();
         if (activity.getActivity_id() != 0)
             val.put(Activity.column_activityID, activity.getActivity_id());
+        else
+        {
+            String query = "select max(activity_id) from "+Activity.tableName;
+
+            Cursor cursor = db.rawQuery(query,null);
+
+            cursor.moveToFirst();
+            long maxActivityId = cursor.getInt(0);
+            if(maxActivityId < SessionManager.seqConstant)
+                //activity.setActivity_id(SessionManager.seqConstant);
+                val.put(Activity.column_activityID,SessionManager.seqConstant);
+        }
         val.put(Activity.column_userID, activity.getUser_id());
         val.put(Activity.column_name, activity.getName());
         val.put(Activity.column_hitCount, activity.getHit_count());
@@ -135,6 +173,13 @@ public class DBOperations {
 
         if (activityEntry.getActivity_entry_id() != 0)
             val.put(ActivityEntry.column_activityID, activityEntry.getActivity_entry_id());
+        else
+        {
+            long count = DatabaseUtils.queryNumEntries(db, ActivityEntry.tableName);
+            if(count == 0)
+                //activityEntry.setActivity_entry_id(SessionManager.seqConstant);
+                val.put(ActivityEntry.column_activityEntryID,SessionManager.seqConstant);
+        }
         val.put(ActivityEntry.column_activityID, activityEntry.getActivity_id());
         val.put(ActivityEntry.column_activitylength, activityEntry.getActivity_length());
         val.put(ActivityEntry.column_counttowardsgoal, activityEntry.getCount_towards_goal());
@@ -164,6 +209,13 @@ public class DBOperations {
         ContentValues val = new ContentValues();
         if (nutritionEntry.getNutrition_entry_id() != 0)
             val.put(NutritionEntry.column_nutritionEntryID, nutritionEntry.getNutrition_entry_id());
+        else
+        {
+            long count = DatabaseUtils.queryNumEntries(db, NutritionEntry.tableName);
+            if(count == 0)
+                //nutritionEntry.setNutrition_entry_id(SessionManager.seqConstant);
+                val.put(NutritionEntry.column_nutritionEntryID,SessionManager.seqConstant);
+        }
         val.put(NutritionEntry.column_goalID, nutritionEntry.getGoal_id());
         val.put(NutritionEntry.column_atticFood, nutritionEntry.getAttic_food());
         val.put(NutritionEntry.column_counttowardsgoal, nutritionEntry.getTowards_goal());
@@ -206,7 +258,7 @@ public class DBOperations {
     }
 
 
-    public Activity getActivityById(int id)
+    public Activity getActivityById(long id)
     {
         Activity activity = new Activity();
 
@@ -655,7 +707,7 @@ public class DBOperations {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
         String query = "";
 
-        int id = userGoal.getGoal_id();
+        long id = userGoal.getGoal_id();
         Cursor cursor;
         String tableName ="";
         if (type.equals("Activity")) {
@@ -692,6 +744,5 @@ public class DBOperations {
         }
         return entryList;
     }
-
 
 }

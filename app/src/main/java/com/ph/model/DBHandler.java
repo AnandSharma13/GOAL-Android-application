@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ph.R;
+import com.ph.net.SessionManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,6 +72,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 + UserGoal.column_sync + " INTEGER, "
                 + "FOREIGN KEY (" + UserGoal.column_userID + ") REFERENCES " + com.ph.model.User.tableName + "(" + com.ph.model.User.column_userID + ")" + ")";
 
+
+
         String activityTable = "create table " + Activity.tableName + "("
                 + Activity.column_activityID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
                 + Activity.column_userID + " INTEGER, "
@@ -128,6 +131,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
 //        db.execSQL(userTable);
 //        Log.i("DBHandler", "user table created");
+
+
+        String universalSequenceChangerQuery = "update sqlite_sequence set seq = "+ SessionManager.seqConstant;
         db.execSQL(userGoalTable);
         Log.i("DBHandler", "Goal table created");
         db.execSQL(activityTable);
@@ -144,6 +150,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.i("DBHandler", "Nutrition entry table created");
 
     }
+
 
 
     @Deprecated

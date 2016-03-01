@@ -15,7 +15,7 @@ public class Activity {
     public static String column_lastUsed = "last_used";
     public static String column_timestamp = "timestamp";
     public static String column_isSync = "is_sync";
-    private int activity_id;
+    private long activity_id;
     private int user_id;
     private String name;
     private String type;
@@ -38,11 +38,11 @@ public class Activity {
 
     }
 
-    public int getActivity_id() {
+    public long getActivity_id() {
         return activity_id;
     }
 
-    public void setActivity_id(int activity_id) {
+    public void setActivity_id(long activity_id) {
         this.activity_id = activity_id;
     }
 

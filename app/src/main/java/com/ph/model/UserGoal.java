@@ -15,7 +15,7 @@ public class UserGoal {
     public static final String column_rewardType = "reward_type";
     public static final String column_text = "text";
     public static final String column_sync = "is_sync";
-    private int goal_id;
+    private long goal_id;
     private int user_id;
     private String timestamp;
     private String type;
@@ -40,11 +40,11 @@ public class UserGoal {
     }
 
 
-    public int getGoal_id() {
+    public long getGoal_id() {
         return goal_id;
     }
 
-    public void setGoal_id(int goal_id) {
+    public void setGoal_id(long goal_id) {
         this.goal_id = goal_id;
     }
 

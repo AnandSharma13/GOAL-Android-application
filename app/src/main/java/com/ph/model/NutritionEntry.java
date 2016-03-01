@@ -4,8 +4,8 @@ package com.ph.model;
  * Created by Anand on 12/27/2015.
  */
 public class NutritionEntry {
-    private int nutrition_entry_id;
-    private int goal_id;
+    private long nutrition_entry_id;
+    private long goal_id;
     private String nutrition_type;
     private String timestamp;
     private int towards_goal;
@@ -67,19 +67,19 @@ public class NutritionEntry {
 
     }
 
-    public int getNutrition_entry_id() {
+    public long getNutrition_entry_id() {
         return nutrition_entry_id;
     }
 
-    public void setNutrition_entry_id(int nutrition_entry_id) {
+    public void setNutrition_entry_id(long nutrition_entry_id) {
         this.nutrition_entry_id = nutrition_entry_id;
     }
 
-    public int getGoal_id() {
+    public long getGoal_id() {
         return goal_id;
     }
 
-    public void setGoal_id(int goal_id) {
+    public void setGoal_id(long goal_id) {
         this.goal_id = goal_id;
     }
 

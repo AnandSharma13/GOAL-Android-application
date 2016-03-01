@@ -33,6 +33,7 @@ import java.util.Map;
 public class SessionManager {
     // Shared Preferences
     SharedPreferences pref;
+    public static long seqConstant=-1;
 
     // Editor for Shared preferences
     Editor editor;
@@ -127,6 +128,13 @@ public class SessionManager {
                                         {
                                             editor.putBoolean(IS_LOGIN, true);
                                             editor.commit();
+
+                                            seqConstant = Long.parseLong(pref.getString("user_id","-1"));
+                                            if(seqConstant == -1)
+                                            {
+                                                throw new Exception("Failed to fetch user id");
+                                            }
+                                            seqConstant = seqConstant*100000000;
                                         }
                                         else
                                         {
@@ -142,6 +150,8 @@ public class SessionManager {
                                     e.printStackTrace();
                                 }catch (ParseException p){
                                     p.printStackTrace();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             }
 
@@ -197,6 +207,7 @@ public class SessionManager {
 
                 editor.putString(key,value);
             }
+            editor.commit();
 
             return true;
             } catch (JSONException e) {

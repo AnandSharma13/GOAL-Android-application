@@ -60,6 +60,7 @@ public class ServerSync {
         }
     }
 
+
     private void insertNutritionEntryTableRows(JSONArray jArray) {
 
 
