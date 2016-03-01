@@ -205,7 +205,7 @@ public class ActivityEntryCreateFragment extends Fragment {
                 ActivityEntry activityEntry = new ActivityEntry();
                 int selectedActivity = activityViewAdapter.getSelectedPos();
 
-                int activityId = mData.get(selectedActivity).getActivity_id();
+                long activityId = mData.get(selectedActivity).getActivity_id();
                 int rpeVal = rpeSeekBar.getProgress();
                 int timeVal = timeSeekBar.getProgress();
 
