@@ -226,7 +226,21 @@ public class NewGoal extends AppCompatActivity {
         }
         Toast.makeText(NewGoal.this,"Changes Saved",Toast.LENGTH_SHORT).show();
 
-       // Redirect to main activity.
+
+
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putString("Type", "ClientSync");
+
+        settingsBundle.putInt("ListSize", tablesList.size());
+        for (int i = 0; i < tablesList.size(); i++) {
+            settingsBundle.putString("Table " + i, tablesList.get(i));
+        }
+        SyncUtils.TriggerRefresh(settingsBundle);
+        Log.i("NewGoal", "Goal inserted");
+        Snackbar.make(view, "New goal created. Check Goal2 database ", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+
+        // Redirect to main activity.
                 Intent i = new Intent(NewGoal.this, MainActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
@@ -239,16 +253,6 @@ public class NewGoal extends AppCompatActivity {
 
         long id = dbOperations.insertRow(goal);
         Log.i("Goal button", String.valueOf(id));
-        Bundle settingsBundle = new Bundle();
-        settingsBundle.putString("Type", "ClientSync");
-
-        settingsBundle.putInt("ListSize", tablesList.size());
-        for (int i = 0; i < tablesList.size(); i++) {
-            settingsBundle.putString("Table " + i, tablesList.get(i));
-        }
-        SyncUtils.TriggerRefresh(settingsBundle);
-        Log.i("NewGoal", "Goal inserted");
-        Snackbar.make(view, "New goal created. Check Goal2 database ", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
         return id;
 
