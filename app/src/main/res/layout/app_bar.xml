@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:textSize="28sp"
-        android:text="Text View"
         android:textStyle="bold"
         />
 </android.support.v7.widget.Toolbar>

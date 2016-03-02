@@ -1,92 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/app_bar" />
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="@color/white">
 
     <LinearLayout
+        android:layout_below="@+id/app_bar"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="127dp"
-        android:layout_marginTop="200px"
-        android:padding="30px">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="@color/white">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="LOGO"
-                android:id="@+id/textView6"
-                android:layout_gravity="center" />
-        </LinearLayout>
+        android:layout_height="wrap_content"
+        android:paddingLeft="40px"
+        android:paddingRight="40px">
+           <ImageView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:src="@drawable/ic_goal_logo"
+               android:scaleType="fitCenter"
+               />
     </LinearLayout>
 
     <LinearLayout
+
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="143dp"
-        android:layout_marginTop="100px"
-        android:padding="10px">
+        android:layout_height="wrap_content"
+        android:paddingLeft="40px"
+        android:paddingRight="40px">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="First Name"
-                android:id="@+id/first_name_label" />
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/user_first_name" />
+                android:id="@+id/user_first_name"
+                android:hint="Name"/>
+            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
+
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="ID"
-                android:id="@+id/user_id_label" />
-
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
             <EditText
-                android:layout_width="270dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_id"
-                android:layout_marginLeft="200px"
-                android:inputType="number" />
+                android:inputType="number"
+                android:hint="User ID"/>
+            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
+        android:layout_below="@+id/above_button"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="24px"
+        android:paddingRight="24px"
         >
-
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Login"
+            android:backgroundTint="@color/home_fragment_layout_steps_count_color"
             android:id="@+id/login_button"
             />
     </LinearLayout>

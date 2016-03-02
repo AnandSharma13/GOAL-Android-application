@@ -134,7 +134,8 @@ public class SessionManager {
                                             {
                                                 throw new Exception("Failed to fetch user id");
                                             }
-                                            seqConstant = seqConstant*100000000;
+                                            //TODO check PHP code
+                                            seqConstant = seqConstant*1000;
                                         }
                                         else
                                         {

@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                 String id = ID.getText().toString();
 
 
-                if(first_name.equals("") || id =="") {
+                if(first_name.equals("")) {
                     AlertDialogManager alert = new AlertDialogManager();
                     alert.showAlertDialog(LoginActivity.this, "Error","User name or ID is missing");
                 }

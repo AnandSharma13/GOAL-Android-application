@@ -406,7 +406,7 @@ public class NutritionEntryCreateFragment extends Fragment {
         waterIntakeCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_waterintake));
 
         dayRecordCursor.close();
-        Log.i("NutritionEntryCreateFragment", "Getting day records");
+      //  Log.i("NutritionEntryCreateFragment", "Getting day records");
         return;
     }
 
