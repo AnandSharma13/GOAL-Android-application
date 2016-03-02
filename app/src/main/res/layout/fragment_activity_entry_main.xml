@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@color/backgroundColor"
+
     android:clickable="true"
-    tools:context=".fragments.ActivityEntryMainFragment">
+    android:orientation="vertical"
+    tools:context=".Fragments.ActivityEntryMainFragment">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/activity_entry_date_layout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_weight="0"
-        android:id="@+id/activity_entry_date_layout"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
@@ -27,44 +27,47 @@
             <!--/>-->
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <EditText
+            <TextView
+                android:id="@+id/activity_entry_date_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="date"
-                android:ems="8"
-                android:id="@+id/activity_entry_date_text_view"
-                android:layout_marginTop="30dp"
-                android:textColor="@color/activity_entry_text"
-                android:focusable="false"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="50dp"
                 android:layout_weight="0"
-                android:layout_marginLeft="15dp" />
+                android:ems="7"
+                android:focusable="false"
+                android:inputType="date"
+                android:text="01/01/9999"
+                android:textAlignment="center"
+                android:textColor="@color/activity_entry_text"
+                android:textSize="16dp" />
 
             <ImageView
+                android:id="@+id/activity_entry_calendar_image"
                 android:layout_width="48dp"
                 android:layout_height="45dp"
-                android:src="@drawable/ic_activity_entry_calendar"
-                android:id="@+id/activity_entry_calendar_image"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="30dp"
+                android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:longClickable="true"
-                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_activity_entry_calendar"
                 />
         </LinearLayout>
     </LinearLayout>
 
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/fragement_activity_entry_main_linear_layout_cardio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fragement_activity_entry_main_linear_layout_cardio"
+        android:layout_weight="0.33"
         android:background="@drawable/ic_btn_activity_entry_cardio"
-        android:layout_weight="0.33">
+        android:orientation="vertical">
 
         <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
@@ -74,24 +77,24 @@
             <!--android:id="@+id/textView"-->
             <!--android:layout_margin="80px" />-->
         <Button
+            android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
+            android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:text=""
-            android:id="@+id/button"
-            android:layout_weight="1" />
+            android:backgroundTint="@android:color/transparent"
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/fragement_activity_entry_main_linear_layout_strength"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/fragement_activity_entry_main_linear_layout_strength"
+        android:layout_weight="0.33"
         android:background="@drawable/ic_btn_activity_entry_strength"
 
-        android:layout_weight="0.33">
+        android:orientation="vertical">
 
         <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
@@ -101,24 +104,24 @@
             <!--android:id="@+id/textView2"-->
             <!--android:layout_margin="80px" />-->
         <Button
+            android:id="@+id/button1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
+            android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:text=""
-            android:id="@+id/button1"
-            android:layout_weight="1" />
+            android:backgroundTint="@android:color/transparent"
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/fragement_activity_entry_main_linear_layout_lifestyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/fragement_activity_entry_main_linear_layout_lifestyle"
+        android:layout_weight="0.33"
         android:background="@drawable/ic_btn_activity_entry_lifestyle"
         android:onClick="activityClick"
-        android:layout_weight="0.33">
+        android:orientation="vertical">
 
         <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
@@ -128,12 +131,12 @@
             <!--android:id="@+id/textView4"-->
             <!--android:layout_margin="80px" />-->
         <Button
+            android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
+            android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:text=""
-            android:id="@+id/button3"
-            android:layout_weight="1" />
+            android:backgroundTint="@android:color/transparent"
+            android:text="" />
     </LinearLayout>
 </LinearLayout>

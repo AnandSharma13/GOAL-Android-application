@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -14,9 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ph.MainActivity;
 import com.ph.R;
@@ -31,28 +31,21 @@ import butterknife.ButterKnife;
 
 
 public class ActivityEntryMainFragment extends Fragment {
-    private Calendar calendar;
-    private DatePickerDialog.OnDateSetListener datePicker;
     @Bind(R.id.activity_entry_date_text_view)
-    EditText activityDate;
-    private DateOperations dateOperations;
-    private Toolbar toolbar;
+    TextView activityDate;
     @Bind(R.id.fragement_activity_entry_main_linear_layout_strength)
     LinearLayout mLinearLayoutStrength;
-
     @Bind(R.id.fragement_activity_entry_main_linear_layout_cardio)
     LinearLayout mLinearLayoutCardio;
-
     @Bind(R.id.fragement_activity_entry_main_linear_layout_lifestyle)
     LinearLayout mLinearLayoutLifstyle;
-
     @Bind(R.id.activity_entry_calendar_image)
     ImageView calendarImage;
     ActionBarDrawerToggle mDrawerToggle;
-
-
-
-
+    private Calendar calendar;
+    private DatePickerDialog.OnDateSetListener datePicker;
+    private DateOperations dateOperations;
+    private Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +61,9 @@ public class ActivityEntryMainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-      }
+        ((MainActivity) getActivity()).setDrawerState(false);
+        ((MainActivity) getActivity()).updateToolbar("Add Activity Record", R.color.activity_entry_app_bar, R.color.black);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -139,22 +134,6 @@ public class ActivityEntryMainFragment extends Fragment {
         return view;
     }
 
-
-    class ActivityEntryDateClickListener implements View.OnClickListener
-    {
-        @Override
-        public void onClick(View v) {
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), datePicker, calendar
-                    .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH));
-
-            Dateutils dateutils = new Dateutils(getContext());
-            datePickerDialog = dateutils.setGoalPeriodWeek(datePickerDialog);
-            datePickerDialog.show();
-        }
-    }
-
     private void updateLabel() {
         activityDate.setText(dateOperations.getUniformDateFormat().format(calendar.getTime()));
         Log.i("updateLabel", "Time has been set to the Edit Text");
@@ -180,6 +159,21 @@ public class ActivityEntryMainFragment extends Fragment {
                 fragment = ActivityEntryCreateFragment.newInstance("Lifestyle", date);
                 ((MainActivity) getActivity()).setFragment(fragment, false);
                 break;
+        }
+    }
+
+    class ActivityEntryDateClickListener implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View v) {
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), datePicker, calendar
+                    .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH));
+
+            Dateutils dateutils = new Dateutils(getContext());
+            datePickerDialog = dateutils.setGoalPeriodWeek(datePickerDialog);
+            datePickerDialog.show();
         }
     }
 }

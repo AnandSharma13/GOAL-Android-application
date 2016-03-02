@@ -159,7 +159,7 @@ public class DBOperations {
         val.put(Activity.column_lastUsed, activity.getLast_used());
         val.put(Activity.column_type, activity.getType());
         if (activity.getTimestamp() != null)
-            val.put(activity.column_timestamp, activity.getTimestamp());
+            val.put(Activity.column_timestamp, activity.getTimestamp());
         val.put(Activity.column_isSync, activity.getIs_sync());
 
         long id = db.insert(Activity.tableName, null, val);
@@ -318,13 +318,13 @@ public class DBOperations {
 
 
     private NutritionEntry populateRows(NutritionEntry nutritionEntry, Cursor cursor) {
-        nutritionEntry.setNutrition_entry_id(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_nutritionEntryID)));
+        nutritionEntry.setNutrition_entry_id(cursor.getLong(cursor.getColumnIndex(NutritionEntry.column_nutritionEntryID)));
         nutritionEntry.setTimestamp(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_timestamp)));
         nutritionEntry.setIs_sync(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_sync)));
         nutritionEntry.setAttic_food(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_atticFood)));
         nutritionEntry.setDairy(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_dairy)));
         nutritionEntry.setFruit(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_fruit)));
-        nutritionEntry.setGoal_id(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_goalID)));
+        nutritionEntry.setGoal_id(cursor.getLong(cursor.getColumnIndex(NutritionEntry.column_goalID)));
         nutritionEntry.setGrain(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_grain)));
         nutritionEntry.setProtein(cursor.getInt(cursor.getColumnIndex(NutritionEntry.column_protein)));
         nutritionEntry.setNutrition_type(cursor.getString(cursor.getColumnIndex(NutritionEntry.column_nutritiontype)));
@@ -368,8 +368,8 @@ public class DBOperations {
     }
 
     private ActivityEntry populateRows(ActivityEntry activityEntry, Cursor cursor) {
-        activityEntry.setActivity_entry_id(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_activityEntryID)));
-        activityEntry.setActivity_id(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_activityID)));
+        activityEntry.setActivity_entry_id(cursor.getLong(cursor.getColumnIndex(ActivityEntry.column_activityEntryID)));
+        activityEntry.setActivity_id(cursor.getLong(cursor.getColumnIndex(ActivityEntry.column_activityID)));
 
         String image_uri = cursor.getString(cursor.getColumnIndex(ActivityEntry.column_image));
         activityEntry.setImage(image_uri);
@@ -385,7 +385,7 @@ public class DBOperations {
         activityEntry.setNotes(cursor.getString(cursor.getColumnIndex(ActivityEntry.column_notes)));
         activityEntry.setActivity_length(cursor.getString(cursor.getColumnIndex(ActivityEntry.column_activitylength)));
         activityEntry.setCount_towards_goal(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_counttowardsgoal)));
-        activityEntry.setGoal_id(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_goalID)));
+        activityEntry.setGoal_id(cursor.getLong(cursor.getColumnIndex(ActivityEntry.column_goalID)));
         activityEntry.setRpe(cursor.getInt(cursor.getColumnIndex(ActivityEntry.column_rpe)));
         activityEntry.setDate(cursor.getString(cursor.getColumnIndex(ActivityEntry.column_date)));
 
@@ -395,7 +395,7 @@ public class DBOperations {
 
 
     private UserSteps populateRows(UserSteps userSteps, Cursor cursor) {
-        userSteps.setSteps_id(cursor.getInt(cursor.getColumnIndex(UserSteps.column_stepsID)));
+        userSteps.setSteps_id(cursor.getLong(cursor.getColumnIndex(UserSteps.column_stepsID)));
         userSteps.setUser_id(cursor.getInt(cursor.getColumnIndex(UserSteps.column_userID)));
         userSteps.setSteps_count(cursor.getInt(cursor.getColumnIndex(UserSteps.column_stepscount)));
         userSteps.setTimestamp(cursor.getString(cursor.getColumnIndex(UserSteps.column_timestamp)));
@@ -403,7 +403,7 @@ public class DBOperations {
     }
 
     private Activity populateRows(Activity activity, Cursor cursor) {
-        activity.setActivity_id(cursor.getInt(cursor.getColumnIndex(Activity.column_activityID)));
+        activity.setActivity_id(cursor.getLong(cursor.getColumnIndex(Activity.column_activityID)));
         activity.setUser_id(cursor.getInt(cursor.getColumnIndex(Activity.column_userID)));
         activity.setName(cursor.getString(cursor.getColumnIndex(Activity.column_name)));
         activity.setType(cursor.getString(cursor.getColumnIndex(Activity.column_type)));
@@ -420,8 +420,9 @@ public class DBOperations {
      * @param cursor cursor returned from the query
      * @return user object
      */
+    @Deprecated
     private User populateRows(User user, Cursor cursor) {
-        user.setUser_id(cursor.getInt(cursor.getColumnIndex(User.column_userID)));
+        //user.setUser_id(cursor.getLong(cursor.getColumnIndex(User.column_userID)));
         user.setFirst_name(cursor.getString(cursor.getColumnIndex(User.column_firstName)));
         user.setLast_name(cursor.getString(cursor.getColumnIndex(User.column_lastName)));
         user.setType(cursor.getString(cursor.getColumnIndex(User.column_type)));
@@ -434,7 +435,7 @@ public class DBOperations {
     }
 
     private UserGoal populateRows(UserGoal userGoal, Cursor cursor) {
-        userGoal.setGoal_id(cursor.getInt(cursor.getColumnIndex(UserGoal.column_goalID)));
+        userGoal.setGoal_id(cursor.getLong(cursor.getColumnIndex(UserGoal.column_goalID)));
         userGoal.setUser_id(cursor.getInt(cursor.getColumnIndex(UserGoal.column_userID)));
         userGoal.setTimestamp(cursor.getString(cursor.getColumnIndex(UserGoal.column_timeStamp)));
         userGoal.setType(cursor.getString(cursor.getColumnIndex(UserGoal.column_type)));
@@ -666,7 +667,8 @@ public class DBOperations {
         StartEndDateObject startEndDateObject = dateOperations.getDatesFromWeekNumber(week);
         String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
         String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
-        String query = "select * from user_goal where start_date >= '" + startDate + "' and start_date <= '" + endDate + "' and type= '" + type + "' ORDER BY `timestamp` DESC";
+        //String query = "select * from user_goal where start_date >= '" + startDate + "' and start_date <= '" + endDate + "' and type= '" + type + "' ORDER BY `timestamp` DESC";
+        String query = "select * from user_goal where start_date between '" + startDate + "' and '" + endDate + "' ORDER BY timestamp DESC";
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.getCount() == 0) {

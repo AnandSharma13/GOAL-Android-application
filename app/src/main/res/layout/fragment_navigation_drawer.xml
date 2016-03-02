@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:clickable="true"
-    tools:context="com.ph.fragments.NavigationDrawerFragment">
+    tools:context="com.ph.Fragments.NavigationDrawerFragment">
 
     <!--TODO adjust the height of top layout-->
 
@@ -26,10 +26,10 @@
             />
 
           <TextView
+              android:id="@+id/navUserId"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_below="@id/navUserName"
-              android:id="@+id/navUserId"
               android:text="ID: 89656552"/>
         </RelativeLayout>
     </LinearLayout>
@@ -37,6 +37,6 @@
     <android.support.v7.widget.RecyclerView
     android:id="@+id/drawerList"
     android:layout_width="match_parent"
-    android:layout_below="@+id/headerContainer"
-    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headerContainer"></android.support.v7.widget.RecyclerView>
 </RelativeLayout>

@@ -1,11 +1,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ph.fragments.HistoryMainFragment"
+    android:background="@color/backgroundColor"
     android:clickable="true"
-    android:background="@color/backgroundColor">
+    tools:context="com.ph.Fragments.HistoryMainFragment">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -14,12 +14,12 @@
         tools:context="com.ph.Activities.HistoryActivity">
         <android.support.design.widget.TabLayout
             android:id="@+id/activity_history_tabs"
-            android:layout_below="@id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="fixed"
+            android:layout_below="@id/app_bar"
+            android:background="@color/blue"
             app:tabGravity="fill"
-            android:background="@color/blue"/>
+            app:tabMode="fixed" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/activity_history_viewpager"

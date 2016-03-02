@@ -2,23 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ph.fragments.GoalHistoryDetails">
+    tools:context="com.ph.Fragments.GoalHistoryDetails">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingTop="20dp">
 
         <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/activity_card_view"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
         android:layout_weight="0.25"
-        card_view:cardCornerRadius="4dp"
-        android:layout_marginTop="20dp">
+            card_view:cardCornerRadius="4dp">
 
 
 
@@ -27,24 +27,24 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Activity Goal"
-                    android:id="@+id/textView12"
                     android:layout_alignParentLeft="false"
                     android:layout_alignParentRight="false"
                     android:layout_alignWithParentIfMissing="false"
-                    android:layout_margin="15dp" />
+                    android:layout_margin="15dp"
+                    android:text="Activity Goal" />
 
                 <TextView
+                    android:id="@+id/goal_history_activity_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="New Text"
-                    android:id="@+id/goal_history_activity_info"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignParentStart="false"
                     android:layout_below="@+id/textView12"
                     android:layout_centerHorizontal="true"
-                    android:layout_alignParentEnd="false"
-                    android:layout_alignParentStart="false" />
+                    android:text="New Text" />
 
             </RelativeLayout>
 
@@ -53,12 +53,12 @@
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/nutrition_card_view"
-            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:layout_weight="0.25"
-            card_view:cardCornerRadius="4dp"
-            android:layout_marginTop="20dp">
+            card_view:cardCornerRadius="4dp">
 
 
 
@@ -67,24 +67,24 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/textView13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nutrition Goal"
-                    android:id="@+id/textView13"
                     android:layout_alignParentLeft="false"
                     android:layout_alignParentRight="false"
                     android:layout_alignWithParentIfMissing="false"
-                    android:layout_margin="15dp" />
+                    android:layout_margin="15dp"
+                    android:text="Nutrition Goal" />
 
                 <TextView
+                    android:id="@+id/goal_history_nutrition_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="New Text"
-                    android:id="@+id/goal_history_nutrition_info"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignParentStart="false"
                     android:layout_below="@+id/textView13"
                     android:layout_centerHorizontal="true"
-                    android:layout_alignParentEnd="false"
-                    android:layout_alignParentStart="false" />
+                    android:text="New Text" />
 
             </RelativeLayout>
 

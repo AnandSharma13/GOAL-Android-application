@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.support.v4.app.Fragment;
 

@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -28,13 +28,9 @@ import butterknife.ButterKnife;
 
 public class NutritionEntrySelectFragment extends Fragment {
 
-    private DatePickerDialog.OnDateSetListener datePicker;
-    private Calendar calendar;
+    static final int RESULT_CODE = 1;
     @Bind(R.id.nutrition_entry_select_et_date_picker)
     EditText mNutritionEntryDate;
-    private DateOperations mDateOperations;
-    private String mSqlDateFormatString;
-    static final int RESULT_CODE = 1;
     @Bind(R.id.nutrition_entry_select_btn_breakfast)
     Button mBreakFastBtn;
     @Bind(R.id.nutrition_entry_select_btn_lunch)
@@ -43,6 +39,10 @@ public class NutritionEntrySelectFragment extends Fragment {
     Button mDinnerBtn;
     @Bind(R.id.nutrition_entry_select_btn_snack)
     Button mSnackBtn;
+    private DatePickerDialog.OnDateSetListener datePicker;
+    private Calendar calendar;
+    private DateOperations mDateOperations;
+    private String mSqlDateFormatString;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

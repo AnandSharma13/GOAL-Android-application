@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -35,13 +35,13 @@ import butterknife.ButterKnife;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
+    public static final int HOME_FRAGMENT_POSITION = 0;
+    public static final int NEWGOAL_FRAGMENT_POSITION = 1;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @Bind(R.id.fragment_new_goal_viewpager) ViewPager mViewPager;
-    public static final int HOME_FRAGMENT_POSITION = 0;
-    public static final int NEWGOAL_FRAGMENT_POSITION = 1;
     int operatingWeek;
 
 
@@ -177,6 +177,21 @@ public class HomeFragment extends Fragment {
     }
 
 
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -206,21 +221,5 @@ public class HomeFragment extends Fragment {
             return mFragmentTitleList.get(position);
         }
 
-    }
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

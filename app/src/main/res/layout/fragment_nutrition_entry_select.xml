@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.NutritionEntrySelectFragment"
-    android:background="@color/nutrition_entry_select_background">
+    android:background="@color/nutrition_entry_select_background"
+    tools:context=".Fragments.NutritionEntrySelectFragment">
 
 
     <LinearLayout
@@ -24,11 +24,11 @@
             >
 
             <EditText
+                android:id="@+id/nutrition_entry_select_et_date_picker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/nutrition_entry_select_et_date_picker"
-                android:textStyle="bold"
                 android:textColor="@color/home_nutrition_progress_outer_ring_color"
+                android:textStyle="bold"
                 />
         </LinearLayout>
         <View
@@ -47,10 +47,10 @@
                 android:id="@+id/nutrition_entry_select_btn_breakfast"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@android:color/transparent"
-                android:scaleType="centerCrop"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="onClickBreakFast"/>
+                android:backgroundTint="@android:color/transparent"
+                android:onClick="onClickBreakFast"
+                android:scaleType="centerCrop" />
 
         </LinearLayout>
         <View
@@ -69,8 +69,8 @@
                 android:id="@+id/nutrition_entry_select_btn_lunch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@android:color/transparent"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:backgroundTint="@android:color/transparent"
                 android:onClick="onClickLunch"/>
         </LinearLayout>
         <View
@@ -89,8 +89,8 @@
                 android:id="@+id/nutrition_entry_select_btn_dinner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@android:color/transparent"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:backgroundTint="@android:color/transparent"
                 android:onClick="onClickDinner"/>
         </LinearLayout>
         <View
@@ -108,8 +108,8 @@
                 android:id="@+id/nutrition_entry_select_btn_snack"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@android:color/transparent"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:backgroundTint="@android:color/transparent"
 
                 android:onClick="onClickSnack"/>
         </LinearLayout>

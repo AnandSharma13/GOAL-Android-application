@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -32,12 +32,9 @@ import butterknife.ButterKnife;
 public class ActivityHistoryDetails extends Fragment {
 
     private static final String ARG_PARAM1 = "week";
-
-    private int weekNumber;
-
     @Bind(R.id.activity_goal_history_recycler_view)
     RecyclerView recyclerView;
-
+    private int weekNumber;
     private List<ActivityEntry> dataList;
     private DBOperations dbOperations;
     private ActivityHistoryViewAdapter activityHistoryViewAdapter;
@@ -95,7 +92,7 @@ public class ActivityHistoryDetails extends Fragment {
 
         activityHistoryViewAdapter = new ActivityHistoryViewAdapter(getContext(),dataList);
 
-        recyclerView.setAdapter((RecyclerView.Adapter)activityHistoryViewAdapter);
+        recyclerView.setAdapter(activityHistoryViewAdapter);
 
 
         return v;

@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,10 +42,10 @@ import butterknife.ButterKnife;
 
 public class NutritionEntryCreateFragment extends Fragment {
 
-    private DateOperations mDateOperations;
-    private DBOperations mDBOperations;
-    private SharedPreferences prefs;
+    public final ArrayList<String> tablesList = new ArrayList<String>() {{
 
+        add(NutritionEntry.tableName);
+    }};
     @Bind(R.id.nutrition_entry_create_btn_decrease)
     ImageButton mDecreaseBtn;
     @Bind(R.id.nutrition_entry_create_btn_increase)
@@ -54,11 +54,6 @@ public class NutritionEntryCreateFragment extends Fragment {
     Button mSave;
     @Bind(R.id.nutrition_entry_create_np_attic_food_count)
     NumberPicker mAtticFoodCountNp;
-    private Handler repeatUpdateHandler;
-    private Boolean mIncrementFlag;
-    private Boolean mDecrementFlag;
-    private DBOperations dbOperations;
-
     @Bind(R.id.nutrition_entry_create_chkBx_Dairy_one)
     CheckBox mDairyOne;
     @Bind(R.id.nutrition_entry_create_chkBx_Dairy_two)
@@ -85,7 +80,6 @@ public class NutritionEntryCreateFragment extends Fragment {
     CheckBox mFruitOne;
     @Bind(R.id.nutrition_entry_create_chkBx_fruits_two)
     CheckBox mFruitTwo;
-
     @Bind(R.id.nutrition_entry_create_chkBx_grains_one)
     CheckBox mGrainsOne;
     @Bind(R.id.nutrition_entry_create_chkBx_grains_two)
@@ -102,7 +96,14 @@ public class NutritionEntryCreateFragment extends Fragment {
     SeekBar mWaterIntake;
     @Bind(R.id.nutrition_entry_create_rating_bar_water_intake)
     RatingBar mRatingBar;
-
+    int checkCount = 0;
+    private DateOperations mDateOperations;
+    private DBOperations mDBOperations;
+    private SharedPreferences prefs;
+    private Handler repeatUpdateHandler;
+    private Boolean mIncrementFlag;
+    private Boolean mDecrementFlag;
+    private DBOperations dbOperations;
     private int atticFoodCount;
     private int dairyCount;
     private int proteinCount;
@@ -113,29 +114,26 @@ public class NutritionEntryCreateFragment extends Fragment {
     private String mNutritionEntryText;
     private String mImagePath;
     private int mGoalCount;
-    int checkCount = 0;
-
-
     private String mNutritionType;
     private String mSqlDateFormatString;
-
     private ArrayList<CheckBox> dairyChkbxList;
-
-
     private ArrayList<CheckBox> proteinChkbxList;
-
     private ArrayList<CheckBox> vegetableChkbxList;
-
     private ArrayList<CheckBox> fruitChkbxList;
-
     private ArrayList<CheckBox> grainsChkbxList;
-
-    public final ArrayList<String> tablesList = new ArrayList<String>() {{
-
-        add(NutritionEntry.tableName);
-    }};
     private Toolbar toolbar;
 
+    public static NutritionEntryCreateFragment newInstance(String nutritionDetailsText, String mImagePath,String mSqlDateFormatString, int goalCount,String mNutritionType) {
+        NutritionEntryCreateFragment fragment = new NutritionEntryCreateFragment();
+        Bundle args = new Bundle();
+        args.putString("nutritionDetailsText", nutritionDetailsText);
+        args.putString("imagePath", mImagePath);
+        args.putString("DATE", mSqlDateFormatString);
+        args.putInt("GoalCount", goalCount);
+        args.putString("NUTRITION_TYPE", mNutritionType);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -163,7 +161,6 @@ public class NutritionEntryCreateFragment extends Fragment {
 
         return;
     }
-
 
     @Nullable
     @Override
@@ -264,7 +261,6 @@ public class NutritionEntryCreateFragment extends Fragment {
             cb.setOnCheckedChangeListener(new MyCheckedChangeListener());
         }
     }
-
 
     public void initControls() {
 //        mDecreaseBtn = (ImageButton) findViewById(R.id.nutrition_entry_create_btn_decrease);
@@ -371,7 +367,6 @@ public class NutritionEntryCreateFragment extends Fragment {
 
     }
 
-
     public void onClickIncreaseBtn(View view) {
         mAtticFoodCountNp.setValue(mAtticFoodCountNp.getValue() + 1);
         int newVal = mAtticFoodCountNp.getValue();
@@ -389,7 +384,6 @@ public class NutritionEntryCreateFragment extends Fragment {
 
 
     }
-
 
     public void getDayRecord() {
 
@@ -409,7 +403,6 @@ public class NutritionEntryCreateFragment extends Fragment {
       //  Log.i("NutritionEntryCreateFragment", "Getting day records");
         return;
     }
-
 
     public void onSaveClick(View view) {
 
@@ -468,7 +461,7 @@ public class NutritionEntryCreateFragment extends Fragment {
         nutritionEntry.setNotes(mNutritionEntryText);
         nutritionEntry.setDate(mSqlDateFormatString);
         mDBOperations.insertRow(nutritionEntry);
-        syncUtils.TriggerRefresh(settingsBundle);
+        SyncUtils.TriggerRefresh(settingsBundle);
         Log.i("NutritionEntryCreateFragment", "Sync called for nutrition entry");
 
         Toast.makeText(getActivity(), "Entry Saved.. ", Toast.LENGTH_LONG).show();
@@ -479,7 +472,6 @@ public class NutritionEntryCreateFragment extends Fragment {
 
 
     }
-
 
     public int isCheckedBoxChecked(CheckBox chkbx) {
         if (chkbx.isChecked()) {
@@ -500,19 +492,6 @@ public class NutritionEntryCreateFragment extends Fragment {
                 repeatUpdateHandler.postDelayed(new RepeatUpdater(), 50);
             }
         }
-    }
-
-
-    public static NutritionEntryCreateFragment newInstance(String nutritionDetailsText, String mImagePath,String mSqlDateFormatString, int goalCount,String mNutritionType) {
-        NutritionEntryCreateFragment fragment = new NutritionEntryCreateFragment();
-        Bundle args = new Bundle();
-        args.putString("nutritionDetailsText", nutritionDetailsText);
-        args.putString("imagePath", mImagePath);
-        args.putString("DATE", mSqlDateFormatString);
-        args.putInt("GoalCount", goalCount);
-        args.putString("NUTRITION_TYPE", mNutritionType);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     class MyCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {

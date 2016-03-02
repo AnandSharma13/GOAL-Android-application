@@ -1,18 +1,18 @@
 package com.ph.Activities;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
+import com.ph.Fragments.ActivityHistoryFragment;
+import com.ph.Fragments.GoalHistoryFragment;
+import com.ph.Fragments.NutritionHistoryFragment;
 import com.ph.R;
-import com.ph.fragments.ActivityHistoryFragment;
-import com.ph.fragments.GoalHistoryFragment;
-import com.ph.fragments.NutritionHistoryFragment;
 
 import java.util.ArrayList;
 import java.util.List;

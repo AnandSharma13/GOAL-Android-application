@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.NutritionEntryMainFragment"
     android:background="@color/backgroundColor"
     android:clickable="true"
+    tools:context=".Fragments.NutritionEntryMainFragment"
     >
 
     <LinearLayout
@@ -29,10 +29,10 @@
                     android:id="@+id/goalDetailsText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="Food Details"
-                    android:padding="5dip"
                     android:background="@drawable/custom_edit_text_design"
                     android:gravity="top|left"
+                    android:hint="Food Details"
+                    android:padding="5dip"
                     />
 
             </LinearLayout>
@@ -41,8 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@color/nutrition_entry_select_background">
+                android:background="@color/nutrition_entry_select_background"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -53,8 +53,8 @@
                         android:id="@+id/nutrition_entry_main_btn_camera"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:backgroundTint="@android:color/transparent"
                         android:background="?attr/selectableItemBackgroundBorderless"
+                        android:backgroundTint="@android:color/transparent"
                         android:onClick="onClickCamera"/>
                 </LinearLayout>
 
@@ -83,8 +83,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2.5"
-                android:orientation="horizontal"
-                android:background="@color/home_nutrition_background_color">
+                android:background="@color/home_nutrition_background_color"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -109,17 +109,17 @@
                         android:id="@+id/nutrition_entry_main_rg_count_towards_goal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_gravity="center_vertical"
-                        android:backgroundTint="@color/nutrition_entry_select_background">
+                        android:backgroundTint="@color/nutrition_entry_select_background"
+                        android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/goalZero"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
+                            android:checked="true"
                             android:enabled="true"
-                            android:checked="true"/>
+                            android:text="0" />
 
                         <RadioButton
                             android:id="@+id/goalOne"

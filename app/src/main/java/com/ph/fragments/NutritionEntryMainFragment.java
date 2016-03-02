@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -44,8 +44,17 @@ import butterknife.ButterKnife;
 
 public class NutritionEntryMainFragment extends Fragment {
 
+    private static final int TAKE_PICTURE = 1;
+    private static final int NEXT_INTENT = 2;
     @Bind(R.id.goalDetailsText)
     EditText mGoalDetails;
+    DBOperations dbOperations;
+    @Bind(R.id.nutrition_entry_main_tv_goal_text)
+    TextView mCurrentGoalTv;
+    @Bind(R.id.nutrition_entry_main_rg_count_towards_goal)
+    RadioGroup mGoalRadioGroup;
+    @Bind(R.id.nutrition_entry_main_btn_next)
+    Button mNext;
     private DatePickerDialog.OnDateSetListener datePicker;
     private Calendar calendar;
     private EditText mNutritionEntryDate;
@@ -53,16 +62,40 @@ public class NutritionEntryMainFragment extends Fragment {
     private String mNutritionType;
     private String mSqlDateFormatString;
     private String mImagePath = "";
-    DBOperations dbOperations;
-    @Bind(R.id.nutrition_entry_main_tv_goal_text)
-    TextView mCurrentGoalTv;
-    @Bind(R.id.nutrition_entry_main_rg_count_towards_goal)
-    RadioGroup mGoalRadioGroup;
     private Toolbar toolbar;
-    @Bind(R.id.nutrition_entry_main_btn_next)
-    Button mNext;
+    private android.net.Uri imageUri;
 
+    public static NutritionEntryMainFragment newInstance(String param1, String param2)     {
+        NutritionEntryMainFragment fragment = new NutritionEntryMainFragment();
+        Bundle args = new Bundle();
+        args.putString("NUTRITION_TYPE", param1);
+        args.putString("DATE", param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
+    public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth, int reqHeight) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+
+        // Calculate inSampleSize, Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        int inSampleSize = 1;
+
+        if (height > reqHeight) {
+            inSampleSize = Math.round((float) height / (float) reqHeight);
+        }
+        int expectedWidth = width / inSampleSize;
+        if (expectedWidth > reqWidth) {
+            inSampleSize = Math.round((float) width / (float) reqWidth);
+        }
+        options.inSampleSize = inSampleSize;
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(path, options);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +108,6 @@ public class NutritionEntryMainFragment extends Fragment {
 
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,26 +146,11 @@ public class NutritionEntryMainFragment extends Fragment {
         return view;
     }
 
-
-    public static NutritionEntryMainFragment newInstance(String param1, String param2)     {
-        NutritionEntryMainFragment fragment = new NutritionEntryMainFragment();
-        Bundle args = new Bundle();
-        args.putString("NUTRITION_TYPE", param1);
-        args.putString("DATE", param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     public void onClickCamera(View view) {
 
         takePhoto();
 
     }
-
-
-    private android.net.Uri imageUri;
-    private static final int TAKE_PICTURE = 1;
-    private static final int NEXT_INTENT = 2;
 
     public void takePhoto() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
@@ -180,7 +197,6 @@ public class NutritionEntryMainFragment extends Fragment {
         }
     }
 
-
     public void writeBitmapToFile(String path, Bitmap bitmap) {
 
         try {
@@ -191,30 +207,6 @@ public class NutritionEntryMainFragment extends Fragment {
         }
 
     }
-
-    public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth, int reqHeight) {
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-
-        // Calculate inSampleSize, Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
-        int inSampleSize = 1;
-
-        if (height > reqHeight) {
-            inSampleSize = Math.round((float) height / (float) reqHeight);
-        }
-        int expectedWidth = width / inSampleSize;
-        if (expectedWidth > reqWidth) {
-            inSampleSize = Math.round((float) width / (float) reqWidth);
-        }
-        options.inSampleSize = inSampleSize;
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(path, options);
-    }
-
 
     public void onClickNext(View view) {
         String nutritionDetailsText = mGoalDetails.getText().toString();

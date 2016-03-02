@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -38,12 +38,11 @@ public class NextGoalFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private Button nextGoalButton;
     @Bind(R.id.fragment_next_goal_progress_bar_nutrition)
     ImageView iv;
     @Bind(R.id.fragment_next_goal_progress_bar_activity)
     ProgressBar customProgressBar;
-
+    private Button nextGoalButton;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;

@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

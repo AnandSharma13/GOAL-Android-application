@@ -1,11 +1,10 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -40,13 +39,10 @@ import butterknife.ButterKnife;
  */
 public class ActivityEntryCreateFragment extends Fragment {
 
-    @Bind(R.id.activity_recycler_view) RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
-    private ActivityViewAdapter activityViewAdapter;
-    public List<Activity> mData;
-    private DBOperations dbOperations;
     public static String activity_type = "";
+    private static String date = "";
+    public List<Activity> mData;
+    @Bind(R.id.activity_recycler_view) RecyclerView mRecyclerView;
     @Bind(R.id.activity_entry_rpe_seek)
     SeekBar rpeSeekBar;
     @Bind(R.id.rpe_indicator)
@@ -59,12 +55,24 @@ public class ActivityEntryCreateFragment extends Fragment {
     Button saveButton;
     @Bind(R.id.activity_entry_comment)
     ImageButton commentButton;
-    private static String date = "";
     @Bind(R.id.activity_entry_count_goal)
     CheckBox countGoal;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.Adapter adapter;
+    private ActivityViewAdapter activityViewAdapter;
+    private DBOperations dbOperations;
     private String userNotes = "";
 
     private Toolbar toolbar;
+
+    public static ActivityEntryCreateFragment newInstance(String param1, String param2) {
+        ActivityEntryCreateFragment fragment = new ActivityEntryCreateFragment();
+        Bundle args = new Bundle();
+        args.putString("ACTIVITY_TYPE", param1);
+        args.putString("DATE", param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,12 +83,14 @@ public class ActivityEntryCreateFragment extends Fragment {
             date = getArguments().getString("DATE");
         }
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(activity_type);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(getContext().getDrawable(R.color.activity_entry_app_bar));
+        ((MainActivity)getActivity()).updateToolbar(activity_type,R.color.activity_entry_app_bar,R.color.white);
+        ((MainActivity)getActivity()).setDrawerState(false);
+
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(activity_type);
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(getContext().getDrawable(R.color.activity_entry_app_bar));
 
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -252,16 +262,5 @@ public class ActivityEntryCreateFragment extends Fragment {
 
 
         return view;
-    }
-
-
-
-    public static ActivityEntryCreateFragment newInstance(String param1, String param2) {
-        ActivityEntryCreateFragment fragment = new ActivityEntryCreateFragment();
-        Bundle args = new Bundle();
-        args.putString("ACTIVITY_TYPE", param1);
-        args.putString("DATE", param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 }

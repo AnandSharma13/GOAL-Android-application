@@ -23,28 +23,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ph.Activities.SettingsActivity;
-import com.ph.fragments.ActivityHistoryDetails;
-import com.ph.fragments.ActivityHistoryFragment;
-import com.ph.fragments.DrawerAdapter;
-import com.ph.fragments.GoalHistoryDetails;
-import com.ph.fragments.GoalHistoryFragment;
-import com.ph.fragments.HistoryMainFragment;
-import com.ph.fragments.HomeFragment;
-import com.ph.fragments.NavigationDrawerFragment;
-import com.ph.fragments.NewGoalFragment;
-import com.ph.fragments.NextGoalFragment;
-import com.ph.fragments.NutritionHistoryDetails;
-import com.ph.fragments.NutritionHistoryFragment;
-import com.ph.fragments.ProgressActivityDetails;
-import com.ph.fragments.ProgressActivityFragment;
-import com.ph.fragments.ProgressMainFragment;
-import com.ph.fragments.ProgressNutritionDetails;
-import com.ph.fragments.ProgressNutritionFragment;
-import com.ph.fragments.ProgressStepsFragment;
-import com.ph.fragments.RewardsFragment;
-import com.ph.fragments.SimpleDividerItemDecoration;
-import com.ph.fragments.StepsDay;
-import com.ph.fragments.StepsWeek;
+import com.ph.Fragments.ActivityHistoryDetails;
+import com.ph.Fragments.ActivityHistoryFragment;
+import com.ph.Fragments.DrawerAdapter;
+import com.ph.Fragments.GoalHistoryDetails;
+import com.ph.Fragments.GoalHistoryFragment;
+import com.ph.Fragments.HistoryMainFragment;
+import com.ph.Fragments.HomeFragment;
+import com.ph.Fragments.NavigationDrawerFragment;
+import com.ph.Fragments.NewGoalFragment;
+import com.ph.Fragments.NextGoalFragment;
+import com.ph.Fragments.NutritionHistoryDetails;
+import com.ph.Fragments.NutritionHistoryFragment;
+import com.ph.Fragments.ProgressActivityDetails;
+import com.ph.Fragments.ProgressActivityFragment;
+import com.ph.Fragments.ProgressMainFragment;
+import com.ph.Fragments.ProgressNutritionDetails;
+import com.ph.Fragments.ProgressNutritionFragment;
+import com.ph.Fragments.ProgressStepsFragment;
+import com.ph.Fragments.RewardsFragment;
+import com.ph.Fragments.SimpleDividerItemDecoration;
+import com.ph.Fragments.StepsDay;
+import com.ph.Fragments.StepsWeek;
 import com.ph.net.SessionManager;
 import com.ph.net.SyncUtils;
 
@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
         RewardsFragment.OnFragmentInteractionListener, StepsWeek.OnFragmentInteractionListener, StepsDay.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener, ProgressMainFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressActivityFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener, HistoryMainFragment.OnFragmentInteractionListener, ActivityHistoryFragment.OnFragmentInteractionListener, NutritionHistoryFragment.OnFragmentInteractionListener, GoalHistoryFragment.OnFragmentInteractionListener, ActivityHistoryDetails.OnFragmentInteractionListener, NutritionHistoryDetails.OnFragmentInteractionListener, GoalHistoryDetails.OnFragmentInteractionListener {
 
 
+    DrawerLayout mDrawerLayout;
     private SessionManager sessionManager;
     private RecyclerView mDrawerRecylerView;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
-    DrawerLayout mDrawerLayout;
     private TextView mToolbarText;
 
 
@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         updateToolbar("GOAL", R.color.white, R.color.black);
 
 
@@ -236,8 +237,9 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 2)
+        if (getSupportFragmentManager().getBackStackEntryCount() > 2) {
             getSupportFragmentManager().popBackStack();
+        }
         else if (getSupportFragmentManager().getBackStackEntryCount() == 2) {
             updateToolbar("GOAL", R.color.white, R.color.black);
             getmDrawerToggle().setDrawerIndicatorEnabled(true);
@@ -279,11 +281,11 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
     public void setDrawerState(boolean isEnabled) {
         if (isEnabled) {
-            mDrawerLayout.setDrawerLockMode(mDrawerLayout.LOCK_MODE_UNLOCKED);
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             mDrawerToggle.setDrawerIndicatorEnabled(true);
             mDrawerToggle.syncState();
         } else {
-            mDrawerLayout.setDrawerLockMode(mDrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             mDrawerToggle.setDrawerIndicatorEnabled(false);
             mDrawerToggle.syncState();
         }

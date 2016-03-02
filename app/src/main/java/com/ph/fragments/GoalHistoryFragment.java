@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -36,12 +36,12 @@ public class GoalHistoryFragment extends Fragment {
 
     @Bind(R.id.viewpager_history_goal)
     NonSwipeableViewPager viewPager;
-    private DateOperations dateOperations;
     @Bind(R.id.week_number_display)
     TextView weekTitle;
     @Bind(R.id.week_next)
     Button prev;
     @Bind(R.id.week_prev) Button next;
+    private DateOperations dateOperations;
     private OnFragmentInteractionListener mListener;
 
     public GoalHistoryFragment() {

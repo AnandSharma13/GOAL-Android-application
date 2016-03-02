@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ph.fragments.RewardsFragment"
     android:background="@color/gray"
-    android:clickable="true">
+    android:clickable="true"
+    tools:context="com.ph.Fragments.RewardsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

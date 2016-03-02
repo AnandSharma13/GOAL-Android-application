@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">G.O.A.L</string>
     <string name="title_activity_main" align="Center">Goal App</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Navigation Drawer</string>

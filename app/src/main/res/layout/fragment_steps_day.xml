@@ -2,82 +2,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ph.fragments.StepsDay">
+    tools:context="com.ph.Fragments.StepsDay">
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal|top">
+        android:layout_gravity="center_horizontal|top"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/steps_day_relative_layout"
                 android:layout_width="wrap_content"
-                android:layout_weight=".5"
                 android:layout_height="match_parent"
-                android:id="@+id/steps_day_relative_layout">
+                android:layout_weight=".5">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="0"
                     android:id="@+id/progress_steps_day_mine"
-                    android:layout_centerInParent="true" />
-
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="My Steps"
+                    android:layout_centerInParent="true"
+                    android:text="0"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
                     android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="false"
                     android:layout_alignParentStart="false"
                     android:layout_below="@+id/progress_steps_day_mine"
-                    android:layout_centerInParent="true" />
+                    android:layout_centerInParent="true"
+                    android:text="My Steps"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_weight=".5"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight=".5">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="0"
                     android:id="@+id/progress_steps_week_others"
-                    android:layout_centerInParent="true" />
-
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Others&apos; Average"
+                    android:layout_centerInParent="true"
+                    android:text="0"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
                     android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="false"
                     android:layout_alignParentStart="false"
                     android:layout_below="@+id/progress_steps_week_others"
-                    android:layout_centerInParent="true" />
+                    android:layout_centerInParent="true"
+                    android:text="Others&apos; Average"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
             </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp">
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
             <com.jjoe64.graphview.GraphView
+                android:id="@+id/progress_steps_day_line"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/progress_steps_day_line" />
+                android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
 

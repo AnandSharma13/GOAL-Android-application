@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;

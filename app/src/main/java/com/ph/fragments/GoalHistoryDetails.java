@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -30,13 +30,11 @@ import butterknife.ButterKnife;
 public class GoalHistoryDetails extends Fragment {
 
     private static final String ARG_PARAM1 = "week";
-    private int weekNumber=-1;
     @Bind(R.id.goal_history_activity_info)
     TextView activityGoalInfo;
     @Bind(R.id.goal_history_nutrition_info)
     TextView nutritionGoalInfo;
-
-
+    private int weekNumber=-1;
     private OnFragmentInteractionListener mListener;
     private DateOperations dateOperations;
     private DBOperations dbOperations;

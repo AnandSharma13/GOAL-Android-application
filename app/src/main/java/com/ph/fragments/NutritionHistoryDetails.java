@@ -1,4 +1,4 @@
-package com.ph.fragments;
+package com.ph.Fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -31,14 +31,10 @@ import butterknife.ButterKnife;
 public class NutritionHistoryDetails extends Fragment {
 
     private static final String ARG_PARAM1 = "week";
-    private int weekNumber;
-
-    private OnFragmentInteractionListener mListener;
-
-
     @Bind(R.id.nutrition_goal_history_recycler_view)
     RecyclerView recyclerView;
-
+    private int weekNumber;
+    private OnFragmentInteractionListener mListener;
     private List<NutritionEntry> dataList;
     private DBOperations dbOperations;
     private NutritionHistoryViewAdapter nutritionHistoryViewAdapter;

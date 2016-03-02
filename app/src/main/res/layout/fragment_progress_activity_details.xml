@@ -1,28 +1,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="com.ph.fragments.ProgressActivityDetails"
-    android:weightSum="1">
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:context="com.ph.Fragments.ProgressActivityDetails">
 
 
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Space for Progress bar"
-        android:layout_weight="0.44" />
+        android:layout_weight="0.44"
+        android:text="Space for Progress bar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/progress_activity_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/progress_activity_info" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
 
 

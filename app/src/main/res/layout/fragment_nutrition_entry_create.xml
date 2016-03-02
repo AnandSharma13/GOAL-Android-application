@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.NutritionEntryCreateFragment"
-    android:clickable="true">
+    android:clickable="true"
+    tools:context=".Fragments.NutritionEntryCreateFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,12 +40,12 @@
                 android:id="@+id/nutrition_entry_create_btn_decrease"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:paddingRight="20dp"
                 android:scaleType="centerInside"
                 android:src="@mipmap/ic_btn_minus"
-                android:paddingRight="20dp"
-                android:text="-"
-                android:layout_gravity="left|center_vertical" />
+                android:text="-" />
 
             <NumberPicker
                 android:id="@+id/nutrition_entry_create_np_attic_food_count"
@@ -58,12 +58,12 @@
                 android:id="@+id/nutrition_entry_create_btn_increase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:scaleType="center"
-                android:src="@mipmap/ic_btn_add"
                 android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:paddingLeft="20dp"
-                android:layout_gravity="center_vertical" />
+                android:scaleType="center"
+                android:src="@mipmap/ic_btn_add" />
             </GridLayout>
         </RelativeLayout>
 
@@ -73,8 +73,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.2"
-            android:orientation="horizontal"
-            android:background="@drawable/ic_nutrition_entry_dairy_vegetable_bg">
+            android:background="@drawable/ic_nutrition_entry_dairy_vegetable_bg"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -89,13 +89,14 @@
                         android:id="@+id/nutrition_entry_create_tv_dairy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dairy"
-                        android:layout_centerHorizontal="true"/>
-                    <GridLayout
-                        android:layout_below="@id/nutrition_entry_create_tv_dairy"
                         android:layout_centerHorizontal="true"
+                        android:text="Dairy" />
+
+                    <GridLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/nutrition_entry_create_tv_dairy"
+                        android:layout_centerHorizontal="true">
 
                     <CheckBox
                         android:id="@+id/nutrition_entry_create_chkBx_Dairy_one"
@@ -140,8 +141,8 @@
                         <GridLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_below="@id/nutrition_entry_create_tv_vegetable">
+                            android:layout_below="@id/nutrition_entry_create_tv_vegetable"
+                            android:layout_centerHorizontal="true">
                     <CheckBox
                         android:id="@+id/nutrition_entry_create_chkBx_vegetable_three"
                         android:layout_width="wrap_content"
@@ -170,8 +171,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.2"
-            android:orientation="horizontal"
-            android:background="@drawable/ic_nutrition_entry_protein_fruits_bg">
+            android:background="@drawable/ic_nutrition_entry_protein_fruits_bg"
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -186,9 +187,9 @@
                     android:text="Protein" />
                 <GridLayout
                     android:id="@+id/gridLayout1"
-                    android:layout_below="@id/nutrition_entry_create_tv_protein"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_below="@id/nutrition_entry_create_tv_protein"
                     android:layout_centerHorizontal="true">
 
                 <CheckBox
@@ -380,8 +381,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerInParent="true"
                     android:clickable="false"
-                    android:stepSize="1"
-                    android:numStars="8" />
+                    android:numStars="8"
+                    android:stepSize="1" />
             </RelativeLayout>
         </LinearLayout>
 

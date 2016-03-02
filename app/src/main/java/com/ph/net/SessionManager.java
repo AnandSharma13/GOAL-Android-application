@@ -31,32 +31,24 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class SessionManager {
+    // User name (make variable public to access from outside)
+    public static final String KEY_NAME = "name";
+    // Email address (make variable public to access from outside)
+    public static final String KEY_EMAIL = "email";
+    // All Shared Preferences Keys
+    private static final String IS_LOGIN = "IsLoggedIn";
+    public static long seqConstant = -1;
     // Shared Preferences
     SharedPreferences pref;
-    public static long seqConstant=-1;
-
     // Editor for Shared preferences
     Editor editor;
 
-    // Context
-    Context _context;
-
-    private String url;
-
-    private ServerSync serverSync;
-
     // Sharedpref file name
     //private static final String PREF_NAME = "AndroidHivePref";
-
-    // All Shared Preferences Keys
-    private static final String IS_LOGIN = "IsLoggedIn";
-
-    // User name (make variable public to access from outside)
-    public static final String KEY_NAME = "name";
-
-    // Email address (make variable public to access from outside)
-    public static final String KEY_EMAIL = "email";
-
+    // Context
+    Context _context;
+    private String url;
+    private ServerSync serverSync;
     private AlertDialogManager alertDialogManager;
 
     // Constructor
@@ -134,13 +126,13 @@ public class SessionManager {
                                             {
                                                 throw new Exception("Failed to fetch user id");
                                             }
-                                            //TODO check PHP code
-                                            seqConstant = seqConstant*1000;
+                                            seqConstant = seqConstant * 100000000;
                                         }
                                         else
                                         {
                                             editor.putBoolean(IS_LOGIN, false);
                                             editor.commit();
+                                            checkLogin();
                                         }
 
                                     }
