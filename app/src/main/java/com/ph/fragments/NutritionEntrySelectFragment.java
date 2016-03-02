@@ -1,4 +1,4 @@
-package com.ph.Fragments;
+package com.ph.fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;

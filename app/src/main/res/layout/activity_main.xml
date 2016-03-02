@@ -32,7 +32,7 @@
 
         <fragment
             android:id="@+id/fragment_navigation_drawer"
-            android:name="com.ph.Fragments.NavigationDrawerFragment"
+            android:name="com.ph.fragments.NavigationDrawerFragment"
             app:layout="@layout/fragment_navigation_drawer"
             tools:layout="@layout/fragment_navigation_drawer"
             android:layout_width="@dimen/nav_drawer_width"

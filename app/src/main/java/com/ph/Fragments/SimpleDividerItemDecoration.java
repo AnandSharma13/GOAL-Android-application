@@ -1,4 +1,4 @@
-package com.ph.Fragments;
+package com.ph.fragments;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,8 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
-
-import com.ph.R;
 
 /**
  * Created by Anand on 2/29/2016.

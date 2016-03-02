@@ -63,21 +63,21 @@
             android:name=".Activities.NewGoal"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Fragments.NutritionEntryCreateFragment"
+            android:name=".fragments.NutritionEntryCreateFragment"
             android:windowSoftInputMode="adjustResize"
-            android:parentActivityName=".Fragments.NutritionEntrySelectFragment"/>
-        <activity android:name=".Fragments.NutritionEntryMainFragment"
-            android:parentActivityName=".Fragments.NutritionEntrySelectFragment"/>
-        <activity android:name=".Fragments.ActivityEntryMainFragment"
+            android:parentActivityName=".fragments.NutritionEntrySelectFragment"/>
+        <activity android:name=".fragments.NutritionEntryMainFragment"
+            android:parentActivityName=".fragments.NutritionEntrySelectFragment"/>
+        <activity android:name=".fragments.ActivityEntryMainFragment"
             android:parentActivityName=".MainActivity"/>
-        <activity android:name=".Fragments.ActivityEntryCreateFragment"
-            android:parentActivityName=".Fragments.ActivityEntryMainFragment"/>
+        <activity android:name=".fragments.ActivityEntryCreateFragment"
+            android:parentActivityName=".fragments.ActivityEntryMainFragment"/>
         <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Fragments.NutritionEntrySelectFragment"
+        <activity android:name=".fragments.NutritionEntrySelectFragment"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".Activities.SettingsActivity"/>
         <activity android:name=".Activities.HistoryActivity"/>
-        <activity android:name=".Fragments.ProgressMainFragment"
+        <activity android:name=".fragments.ProgressMainFragment"
             android:parentActivityName=".MainActivity"/>
 
     </application>
