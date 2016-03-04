@@ -1,4 +1,4 @@
-package com.ph.Fragments;
+package com.ph.fragments;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,17 +15,17 @@ import android.view.View;
  */
 
 
-public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
+public class CustomDividerItemDecoration extends RecyclerView.ItemDecoration {
 
 	private Drawable mDivider;
 
-	public SimpleDividerItemDecoration(Context context, AttributeSet attrs) {
+	public CustomDividerItemDecoration(Context context, AttributeSet attrs) {
 		final TypedArray a = context.obtainStyledAttributes(attrs, new int [] { android.R.attr.listDivider });
 		mDivider = a.getDrawable(0);
 		a.recycle();
 	}
 
-	public SimpleDividerItemDecoration(Drawable divider) { mDivider = divider; }
+	public CustomDividerItemDecoration(Drawable divider) { mDivider = divider; }
 
 	@Override
 	public void getItemOffsets (Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
