@@ -7,7 +7,7 @@
     android:background="@color/backgroundColor"
     android:clickable="true"
     android:orientation="vertical"
-    tools:context=".Fragments.ProgressMainFragment">
+    tools:context=".fragments.ProgressMainFragment">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/fragment_progress_main_tab_layout_tabs"
