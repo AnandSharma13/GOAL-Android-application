@@ -1,5 +1,7 @@
 package com.ph.model;
 
+import android.util.Log;
+
 /**
  * Created by Anand on 12/27/2015.
  */

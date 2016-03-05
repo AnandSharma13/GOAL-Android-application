@@ -113,7 +113,7 @@ public class ServerSync {
                 activityEntry.setNotes(row.getString(ActivityEntry.column_notes));
                 activityEntry.setActivity_length(row.getString(ActivityEntry.column_activitylength));
                 activityEntry.setCount_towards_goal(row.getInt(ActivityEntry.column_counttowardsgoal));
-                activityEntry.setGoal_id(row.getInt(ActivityEntry.column_goalID));
+                activityEntry.setGoal_id(row.getLong(ActivityEntry.column_goalID));
                 activityEntry.setRpe(row.getInt(ActivityEntry.column_rpe));
                 activityEntry.setIs_sync(1);
                 long id = dbOperations.insertRow(activityEntry);
@@ -165,7 +165,7 @@ public class ServerSync {
                 JSONObject row = jArray.optJSONObject(i);
 
                 UserGoal userGoal = new UserGoal();
-                userGoal.setGoal_id(row.getInt("goal_id"));
+                userGoal.setGoal_id(row.getLong("goal_id"));
                 userGoal.setUser_id(row.getInt("user_id"));
                 userGoal.setTimestamp(row.getString("timestamp"));
                 userGoal.setType(row.getString("type"));

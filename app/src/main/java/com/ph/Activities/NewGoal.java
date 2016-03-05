@@ -193,7 +193,7 @@ public class NewGoal extends AppCompatActivity {
 
             UserGoal nutritionGoal = new UserGoal(userId, "Nutrition", startDate, endDate, nutritionGoalCount, nutritionGoalText);
             long id = insertGoal(nutritionGoal, view);
-            nutritionGoal.setGoal_id((int)id);
+            nutritionGoal.setGoal_id(id);
 
 
             if(operatingWeek == currentWeek) {
@@ -211,7 +211,7 @@ public class NewGoal extends AppCompatActivity {
         if (prefsActCount != activityGoalCount || !prefsActText.equals(activityGoalText)) {
             UserGoal activityGoal = new UserGoal(userId, "Activity", startDate, endDate, activityGoalCount, activityGoalText);
             long id = insertGoal(activityGoal, view);
-            activityGoal.setGoal_id((int)id);
+            activityGoal.setGoal_id(id);
 
             if(operatingWeek == currentWeek) {
                 SharedPreferences.Editor editor = prefs.edit();
