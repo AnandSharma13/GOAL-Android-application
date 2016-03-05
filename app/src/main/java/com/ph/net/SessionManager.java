@@ -119,7 +119,7 @@ public class SessionManager {
                                         if(success)
                                         {
                                             editor.putBoolean(IS_LOGIN, true);
-                                            editor.commit();
+
 
                                             seqConstant = Long.parseLong(pref.getString("user_id","-1"));
                                             if(seqConstant == -1)
@@ -127,6 +127,8 @@ public class SessionManager {
                                                 throw new Exception("Failed to fetch user id");
                                             }
                                             seqConstant = seqConstant * 100000000;
+                                            editor.putLong("user_sequence",seqConstant);
+                                            editor.commit();
                                         }
                                         else
                                         {

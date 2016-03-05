@@ -14,7 +14,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.StartEndDateObject;
-import com.ph.net.SessionManager;
 import com.ph.view.ImageHandler;
 
 import java.io.IOException;
@@ -43,7 +42,7 @@ public class DBOperations {
         this.dbHandler = dbHandler;
     }
 
-    ///Inserts a row into user table
+    ///This method is no longer maintained
     @Deprecated
     public long insertRow(User user) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
@@ -78,9 +77,17 @@ public class DBOperations {
         else
         {
             long count = DatabaseUtils.queryNumEntries(db, UserGoal.tableName);
-            if(count == 0)
-                //usergoal.setGoal_id(SessionManager.seqConstant);
-                val.put(UserGoal.column_goalID, SessionManager.seqConstant);
+            if(count == 0) {
+                long seq = getSequenceConstant();
+                if(seq>-1)
+                val.put(UserGoal.column_goalID, getSequenceConstant());
+                else
+                    try {
+                        throw new Exception("Sequence not set for this user");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            }
 
         }
 
@@ -118,9 +125,13 @@ public class DBOperations {
         else
         {
             long count = DatabaseUtils.queryNumEntries(db, UserSteps.tableName);
-            if(count == 0)
-                //userSteps.setSteps_id(SessionManager.seqConstant);
-                val.put(UserSteps.column_stepsID,SessionManager.seqConstant);
+            if(count == 0) {
+                long seq = getSequenceConstant();
+                if(seq>-1)
+                    val.put(UserSteps.column_stepsID, seq);
+                else
+                    Log.e("insertRow","Sequence number not set for the user");
+            }
         }
         val.put(UserSteps.column_userID, userSteps.getUser_id());
         val.put(UserSteps.column_stepscount, userSteps.getSteps_count());
@@ -149,9 +160,15 @@ public class DBOperations {
 
             cursor.moveToFirst();
             long maxActivityId = cursor.getInt(0);
-            if(maxActivityId < SessionManager.seqConstant)
-                //activity.setActivity_id(SessionManager.seqConstant);
-                val.put(Activity.column_activityID,SessionManager.seqConstant);
+            long seq = getSequenceConstant();
+            if(maxActivityId < seq) {
+                    if(seq>-1)
+                        val.put(Activity.column_activityID, seq);
+                    else
+                        Log.e("insertRow","Sequence number not set for the user");
+
+            }
+
         }
         val.put(Activity.column_userID, activity.getUser_id());
         val.put(Activity.column_name, activity.getName());
@@ -176,9 +193,13 @@ public class DBOperations {
         else
         {
             long count = DatabaseUtils.queryNumEntries(db, ActivityEntry.tableName);
-            if(count == 0)
-                //activityEntry.setActivity_entry_id(SessionManager.seqConstant);
-                val.put(ActivityEntry.column_activityEntryID,SessionManager.seqConstant);
+            if(count == 0) {
+                long seq = getSequenceConstant();
+                if(seq>-1)
+                    val.put(ActivityEntry.column_activityEntryID,seq);
+                else
+                    Log.e("insertRow","Sequence number not set for the user");
+            }
         }
         val.put(ActivityEntry.column_activityID, activityEntry.getActivity_id());
         val.put(ActivityEntry.column_activitylength, activityEntry.getActivity_length());
@@ -212,9 +233,14 @@ public class DBOperations {
         else
         {
             long count = DatabaseUtils.queryNumEntries(db, NutritionEntry.tableName);
-            if(count == 0)
-                //nutritionEntry.setNutrition_entry_id(SessionManager.seqConstant);
-                val.put(NutritionEntry.column_nutritionEntryID,SessionManager.seqConstant);
+            if(count == 0) {
+                long seq = getSequenceConstant();
+                if(seq>-1)
+                    val.put(NutritionEntry.column_nutritionEntryID,seq);
+                else
+                    Log.e("insertRow","Sequence number not set for the user");
+            }
+
         }
         val.put(NutritionEntry.column_goalID, nutritionEntry.getGoal_id());
         val.put(NutritionEntry.column_atticFood, nutritionEntry.getAttic_food());
@@ -668,7 +694,7 @@ public class DBOperations {
         String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
         String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
         //String query = "select * from user_goal where start_date >= '" + startDate + "' and start_date <= '" + endDate + "' and type= '" + type + "' ORDER BY `timestamp` DESC";
-        String query = "select * from user_goal where start_date between '" + startDate + "' and '" + endDate + "' ORDER BY timestamp DESC";
+        String query = "select * from user_goal where start_date between '" + startDate + "' and '" + endDate + "' and type='"+type+"' ORDER BY timestamp DESC";
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.getCount() == 0) {
@@ -745,6 +771,12 @@ public class DBOperations {
 
         }
         return entryList;
+    }
+
+
+    public long getSequenceConstant()
+    {
+        return sharedPreferences.getLong("user_sequence",-1);
     }
 
 }
