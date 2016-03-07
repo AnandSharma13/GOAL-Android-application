@@ -4,33 +4,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/nutrition_entry_select_background"
-    tools:context=".fragments.NutritionEntrySelectFragment">
+    tools:context=".fragments.NutritionEntrySelectFragment"
+    android:clickable="true">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/app_bar"
-        android:orientation="vertical">   <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/nutrition_entry_select_border" />
+        android:orientation="vertical">
 
-        <LinearLayout
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/nutrition_entry_select_border" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight=".8"
-            android:gravity="center"
-            >
+            android:gravity="center">
 
-            <EditText
+            <TextView
                 android:id="@+id/nutrition_entry_select_et_date_picker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/home_nutrition_progress_outer_ring_color"
+                android:layout_centerInParent="true"
+                android:text="Text"
                 android:textStyle="bold"
-                />
-        </LinearLayout>
+                style="@style/text_view_size" />
+
+            <ImageButton
+                android:id="@+id/nutrition_entry_select_btn_calendar"
+                android:layout_toRightOf="@+id/nutrition_entry_select_et_date_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="15dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_calendar" />
+        </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -40,8 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/ic_btn_breakfast"
-            >
+            android:background="@drawable/ic_btn_breakfast">
 
             <Button
                 android:id="@+id/nutrition_entry_select_btn_breakfast"
@@ -53,6 +67,7 @@
                 android:scaleType="centerCrop" />
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -62,8 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/ic_btn_lunch"
-            >
+            android:background="@drawable/ic_btn_lunch">
 
             <Button
                 android:id="@+id/nutrition_entry_select_btn_lunch"
@@ -71,8 +85,9 @@
                 android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:backgroundTint="@android:color/transparent"
-                android:onClick="onClickLunch"/>
+                android:onClick="onClickLunch" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -91,8 +106,9 @@
                 android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:backgroundTint="@android:color/transparent"
-                android:onClick="onClickDinner"/>
+                android:onClick="onClickDinner" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -111,8 +127,9 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:backgroundTint="@android:color/transparent"
 
-                android:onClick="onClickSnack"/>
+                android:onClick="onClickSnack" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

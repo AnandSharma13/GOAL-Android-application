@@ -55,6 +55,8 @@ public class NutritionEntryMainFragment extends Fragment {
     RadioGroup mGoalRadioGroup;
     @Bind(R.id.nutrition_entry_main_btn_next)
     Button mNext;
+    @Bind(R.id.nutrition_entry_main_btn_camera)
+    Button mCamera;
     private DatePickerDialog.OnDateSetListener datePicker;
     private Calendar calendar;
     private EditText mNutritionEntryDate;
@@ -137,8 +139,15 @@ public class NutritionEntryMainFragment extends Fragment {
 //        startActivityForResult(intent, NEXT_INTENT);
                 NutritionEntryCreateFragment fragment = NutritionEntryCreateFragment.newInstance(nutritionDetailsText, mImagePath, mSqlDateFormatString, goalCount, mNutritionType);
 
-                (( MainActivity)getActivity()).setFragment(fragment, false);
+                ((MainActivity) getActivity()).setFragment(fragment, false);
 
+            }
+        });
+
+        mCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickCamera(v);
             }
         });
 

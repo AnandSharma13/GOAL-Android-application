@@ -12,4 +12,8 @@
 
     <style name="home_fragment_buttons_theme" parent="Theme.AppCompat.Light.NoActionBar">
     </style>
+
+    <style name="text_view_size">
+        <item name="android:textSize">20dp</item>
+    </style>
 </resources>

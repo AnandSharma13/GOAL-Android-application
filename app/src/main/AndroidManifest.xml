@@ -62,28 +62,28 @@
         <activity
             android:name=".Activities.NewGoal"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".fragments.NutritionEntryCreateFragment"
-            android:parentActivityName=".fragments.NutritionEntrySelectFragment"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".fragments.NutritionEntryMainFragment"
-            android:parentActivityName=".fragments.NutritionEntrySelectFragment" />
-        <activity
-            android:name=".fragments.ActivityEntryMainFragment"
-            android:parentActivityName=".MainActivity"/>
-        <activity
-            android:name=".fragments.ActivityEntryCreateFragment"
-            android:parentActivityName=".fragments.ActivityEntryMainFragment" />
+        <!--<activity-->
+            <!--android:name=".fragments.NutritionEntryCreateFragment"-->
+            <!--android:parentActivityName=".fragments.NutritionEntrySelectFragment"-->
+            <!--android:windowSoftInputMode="adjustResize" />-->
+        <!--<activity-->
+            <!--android:name=".fragments.NutritionEntryMainFragment"-->
+            <!--android:parentActivityName=".fragments.NutritionEntrySelectFragment" />-->
+        <!--<activity-->
+            <!--android:name=".fragments.ActivityEntryMainFragment"-->
+            <!--android:parentActivityName=".MainActivity"/>-->
+        <!--<activity-->
+            <!--android:name=".fragments.ActivityEntryCreateFragment"-->
+            <!--android:parentActivityName=".fragments.ActivityEntryMainFragment" />-->
         <activity android:name=".Activities.LoginActivity" />
-        <activity
-            android:name=".fragments.NutritionEntrySelectFragment"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".Activities.SettingsActivity"/>
-        <activity android:name=".Activities.HistoryActivity"/>
-        <activity
-            android:name=".fragments.ProgressMainFragment"
-            android:parentActivityName=".MainActivity"/>
+        <!--<activity-->
+            <!--android:name=".fragments.NutritionEntrySelectFragment"-->
+            <!--android:parentActivityName=".MainActivity"/>-->
+        <!--<activity android:name=".Activities.SettingsActivity"/>-->
+        <!--<activity android:name=".Activities.HistoryActivity"/>-->
+        <!--<activity-->
+            <!--android:name=".fragments.ProgressMainFragment"-->
+            <!--android:parentActivityName=".MainActivity"/>-->
 
     </application>
 

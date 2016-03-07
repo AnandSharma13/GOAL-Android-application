@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ph.MainActivity;
@@ -30,7 +32,9 @@ public class NutritionEntrySelectFragment extends Fragment {
 
     static final int RESULT_CODE = 1;
     @Bind(R.id.nutrition_entry_select_et_date_picker)
-    EditText mNutritionEntryDate;
+    TextView mNutritionEntryDate;
+    @Bind(R.id.nutrition_entry_select_btn_calendar)
+    ImageButton mCalendarBtn;
     @Bind(R.id.nutrition_entry_select_btn_breakfast)
     Button mBreakFastBtn;
     @Bind(R.id.nutrition_entry_select_btn_lunch)
@@ -73,7 +77,7 @@ public class NutritionEntrySelectFragment extends Fragment {
             }
         };
 
-        mNutritionEntryDate.setOnClickListener(new View.OnClickListener() {
+        mCalendarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
