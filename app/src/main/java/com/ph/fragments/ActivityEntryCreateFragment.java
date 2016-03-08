@@ -62,6 +62,7 @@ public class ActivityEntryCreateFragment extends Fragment {
     private ActivityViewAdapter activityViewAdapter;
     private DBOperations dbOperations;
     private String userNotes = "";
+    private final int minValueOffset = 6;
 
     private Toolbar toolbar;
 
@@ -97,7 +98,7 @@ public class ActivityEntryCreateFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.activity_entry_create_fragment,container,false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
 
 
 
@@ -138,17 +139,19 @@ public class ActivityEntryCreateFragment extends Fragment {
         });
 
 
+        rpeIndicator.setText(String.valueOf(rpeSeekBar.getProgress() + minValueOffset));
 
 
-        if (rpeSeekBar.getProgress() == 0 || timeSeekBar.getProgress() == 0)
+        if ((Integer.parseInt(rpeIndicator.getText().toString())) == 0 || timeSeekBar.getProgress() == 0)
             saveButton.setEnabled(false);
         //Set Onchange listeners...
 
         rpeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                rpeIndicator.setText(String.valueOf(progress));
-                if (progress > 0 && timeSeekBar.getProgress() > 0)
+                int adjustedProgress = progress+minValueOffset;
+                rpeIndicator.setText(String.valueOf(adjustedProgress));
+                if (adjustedProgress > 0 && timeSeekBar.getProgress() > 0)
                     saveButton.setEnabled(true);
                 else
                     saveButton.setEnabled(false);
@@ -169,7 +172,7 @@ public class ActivityEntryCreateFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 timeIndicator.setText(String.valueOf(progress));
-                if (progress > 0 && rpeSeekBar.getProgress() > 0)
+                if (progress > 0 && (Integer.parseInt(rpeIndicator.getText().toString()) > 0))
                     saveButton.setEnabled(true);
                 else
                     saveButton.setEnabled(false);
@@ -216,7 +219,7 @@ public class ActivityEntryCreateFragment extends Fragment {
                 int selectedActivity = activityViewAdapter.getSelectedPos();
 
                 long activityId = mData.get(selectedActivity).getActivity_id();
-                int rpeVal = rpeSeekBar.getProgress();
+                int rpeVal = Integer.parseInt(rpeIndicator.getText().toString());
                 int timeVal = timeSeekBar.getProgress();
 
 

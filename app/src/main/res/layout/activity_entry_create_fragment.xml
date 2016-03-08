@@ -68,7 +68,8 @@
                 android:layout_weight="0.85"
                 android:indeterminate="false"
                 android:background="@drawable/activity_entry_rpe_background"
-                android:max="100" />
+                android:max="14"
+                />
 
         </LinearLayout>
 
