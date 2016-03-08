@@ -13,6 +13,7 @@
     <color name="selected_color">#ffffff</color>
     <color name="focused_color">#ffffff</color>
     <color name="home_nutrition_background_color">#2DF5D2</color>
+    <color name="nutrition_entry_app_bar">#2DF5D2</color>
     <color name="home_nutrition_progress_outer_ring_color">#00DAB4</color>
     <color name="home_nutrition_progress_bar_background">#DBEAE7</color>
     <color name="home_activity_background_color">#FFCD1B</color>

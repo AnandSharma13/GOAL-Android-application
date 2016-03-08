@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -147,6 +146,14 @@ public class NutritionEntrySelectFragment extends Fragment {
 
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ((MainActivity) getActivity()).setDrawerState(false);
+        ((MainActivity) getActivity()).updateToolbar("Add Nutrition Record", R.color.nutrition_entry_app_bar, R.color.white);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

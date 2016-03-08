@@ -112,6 +112,14 @@ public class NutritionEntryMainFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        ((MainActivity) getActivity()).setDrawerState(false);
+        ((MainActivity) getActivity()).updateToolbar(mNutritionType, R.color.nutrition_entry_app_bar, R.color.white);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nutrition_entry_main, container, false);
         ButterKnife.bind(this, view);

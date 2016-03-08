@@ -162,6 +162,15 @@ public class NutritionEntryCreateFragment extends Fragment {
         return;
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ((MainActivity) getActivity()).setDrawerState(false);
+        ((MainActivity) getActivity()).updateToolbar(mNutritionType, R.color.nutrition_entry_app_bar, R.color.white);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

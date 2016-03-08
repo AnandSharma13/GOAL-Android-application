@@ -91,7 +91,13 @@ public class ProgressActivityDetails extends Fragment {
             weekNumber = dateOperations.getWeeksTillDate(new Date());
 
         goalInfo = dbOperations.getuserGoalFromDB("Activity",weekNumber);
+
         activityInfo = (TextView) v.findViewById(R.id.progress_activity_info);
+
+        if(goalInfo == null) {
+            activityInfo.setText("No goal was associated for the week");
+            return v;
+        }
 
         activityInfo.setText(goalInfo.getWeekly_count()+" "+goalInfo.getType());
 

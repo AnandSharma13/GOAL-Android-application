@@ -21,6 +21,7 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -730,33 +731,36 @@ public class DBOperations {
 
     public List<Object> getGoalProgressForAWeek(int weekNumber, String type) {
         UserGoal userGoal;
+            userGoal = getuserGoalFromDB(type, weekNumber);
 
-        userGoal = getuserGoalFromDB(type, weekNumber);
-        SQLiteDatabase db = dbHandler.getReadableDatabase();
-        String query = "";
+            if (userGoal == null)
+                return Collections.EMPTY_LIST;
+            SQLiteDatabase db = dbHandler.getReadableDatabase();
+            String query = "";
 
-        long id = userGoal.getGoal_id();
-        Cursor cursor;
-        String tableName ="";
-        if (type.equals("Activity")) {
+            long id = userGoal.getGoal_id();
+            Cursor cursor;
+            String tableName = "";
+            if (type.equals("Activity")) {
 
-            query = "Select * from activity_entry where goal_id = " + id+" group by "+ActivityEntry.column_date+" order by "+ActivityEntry.column_date+" desc";
-             tableName = ActivityEntry.tableName;
+                query = "Select * from activity_entry where goal_id = " + id + " group by " + ActivityEntry.column_date + " order by " + ActivityEntry.column_date + " desc";
+                tableName = ActivityEntry.tableName;
 
-        } else if (type.equals("Nutrition")) {
+            } else if (type.equals("Nutrition")) {
 
-            query = "Select * from nutrition_entry where goal_id = " + id+" group by "+NutritionEntry.column_date+" order by "+NutritionEntry.column_date+" desc";
+                query = "Select * from nutrition_entry where goal_id = " + id + " group by " + NutritionEntry.column_date + " order by " + NutritionEntry.column_date + " desc";
 
-            tableName = NutritionEntry.tableName;
+                tableName = NutritionEntry.tableName;
 
-        }
+            }
 
-        cursor = db.rawQuery(query, null);
-        List<Object> list = getDBContents(cursor,tableName);
+            cursor = db.rawQuery(query, null);
+            List<Object> list = getDBContents(cursor, tableName);
 
-        db.close();
-        cursor.close();
-        return list;
+            db.close();
+            cursor.close();
+
+            return list;
 
 
     }

@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.ph.Activities.SettingsActivity;
 import com.ph.fragments.ActivityHistoryDetails;
 import com.ph.fragments.ActivityHistoryFragment;
+import com.ph.fragments.CustomDividerItemDecoration;
 import com.ph.fragments.DrawerAdapter;
 import com.ph.fragments.GoalHistoryDetails;
 import com.ph.fragments.GoalHistoryFragment;
@@ -42,7 +43,6 @@ import com.ph.fragments.ProgressNutritionDetails;
 import com.ph.fragments.ProgressNutritionFragment;
 import com.ph.fragments.ProgressStepsFragment;
 import com.ph.fragments.RewardsFragment;
-import com.ph.fragments.CustomDividerItemDecoration;
 import com.ph.fragments.StepsDay;
 import com.ph.fragments.StepsWeek;
 import com.ph.net.SessionManager;
@@ -204,9 +204,18 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
                     if (backStackEntryCount == 0) {
                         finish();
                     }
-                    Fragment fragment = manager.getFragments()
-                            .get(backStackEntryCount);
-                    fragment.onResume();
+
+                    FragmentManager.BackStackEntry backStackEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
+
+                    for(Fragment fragment: getSupportFragmentManager().getFragments())
+                    {
+                        if(backStackEntry.getName().contains(fragment.getClass().getSimpleName())) {
+                            fragment.onResume();
+                            break;
+                        }
+                    }
+
+
                 }
             }
         };
@@ -222,9 +231,9 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
         if (isNavigationDrawerItem) {
             while (fragmentManager.getBackStackEntryCount() != 1)
                 fragmentManager.popBackStackImmediate();
-            fragmentTransaction.add(R.id.activity_main_frame_layout, fragment).addToBackStack(fragmentName);
+            fragmentTransaction.add(R.id.activity_main_frame_layout, fragment,fragment.getClass().getSimpleName()).addToBackStack(fragmentName);
         } else
-            fragmentTransaction.add(R.id.activity_main_frame_layout, fragment).addToBackStack(fragmentName);
+            fragmentTransaction.add(R.id.activity_main_frame_layout, fragment,fragment.getClass().getSimpleName()).addToBackStack(fragmentName);
         fragmentTransaction.commit();
     }
 
@@ -238,7 +247,10 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 2) {
+
             getSupportFragmentManager().popBackStack();
+
+
         }
         else if (getSupportFragmentManager().getBackStackEntryCount() == 2) {
             updateToolbar("GOAL", R.color.white, R.color.black);
