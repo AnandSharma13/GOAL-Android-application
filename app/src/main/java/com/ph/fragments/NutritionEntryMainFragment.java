@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.ph.MainActivity;
 import com.ph.R;
+import com.ph.Utils.AlertDialogManager;
 import com.ph.Utils.DateOperations;
 import com.ph.model.DBOperations;
 import com.ph.model.UserGoal;
@@ -65,7 +66,7 @@ public class NutritionEntryMainFragment extends Fragment {
     private String mSqlDateFormatString;
     private String mImagePath = "";
     private Toolbar toolbar;
-    private android.net.Uri imageUri;
+    private android.net.Uri imageUri = null;
 
     public static NutritionEntryMainFragment newInstance(String param1, String param2)     {
         NutritionEntryMainFragment fragment = new NutritionEntryMainFragment();
@@ -186,7 +187,7 @@ public class NutritionEntryMainFragment extends Fragment {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
         intent.putExtra("name", filename);
         imageUri = Uri.fromFile(photo);
-        Log.i("Take Photo", imageUri.toString());
+//         Log.i("Take Photo", Uri.fromFile(photo).toString());
         startActivityForResult(intent, TAKE_PICTURE);
     }
 
@@ -196,22 +197,32 @@ public class NutritionEntryMainFragment extends Fragment {
         switch (requestCode) {
             case TAKE_PICTURE:
                 if (resultCode == android.app.Activity.RESULT_OK) {
-                    //   Uri selectedImage = imageUri;
-                    File file = new File(imageUri.getPath());
-                    //Specify the pixels of compressed image here
-                    Bitmap bitmap = decodeSampledBitmapFromFile(file.getAbsolutePath(), 500, 500);
-                    //Deletes the original file from memory. We don't need to store high quality image
-                    file.delete();
-                    writeBitmapToFile(imageUri.getPath(), bitmap);
-                    break;
-                }
-            case NEXT_INTENT:
-                if (resultCode == Activity.RESULT_OK) {
-                    getActivity().finish();
-                }
-                break;
 
+                    if (imageUri != null) {
+                        //   Uri selectedImage = imageUri;.
+                        File file = new File(imageUri.getPath());
+                        //Specify the pixels of compressed image here
+                        Bitmap bitmap = decodeSampledBitmapFromFile(file.getAbsolutePath(), 500, 500);
+                        //Deletes the original file from memory. We don't need to store high quality image
+                        file.delete();
+                        writeBitmapToFile(imageUri.getPath(), bitmap);
+
+                    }
+                    else {
+
+                        AlertDialogManager dialogManager = new AlertDialogManager();
+                        dialogManager.showAlertDialog(getContext(), "Permissions", "Unable to store the picture.");
+                    }
+                break;
+                }
         }
+    }
+
+
+
+    public void createImageFile(){
+
+
     }
 
     public void writeBitmapToFile(String path, Bitmap bitmap) {
@@ -220,7 +231,8 @@ public class NutritionEntryMainFragment extends Fragment {
             OutputStream stream = new FileOutputStream(path);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            AlertDialogManager dialogManager = new AlertDialogManager();
+            dialogManager.showAlertDialog(getContext(), "Permissions", "Please provide storage permissions in settings and try again.");
         }
 
     }
