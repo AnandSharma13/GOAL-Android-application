@@ -22,7 +22,8 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -61,7 +62,8 @@
         <activity android:name=".TempMain" />
         <activity
             android:name=".Activities.NewGoal"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
         <!--<activity-->
             <!--android:name=".fragments.NutritionEntryCreateFragment"-->
             <!--android:parentActivityName=".fragments.NutritionEntrySelectFragment"-->
@@ -75,7 +77,8 @@
         <!--<activity-->
             <!--android:name=".fragments.ActivityEntryCreateFragment"-->
             <!--android:parentActivityName=".fragments.ActivityEntryMainFragment" />-->
-        <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".Activities.LoginActivity"
+            android:screenOrientation="portrait"/>
         <!--<activity-->
             <!--android:name=".fragments.NutritionEntrySelectFragment"-->
             <!--android:parentActivityName=".MainActivity"/>-->

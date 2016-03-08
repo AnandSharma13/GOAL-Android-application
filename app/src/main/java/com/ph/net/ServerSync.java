@@ -71,12 +71,12 @@ public class ServerSync {
                 JSONObject row = jArray.optJSONObject(i);
 
                 NutritionEntry nutritionEntry = new NutritionEntry();
-                nutritionEntry.setNutrition_entry_id(row.getInt(NutritionEntry.column_nutritionEntryID));
+                nutritionEntry.setNutrition_entry_id(row.getLong(NutritionEntry.column_nutritionEntryID));
                 nutritionEntry.setTimestamp(row.getString(NutritionEntry.column_timestamp));
                 nutritionEntry.setAttic_food(row.getInt(NutritionEntry.column_atticFood));
                 nutritionEntry.setDairy(row.getInt(NutritionEntry.column_dairy));
                 nutritionEntry.setFruit(row.getInt(NutritionEntry.column_fruit));
-                nutritionEntry.setGoal_id(row.getInt(NutritionEntry.column_goalID));
+                nutritionEntry.setGoal_id(row.getLong(NutritionEntry.column_goalID));
                 nutritionEntry.setGrain(row.getInt(NutritionEntry.column_grain));
                 nutritionEntry.setNutrition_type(row.getString(NutritionEntry.column_nutritiontype));
                 nutritionEntry.setTowards_goal(row.getInt(NutritionEntry.column_counttowardsgoal));
@@ -105,8 +105,8 @@ public class ServerSync {
             try {
                 JSONObject row = jArray.optJSONObject(i);
                 ActivityEntry activityEntry = new ActivityEntry();
-                activityEntry.setActivity_entry_id(row.getInt(ActivityEntry.column_activityEntryID));
-                activityEntry.setActivity_id(row.getInt(ActivityEntry.column_activityID));
+                activityEntry.setActivity_entry_id(row.getLong(ActivityEntry.column_activityEntryID));
+                activityEntry.setActivity_id(row.getLong(ActivityEntry.column_activityID));
                 activityEntry.setImage(row.getString(ActivityEntry.column_image));
                 activityEntry.setTimestamp(row.getString(ActivityEntry.column_timestamp));
                 activityEntry.setDate(row.getString(ActivityEntry.column_date));
@@ -196,7 +196,7 @@ public class ServerSync {
 
                 Activity activity = new Activity();
 
-                activity.setActivity_id(row.getInt(Activity.column_activityID));
+                activity.setActivity_id(row.getLong(Activity.column_activityID));
                 activity.setUser_id(row.getInt(Activity.column_userID));
                 activity.setName(row.getString(Activity.column_name));
                 activity.setLast_used(row.getString(Activity.column_lastUsed));
@@ -222,7 +222,7 @@ public class ServerSync {
                 JSONObject row = jArray.optJSONObject(i);
                 UserSteps userSteps = new UserSteps();
 
-                userSteps.setSteps_id(row.getInt(UserSteps.column_stepsID));
+                userSteps.setSteps_id(row.getLong(UserSteps.column_stepsID));
                 userSteps.setUser_id(row.getInt(UserSteps.column_userID));
                 userSteps.setTimestamp(row.getString(UserSteps.column_timestamp));
                 userSteps.setSteps_count(row.getInt(UserSteps.column_stepscount));

@@ -489,19 +489,6 @@ public class NutritionEntryCreateFragment extends Fragment {
         return 0;
     }
 
-    //TODO check with for long click option
-    class RepeatUpdater implements Runnable {
-        @Override
-        public void run() {
-            if (mIncrementFlag) {
-                Log.i("NutritionEntryCreateFragment", "Increment Pressed");
-                repeatUpdateHandler.postDelayed(new RepeatUpdater(), 50);
-            } else if (mDecrementFlag) {
-                Log.i("NutritionEntryCreateFragment", "Decrement Pressed");
-                repeatUpdateHandler.postDelayed(new RepeatUpdater(), 50);
-            }
-        }
-    }
 
     class MyCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
 
