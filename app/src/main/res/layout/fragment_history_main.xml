@@ -17,7 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/app_bar"
-            android:background="@color/blue"
+            android:background="@color/white"
+            app:tabSelectedTextColor="@color/history_theme_color"
+            app:tabTextColor="@color/history_tab_color"
+            app:tabIndicatorColor="@color/history_theme_color"
             app:tabGravity="fill"
             app:tabMode="fixed" />
 

@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.ph.Adapters.ViewPagerAdapter;
@@ -37,8 +36,8 @@ public class NutritionHistoryFragment extends Fragment {
     @Bind(R.id.week_number_display)
     TextView weekTitle;
     @Bind(R.id.week_next)
-    Button prev;
-    @Bind(R.id.week_prev) Button next;
+    TextView prev;
+    @Bind(R.id.week_prev) TextView next;
     private DateOperations dateOperations;
     private OnFragmentInteractionListener mListener;
 

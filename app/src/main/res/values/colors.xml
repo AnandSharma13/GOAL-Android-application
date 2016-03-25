@@ -27,4 +27,11 @@
     <color name="activity_entry_app_bar">#FFCD1B</color>
     <color name="activity_entry_font_color">#FFCD1B</color>
     <color name="activity_entry_activity_background">#FFF3C6</color>
+    <color name="settings_background">#FAFAFA</color>
+    <color name="history_background">#FAFAFA</color>
+    <color name="settings_logout_button">#FF6E00</color>
+    <color name="settings_text_info">#CBCBCB</color>
+    <color name="settings_section_border">#979797</color>
+    <color name="history_theme_color">#F55900</color>
+    <color name="history_tab_color">#B4a68C</color>
 </resources>

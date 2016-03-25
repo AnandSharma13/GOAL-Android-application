@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ph.Adapters.ViewPagerAdapter;
+import com.ph.MainActivity;
 import com.ph.R;
 
 import butterknife.Bind;
@@ -68,6 +69,8 @@ public class HistoryMainFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        ((MainActivity) getActivity()).setDrawerState(false);
+        ((MainActivity) getActivity()).updateToolbar("History", R.color.white, R.color.black);
     }
 
     @Override

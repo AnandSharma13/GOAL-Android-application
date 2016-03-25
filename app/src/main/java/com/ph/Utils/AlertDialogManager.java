@@ -40,6 +40,24 @@ public class AlertDialogManager {
 
     }
 
+    public void showTwoButtonDialog(Context context,String title,String message,String positiveButtonName,DialogInterface.OnClickListener clickListener){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setMessage(message)
+                .setTitle(title)
+                .setPositiveButton(positiveButtonName,clickListener)
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+    }
+
     public void showPastGoalsDialog(final Context context,String title, final String goalType)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

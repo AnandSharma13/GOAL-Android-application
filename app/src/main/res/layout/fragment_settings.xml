@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     android:clickable="true"
     tools:context="com.ph.Activities.SettingsActivity"
-    android:background="@color/backgroundColor">
+    android:background="@color/settings_background">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_gravity="center_horizontal"
-        android:background="@color/white"
+        android:background="@drawable/settings_element_border"
         android:layout_marginTop="15dp">
 
         <LinearLayout
@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Program"
-                android:id="@+id/textView9"
+                android:id="@+id/fragment_settings_program_text"
                 android:layout_gravity="center"
                 android:layout_marginLeft="30dp"
                 android:textSize="16dp"
@@ -40,6 +40,7 @@
                 android:layout_weight="0.12"
                 android:layout_gravity="center"
                 android:textSize="16dp"
+                android:textColor="@color/settings_text_info"
                 android:layout_marginLeft="30dp" />
         </LinearLayout>
     </LinearLayout>
@@ -49,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_gravity="center_horizontal"
-        android:background="@color/white"
+        android:background="@drawable/settings_element_border"
         android:layout_marginTop="5dp">
         <LinearLayout
             android:orientation="horizontal"
@@ -61,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Start date"
-                android:id="@+id/textView10"
+                android:id="@+id/fragment_settings_program_start_date_text"
                 android:layout_gravity="center"
                 android:layout_marginLeft="30dp"
                 android:textSize="16dp"
@@ -75,6 +76,7 @@
                 android:layout_weight="0.12"
                 android:layout_gravity="center"
                 android:textSize="16dp"
+                android:textColor="@color/settings_text_info"
                 android:layout_marginLeft="30dp" />
 
             </LinearLayout>
@@ -93,14 +95,16 @@
             android:id="@+id/phoneSupport"
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
-            android:src="@mipmap/ic_phone_icon"
+            android:src="@mipmap/ic_settings_phone"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_weight="0.31" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Contact Technical Support"
-            android:id="@+id/textView11"
+            android:id="@+id/settings_contact_support_text"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.31" />
     </LinearLayout>
@@ -110,8 +114,12 @@
         android:layout_height="wrap_content"
         android:text="Log out"
         android:id="@+id/logOutButton"
-        android:background="@color/white"
-        android:layout_gravity="center_horizontal" />
+        android:background="@drawable/settings_logout_background"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/white"
+
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp" />
 
 
 </LinearLayout>
