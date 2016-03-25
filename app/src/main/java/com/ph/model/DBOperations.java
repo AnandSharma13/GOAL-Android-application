@@ -100,6 +100,7 @@ public class DBOperations {
         val.put(UserGoal.column_startDate, dateformat.format(startDate));
         val.put(UserGoal.column_endDate, dateformat.format(endDate));
         val.put(UserGoal.column_weeklyCount, usergoal.getWeekly_count());
+        val.put(UserGoal.column_times, usergoal.getTimes());
         val.put(UserGoal.column_text, usergoal.getText());
         val.put(UserGoal.column_sync, usergoal.getIs_sync());
         if (usergoal.getTimestamp() != null) {
@@ -471,6 +472,7 @@ public class DBOperations {
         userGoal.setWeekly_count(cursor.getInt(cursor.getColumnIndex(UserGoal.column_weeklyCount)));
         userGoal.setReward_type(cursor.getString(cursor.getColumnIndex(UserGoal.column_rewardType)));
         userGoal.setText(cursor.getString(cursor.getColumnIndex(UserGoal.column_text)));
+        userGoal.setTimes(cursor.getInt(cursor.getColumnIndex(UserGoal.column_times)));
         return userGoal;
     }
 

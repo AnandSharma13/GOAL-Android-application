@@ -102,8 +102,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
             weekNumber = new DateOperations(getContext()).getWeeksTillDate(new Date());
         UserGoal userGoalNutrition = mDbOperations.getuserGoalFromDB("Nutrition",weekNumber);
         UserGoal userGoalActivity = mDbOperations.getuserGoalFromDB("Activity",weekNumber);
-
-
+        //get count for activity
         if(userGoalActivity == null || userGoalNutrition == null) {
             mActivityProgressBar.setVisibility(View.INVISIBLE);
             mNutritionProgressBar.setVisibility(View.INVISIBLE);
@@ -114,7 +113,8 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
             mActivityProgressBar.setVisibility(View.VISIBLE);
             mNutritionProgressBar.setVisibility(View.VISIBLE);
         }
-        String activityText = "A "+" "+userGoalActivity.getWeekly_count()+" mins / week";
+        int activityCount = userGoalActivity.getTimes() * userGoalActivity.getWeekly_count();
+        String activityText = "A "+" "+activityCount+" mins / week";
         String nutritionText = "N "+" "+userGoalNutrition.getWeekly_count()+" food / week";
         String goalText = activityText+"\n"+nutritionText;
         mNewGoalButton.setText(goalText);
@@ -137,8 +137,8 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
 
 
 
-        mActivityProgressBar.setAim_text("Aim " + String.valueOf(userGoalActivity.getWeekly_count()));
-        mActivityProgressBar.setMax( userGoalActivity.getWeekly_count());
+        mActivityProgressBar.setAim_text("Aim " + String.valueOf(activityCount));
+        mActivityProgressBar.setMax(activityCount);
 
         ObjectAnimator animation1 = ObjectAnimator.ofInt(mActivityProgressBar, "progress",activityProgress);
         animation1.setDuration(5000);

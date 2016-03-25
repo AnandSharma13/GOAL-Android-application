@@ -16,6 +16,7 @@ public class UserGoal {
     public static final String column_weeklyCount = "weekly_count";
     public static final String column_rewardType = "reward_type";
     public static final String column_text = "text";
+    public static final String column_times = "times";
     public static final String column_sync = "is_sync";
     private long goal_id;
     private int user_id;
@@ -27,11 +28,12 @@ public class UserGoal {
     private String reward_type;
     private String text;
     private int is_sync;
+    private int times;
 
 
     public UserGoal(){}
 
-    public UserGoal(int user_id, String type, String start_date, String endDate, int weeklyCount, String text) {
+    public UserGoal(int user_id, String type, String start_date, String endDate, int weeklyCount, String text, int times) {
         this.user_id = user_id;
         //   this.timestamp = timestamp;
         this.type = type;
@@ -39,9 +41,16 @@ public class UserGoal {
         this.end_date = endDate;
         this.weekly_count = weeklyCount;
         this.text = text;
+        this.times = times;
     }
 
+    public int getTimes() {
+        return times;
+    }
 
+    public void setTimes(int times) {
+        this.times = times;
+    }
     public long getGoal_id() {
         return goal_id;
     }

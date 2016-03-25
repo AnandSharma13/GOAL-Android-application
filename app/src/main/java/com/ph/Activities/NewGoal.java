@@ -41,6 +41,7 @@ public class NewGoal extends AppCompatActivity {
     private EditText mEditNutGoalText;
     private EditText mEditActGoalOnes;
     private EditText mEditActGoalText;
+    private EditText mEditTimesText;
 
     private DateOperations dateOperations;
     private DBOperations dbOperations;
@@ -50,6 +51,7 @@ public class NewGoal extends AppCompatActivity {
     int prefsNutCount;
     String prefsNutText;
     int prefsActCount;
+    int prefsActTimes;
     String prefsActText;
 
     private Button pastGoalNutrition;
@@ -76,6 +78,7 @@ public class NewGoal extends AppCompatActivity {
         mEditNutGoalText = (EditText) findViewById(R.id.nutritionGoalText);
         mEditActGoalOnes = (EditText) findViewById(R.id.activityGoalOnes);
         mEditActGoalText = (EditText) findViewById(R.id.activityGoalText);
+        mEditTimesText = (EditText) findViewById(R.id.activity_tv_new_goal_times);
         dateOperations = new DateOperations(this);
         dbOperations = new DBOperations(this);
 
@@ -136,7 +139,8 @@ public class NewGoal extends AppCompatActivity {
         {
             prefsActCount = currentActivityGoal.getWeekly_count();
             prefsActText = currentActivityGoal.getText();
-            setValues(prefsActCount,prefsActText,"Activity");
+            prefsActTimes =  currentActivityGoal.getTimes();
+            setValues(prefsActCount,prefsActText,"Activity", prefsActTimes);
 
         }
 
@@ -150,12 +154,12 @@ public class NewGoal extends AppCompatActivity {
         {
             prefsNutCount = currentNutritionGoal.getWeekly_count();
             prefsNutText = currentNutritionGoal.getText();
-            setValues(prefsNutCount,prefsNutText,"Nutrition");
+            setValues(prefsNutCount,prefsNutText,"Nutrition",0);
         }
 
     }
 
-    public void setValues(int count,String text,String type) {
+    public void setValues(int count,String text,String type, int times) {
         if (type == "Nutrition") {
             mEditNutGoalOnes.setText(String.valueOf(count));
             mEditNutGoalText.setText(text);
@@ -163,6 +167,7 @@ public class NewGoal extends AppCompatActivity {
         else if (type == "Activity") {
             mEditActGoalOnes.setText(String.valueOf(count));
             mEditActGoalText.setText(text);
+            mEditTimesText.setText(String.valueOf(times));
         }
     }
 
@@ -178,6 +183,7 @@ public class NewGoal extends AppCompatActivity {
         String activityGoalText = mEditActGoalText.getText().toString();
     //    int activityGoalCount = activityGoalHundreds * 100 + activityGoalTens * 10 + activityGoalOnes * 1;
 
+        int activityTimes = Integer.parseInt(mEditTimesText.getText().toString());
         GoalPeriod goalPeriod = getGoalPeriod();
         String startDate = goalPeriod.startDate;
         String endDate = goalPeriod.endDate;
@@ -191,7 +197,7 @@ public class NewGoal extends AppCompatActivity {
         //checking for nutrition goal
         if (prefsNutCount != nutritionGoalCount || !prefsNutText.equals(nutritionGoalText)) {
 
-            UserGoal nutritionGoal = new UserGoal(userId, "Nutrition", startDate, endDate, nutritionGoalCount, nutritionGoalText);
+            UserGoal nutritionGoal = new UserGoal(userId, "Nutrition", startDate, endDate, nutritionGoalCount, nutritionGoalText,0);
             long id = insertGoal(nutritionGoal, view);
             nutritionGoal.setGoal_id(id);
 
@@ -208,8 +214,8 @@ public class NewGoal extends AppCompatActivity {
 
 
         //checking for activity goal
-        if (prefsActCount != activityGoalCount || !prefsActText.equals(activityGoalText)) {
-            UserGoal activityGoal = new UserGoal(userId, "Activity", startDate, endDate, activityGoalCount, activityGoalText);
+        if (prefsActCount != activityGoalCount  || prefsActTimes != activityTimes || !prefsActText.equals(activityGoalText)) {
+            UserGoal activityGoal = new UserGoal(userId, "Activity", startDate, endDate, activityGoalCount, activityGoalText, activityTimes);
             long id = insertGoal(activityGoal, view);
             activityGoal.setGoal_id(id);
 

@@ -174,6 +174,7 @@ public class ServerSync {
                 userGoal.setWeekly_count(row.getInt("weekly_count"));
                 userGoal.setReward_type(row.getString("reward_type"));
                 userGoal.setText(row.getString("text"));
+                userGoal.setTimes(row.getInt("times"));
                 userGoal.setIs_sync(1);
 
 

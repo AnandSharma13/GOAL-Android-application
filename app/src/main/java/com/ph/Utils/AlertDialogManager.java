@@ -82,7 +82,7 @@ public class AlertDialogManager {
                             newGoalInstance = (NewGoal) context;
                             int count = cursor.getInt(cursor.getColumnIndex(UserGoal.column_weeklyCount));
                             String text = cursor.getString(cursor.getColumnIndex(UserGoal.column_text));
-                            newGoalInstance.setValues(count,text,goalType);
+                            newGoalInstance.setValues(count,text,goalType,0);
                         }
                     }
                 })

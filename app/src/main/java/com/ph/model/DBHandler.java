@@ -69,6 +69,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + UserGoal.column_weeklyCount + " INTEGER, "
                 + UserGoal.column_rewardType + " TEXT DEFAULT 'NONE',"
                 + UserGoal.column_text + " TEXT, "
+                + UserGoal.column_times + " INTEGER, "
                 + UserGoal.column_sync + " INTEGER, "
                 + "FOREIGN KEY (" + UserGoal.column_userID + ") REFERENCES " + com.ph.model.User.tableName + "(" + com.ph.model.User.column_userID + ")" + ")";
 
