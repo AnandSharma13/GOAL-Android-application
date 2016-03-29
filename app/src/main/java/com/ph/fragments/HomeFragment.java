@@ -114,7 +114,6 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-        setToolBarTitle();
         changeToolBarTitle(currentWeekToolBarText);
 
 
@@ -193,6 +192,7 @@ public class HomeFragment extends Fragment {
 
     private void changeToolBarTitle(String text)
     {
+        setToolBarTitle();
 
         ((MainActivity) getActivity()).setDrawerState(true);
         ((MainActivity) getActivity()).updateToolbar(text, R.color.white, R.color.black);
@@ -202,6 +202,15 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        int i = mViewPager.getCurrentItem();
+
+        if(i == HOME_FRAGMENT_POSITION)
+            changeToolBarTitle(currentWeekToolBarText);
+        else if(i == NEWGOAL_FRAGMENT_POSITION)
+            changeToolBarTitle(nextWeekToolBarText);
+        else
+            changeToolBarTitle("GOAL");
+
     }
 
     @Override
