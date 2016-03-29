@@ -29,9 +29,16 @@
     <color name="activity_entry_activity_background">#FFF3C6</color>
     <color name="settings_background">#FAFAFA</color>
     <color name="history_background">#FAFAFA</color>
+    <color name="navigation_drawer_background">#FAFAFA</color>
     <color name="settings_logout_button">#FF6E00</color>
     <color name="settings_text_info">#CBCBCB</color>
     <color name="settings_section_border">#979797</color>
     <color name="history_theme_color">#F55900</color>
     <color name="history_tab_color">#B4a68C</color>
+    <color name="progress_theme_color">#F55900</color>
+    <color name="progress_tab_color">#B4a68C</color>
+    <color name="progress_background">#FAFAFA</color>
+    <color name="navigation_drawer_text_color">#E25200</color>
+    <color name="progress_steps_count_color">#FF6E00</color>
+    <color name="progress_steps_title_color">#CC5800</color>
 </resources>

@@ -509,7 +509,7 @@ public class DBOperations {
         if (tableName.equals("Nutrition"))
             query = "select SUM(towards_goal) as towards_goal from nutrition_entry WHERE date between ? and ?";
         else
-            query = "select SUM(activity_length) as towards_goal from activity_entry WHERE date between ? and ?";
+            query = "select SUM(activity_length) as towards_goal from activity_entry WHERE "+ActivityEntry.column_counttowardsgoal+" =1 and date between ? and ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{startDate, endDate});
 

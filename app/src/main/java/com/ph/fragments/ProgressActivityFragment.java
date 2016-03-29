@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.ph.R;
@@ -43,8 +42,8 @@ public class ProgressActivityFragment extends Fragment {
     private NonSwipeableViewPager viewPager;
     private DateOperations dateOperations;
     private TextView weekTitle;
-    private Button prev;
-    private Button next;
+    private TextView prev;
+    private TextView next;
 
     private OnFragmentInteractionListener mListener;
 
@@ -87,8 +86,8 @@ public class ProgressActivityFragment extends Fragment {
         viewPager = (NonSwipeableViewPager) v.findViewById(R.id.viewpager_progress_activity);
 
         weekTitle = (TextView) v.findViewById(R.id.week_number_display);
-        prev = (Button) v.findViewById(R.id.progress_activity_details_prev);
-        next = (Button) v.findViewById(R.id.progress_activity_details_next);
+        prev = (TextView) v.findViewById(R.id.week_prev);
+        next = (TextView) v.findViewById(R.id.week_next);
 
         prev.setOnClickListener(new View.OnClickListener() {
             @Override

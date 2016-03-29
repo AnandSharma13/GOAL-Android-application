@@ -1,6 +1,7 @@
 package com.ph.fragments;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,9 @@ import com.ph.Utils.StepsCountClick;
 import com.ph.model.DBOperations;
 
 import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,6 +43,14 @@ public class StepsDay extends Fragment {
     private String mParam2;
 
     private TextView stepsDay;
+    @Bind(R.id.progress_steps_day_mine_text)
+     TextView stepsDayText;
+
+    @Bind(R.id.progress_steps_week_others)
+     TextView stepsOthersAvg;
+
+    @Bind(R.id.progress_steps_week_others_text)
+     TextView stepsOthersAvgText;
     private RelativeLayout stepsLayout;
     private DBOperations dbOperations;
     private DateOperations dateOperations;
@@ -85,8 +97,17 @@ public class StepsDay extends Fragment {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_steps_day, container, false);
+        ButterKnife.bind(this,v);
         int stepsCount = dbOperations.getStepsCountForToday();
+
         stepsDay = (TextView) v.findViewById(R.id.progress_steps_day_mine);
+
+        Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Eurostile.ttf");
+        Typeface custom_font2 = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaNeue.ttf");
+        stepsDay.setTypeface(custom_font);
+        stepsDayText.setTypeface(custom_font2);
+        stepsOthersAvg.setTypeface(custom_font);
+        stepsOthersAvgText.setTypeface(custom_font2);
         stepsLayout = (RelativeLayout) v.findViewById(R.id.steps_day_relative_layout);
 
         stepsLayout.setOnClickListener(new StepsCountClick(getActivity(),stepsDay));

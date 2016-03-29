@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ph.fragments.StepsDay">
+    tools:context="com.ph.fragments.StepsDay"
+    android:background="@color/progress_background">
 
 
     <LinearLayout
@@ -14,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:background="@color/white"
+            android:background="@color/progress_background"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -29,10 +30,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="0"
+                    android:textColor="@color/progress_steps_count_color"
+                    android:textSize="50dp"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <TextView
-                    android:id="@+id/textView13"
+                    android:id="@+id/progress_steps_day_mine_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="false"
@@ -40,6 +43,8 @@
                     android:layout_below="@+id/progress_steps_day_mine"
                     android:layout_centerInParent="true"
                     android:text="My Steps"
+                    android:textColor="@color/progress_steps_title_color"
+                    android:textSize="10dp"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
             </RelativeLayout>
 
@@ -54,10 +59,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="0"
+                    android:textColor="@color/progress_steps_count_color"
+                    android:textSize="50dp"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/progress_steps_week_others_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="false"
@@ -65,6 +72,8 @@
                     android:layout_below="@+id/progress_steps_week_others"
                     android:layout_centerInParent="true"
                     android:text="Others&apos; Average"
+                    android:textColor="@color/progress_steps_title_color"
+                    android:textSize="10dp"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
             </RelativeLayout>
         </LinearLayout>

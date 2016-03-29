@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:context="com.ph.fragments.ProgressActivityDetails">
+    tools:context="com.ph.fragments.ProgressActivityDetails"
+    android:background="@color/progress_background">
 
 
     <TextView

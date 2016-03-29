@@ -1,6 +1,7 @@
 package com.ph.fragments;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,9 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -43,6 +47,16 @@ public class StepsWeek extends Fragment {
     private String mParam2;
 
     private TextView stepsWeek;
+
+
+    @Bind(R.id.progress_steps_week_mine_text)
+     TextView stepsWeekText;
+
+    @Bind(R.id.progress_steps_week_others)
+     TextView stepsOthersAvg;
+
+    @Bind(R.id.progress_steps_week_others_text)
+     TextView stepsOthersAvgText;
     private DBOperations dbOperations;
     private DateOperations dateOperations;
     private GraphView barGraph;
@@ -88,8 +102,23 @@ public class StepsWeek extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_steps_week, container, false);
+        ButterKnife.bind(this,v);
+
+
         int stepsCount = dbOperations.getStepsCountForThisWeek();
         stepsWeek = (TextView) v.findViewById(R.id.progress_steps_week_mine);
+
+        Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Eurostile.ttf");
+        Typeface custom_font2 = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaNeue.ttf");
+        stepsWeek.setTypeface(custom_font);
+
+        
+        stepsWeekText.setTypeface(custom_font2);
+
+
+        stepsOthersAvg.setTypeface(custom_font);
+        stepsOthersAvgText.setTypeface(custom_font2);
+
 
         stepsLayout = (RelativeLayout) v.findViewById(R.id.steps_week_relative_layout);
 

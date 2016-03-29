@@ -19,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Item 1"
+        android:textColor="@color/navigation_drawer_text_color"
         android:textSize="20dp"
         android:minHeight="30dp"
         android:layout_gravity="center_vertical"/>

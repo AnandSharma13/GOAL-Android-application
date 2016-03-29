@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ph.MainActivity;
 import com.ph.R;
 
 import java.util.ArrayList;
@@ -30,6 +31,9 @@ public class ProgressMainFragment extends Fragment implements ProgressActivityFr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ((MainActivity) getActivity()).setDrawerState(false);
+        ((MainActivity) getActivity()).updateToolbar("My Progress", R.color.white, R.color.black);
 
     }
 

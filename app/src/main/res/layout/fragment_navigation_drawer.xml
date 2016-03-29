@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/navigation_drawer_background"
     android:clickable="true"
     tools:context="com.ph.fragments.NavigationDrawerFragment">
 
@@ -12,10 +12,14 @@
     <LinearLayout
         android:id="@+id/headerContainer"
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="100dp">
       <RelativeLayout
           android:layout_width="wrap_content"
-          android:layout_height="match_parent">
+          android:layout_height="match_parent"
+
+          android:layout_marginLeft="10dp"
+          android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/navUserName"
@@ -23,6 +27,7 @@
             android:layout_height="wrap_content"
             android:text="GOAL user"
             android:textSize="20dp"
+            android:textColor="@color/navigation_drawer_text_color"
             />
 
           <TextView
@@ -30,7 +35,8 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_below="@id/navUserName"
-              android:text="ID: 89656552"/>
+              android:text="ID: 89656552"
+              android:textColor="@color/navigation_drawer_text_color"/>
         </RelativeLayout>
     </LinearLayout>
 
