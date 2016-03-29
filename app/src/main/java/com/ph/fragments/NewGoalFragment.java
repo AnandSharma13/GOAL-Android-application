@@ -11,14 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.ph.Activities.NewGoal;
 import com.ph.MainActivity;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
-import com.ph.Utils.StepsCountClick;
 import com.ph.model.DBOperations;
 import com.ph.model.UserGoal;
 import com.ph.view.CustomProgressBar;
@@ -39,11 +36,11 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
 
     private Button mNewGoalButton;
 
-    private TextView mStepsCount;
+
     private CustomProgressBar mNutritionProgressBar;
     private CustomProgressBar mActivityProgressBar;
     private DBOperations mDbOperations;
-    private RelativeLayout mUserStepsLayout;
+
     private int weekNumber= -1;
     private int mFragmentPosition;
     private OnFragmentInteractionListener mListener;
@@ -86,8 +83,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         View view =  inflater.inflate(R.layout.fragment_new_goal, container, false);
         mActivityProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_next_goal_progress_bar_activity);
         mNutritionProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_home_progress_bar_nutrition);
-        mStepsCount = (TextView) view.findViewById(R.id.fragment_home_tv_steps_count);
-        mUserStepsLayout = (RelativeLayout) view.findViewById(R.id.steps_count_layout);
+
         mNewGoalButton = (Button) view.findViewById(R.id.btnNewGoal);
 
 
@@ -173,7 +169,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         });
 
 
-        mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
+
 
 
         /*mUserStepsLayout.setOnClickListener(new View.OnClickListener() {
@@ -264,7 +260,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
             }
         });
 */
-        mUserStepsLayout.setOnClickListener(new StepsCountClick(getActivity(), mStepsCount));
+
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.ph.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,11 +15,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ph.MainActivity;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
+import com.ph.Utils.StepsCountClick;
+import com.ph.model.DBOperations;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +49,16 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @Bind(R.id.fragment_new_goal_viewpager) ViewPager mViewPager;
+
+    @Bind(R.id.fragment_home_tv_steps_count)
+    TextView mStepsCount;
+
+
+    @Bind(R.id.steps_count_layout)
+    RelativeLayout mUserStepsLayout;
     int operatingWeek;
+
+    String currentWeekToolBarText,nextWeekToolBarText;
 
 
     // TODO: Rename and change types of parameters
@@ -50,6 +66,13 @@ public class HomeFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private DBOperations mDbOperations;
+    @Bind(R.id.fragment_home_tv_steps_count_text)
+     TextView stepsCountText;
+    @Bind(R.id.fragment_home_tv_average_steps_count)
+     TextView averageStepsCount;
+    @Bind(R.id.fragment_home_tv_average_steps_count_text)
+     TextView averageStepsCountText;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -80,6 +103,7 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mDbOperations = new DBOperations(getContext());
 
     }
 
@@ -90,7 +114,13 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-        operatingWeek = new DateOperations(getContext()).getWeeksTillDate(new Date());
+        setToolBarTitle();
+        changeToolBarTitle(currentWeekToolBarText);
+
+
+
+
+
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -111,11 +141,15 @@ public class HomeFragment extends Fragment {
                         editor.putInt("operating_week", operatingWeek);
                         editor.commit();
                         Toast.makeText(getActivity(), "Current week selected", Toast.LENGTH_SHORT).show();
+                        changeToolBarTitle(currentWeekToolBarText);
+                        mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
                         break;
                     case NEWGOAL_FRAGMENT_POSITION:
-                        editor.putInt("operating_week", operatingWeek+1);
+                        editor.putInt("operating_week", operatingWeek + 1);
                         editor.commit();
                         Toast.makeText(getContext(), "Next Goal selected", Toast.LENGTH_SHORT).show();
+                        changeToolBarTitle(nextWeekToolBarText);
+                        mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
                         break;
                 }
             }
@@ -126,9 +160,42 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
+
+
+        Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Eurostile.ttf");
+        Typeface custom_font2 = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaNeue.ttf");
+        mStepsCount.setTypeface(custom_font);
+        stepsCountText.setTypeface(custom_font2);
+        averageStepsCount.setTypeface(custom_font);
+        averageStepsCountText.setTypeface(custom_font2);
+
+        mUserStepsLayout.setOnClickListener(new StepsCountClick(getActivity(), mStepsCount));
         setupViewPages(mViewPager);
 
         return view;
+    }
+
+    private void setToolBarTitle() {
+        DateOperations dateOperations = new DateOperations(getContext());
+        operatingWeek = dateOperations.getWeeksTillDate(new Date());
+
+        Date startDate = dateOperations.getDatesFromWeekNumber(operatingWeek).startDate;
+
+        SimpleDateFormat customDateFormat = new SimpleDateFormat("MM/dd");
+
+        currentWeekToolBarText = "Week "+(operatingWeek+1) + " " + customDateFormat.format(startDate);
+
+        startDate = dateOperations.getDatesFromWeekNumber(operatingWeek+1).startDate;
+
+        nextWeekToolBarText = "Week "+(operatingWeek+2) + " " + customDateFormat.format(startDate);
+    }
+
+    private void changeToolBarTitle(String text)
+    {
+
+        ((MainActivity) getActivity()).setDrawerState(true);
+        ((MainActivity) getActivity()).updateToolbar(text, R.color.white, R.color.black);
     }
 
 
