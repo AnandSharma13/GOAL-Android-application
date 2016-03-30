@@ -46,15 +46,14 @@ public class ActivityHistoryViewAdapter extends RecyclerView.Adapter<ActivityHis
         Activity current = dbOperations.getActivityById(activityEntry.getActivity_id());
         String activityName = current.getName(),text = activityEntry.getNotes(),rpe = String.valueOf(activityEntry.getRpe()),time = String.valueOf(activityEntry.getActivity_length())+" mins";
 
+
+        holder.text.setText(text);
+        holder.activityName.setText(activityName);
+        holder.rpe.setText(rpe);
+        holder.time.setText(time);
         if(text.equals(""))
             holder.text.setVisibility(View.GONE);
-        else
-        {
-            holder.text.setText(text);
-            holder.activityName.setText(activityName);
-            holder.rpe.setText(rpe);
-            holder.time.setText(time);
-        }
+
 
 
     }

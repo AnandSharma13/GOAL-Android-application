@@ -191,7 +191,7 @@ public class DBOperations {
         ContentValues val = new ContentValues();
 
         if (activityEntry.getActivity_entry_id() != 0)
-            val.put(ActivityEntry.column_activityID, activityEntry.getActivity_entry_id());
+            val.put(ActivityEntry.column_activityEntryID, activityEntry.getActivity_entry_id());
         else
         {
             long count = DatabaseUtils.queryNumEntries(db, ActivityEntry.tableName);
@@ -745,12 +745,12 @@ public class DBOperations {
             String tableName = "";
             if (type.equals("Activity")) {
 
-                query = "Select * from activity_entry where goal_id = " + id + " group by " + ActivityEntry.column_date + " order by " + ActivityEntry.column_date + " desc";
+                query = "Select * from activity_entry where goal_id = " + id + " order by " + ActivityEntry.column_date + " desc";//" group by " + ActivityEntry.column_date +
                 tableName = ActivityEntry.tableName;
 
             } else if (type.equals("Nutrition")) {
 
-                query = "Select * from nutrition_entry where goal_id = " + id + " group by " + NutritionEntry.column_date + " order by " + NutritionEntry.column_date + " desc";
+                query = "Select * from nutrition_entry where goal_id = " + id +  " order by " + NutritionEntry.column_date + " desc";//+ " group by " + NutritionEntry.column_date +
 
                 tableName = NutritionEntry.tableName;
 
