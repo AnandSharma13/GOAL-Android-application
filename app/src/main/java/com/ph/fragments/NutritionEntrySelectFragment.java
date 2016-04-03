@@ -56,7 +56,7 @@ public class NutritionEntrySelectFragment extends Fragment {
 
         mDateOperations = new DateOperations(getContext());
 
-        ((MainActivity)getActivity()).setDrawerState(false);
+
 
     }
 

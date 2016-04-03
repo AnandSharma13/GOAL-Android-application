@@ -1,17 +1,20 @@
 package com.ph.fragments;
 
-import android.app.Activity;
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +42,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
+
+
 /**
  * Created by Anand on 1/20/2016.
  */
@@ -47,6 +52,7 @@ public class NutritionEntryMainFragment extends Fragment {
 
     private static final int TAKE_PICTURE = 1;
     private static final int NEXT_INTENT = 2;
+    public static final int MY_PERMISSION_WRITE_STORAGE = 3;
     @Bind(R.id.goalDetailsText)
     EditText mGoalDetails;
     DBOperations dbOperations;
@@ -166,11 +172,60 @@ public class NutritionEntryMainFragment extends Fragment {
 
     public void onClickCamera(View view) {
 
-        takePhoto();
+        //takePhoto();
+
+        checkForPermissions();
+
+
+    }
+
+
+    public void checkForPermissions()
+    {
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                Snackbar.make(getView(),"You must provide storage permissions in order to take a picture..",Snackbar.LENGTH_INDEFINITE)
+                        .setActionTextColor(getResources().getColor(R.color.white))
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                        MY_PERMISSION_WRITE_STORAGE);
+                            }
+                        })
+                        .show();
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSION_WRITE_STORAGE);
+
+
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+        else
+            takePhoto();
 
     }
 
     public void takePhoto() {
+
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 
         /*
@@ -187,8 +242,10 @@ public class NutritionEntryMainFragment extends Fragment {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
         intent.putExtra("name", filename);
         imageUri = Uri.fromFile(photo);
-//         Log.i("Take Photo", Uri.fromFile(photo).toString());
         startActivityForResult(intent, TAKE_PICTURE);
+
+
+
     }
 
     @Override
@@ -215,6 +272,40 @@ public class NutritionEntryMainFragment extends Fragment {
                     }
                 break;
                 }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSION_WRITE_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    takePhoto();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Snackbar.make(getView(),"You cannot access the camera until you provide the permission.",Snackbar.LENGTH_LONG)
+                            .setActionTextColor(getResources().getColor(R.color.white))
+                            .setAction("OK", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                            MY_PERMISSION_WRITE_STORAGE);
+                                }
+                            })
+                            .show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
 
