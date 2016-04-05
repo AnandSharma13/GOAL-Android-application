@@ -21,49 +21,154 @@ import butterknife.ButterKnife;
 /**
  * Created by Anup on 2/22/2016   .
  */
-public class ActivityHistoryViewAdapter extends RecyclerView.Adapter<ActivityHistoryViewAdapter.MyViewHolder> {
+public class ActivityHistoryViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final LayoutInflater inflater;
 
     List<ActivityEntry> list = Collections.emptyList();
     DBOperations dbOperations;
+    private enum displayViewType {
+        DATEVIEW,
+        INFOVIEW
+    }
+    displayViewType prevType;
+    int dateViewCounter = 0;
+    private int listSize = -1;
+    Context context;
+
+
+    public int getListSize()
+    {
+        if(listSize == -1)
+        {
+            listSize = findAdapterCount();
+        }
+
+        return listSize;
+
+    }
 
     public ActivityHistoryViewAdapter(Context context, List<ActivityEntry> list) {
         this.inflater = LayoutInflater.from(context);
         this.list = list;
+        this.context = context;
         dbOperations = new DBOperations(context);
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.activity_goal_history_item, parent, false);
-        MyViewHolder holder = new MyViewHolder(view);
-        return holder;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == displayViewType.INFOVIEW.ordinal()) {
+            View view = inflater.inflate(R.layout.activity_goal_history_item, parent, false);
+            ActivityEntryInfoHolder holder = new ActivityEntryInfoHolder(view);
+            return holder;
+        }
+        else
+        {
+            View view = inflater.inflate(R.layout.activity_history_date_view, parent, false);
+            ActivityEntryDateHolder holder = new ActivityEntryDateHolder(view);
+            return holder;
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        ActivityEntry activityEntry = list.get(position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ActivityEntry activityEntry = list.get(position==0?position:(prevType == displayViewType.DATEVIEW)?((position-dateViewCounter)+1):(position-dateViewCounter));
         Activity current = dbOperations.getActivityById(activityEntry.getActivity_id());
         String activityName = current.getName(),text = activityEntry.getNotes(),rpe = String.valueOf(activityEntry.getRpe()),time = String.valueOf(activityEntry.getActivity_length())+" mins";
 
+        if(holder instanceof ActivityEntryInfoHolder) {
+            ActivityEntryInfoHolder infoHolder = (ActivityEntryInfoHolder) holder;
+            infoHolder.text.setText(text);
+            infoHolder.activityName.setText(activityName);
+            infoHolder.rpe.setText(rpe);
+            infoHolder.time.setText(time);
+            if (text.equals(""))
+                infoHolder.text.setVisibility(View.GONE);
 
-        holder.text.setText(text);
-        holder.activityName.setText(activityName);
-        holder.rpe.setText(rpe);
-        holder.time.setText(time);
-        if(text.equals(""))
-            holder.text.setVisibility(View.GONE);
+        }
+        else if(holder instanceof ActivityEntryDateHolder)
+        {
+            ActivityEntryDateHolder dateHolder = (ActivityEntryDateHolder) holder;
+
+            String date = activityEntry.getDate();
+            dateHolder.date.setText(date);
+        }
 
 
 
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(position == 0) //First record. Return date view
+        {
+            dateViewCounter++;
+            prevType = displayViewType.DATEVIEW;
+            return displayViewType.DATEVIEW.ordinal();
+        }
+        if(prevType == displayViewType.DATEVIEW)
+        {
+            prevType = displayViewType.INFOVIEW;
+            return displayViewType.INFOVIEW.ordinal();
+        }
+
+        ActivityEntry activityEntry = list.get((position - dateViewCounter));
+        String currentDate = activityEntry.getDate();
+        activityEntry = list.get((position-dateViewCounter)-1);
+        String prevDate = activityEntry.getDate();
+
+        if(currentDate.equals(prevDate))
+        {
+            prevType = displayViewType.INFOVIEW;
+            return displayViewType.INFOVIEW.ordinal();
+        }
+        else
+        {
+            prevType = displayViewType.DATEVIEW;
+            dateViewCounter++;
+            return displayViewType.DATEVIEW.ordinal();
+        }
+/*
+        DateOperations dateOperations = new DateOperations(context);
+        Date currentDateObj =  dateOperations.getMysqlDateFormat().parse(currentDate);
+        Date prevDateObj = dateOperations.getMysqlDateFormat().parse(prevDate);*/
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return getListSize();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    private int findAdapterCount() {
+        if(list.size() == 0)
+            return 0;
+        int count = 1;
+        for(int i =1; i<list.size();i++)
+        {
+            String curDate = list.get(i).getDate();
+            String prevDate = list.get(i-1).getDate();
+
+            if(curDate.equals(prevDate))
+                continue;
+            count++;
+
+        }
+        return list.size()+count;
+    }
+
+
+    public class ActivityEntryDateHolder extends RecyclerView.ViewHolder
+    {
+        @Bind(R.id.date_tv)
+        TextView date;
+
+        public ActivityEntryDateHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    public class ActivityEntryInfoHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.goal_activity_history_text)
         TextView text;
         @Bind(R.id.goal_activity_history_rpe)
@@ -73,7 +178,9 @@ public class ActivityHistoryViewAdapter extends RecyclerView.Adapter<ActivityHis
         @Bind(R.id.goal_activity_history_time)
         TextView time;
 
-        public MyViewHolder(View itemView) {
+
+
+        public ActivityEntryInfoHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);

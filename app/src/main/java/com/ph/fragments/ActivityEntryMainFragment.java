@@ -167,7 +167,7 @@ public class ActivityEntryMainFragment extends Fragment {
         @Override
         public void onClick(View v) {
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), datePicker, calendar
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),R.style.activityEntryCalendarTheme, datePicker, calendar
                     .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH));
 

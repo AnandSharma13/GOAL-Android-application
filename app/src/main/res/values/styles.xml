@@ -16,4 +16,13 @@
     <style name="text_view_size">
         <item name="android:textSize">20dp</item>
     </style>
+
+    <style name="activityEntryCalendarTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/activity_entry_app_bar</item>
+        <item name="android:headerBackground">@color/activity_entry_app_bar</item>
+
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/activity_entry_font_color</item>
+        <item name="android:colorBackground">@color/activity_entry_font_color</item>
+    </style>
 </resources>
