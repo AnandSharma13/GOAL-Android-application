@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Anup on 1/16/2016.
  */
-public class ActivityEntryCreateFragment extends Fragment {
+public class ActivityEntryCreateFragment extends Fragment{
 
     public static String activity_type = "";
     private static String date = "";
@@ -266,4 +266,5 @@ public class ActivityEntryCreateFragment extends Fragment {
 
         return view;
     }
+
 }

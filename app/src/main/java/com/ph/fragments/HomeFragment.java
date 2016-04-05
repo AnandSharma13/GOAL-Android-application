@@ -163,11 +163,12 @@ public class HomeFragment extends Fragment {
 
 
         Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Eurostile.ttf");
-        Typeface custom_font2 = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaNeue.ttf");
+       // Typeface custom_font2 = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaNeue.ttf");
         mStepsCount.setTypeface(custom_font);
-        stepsCountText.setTypeface(custom_font2);
+
+        stepsCountText.setTypeface(custom_font);
         averageStepsCount.setTypeface(custom_font);
-        averageStepsCountText.setTypeface(custom_font2);
+        averageStepsCountText.setTypeface(custom_font);
 
         mUserStepsLayout.setOnClickListener(new StepsCountClick(getActivity(), mStepsCount));
         setupViewPages(mViewPager);

@@ -13,6 +13,7 @@ import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.model.DBOperations;
 import com.ph.model.UserGoal;
+import com.ph.view.CustomProgressBar;
 
 import java.util.Date;
 
@@ -42,6 +43,9 @@ public class ProgressActivityDetails extends Fragment {
     private DBOperations dbOperations;
     private UserGoal goalInfo;
     private TextView activityInfo;
+    private CustomProgressBar mCustomProgressBar;
+
+    private UserGoal userGoalActivity;
 
     private OnFragmentInteractionListener mListener;
 
@@ -91,15 +95,22 @@ public class ProgressActivityDetails extends Fragment {
             weekNumber = dateOperations.getWeeksTillDate(new Date());
 
         goalInfo = dbOperations.getuserGoalFromDB("Activity",weekNumber);
+      //  userGoalNutrition = dbOperations.getuserGoalFromDB("Nutrition",weekNumber);
+        userGoalActivity = dbOperations.getuserGoalFromDB("Activity",weekNumber);
 
         activityInfo = (TextView) v.findViewById(R.id.progress_activity_info);
-
+        mCustomProgressBar = (CustomProgressBar) v.findViewById(R.id.progress_bar_nutrition_details);
         if(goalInfo == null) {
             activityInfo.setText("No goal was associated for the week");
             return v;
         }
-
-        activityInfo.setText(goalInfo.getWeekly_count()+" "+goalInfo.getType());
+        int activityCount = userGoalActivity.getTimes() * userGoalActivity.getWeekly_count();
+        int weekProgress = dbOperations.getWeekProgress("Activity");
+        activityInfo.setText(goalInfo.getWeekly_count() + " " + goalInfo.getType());
+        mCustomProgressBar.setAim_text("Aim " + String.valueOf(activityCount));
+        mCustomProgressBar.setMax(activityCount);
+        mCustomProgressBar.setText(String.valueOf(weekProgress));
+        mCustomProgressBar.setProgress(weekProgress);
 
 
         return v;
