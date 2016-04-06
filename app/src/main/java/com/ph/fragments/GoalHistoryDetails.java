@@ -34,7 +34,7 @@ public class GoalHistoryDetails extends Fragment {
     TextView activityGoalInfo;
     @Bind(R.id.goal_history_nutrition_info)
     TextView nutritionGoalInfo;
-    private int weekNumber=-1;
+    public int weekNumber=-1;
     private OnFragmentInteractionListener mListener;
     private DateOperations dateOperations;
     private DBOperations dbOperations;

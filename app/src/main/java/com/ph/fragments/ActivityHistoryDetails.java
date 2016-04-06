@@ -34,7 +34,7 @@ public class ActivityHistoryDetails extends Fragment {
     private static final String ARG_PARAM1 = "week";
     @Bind(R.id.activity_goal_history_recycler_view)
     RecyclerView recyclerView;
-    private int weekNumber;
+    public int weekNumber;
     private List<ActivityEntry> dataList;
     private DBOperations dbOperations;
     private ActivityHistoryViewAdapter activityHistoryViewAdapter;
@@ -76,7 +76,12 @@ public class ActivityHistoryDetails extends Fragment {
         View v = inflater.inflate(R.layout.fragment_activity_history_details, container, false);
         ButterKnife.bind(this, v);
        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext())
+        {
+
+        };
 //        recyclerView.requestDisallowInterceptTouchEvent(true);
 
         recyclerView.setOnTouchListener(new View.OnTouchListener() {

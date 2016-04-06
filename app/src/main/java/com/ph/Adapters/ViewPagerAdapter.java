@@ -3,8 +3,11 @@ package com.ph.Adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.ViewGroup;
+
+import com.ph.fragments.ActivityHistoryDetails;
+import com.ph.fragments.GoalHistoryDetails;
+import com.ph.fragments.NutritionHistoryDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +19,12 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
+    private boolean mIsLocked=false;
+    private int lockedFragment = 0;
 
     public ViewPagerAdapter(FragmentManager manager) {
         super(manager);
+
     }
 
     @Override
@@ -28,12 +34,42 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return mFragmentList.size();
+        return mIsLocked?1:mFragmentList.size();
     }
 
     public void addFragment(Fragment fragment, String title) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
+    }
+
+    public void setLocked(boolean isLocked,int position) {
+        mIsLocked = isLocked;
+        lockedFragment = position;
+        notifyDataSetChanged();
+    }
+
+
+    @Override
+    public int getItemPosition(Object object) {
+        if(mIsLocked)
+        {
+            if(object instanceof NutritionHistoryDetails)
+            {
+                NutritionHistoryDetails details = (NutritionHistoryDetails) object;
+                return details.weekNumber;
+            }
+            else if(object instanceof ActivityHistoryDetails)
+            {
+                ActivityHistoryDetails details = (ActivityHistoryDetails) object;
+                return details.weekNumber;
+            }
+            else if(object instanceof GoalHistoryDetails)
+            {
+                GoalHistoryDetails details = (GoalHistoryDetails) object;
+                return details.weekNumber;
+            }
+        }
+        return super.getItemPosition(object);
     }
 
     @Override

@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ph.fragments.NutritionHistoryDetails">
+    tools:context="com.ph.fragments.NutritionHistoryDetails"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:overScrollMode="never"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="0dp"
             android:padding="10dp" />

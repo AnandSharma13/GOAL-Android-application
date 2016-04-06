@@ -33,7 +33,7 @@ public class NutritionHistoryDetails extends Fragment {
     private static final String ARG_PARAM1 = "week";
     @Bind(R.id.nutrition_goal_history_recycler_view)
     RecyclerView recyclerView;
-    private int weekNumber;
+    public int weekNumber;
     private OnFragmentInteractionListener mListener;
     private List<NutritionEntry> dataList;
     private DBOperations dbOperations;
@@ -73,8 +73,19 @@ public class NutritionHistoryDetails extends Fragment {
         View v = inflater.inflate(R.layout.fragment_nutrition_history_details, container, false);
         ButterKnife.bind(this, v);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+
+
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext()){
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
         recyclerView.requestDisallowInterceptTouchEvent(false);
+
+
         recyclerView.setLayoutManager(layoutManager);
         dataList = (List<NutritionEntry>)(List<?>) dbOperations.getGoalProgressForAWeek(weekNumber,"Nutrition");
 

@@ -1,8 +1,8 @@
 package com.ph.view;
 
-import android.support.v4.view.PagerAdapter;
 import android.view.View;
 
+import com.ph.Adapters.ViewPagerAdapter;
 import com.ph.R;
 
 /**
@@ -19,6 +19,8 @@ public class WeekNavigateButtonClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int current;
+        ViewPagerAdapter adapter = (ViewPagerAdapter)viewPager.getAdapter();
+
         switch (v.getId())
         {
             case R.id.week_prev:
@@ -33,7 +35,7 @@ public class WeekNavigateButtonClickListener implements View.OnClickListener {
                 break;
             case R.id.week_next:
                 current = viewPager.getCurrentItem();
-                PagerAdapter adapter = viewPager.getAdapter();
+                //PagerAdapter adapter = viewPager.getAdapter();
                 if(current<(adapter.getCount()-1)) {
                     int next;
                     next = current + 1;
