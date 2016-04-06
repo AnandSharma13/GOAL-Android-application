@@ -25,4 +25,12 @@
         <item name="colorAccent">@color/activity_entry_font_color</item>
         <item name="android:colorBackground">@color/activity_entry_font_color</item>
     </style>
+
+    <style name="nutritionEntryCalendarTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/nutrition_entry_app_bar</item>
+        <item name="android:headerBackground">@color/nutrition_entry_app_bar</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/nutrition_entry_app_bar</item>
+        <item name="android:colorBackground">@color/nutrition_entry_app_bar</item>
+    </style>
 </resources>
