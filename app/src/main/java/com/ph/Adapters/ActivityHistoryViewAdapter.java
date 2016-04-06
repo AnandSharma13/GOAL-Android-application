@@ -8,11 +8,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ph.R;
+import com.ph.Utils.DateOperations;
 import com.ph.model.Activity;
 import com.ph.model.ActivityEntry;
 import com.ph.model.DBOperations;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -26,12 +30,24 @@ public class ActivityHistoryViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     List<ActivityEntry> list = Collections.emptyList();
     DBOperations dbOperations;
+    private DateOperations dateOperations;
+
     private enum displayViewType {
         DATEVIEW,
         INFOVIEW
     }
-    displayViewType prevType;
-    int dateViewCounter = 0;
+    private class displayViewEntry{
+
+        displayViewType type;
+        int listPosition;
+        private displayViewEntry(displayViewType type,int listPosition)
+        {
+            this.type = type;
+            this.listPosition = listPosition;
+        }
+
+    }
+    List<displayViewEntry> displayViewList = new ArrayList<>();
     private int listSize = -1;
     Context context;
 
@@ -40,18 +56,50 @@ public class ActivityHistoryViewAdapter extends RecyclerView.Adapter<RecyclerVie
     {
         if(listSize == -1)
         {
-            listSize = findAdapterCount();
+            listSize = populateList();
         }
 
         return listSize;
 
     }
 
+    private int populateList() {
+        if (list.size() == 0)
+            return 0;
+
+
+        for (int i = 0; i < list.size(); i++) {
+            if(i == 0)
+            {
+                displayViewList.add(new displayViewEntry(displayViewType.DATEVIEW,i));
+                displayViewList.add(new displayViewEntry(displayViewType.INFOVIEW,i));
+                continue;
+            }
+            String curDate = list.get(i).getDate();
+            String prevDate = list.get(i - 1).getDate();
+
+            if (curDate.equals(prevDate))
+            {
+                displayViewList.add(new displayViewEntry(displayViewType.INFOVIEW,i));
+            }
+            else
+            {
+                displayViewList.add(new displayViewEntry(displayViewType.DATEVIEW,i));
+                displayViewList.add(new displayViewEntry(displayViewType.INFOVIEW,i));
+            }
+
+
+        }
+        return displayViewList.size();
+    }
+
+
     public ActivityHistoryViewAdapter(Context context, List<ActivityEntry> list) {
         this.inflater = LayoutInflater.from(context);
         this.list = list;
         this.context = context;
         dbOperations = new DBOperations(context);
+        dateOperations = new DateOperations(context);
     }
 
     @Override
@@ -72,7 +120,9 @@ public class ActivityHistoryViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ActivityEntry activityEntry = list.get(position==0?position:(prevType == displayViewType.DATEVIEW)?((position-dateViewCounter)+1):(position-dateViewCounter));
+
+        //ActivityEntry activityEntry = list.get(position==0?position:(prevType == displayViewType.DATEVIEW)?((position-dateViewCounter)+1):(position-dateViewCounter));
+        ActivityEntry activityEntry = list.get(displayViewList.get(position).listPosition);
         Activity current = dbOperations.getActivityById(activityEntry.getActivity_id());
         String activityName = current.getName(),text = activityEntry.getNotes(),rpe = String.valueOf(activityEntry.getRpe()),time = String.valueOf(activityEntry.getActivity_length())+" mins";
 
@@ -89,9 +139,14 @@ public class ActivityHistoryViewAdapter extends RecyclerView.Adapter<RecyclerVie
         else if(holder instanceof ActivityEntryDateHolder)
         {
             ActivityEntryDateHolder dateHolder = (ActivityEntryDateHolder) holder;
-
-            String date = activityEntry.getDate();
-            dateHolder.date.setText(date);
+            Date dateObj;
+            try {
+                dateObj = dateOperations.getMysqlDateFormat().parse(activityEntry.getDate());
+                String date = dateOperations.getUniformDateFormat().format(dateObj);
+                dateHolder.date.setText(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -100,7 +155,8 @@ public class ActivityHistoryViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public int getItemViewType(int position) {
-        if(position == 0) //First record. Return date view
+        return displayViewList.get(position).type.ordinal();
+        /*if(position == 0) //First record. Return date view
         {
             dateViewCounter++;
             prevType = displayViewType.DATEVIEW;
@@ -128,7 +184,7 @@ public class ActivityHistoryViewAdapter extends RecyclerView.Adapter<RecyclerVie
             dateViewCounter++;
             return displayViewType.DATEVIEW.ordinal();
         }
-/*
+*//*
         DateOperations dateOperations = new DateOperations(context);
         Date currentDateObj =  dateOperations.getMysqlDateFormat().parse(currentDate);
         Date prevDateObj = dateOperations.getMysqlDateFormat().parse(prevDate);*/

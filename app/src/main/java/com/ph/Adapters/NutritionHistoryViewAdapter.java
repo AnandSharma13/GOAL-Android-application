@@ -2,17 +2,20 @@ package com.ph.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ph.R;
+import com.ph.Utils.DateOperations;
 import com.ph.model.DBOperations;
 import com.ph.model.NutritionEntry;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -27,12 +30,25 @@ public class NutritionHistoryViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     List<NutritionEntry> list = Collections.emptyList();
     DBOperations dbOperations;
+    DateOperations dateOperations;
 
     private enum displayViewType {
         DATEVIEW,
         INFOVIEW
     }
 
+    private class displayViewEntry{
+
+        displayViewType type;
+        int listPosition;
+        private displayViewEntry(displayViewType type,int listPosition)
+        {
+            this.type = type;
+            this.listPosition = listPosition;
+        }
+
+    }
+    List<displayViewEntry> displayViewList = new ArrayList<>();
     displayViewType prevType;
     int dateViewCounter = 0;
     private int listSize = -1;
@@ -41,7 +57,7 @@ public class NutritionHistoryViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     public int getListSize() {
         if (listSize == -1) {
-            listSize = findAdapterCount();
+            listSize = populateList();
         }
 
         return listSize;
@@ -49,26 +65,41 @@ public class NutritionHistoryViewAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
 
-    private int findAdapterCount() {
+    private int populateList() {
         if (list.size() == 0)
             return 0;
-        int count = 1;
-        for (int i = 1; i < list.size(); i++) {
+
+
+        for (int i = 0; i < list.size(); i++) {
+            if(i == 0)
+            {
+                displayViewList.add(new displayViewEntry(displayViewType.DATEVIEW,i));
+                displayViewList.add(new displayViewEntry(displayViewType.INFOVIEW,i));
+                continue;
+            }
             String curDate = list.get(i).getDate();
             String prevDate = list.get(i - 1).getDate();
 
             if (curDate.equals(prevDate))
-                continue;
-            count++;
+            {
+                displayViewList.add(new displayViewEntry(displayViewType.INFOVIEW,i));
+            }
+            else
+            {
+                displayViewList.add(new displayViewEntry(displayViewType.DATEVIEW,i));
+                displayViewList.add(new displayViewEntry(displayViewType.INFOVIEW,i));
+            }
+
 
         }
-        return list.size() + count;
+        return displayViewList.size();
     }
 
 
     public NutritionHistoryViewAdapter(Context context, List<NutritionEntry> list) {
         inflater = LayoutInflater.from(context);
         dbOperations = new DBOperations(context);
+        dateOperations = new DateOperations(context);
         this.context = context;
         this.list = list;
 
@@ -92,8 +123,8 @@ public class NutritionHistoryViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
         @Override
         public void onBindViewHolder (RecyclerView.ViewHolder holder,int position){
-            NutritionEntry nutritionEntry = list.get(position == 0 ? position : (prevType == displayViewType.DATEVIEW) ? ((position - dateViewCounter) + 1) : (position - dateViewCounter));
-
+           // NutritionEntry nutritionEntry = list.get(position == 0 ? position : (prevType == displayViewType.DATEVIEW) ? ((position - dateViewCounter) + 1) : (position - dateViewCounter));
+            NutritionEntry nutritionEntry = list.get(displayViewList.get(position).listPosition);
 
             if(holder instanceof MyViewHolder) {
 
@@ -116,15 +147,24 @@ public class NutritionHistoryViewAdapter extends RecyclerView.Adapter<RecyclerVi
             else if(holder instanceof NutritionEntryDateHolder)
             {
                 NutritionEntryDateHolder dateHolder = (NutritionEntryDateHolder) holder;
-                String date = nutritionEntry.getDate();
-                dateHolder.date.setText(date);
+                Date dateObj;
+                try {
+                    dateObj = dateOperations.getMysqlDateFormat().parse(nutritionEntry.getDate());
+                    String date = dateOperations.getUniformDateFormat().format(dateObj);
+                    dateHolder.date.setText(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
 
 
     @Override
     public int getItemViewType(int position) {
-        if(position == 0) //First record. Return date view
+
+        return displayViewList.get(position).type.ordinal();
+        /*if(position == 0) //First record. Return date view
         {
             dateViewCounter++;
             prevType = displayViewType.DATEVIEW;
@@ -159,7 +199,7 @@ public class NutritionHistoryViewAdapter extends RecyclerView.Adapter<RecyclerVi
             prevType = displayViewType.DATEVIEW;
             dateViewCounter++;
             return displayViewType.DATEVIEW.ordinal();
-        }
+        }*/
 /*
         DateOperations dateOperations = new DateOperations(context);
         Date currentDateObj =  dateOperations.getMysqlDateFormat().parse(currentDate);

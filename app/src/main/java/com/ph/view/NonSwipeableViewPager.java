@@ -12,13 +12,22 @@ public class NonSwipeableViewPager extends ViewPager {
     public NonSwipeableViewPager(Context context) {
         super(context);
     }
-    float x1, x2, y1, y2, dx, dy;
-    String direction;
+    //This class makes the view pager non swipeable by default. Use setSwipeLocked to make it swipeable again.
+    private boolean swipeLocked=true;
 
     public NonSwipeableViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setSwipeLocked(true);
     }
 
+
+    public boolean getSwipeLocked() {
+        return swipeLocked;
+    }
+
+    public void setSwipeLocked(boolean swipeLocked) {
+        this.swipeLocked = swipeLocked;
+    }
 
 
     @Override
@@ -27,37 +36,8 @@ public class NonSwipeableViewPager extends ViewPager {
         Log.i("ontouch", " intercept touch event ");
         //boolean retval = super.onInterceptTouchEvent(event);
         //Log.i("intercept val", String.valueOf(retval));
-        return super.onInterceptTouchEvent(event);
-    }
+        return !swipeLocked&&super.onInterceptTouchEvent(event);
 
-
-    private boolean isLeftRight(MotionEvent event)
-    {
-
-        switch(event.getAction()) {
-            case(MotionEvent.ACTION_DOWN):
-                x1 = event.getX();
-                y1 = event.getY();
-                break;
-            case(MotionEvent.ACTION_MOVE): {
-                x2 = event.getX();
-                y2 = event.getY();
-                dx = x2-x1;
-                dy = y2-y1;
-
-                // Use dx and dy to determine the direction
-                if(Math.abs(dx) > Math.abs(dy)) {
-                   // if(dx>0) direction = "right";
-                    //else direction = "left";
-                    return true;
-                } else {
-                   // if(dy>0) direction = "down";
-                    //else direction = "up";
-                    return false;
-                }
-                }
-        }
-        return false;
     }
 
 
@@ -68,6 +48,11 @@ public class NonSwipeableViewPager extends ViewPager {
         //Log.i("Return val",String.valueOf(retval));
         // Never allow swiping to switch between pages
 
-        return super.onTouchEvent(event);
+        return !swipeLocked&&super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean canScrollHorizontally(int direction) {
+        return !swipeLocked&&super.canScrollHorizontally(direction);
     }
 }
