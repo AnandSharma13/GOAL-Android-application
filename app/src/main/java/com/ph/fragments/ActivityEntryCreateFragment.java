@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,14 +44,21 @@ public class ActivityEntryCreateFragment extends Fragment{
     private static String date = "";
     public List<Activity> mData;
     @Bind(R.id.activity_recycler_view) RecyclerView mRecyclerView;
-    @Bind(R.id.activity_entry_rpe_seek)
-    SeekBar rpeSeekBar;
-    @Bind(R.id.rpe_indicator)
-    TextView rpeIndicator;
-    @Bind(R.id.activity_entry_time_seek)
-    SeekBar timeSeekBar;
-    @Bind(R.id.time_indicator)
-    TextView timeIndicator;
+    @Bind(R.id.activity_entry_create_number_picker_rpe)
+    NumberPicker numberPickerRPE;
+    @Bind(R.id.activity_entry_create_number_picker_time)
+    NumberPicker numberPickerTime;
+
+    @Bind(R.id.btn_rpe_add)
+    TextView rpeAddButton;
+    @Bind(R.id.btn_rpe_minus)
+    TextView rpeMinusButton;
+
+    @Bind(R.id.btn_time_add)
+    TextView timeAddButton;
+    @Bind(R.id.btn_time_minus)
+    TextView timeMinusButton;
+
     @Bind(R.id.activity_entry_save)
     Button saveButton;
     @Bind(R.id.activity_entry_comment)
@@ -62,7 +70,7 @@ public class ActivityEntryCreateFragment extends Fragment{
     private ActivityViewAdapter activityViewAdapter;
     private DBOperations dbOperations;
     private String userNotes = "";
-    private final int minValueOffset = 6;
+  //  private final int minValueOffset = 6;
 
     private Toolbar toolbar;
 
@@ -137,59 +145,64 @@ public class ActivityEntryCreateFragment extends Fragment{
 
             }
         });
+        numberPickerRPE.setWrapSelectorWheel(false);
+        numberPickerTime.setWrapSelectorWheel(false);
+
+        numberPickerRPE.setMinValue(6);
+        numberPickerRPE.setMaxValue(20);
+        numberPickerTime.setMinValue(0);
+        numberPickerTime.setMaxValue(120);
+
+        rpeAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberPickerRPE.setValue(numberPickerRPE.getValue() + 1);
+            }
+        });
+
+        rpeMinusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberPickerRPE.setValue(numberPickerRPE.getValue() - 1);
+            }
+        });
 
 
-        rpeIndicator.setText(String.valueOf(rpeSeekBar.getProgress() + minValueOffset));
+        timeMinusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberPickerTime.setValue(numberPickerTime.getValue() - 1);
+            }
+        });
+        timeAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberPickerTime.setValue(numberPickerTime.getValue() + 1);
+            }
+        });
+
+        numberPickerRPE.setValue(numberPickerRPE.getValue());
 
 
-        if ((Integer.parseInt(rpeIndicator.getText().toString())) == 0 || timeSeekBar.getProgress() == 0)
+        if (numberPickerRPE.getValue() == 6 || numberPickerTime.getValue() == 0)
             saveButton.setEnabled(false);
         //Set Onchange listeners...
 
-        rpeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        numberPickerRPE.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int adjustedProgress = progress+minValueOffset;
-                rpeIndicator.setText(String.valueOf(adjustedProgress));
-                if (adjustedProgress > 0 && timeSeekBar.getProgress() > 0)
-                    saveButton.setEnabled(true);
-                else
-                    saveButton.setEnabled(false);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                    if(newVal>oldVal)
+                        saveButton.setEnabled(true);
             }
         });
 
-        timeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        numberPickerTime.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                timeIndicator.setText(String.valueOf(progress));
-                if (progress > 0 && (Integer.parseInt(rpeIndicator.getText().toString()) > 0))
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                if(newVal>oldVal)
                     saveButton.setEnabled(true);
-                else
-                    saveButton.setEnabled(false);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
-
-
 
         mRecyclerView.setHasFixedSize(true);
 
@@ -219,8 +232,8 @@ public class ActivityEntryCreateFragment extends Fragment{
                 int selectedActivity = activityViewAdapter.getSelectedPos();
 
                 long activityId = mData.get(selectedActivity).getActivity_id();
-                int rpeVal = Integer.parseInt(rpeIndicator.getText().toString());
-                int timeVal = timeSeekBar.getProgress();
+                int rpeVal = numberPickerRPE.getValue();
+                int timeVal = numberPickerTime.getValue();
 
 
                 UserGoal userGoal = dbOperations.getCurrentGoalInfo("Activity");

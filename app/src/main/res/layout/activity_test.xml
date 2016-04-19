@@ -32,90 +32,65 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight=".5"
             android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="RPE"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
-
 
             <Button
                 android:id="@+id/btn_rpe_minus"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:text="-"
-                android:layout_alignTop="@+id/btn_rpe_add"
-                android:layout_toStartOf="@+id/activity_entry_create_number_picker_rpe" />
+                android:text="-" />
 
             <NumberPicker
                 android:id="@+id/activity_entry_create_number_picker_rpe"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"></NumberPicker>
+                android:layout_height="wrap_content"></NumberPicker>
 
             <Button
                 android:id="@+id/btn_rpe_add"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:text="+"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/activity_entry_create_number_picker_rpe" />
+                android:text="+" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight=".5"
             android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
 
             <Button
                 android:id="@+id/btn_time_minus"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:text="-"
-                android:layout_alignTop="@+id/btn_time_add"
-                android:layout_toStartOf="@+id/activity_entry_create_number_picker_time" />
+                android:text="-" />
 
             <NumberPicker
                 android:id="@+id/activity_entry_create_number_picker_time"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"></NumberPicker>
+                android:layout_height="wrap_content"></NumberPicker>
 
             <Button
                 android:id="@+id/btn_time_add"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:text="+"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/activity_entry_create_number_picker_time" />
+                android:text="+" />
 
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/activity_entry_create_fragment_linear_layout_count_goal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/activity_entry_create_fragment_linear_layout_time"
-        android:layout_weight="1.72"
+        android:layout_weight="1.6"
         android:background="@drawable/activity_entry_count_goal"
         android:orientation="horizontal"
         android:weightSum="1">
@@ -131,10 +106,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:buttonTint="@color/activity_entry_text"
-            android:checked="false"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-        <ImageButton
+            android:checked="false" />
+
+    </LinearLayout>
+
+    <ImageButton
         android:id="@+id/activity_entry_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -142,19 +118,13 @@
         android:background="@android:color/transparent"
         android:scaleType="center"
         android:src="@mipmap/ic_btn_comment"
-        android:visibility="visible"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true" />
-
-    </RelativeLayout>
-
-
+        android:visibility="visible" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/activity_entry_create_fragment_linear_layout_count_goal"
-        android:layout_weight="1.73"
+        android:layout_weight="1.6"
         android:orientation="vertical">
 
         <Button

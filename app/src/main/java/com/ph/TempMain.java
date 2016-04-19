@@ -30,6 +30,9 @@ import com.ph.model.UserGoal;
 import com.ph.model.UserSteps;
 import com.ph.net.SyncUtils;
 import com.ph.view.ImageHandler;
+import com.ph.view.TestMy;
+
+import junit.framework.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,6 +54,7 @@ public class TempMain extends AppCompatActivity {
     private Calendar calendar;
     private DatePickerDialog.OnDateSetListener date;
     private EditText nutriDate;
+    Button newActivity;
 
 
 
@@ -75,6 +79,7 @@ public class TempMain extends AppCompatActivity {
         final Button activityEntryButton = (Button) findViewById(R.id.activity_entry_button);
         Button nutritionButton = (Button) findViewById(R.id.nutrition_entry_button);
         nutriDate = (EditText) findViewById(R.id.nutrition_date);
+        newActivity = (Button) findViewById(R.id.new_activity_test);
 
 
         insertButton.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +104,15 @@ public class TempMain extends AppCompatActivity {
 
                 SyncUtils.TriggerRefresh(settingsBundle);
                 Snackbar.make(v, "New Row inserted with an ID " + String.valueOf(ID) + "", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
+
+
+        newActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getApplicationContext(), TestMy.class);
+                startActivity(myIntent);
             }
         });
 
