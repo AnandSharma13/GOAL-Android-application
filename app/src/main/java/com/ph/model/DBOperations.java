@@ -75,13 +75,12 @@ public class DBOperations {
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
         if (usergoal.getGoal_id() != 0)
             val.put(UserGoal.column_goalID, usergoal.getGoal_id());
-        else
-        {
+        else {
             long count = DatabaseUtils.queryNumEntries(db, UserGoal.tableName);
-            if(count == 0) {
+            if (count == 0) {
                 long seq = getSequenceConstant();
-                if(seq>-1)
-                val.put(UserGoal.column_goalID, getSequenceConstant());
+                if (seq > -1)
+                    val.put(UserGoal.column_goalID, getSequenceConstant());
                 else
                     try {
                         throw new Exception("Sequence not set for this user");
@@ -91,7 +90,6 @@ public class DBOperations {
             }
 
         }
-
 
 
         //setting userId from user class
@@ -111,8 +109,6 @@ public class DBOperations {
         long id = db.insert(UserGoal.tableName, null, val);
 
 
-
-
         db.close();
         return id;
     }
@@ -124,15 +120,14 @@ public class DBOperations {
 
         if (userSteps.getSteps_id() != 0)
             val.put(UserSteps.column_stepsID, userSteps.getSteps_id());
-        else
-        {
+        else {
             long count = DatabaseUtils.queryNumEntries(db, UserSteps.tableName);
-            if(count == 0) {
+            if (count == 0) {
                 long seq = getSequenceConstant();
-                if(seq>-1)
+                if (seq > -1)
                     val.put(UserSteps.column_stepsID, seq);
                 else
-                    Log.e("insertRow","Sequence number not set for the user");
+                    Log.e("insertRow", "Sequence number not set for the user");
             }
         }
         val.put(UserSteps.column_userID, userSteps.getUser_id());
@@ -154,20 +149,19 @@ public class DBOperations {
         ContentValues val = new ContentValues();
         if (activity.getActivity_id() != 0)
             val.put(Activity.column_activityID, activity.getActivity_id());
-        else
-        {
-            String query = "select max(activity_id) from "+Activity.tableName;
+        else {
+            String query = "select max(activity_id) from " + Activity.tableName;
 
-            Cursor cursor = db.rawQuery(query,null);
+            Cursor cursor = db.rawQuery(query, null);
 
             cursor.moveToFirst();
             long maxActivityId = cursor.getInt(0);
             long seq = getSequenceConstant();
-            if(maxActivityId < seq) {
-                    if(seq>-1)
-                        val.put(Activity.column_activityID, seq);
-                    else
-                        Log.e("insertRow","Sequence number not set for the user");
+            if (maxActivityId < seq) {
+                if (seq > -1)
+                    val.put(Activity.column_activityID, seq);
+                else
+                    Log.e("insertRow", "Sequence number not set for the user");
 
             }
 
@@ -192,15 +186,14 @@ public class DBOperations {
 
         if (activityEntry.getActivity_entry_id() != 0)
             val.put(ActivityEntry.column_activityEntryID, activityEntry.getActivity_entry_id());
-        else
-        {
+        else {
             long count = DatabaseUtils.queryNumEntries(db, ActivityEntry.tableName);
-            if(count == 0) {
+            if (count == 0) {
                 long seq = getSequenceConstant();
-                if(seq>-1)
-                    val.put(ActivityEntry.column_activityEntryID,seq);
+                if (seq > -1)
+                    val.put(ActivityEntry.column_activityEntryID, seq);
                 else
-                    Log.e("insertRow","Sequence number not set for the user");
+                    Log.e("insertRow", "Sequence number not set for the user");
             }
         }
         val.put(ActivityEntry.column_activityID, activityEntry.getActivity_id());
@@ -232,15 +225,14 @@ public class DBOperations {
         ContentValues val = new ContentValues();
         if (nutritionEntry.getNutrition_entry_id() != 0)
             val.put(NutritionEntry.column_nutritionEntryID, nutritionEntry.getNutrition_entry_id());
-        else
-        {
+        else {
             long count = DatabaseUtils.queryNumEntries(db, NutritionEntry.tableName);
-            if(count == 0) {
+            if (count == 0) {
                 long seq = getSequenceConstant();
-                if(seq>-1)
-                    val.put(NutritionEntry.column_nutritionEntryID,seq);
+                if (seq > -1)
+                    val.put(NutritionEntry.column_nutritionEntryID, seq);
                 else
-                    Log.e("insertRow","Sequence number not set for the user");
+                    Log.e("insertRow", "Sequence number not set for the user");
             }
 
         }
@@ -286,18 +278,18 @@ public class DBOperations {
     }
 
 
-    public Activity getActivityById(long id)
-    {
+    public Activity getActivityById(long id) {
         Activity activity = new Activity();
 
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        String q = "Select * from activity where activity_id="+id;
-        Cursor cursor = db.rawQuery(q,null);
-        if(cursor.getCount() == 0)
+        String q = "Select * from activity where activity_id=" + id;
+        Cursor cursor = db.rawQuery(q, null);
+        if (cursor.getCount() == 0)
             return null;
         cursor.moveToFirst();
-        return populateRows(new Activity(),cursor);
+        return populateRows(new Activity(), cursor);
     }
+
     public List<Activity> getActivities(String type) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         List<Activity> activityList = new ArrayList<>();
@@ -509,7 +501,7 @@ public class DBOperations {
         if (tableName.equals("Nutrition"))
             query = "select SUM(towards_goal) as towards_goal from nutrition_entry WHERE date between ? and ?";
         else
-            query = "select SUM(activity_length) as towards_goal from activity_entry WHERE "+ActivityEntry.column_counttowardsgoal+" =1 and date between ? and ?";
+            query = "select SUM(activity_length) as towards_goal from activity_entry WHERE " + ActivityEntry.column_counttowardsgoal + " =1 and date between ? and ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{startDate, endDate});
 
@@ -697,7 +689,7 @@ public class DBOperations {
         String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
         String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
         //String query = "select * from user_goal where start_date >= '" + startDate + "' and start_date <= '" + endDate + "' and type= '" + type + "' ORDER BY `timestamp` DESC";
-        String query = "select * from user_goal where start_date between '" + startDate + "' and '" + endDate + "' and type='"+type+"' ORDER BY timestamp DESC";
+        String query = "select * from user_goal where start_date between '" + startDate + "' and '" + endDate + "' and type='" + type + "' ORDER BY timestamp DESC";
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.getCount() == 0) {
@@ -733,38 +725,64 @@ public class DBOperations {
 
     public List<Object> getGoalProgressForAWeek(int weekNumber, String type) {
         UserGoal userGoal;
-            userGoal = getuserGoalFromDB(type, weekNumber);
+        userGoal = getuserGoalFromDB(type, weekNumber);
 
-            if (userGoal == null)
-                return Collections.EMPTY_LIST;
-            SQLiteDatabase db = dbHandler.getReadableDatabase();
-            String query = "";
+        if (userGoal == null)
+            return Collections.EMPTY_LIST;
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        String query = "";
 
-            long id = userGoal.getGoal_id();
-            Cursor cursor;
-            String tableName = "";
-            if (type.equals("Activity")) {
+        long id = userGoal.getGoal_id();
+        Cursor cursor;
+        String tableName = "";
+        if (type.equals("Activity")) {
 
-                query = "Select * from activity_entry where goal_id = " + id + " order by " + ActivityEntry.column_date + " desc";//" group by " + ActivityEntry.column_date +
-                tableName = ActivityEntry.tableName;
+            query = "Select * from activity_entry where goal_id = " + id + " order by " + ActivityEntry.column_date + " desc";//" group by " + ActivityEntry.column_date +
+            tableName = ActivityEntry.tableName;
 
-            } else if (type.equals("Nutrition")) {
+        } else if (type.equals("Nutrition")) {
 
-                query = "Select * from nutrition_entry where goal_id = " + id +  " order by " + NutritionEntry.column_date + " desc";//+ " group by " + NutritionEntry.column_date +
+            query = "Select * from nutrition_entry where goal_id = " + id +  " order by " + NutritionEntry.column_date + " desc";//+ " group by " + NutritionEntry.column_date +
 
-                tableName = NutritionEntry.tableName;
+            tableName = NutritionEntry.tableName;
 
-            }
+        }
 
-            cursor = db.rawQuery(query, null);
-            List<Object> list = getDBContents(cursor, tableName);
+        cursor = db.rawQuery(query, null);
+        List<Object> list = getDBContents(cursor, tableName);
 
-            db.close();
-            cursor.close();
+        db.close();
+        cursor.close();
 
-            return list;
+        return list;
+    }
 
+    public int getGoalProgressCountForWeek(int weekNumber, String type) {
+        UserGoal userGoal;
+        userGoal = getuserGoalFromDB(type, weekNumber);
+        int progress = 0;
+        if (userGoal == null)
+            return progress;
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        String query = "";
 
+        long id = userGoal.getGoal_id();
+        Cursor cursor;
+
+        if (type.equals("Activity")) {
+
+            query = "select SUM(activity_length) as towards_goal from activity_entry WHERE goal_id =" + id;
+
+        } else if (type.equals("Nutrition")) {
+
+            query = "select SUM(towards_goal) as towards_goal from nutrition_entry WHERE goal_id = " + id;
+        }
+        cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        progress = cursor.getInt(cursor.getColumnIndex("towards_goal"));
+        db.close();
+        cursor.close();
+        return progress;
     }
 
     private ArrayList<Object> getDBContents(Cursor cursor, String tableName) {
@@ -780,9 +798,8 @@ public class DBOperations {
     }
 
 
-    public long getSequenceConstant()
-    {
-        return sharedPreferences.getLong("user_sequence",-1);
+    public long getSequenceConstant() {
+        return sharedPreferences.getLong("user_sequence", -1);
     }
 
 }
