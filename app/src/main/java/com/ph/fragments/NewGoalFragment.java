@@ -2,6 +2,7 @@ package com.ph.fragments;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import com.ph.Activities.NewGoal;
 import com.ph.MainActivity;
 import com.ph.R;
+import com.ph.Utils.AlertDialogManager;
 import com.ph.Utils.DateOperations;
 import com.ph.model.DBOperations;
 import com.ph.model.UserGoal;
@@ -102,6 +104,19 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         if(userGoalActivity == null || userGoalNutrition == null) {
             mActivityProgressBar.setVisibility(View.INVISIBLE);
             mNutritionProgressBar.setVisibility(View.INVISIBLE);
+
+
+            if(mFragmentPosition == 0) {
+                new AlertDialogManager().showAlertDialog(getContext(), "Goal Not Set", "You have not set a goal for this week. You must create a goal to continue.", "Create Goal", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent newGoalIntent = new Intent(getActivity(), NewGoal.class);
+                        startActivity(newGoalIntent);
+
+                    }
+                });
+            }
             return view;
         }
         else
@@ -266,6 +281,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+
     }
 
     @Override

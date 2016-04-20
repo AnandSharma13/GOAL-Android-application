@@ -40,6 +40,22 @@ public class AlertDialogManager {
 
     }
 
+    public void showAlertDialog(Context context, String title, String message, String okButtonTitle, DialogInterface.OnClickListener clickListener) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setMessage(message)
+                .setTitle(title)
+                .setNeutralButton(((okButtonTitle.equals("") || (okButtonTitle == null))?"OK":okButtonTitle), clickListener)
+        .setCancelable(false);
+
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+
+    }
+
     public void showTwoButtonDialog(Context context,String title,String message,String positiveButtonName,DialogInterface.OnClickListener clickListener){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 

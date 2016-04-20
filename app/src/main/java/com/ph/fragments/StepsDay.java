@@ -1,25 +1,30 @@
 package com.ph.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.StepsCountClick;
 import com.ph.model.DBOperations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,10 +56,12 @@ public class StepsDay extends Fragment {
 
     @Bind(R.id.progress_steps_week_others_text)
      TextView stepsOthersAvgText;
+
+    @Bind(R.id.steps_day_bar_chart)
+    BarChart barChart;
     private RelativeLayout stepsLayout;
     private DBOperations dbOperations;
     private DateOperations dateOperations;
-    private GraphView lineGraph;
 
     private OnFragmentInteractionListener mListener;
 
@@ -110,33 +117,86 @@ public class StepsDay extends Fragment {
         stepsOthersAvgText.setTypeface(custom_font2);
         stepsLayout = (RelativeLayout) v.findViewById(R.id.steps_day_relative_layout);
 
-        stepsLayout.setOnClickListener(new StepsCountClick(getActivity(),stepsDay));
+        stepsLayout.setOnClickListener(new StepsCountClick(getActivity(), new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+             stepsDay.setText(String.valueOf(dbOperations.getStepsCountForToday()));
+                setUpBarChart();
+
+            }
+        }));
 
 
         stepsDay.setText(String.valueOf(stepsCount));
 
-        ArrayList<Integer> data = dbOperations.getStepsForToday();
-
-        DataPoint[] dataPointArray = new DataPoint[data.size()];
-
-        for(int i=0;i<data.size();i++)
-        {
-            dataPointArray[i] = new DataPoint(i,data.get(i));
-        }
+        setUpBarChart();
 
 
-        GraphView graph = (GraphView) v.findViewById(R.id.progress_steps_day_line);
-        if(dataPointArray.length>0) {
-            LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPointArray);
-
-            series.setDrawDataPoints(true);
 
 
-            graph.addSeries(series);
-        }
 
 
         return v;
+    }
+
+
+    private void setUpBarChart()
+    {
+        HashMap<String, Integer> data = dbOperations.getStepsForThisWeek();
+        ArrayList<BarEntry> dataList = new ArrayList<>();
+        int i=0;
+        for(String date: data.keySet())
+        {
+            dataList.add(new BarEntry(data.get(date),i++));
+
+        }
+
+
+
+
+
+
+       /* dataList.add(new BarEntry(2500, 1));
+        dataList.add(new BarEntry(3500, 2));
+        dataList.add(new BarEntry(2500, 3));
+        dataList.add(new BarEntry(4500, 4));
+*/
+
+
+        BarDataSet dataSet = new BarDataSet(dataList, "Steps");
+
+        dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        ArrayList<String> xVals = new ArrayList<>();
+        xVals.add("Day 1");
+        xVals.add("Day 2");
+        xVals.add("Day 3");
+        xVals.add("Day 4");
+        xVals.add("Day 5");
+        xVals.add("Day 6");
+        xVals.add("Day 7");
+        BarData barData = new BarData(xVals,dataSet);
+
+        barChart.setData(barData);
+        barChart.setDescription("");
+
+
+        dataSet.setBarSpacePercent(2);
+
+        dataSet.setColor(ContextCompat.getColor(getContext(), R.color.activity_entry_app_bar));
+
+
+
+        barChart.getXAxis().setDrawLabels(false);
+        barChart.getXAxis().setDrawGridLines(false);
+        barChart.getXAxis().setAxisLineColor(ContextCompat.getColor(getContext(),R.color.progress_theme_color));
+        barChart.getAxisLeft().setEnabled(false);
+        barChart.getAxisRight().setEnabled(false);
+        barChart.setDrawGridBackground(true);
+
+        barChart.invalidate();
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
