@@ -19,7 +19,6 @@
             android:clickable="true"
             android:max="100"
             android:layout_centerInParent="true"
-            android:onClick="onNutritionProgressBarClick11"
             android:progress="0"
             android:progressDrawable="@drawable/circular"/>
     </RelativeLayout>

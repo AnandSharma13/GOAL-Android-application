@@ -73,8 +73,8 @@ public class NavigationDrawerFragment extends Fragment {
 
     public List<DrawerListData> getData() {
         List<DrawerListData> data = new ArrayList<>();
-        int[] images = {R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher};
-        String[] titles = {"Messages", "History", "Progress", "Reward","Settings","Temp"};
+        int[] images = {R.drawable.ic_launcher, R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher};
+        String[] titles = {"Messages", "History", "Progress", "Reward","Settings"};
         for (int i = 0; i < images.length; i++) {
             DrawerListData itemData = new DrawerListData();
             itemData.setTitle(titles[i]);
