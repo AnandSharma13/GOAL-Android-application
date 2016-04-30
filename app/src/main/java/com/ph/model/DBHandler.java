@@ -1,9 +1,11 @@
 package com.ph.model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -24,7 +26,7 @@ import java.util.Map;
 
 
 public class DBHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 11;
     public static final String DATABASE_NAME = "goal.db";
     private Context mContext;
     private String URL;
@@ -74,7 +76,6 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "FOREIGN KEY (" + UserGoal.column_userID + ") REFERENCES " + com.ph.model.User.tableName + "(" + com.ph.model.User.column_userID + ")" + ")";
 
 
-
         String activityTable = "create table " + Activity.tableName + "("
                 + Activity.column_activityID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
                 + Activity.column_userID + " INTEGER, "
@@ -96,7 +97,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + ActivityEntry.column_counttowardsgoal + " INTEGER, "
                 + ActivityEntry.column_notes + " TEXT, "
                 + ActivityEntry.column_image + " TEXT, "
-                +ActivityEntry.column_date + " DATE, "
+                + ActivityEntry.column_date + " DATE, "
                 + ActivityEntry.column_sync + " INTEGER, "
                 + "FOREIGN KEY (" + ActivityEntry.column_goalID + ") REFERENCES " + UserGoal.tableName + "(" + UserGoal.column_goalID + "), "
                 + "FOREIGN KEY (" + ActivityEntry.column_activityID + ") REFERENCES " + Activity.tableName + "(" + Activity.column_activityID + ")" + ")";
@@ -134,7 +135,7 @@ public class DBHandler extends SQLiteOpenHelper {
 //        Log.i("DBHandler", "user table created");
 
 
-        String universalSequenceChangerQuery = "update sqlite_sequence set seq = "+ SessionManager.seqConstant;
+        String universalSequenceChangerQuery = "update sqlite_sequence set seq = " + SessionManager.seqConstant;
         db.execSQL(userGoalTable);
         Log.i("DBHandler", "Goal table created");
         db.execSQL(activityTable);
@@ -151,7 +152,6 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.i("DBHandler", "Nutrition entry table created");
 
     }
-
 
 
     @Deprecated
@@ -213,7 +213,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if existed, all data will be gone!!!
+
+
+        //   Drop older table if existed, all data will be gone!!!
         db.execSQL("DROP TABLE IF EXISTS " + com.ph.model.User.tableName);
         Log.w("DBHandler", "Version upgraded.");
         // Create tables again

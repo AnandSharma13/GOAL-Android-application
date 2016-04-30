@@ -18,9 +18,8 @@
             android:layout_height="180dp"
             android:layout_centerInParent="true"
             android:background="@drawable/home_nutrition_progress_bar_background"
-            android:clickable="true"
+            android:clickable="false"
             android:max="100"
-            android:onClick="onNutritionProgressBarClick11"
             android:progress="0"
             android:progressDrawable="@drawable/circular"/>
     </RelativeLayout>

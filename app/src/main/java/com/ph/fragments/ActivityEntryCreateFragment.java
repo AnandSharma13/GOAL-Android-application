@@ -70,7 +70,10 @@ public class ActivityEntryCreateFragment extends Fragment{
     private ActivityViewAdapter activityViewAdapter;
     private DBOperations dbOperations;
     private String userNotes = "";
-  //  private final int minValueOffset = 6;
+    private int rpeCount = 0;
+    private int timeCount = 0;
+
+    //  private final int minValueOffset = 6;
 
     private Toolbar toolbar;
 
@@ -108,8 +111,8 @@ public class ActivityEntryCreateFragment extends Fragment{
         View view = inflater.inflate(R.layout.activity_entry_create_fragment,container,false);
         ButterKnife.bind(this, view);
 
-
-
+        rpeCount = numberPickerRPE.getValue();
+        timeCount = numberPickerTime.getMaxValue();
 
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +160,11 @@ public class ActivityEntryCreateFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 numberPickerRPE.setValue(numberPickerRPE.getValue() + 1);
+                        int newVal = numberPickerRPE.getValue();
+                        if ((newVal - rpeCount) > 0)
+                            saveButton.setEnabled(true);
+
+
             }
         });
 
@@ -164,6 +172,9 @@ public class ActivityEntryCreateFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 numberPickerRPE.setValue(numberPickerRPE.getValue() - 1);
+                int newVal = numberPickerRPE.getValue();
+                if ((newVal - rpeCount) > 0)
+                    saveButton.setEnabled(true);
             }
         });
 
@@ -172,13 +183,18 @@ public class ActivityEntryCreateFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 numberPickerTime.setValue(numberPickerTime.getValue() - 1);
+                int newVal = numberPickerTime.getValue();
+                if ((newVal - timeCount) > 0)
+                    saveButton.setEnabled(true);
             }
         });
         timeAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 numberPickerTime.setValue(numberPickerTime.getValue() + 1);
-            }
+                int newVal = numberPickerTime.getValue();
+                if ((newVal - timeCount) > 0)
+                    saveButton.setEnabled(true);            }
         });
 
         numberPickerRPE.setValue(numberPickerRPE.getValue());

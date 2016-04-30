@@ -267,9 +267,7 @@ public class NewGoal extends AppCompatActivity {
     public GoalPeriod getGoalPeriod() {
 
 
-
         StartEndDateObject goalWeek = dateOperations.getDatesFromWeekNumber(operatingWeek);
-
 
         Date startDate;
         if(operatingWeek == dateOperations.getWeeksTillDate(new Date()))

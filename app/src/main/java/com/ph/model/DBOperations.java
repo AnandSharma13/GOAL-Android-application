@@ -771,11 +771,11 @@ public class DBOperations {
 
         if (type.equals("Activity")) {
 
-            query = "select SUM(activity_length) as towards_goal from activity_entry WHERE goal_id =" + id;
+            query = "select SUM(activity_length) as towards_goal from activity_entry WHERE count_towards_goal >=1 and goal_id =" + id;
 
         } else if (type.equals("Nutrition")) {
 
-            query = "select SUM(towards_goal) as towards_goal from nutrition_entry WHERE goal_id = " + id;
+            query = "select SUM(towards_goal) as towards_goal from nutrition_entry WHERE towards_goal >=1 and goal_id = " + id;
         }
         cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
