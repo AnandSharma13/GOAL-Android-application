@@ -81,8 +81,8 @@
             android:layout_height="match_parent"
             android:layout_marginTop="50dp"
             android:orientation="vertical">
-            <com.jjoe64.graphview.GraphView
-                android:id="@+id/progress_steps_week_bar"
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/steps_week_line_chart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>

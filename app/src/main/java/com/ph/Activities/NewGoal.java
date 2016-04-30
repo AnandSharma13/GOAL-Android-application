@@ -125,8 +125,8 @@ public class NewGoal extends AppCompatActivity {
             currentNutritionGoal = dbOperations.getCurrentGoalInfo("Nutrition");
         }
         else {
-            currentActivityGoal = dbOperations.getuserGoalFromDB("Activity", operatingWeek);
-            currentNutritionGoal = dbOperations.getuserGoalFromDB("Nutrition", operatingWeek);
+            currentActivityGoal = dbOperations.getuserGoalFromDB("Activity", currentWeek);
+            currentNutritionGoal = dbOperations.getuserGoalFromDB("Nutrition", currentWeek);
         }
 
 

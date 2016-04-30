@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ph.R;
@@ -27,14 +26,18 @@ public class StepsCountClick implements View.OnClickListener {
 
     private DBOperations mDbOperations;
     private Context context;
-    private TextView mStepsCount;
+   // private TextView mStepsCount;
+    private DialogInterface.OnDismissListener dismissListener;
 
-    public StepsCountClick(Context context, TextView mStepsCount)
+    public StepsCountClick(Context context, DialogInterface.OnDismissListener dismissListener)
     {
         this.context = context;
         mDbOperations = new DBOperations(context);
-        this.mStepsCount = mStepsCount;
+      //  this.mStepsCount = mStepsCount;
+        this.dismissListener = dismissListener;
     }
+
+
     @Override
     public void onClick(View v) {
         LayoutInflater li = LayoutInflater.from(context);
@@ -72,7 +75,7 @@ public class StepsCountClick implements View.OnClickListener {
 
                                 SyncUtils.TriggerRefresh(settingsBundle);
 
-                                mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
+                               // mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
 
                                 Toast.makeText(context, "Successfully saved the steps count", Toast.LENGTH_SHORT).show();
                             }
@@ -86,6 +89,7 @@ public class StepsCountClick implements View.OnClickListener {
         // create alert dialog
         AlertDialog alertDialog = builder.create();
 
+        alertDialog.setOnDismissListener(dismissListener);
         // show it
         alertDialog.show();
 
@@ -116,4 +120,6 @@ public class StepsCountClick implements View.OnClickListener {
             }
         });
     }
+
+
 }

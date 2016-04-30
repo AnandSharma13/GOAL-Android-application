@@ -647,6 +647,10 @@ public class DBOperations {
         return userStepsArray;
     }
 
+
+
+
+
     public ArrayList<Integer> getStepsForToday() {
         ArrayList<Integer> userStepsArray = new ArrayList<>();
         dateOperations = new DateOperations(context);
@@ -664,11 +668,17 @@ public class DBOperations {
     }
 
     public int getStepsCountForThisWeek() {
-        SQLiteDatabase db = dbHandler.getReadableDatabase();
+
         dateOperations = new DateOperations(context);
         StartEndDateObject startEndDateObject = dateOperations.getDatesForToday();
         String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
         String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
+        return getStepsCountForAWeek(startDate,endDate);
+    }
+
+    public int getStepsCountForAWeek(String startDate, String endDate)
+    {
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
         String query = "select sum(steps_count) from user_steps where date(timestamp) between ? and ?";
         Cursor cursor = db.rawQuery(query, new String[]{startDate, endDate});
         int count = 0;
@@ -679,6 +689,25 @@ public class DBOperations {
         db.close();
         cursor.close();
         return count;
+    }
+
+    public ArrayList<Integer> getStepsCountByWeek()
+    {
+        ArrayList<Integer> stepsList = new ArrayList<>();
+
+        dateOperations = new DateOperations(context);
+
+        int curWeek = dateOperations.getWeeksTillDate(new Date());
+
+        for(int i =0; i<curWeek;i++)
+        {
+            StartEndDateObject startEndDateObject = dateOperations.getDatesFromWeekNumber(i);
+            String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
+            String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
+            int avgSteps =  getStepsCountForAWeek(startDate,endDate)/7;
+            stepsList.add(avgSteps);
+        }
+        return stepsList;
     }
 
     public UserGoal getuserGoalFromDB(String type, int week) {

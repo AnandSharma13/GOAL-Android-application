@@ -1,6 +1,7 @@
 package com.ph.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -170,7 +171,12 @@ public class HomeFragment extends Fragment {
         averageStepsCount.setTypeface(custom_font);
         averageStepsCountText.setTypeface(custom_font);
 
-        mUserStepsLayout.setOnClickListener(new StepsCountClick(getActivity(), mStepsCount));
+        mUserStepsLayout.setOnClickListener(new StepsCountClick(getActivity(), new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
+            }
+        }));
         setupViewPages(mViewPager);
 
         return view;
@@ -211,6 +217,8 @@ public class HomeFragment extends Fragment {
             changeToolBarTitle(nextWeekToolBarText);
         else
             changeToolBarTitle("GOAL");
+        mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
+
 
     }
 

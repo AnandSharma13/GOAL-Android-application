@@ -1,29 +1,29 @@
 package com.ph.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.BarGraphSeries;
-import com.jjoe64.graphview.series.DataPoint;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.StepsCountClick;
 import com.ph.model.DBOperations;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,9 +57,12 @@ public class StepsWeek extends Fragment {
 
     @Bind(R.id.progress_steps_week_others_text)
      TextView stepsOthersAvgText;
+
+    @Bind(R.id.steps_week_line_chart)
+    LineChart lineChart;
     private DBOperations dbOperations;
     private DateOperations dateOperations;
-    private GraphView barGraph;
+
 
     private OnFragmentInteractionListener mListener;
     private RelativeLayout stepsLayout;
@@ -122,56 +125,80 @@ public class StepsWeek extends Fragment {
 
         stepsLayout = (RelativeLayout) v.findViewById(R.id.steps_week_relative_layout);
 
-        stepsLayout.setOnClickListener(new StepsCountClick(getActivity(),stepsWeek));
+        stepsLayout.setOnClickListener(new StepsCountClick(getActivity(), new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                stepsWeek.setText(String.valueOf(dbOperations.getStepsCountForToday()));
+            }
+        }));
 
         stepsWeek.setText(String.valueOf(stepsCount));
-        HashMap<String, Integer> data = dbOperations.getStepsForThisWeek();
+        ArrayList<Integer> data = dbOperations.getStepsCountByWeek();
 
-        DataPoint[] dataPointArray = new DataPoint[data.size()];
-        int i=0;
-        final String[] labels = new String[data.size()];
-        for(String date: data.keySet())
+
+        ArrayList<Entry> dataList = new ArrayList<>();
+
+        for(int k=0;k<data.size();k++)
         {
-
-            try {
-                Date definedDate = dateOperations.getMysqlDateFormat().parse(date);
-
-                //dataPointArray[i] = new DataPoint(definedDate,data.get(date));
-                dataPointArray[i] = new DataPoint(i,data.get(date)); //TODO: Dates as labels
-                labels[i] = date;
-                i++;
-            } catch (ParseException e) {
-                e.printStackTrace();
-                Log.e("StepsWeek","Date parsing failed");
-            }
-
+            dataList.add(new Entry(data.get(k), k));
         }
+        /*dataList.add(new Entry(1500, 0));
+        dataList.add(new Entry(2500, 1));
+        dataList.add(new Entry(3500, 2));
+        dataList.add(new Entry(4500, 3));
+        dataList.add(new Entry(3500,4));
+        dataList.add(new Entry(2500, 5));
+        dataList.add(new Entry(1500, 6));
+*/
+
+        LineDataSet dataSet = new LineDataSet(dataList,"Steps");
+        dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        //TODO: Remove hard coding here.
+        ArrayList<String> xVals = new ArrayList<>();
+        xVals.add("Week 1");
+        xVals.add("Week 2");
+        xVals.add("Week 3");
+        xVals.add("Week 4");
+        xVals.add("Week 5");
+        xVals.add("Week 6");
+        xVals.add("Week 7");
+        xVals.add("Week 8");
+        xVals.add("Week 9");
+        xVals.add("Week 10");
+        xVals.add("Week 11");
+        xVals.add("Week 12");
+        LineData lineData = new LineData(xVals,dataSet);
+
+        lineChart.setData(lineData);
+        lineChart.setDescription("");
 
 
-        barGraph = (GraphView) v.findViewById(R.id.progress_steps_week_bar);
-        if(dataPointArray.length>0) {
-            BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPointArray);
-
-            series.setDrawValuesOnTop(true);
-            series.setSpacing(5);
+        dataSet.setColor(ContextCompat.getColor(getContext(), R.color.activity_entry_app_bar));
 
 
-            barGraph.addSeries(series);
-            NumberFormat nf = NumberFormat.getInstance();
-            nf.setMinimumFractionDigits(3);
-            nf.setMinimumIntegerDigits(2);
 
-         /*   barGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-            barGraph.getGridLabelRenderer().setNumHorizontalLabels(data.size());
-            try {
-                barGraph.getViewport().setMinX(dateOperations.getMysqlDateFormat().parse(labels[0]).getTime());
-                barGraph.getViewport().setMaxX(dateOperations.getMysqlDateFormat().parse(labels[labels.length - 1]).getTime());
-                barGraph.getViewport().setXAxisBoundsManual(true);
-            }catch (ParseException p)
-            {
-                p.printStackTrace();
-            }*/
-        }
+        dataSet.setCircleColor(ContextCompat.getColor(getContext(), R.color.progress_theme_color));
+
+        dataSet.setFillColor(ContextCompat.getColor(getContext(), R.color.activity_entry_app_bar));
+
+        dataSet.setDrawFilled(true);
+
+
+        lineChart.getXAxis().setDrawLabels(false);
+        lineChart.getXAxis().setDrawGridLines(false);
+        lineChart.getXAxis().setAxisLineColor(ContextCompat.getColor(getContext(), R.color.progress_theme_color));
+        lineChart.getAxisLeft().setEnabled(false);
+        lineChart.getAxisRight().setEnabled(false);
+        lineChart.setDrawGridBackground(true);
+        
+        lineChart.invalidate();
+
+
+
+
+
+
 
 
 
