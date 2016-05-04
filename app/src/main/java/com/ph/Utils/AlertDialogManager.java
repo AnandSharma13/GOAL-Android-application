@@ -82,8 +82,31 @@ public class AlertDialogManager {
 
         final Cursor cursor = dbOperations.getPastGoalsCursor(goalType);
 
+        int i =0,j=0;
+        CharSequence[] seq = new CharSequence[cursor.getCount()];
+
+        cursor.moveToFirst();
+
+
+        String prev_end_date="",end_date="";
+        do{
+
+            end_date = cursor.getString(cursor.getColumnIndex(UserGoal.column_endDate));
+
+            if(!prev_end_date.equals(end_date))
+                i++;
+            String text = "Week "+i+" - "+cursor.getString(cursor.getColumnIndex(UserGoal.column_weeklyCount));
+            seq[j++] = text;
+            prev_end_date = end_date;
+        }
+        while(cursor.moveToNext());
+
+
+
+
+
         builder.setTitle(title)
-                .setSingleChoiceItems(cursor, -1, "display_text", new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(seq, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.i("OnClick", String.valueOf(which));
@@ -105,7 +128,7 @@ public class AlertDialogManager {
         .setNeutralButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                cursor.close();
             }
         });
 

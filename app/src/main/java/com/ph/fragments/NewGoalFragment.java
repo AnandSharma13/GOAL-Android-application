@@ -4,8 +4,10 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +48,8 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
     private int weekNumber= -1;
     private int mFragmentPosition;
     private OnFragmentInteractionListener mListener;
+    private SharedPreferences pref;
+    private int programLength;
 
     public NewGoalFragment() {
         // Required empty public constructor
@@ -82,6 +86,9 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         mDbOperations = new DBOperations(getContext());
+        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        programLength = Integer.valueOf(pref.getString("program_length","-1"));
+
         View view =  inflater.inflate(R.layout.fragment_new_goal, container, false);
         mActivityProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_next_goal_progress_bar_activity);
         mNutritionProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_home_progress_bar_nutrition);
@@ -106,7 +113,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
             mNutritionProgressBar.setVisibility(View.INVISIBLE);
 
 
-            if(mFragmentPosition == 0) {
+            if(mFragmentPosition == 0 && programLength<weekNumber) {
                 new AlertDialogManager().showAlertDialog(getContext(), "Goal Not Set", "You have not set a goal for this week. You must create a goal to continue.", "Create Goal", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -117,6 +124,12 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
                     }
                 });
             }
+            if(weekNumber>=programLength)
+            {
+                String finishText = "Program complete.";
+                mNewGoalButton.setText(finishText);
+                mNewGoalButton.setEnabled(false);
+            }
             return view;
         }
         else
@@ -124,11 +137,23 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
             mActivityProgressBar.setVisibility(View.VISIBLE);
             mNutritionProgressBar.setVisibility(View.VISIBLE);
         }
+
         int activityCount = userGoalActivity.getTimes() * userGoalActivity.getWeekly_count();
-        String activityText = "A "+" "+activityCount+" mins / week";
-        String nutritionText = "N "+" "+userGoalNutrition.getWeekly_count()+" food / week";
-        String goalText = activityText+"\n"+nutritionText;
-        mNewGoalButton.setText(goalText);
+        if(weekNumber<programLength) {
+
+            String activityText = "A " + " " + activityCount + " mins / week";
+            String nutritionText = "N " + " " + userGoalNutrition.getWeekly_count() + " food / week";
+            String goalText = activityText + "\n" + nutritionText;
+            mNewGoalButton.setText(goalText);
+        }
+        else
+        {
+            String finishText = "Program complete.";
+            mNewGoalButton.setText(finishText);
+            mNewGoalButton.setEnabled(false);
+        }
+
+
         int nutritionProgress =0;
         int activityProgress =0;
         if(mFragmentPosition == 0) {
@@ -178,6 +203,8 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         mNewGoalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent newGoalIntent = new Intent(getActivity(), NewGoal.class);
                 startActivity(newGoalIntent);
             }

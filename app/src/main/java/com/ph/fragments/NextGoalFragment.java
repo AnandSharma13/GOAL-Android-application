@@ -113,6 +113,7 @@ public class NextGoalFragment extends Fragment {
         nextGoalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent newGoalIntent = new Intent(getActivity(), NewGoal.class);
                 startActivity(newGoalIntent);
             }

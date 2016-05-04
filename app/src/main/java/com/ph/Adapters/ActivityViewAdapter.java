@@ -51,6 +51,7 @@ public class ActivityViewAdapter extends RecyclerView.Adapter<ActivityViewAdapte
 
         holder.itemView.setSelected(selectedPos == position);
         String imageName = current.getName().toLowerCase();
+        imageName = imageName.replace(" ","_");
         //TODO: Handle images once they're available
 
         Drawable drawable = null;
@@ -65,8 +66,10 @@ public class ActivityViewAdapter extends RecyclerView.Adapter<ActivityViewAdapte
             holder.image.setImageDrawable(drawable);
             holder.title.setVisibility(View.GONE);
         }
-        else
+        else {
             holder.image.setImageResource(R.drawable.ic_launcher);
+            holder.title.setVisibility(View.VISIBLE);
+        }
     }
 
 

@@ -1,13 +1,21 @@
 package com.ph.Activities;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +33,7 @@ import butterknife.ButterKnife;
 
 public class SettingsActivity extends Fragment {
 
+    private static final int MAKE_CALL=1;
     @Bind(R.id.fragment_settings_tv_program_name)
     TextView programName;
     @Bind(R.id.programStartDate)
@@ -116,9 +125,98 @@ public class SettingsActivity extends Fragment {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
+            try {
 
+
+
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                            Manifest.permission.CALL_PHONE)) {
+
+                        // Show an expanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+                        Snackbar.make(getView(),"You must provide permissions to make a call.",Snackbar.LENGTH_INDEFINITE)
+                                .setActionTextColor(getResources().getColor(R.color.white))
+                                .setAction("OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        requestPermissions(new String[]{Manifest.permission.CALL_PHONE},
+                                                MAKE_CALL);
+                                    }
+                                })
+                                .show();
+
+                    } else {
+
+                        // No explanation needed, we can request the permission.
+                        requestPermissions(new String[]{Manifest.permission.CALL_PHONE},
+                                MAKE_CALL);
+                    }
+                }
+                else
+                {
+                    makeCall();
+                }
+            } catch (ActivityNotFoundException activityException) {
+                Log.e("Calling a Phone Number", "Call failed", activityException);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
+
+    private void makeCall()
+    {
+
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:"+getResources().getString(R.string.tech_support)));
+        startActivity(callIntent);
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MAKE_CALL: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    makeCall();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Snackbar.make(getView(),"You cannot make calls from the app without the permission.",Snackbar.LENGTH_LONG)
+                            .setActionTextColor(getResources().getColor(R.color.white))
+                            .setAction("OK", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    requestPermissions(new String[]{Manifest.permission.CALL_PHONE},
+                                            MAKE_CALL);
+                                }
+                            })
+                            .show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
 
     public class logoutButtonDialogClickListener implements DialogInterface.OnClickListener{
 

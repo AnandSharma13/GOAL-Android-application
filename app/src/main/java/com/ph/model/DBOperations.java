@@ -734,8 +734,10 @@ public class DBOperations {
 
     public Cursor getPastGoalsCursor(String type) {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
-        String query = "select goal_id as _id, weekly_count, text, (weekly_count || ' - ' || text) as display_text from user_goal where type='" + type + "'";
+        String query = "select goal_id as _id, weekly_count, text, end_date, ('Week ' || (select count(*) from user_goal as ug2 where ug2.goal_id <= ug1.goal_id ) || ' - ' || weekly_count) as display_text from user_goal as ug1 where type='" + type + "' order by _id";
         Cursor cursor = db.rawQuery(query, null);
+
+
         return cursor;
     }
 
