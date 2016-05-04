@@ -113,7 +113,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
             mNutritionProgressBar.setVisibility(View.INVISIBLE);
 
 
-            if(mFragmentPosition == 0 && programLength<weekNumber) {
+            if(mFragmentPosition == 0 && weekNumber<programLength) {
                 new AlertDialogManager().showAlertDialog(getContext(), "Goal Not Set", "You have not set a goal for this week. You must create a goal to continue.", "Create Goal", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
