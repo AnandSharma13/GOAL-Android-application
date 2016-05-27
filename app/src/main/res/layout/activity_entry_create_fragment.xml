@@ -5,6 +5,10 @@
     android:background="@color/white"
     android:clickable="true"
     android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/nutrition_entry_select_border" />
 
     <LinearLayout
         android:id="@+id/activity_entry_create_fragment_linear_layout_recycler_view"

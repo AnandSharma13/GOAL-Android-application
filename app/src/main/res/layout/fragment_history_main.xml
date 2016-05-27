@@ -1,18 +1,20 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     android:clickable="true"
+    android:orientation="vertical"
     tools:context="com.ph.fragments.HistoryMainFragment">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.ph.Activities.HistoryActivity">
-        <android.support.design.widget.TabLayout
+        android:layout_height="1dp"
+        android:background="@color/nutrition_entry_select_border" />
+
+
+    <android.support.design.widget.TabLayout
             android:id="@+id/activity_history_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,18 +25,13 @@
             app:tabIndicatorColor="@color/history_theme_color"
             app:tabGravity="fill"
             app:tabMode="fixed" />
-
         <android.support.v4.view.ViewPager
             android:id="@+id/activity_history_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/activity_history_tabs">
-
-
         </android.support.v4.view.ViewPager>
 
 
-    </RelativeLayout>
 
-
-</FrameLayout>
+</LinearLayout>

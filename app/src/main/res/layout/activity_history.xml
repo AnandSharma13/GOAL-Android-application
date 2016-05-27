@@ -9,9 +9,16 @@
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
+    <View
+        android:id="@+id/topBorderLine"
+        android:layout_below="@id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/nutrition_entry_select_border" />
+
     <android.support.design.widget.TabLayout
         android:id="@+id/activity_history_tabs"
-        android:layout_below="@id/app_bar"
+        android:layout_below="@id/topBorderLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

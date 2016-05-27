@@ -40,69 +40,38 @@ import butterknife.ButterKnife;
  * Created by Anand on 1/20/2016.
  */
 
-public class NutritionEntryCreateFragment extends Fragment {
+public class NutritionEntryCreateFragment extends Fragment implements View.OnClickListener, RatingBar.OnRatingBarChangeListener {
 
-    public final ArrayList<String> tablesList = new ArrayList<String>() {{
-
-        add(NutritionEntry.tableName);
-    }};
     @Bind(R.id.nutrition_entry_create_btn_decrease)
     ImageButton mDecreaseBtn;
     @Bind(R.id.nutrition_entry_create_btn_increase)
     ImageButton mIncreaseBtn;
     @Bind(R.id.nutrition_entry_create_btn_save)
     Button mSave;
-    @Bind(R.id.nutrition_entry_create_np_attic_food_count)
+    @Bind(R.id.nutrition_entry_create_rating_bar_dairy)
+    RatingBar mDairyRatingBar;
+
+    @Bind(R.id.nutrition_entry_create_rating_bar_vegetables)
+    RatingBar mVegetablesRatingBar;
+
+    @Bind(R.id.nutrition_entry_create_rating_bar_protein)
+    RatingBar mProteinRatingBar;
+
+    @Bind(R.id.nutrition_entry_create_rating_bar_fruits)
+    RatingBar mFruitsRatingBar;
+
+    @Bind(R.id.nutrition_entry_create_number_picker_attic)
     NumberPicker mAtticFoodCountNp;
-    @Bind(R.id.nutrition_entry_create_chkBx_Dairy_one)
-    CheckBox mDairyOne;
-    @Bind(R.id.nutrition_entry_create_chkBx_Dairy_two)
-    CheckBox mDairyTwo;
-    @Bind(R.id.nutrition_entry_create_chkBx_Dairy_three)
-    CheckBox mDairyThree;
-    @Bind(R.id.nutrition_entry_create_chkBx_protein_one)
-    CheckBox mProteinOne;
-    @Bind(R.id.nutrition_entry_create_chkBx_protein_two)
-    CheckBox mProteinTwo;
-    @Bind(R.id.nutrition_entry_create_chkBx_protein_three)
-    CheckBox mProteinThree;
-    @Bind(R.id.nutrition_entry_create_chkBx_protein_four)
-    CheckBox mProteinFour;
-    @Bind(R.id.nutrition_entry_create_chkBx_protein_five)
-    CheckBox mProteinFive;
-    @Bind(R.id.nutrition_entry_create_chkBx_vegetable_one)
-    CheckBox mVegetableOne;
-    @Bind(R.id.nutrition_entry_create_chkBx_vegetable_two)
-    CheckBox mVegetableTwo;
-    @Bind(R.id.nutrition_entry_create_chkBx_vegetable_three)
-    CheckBox mVegetableThree;
-    @Bind(R.id.nutrition_entry_create_chkBx_fruits_one)
-    CheckBox mFruitOne;
-    @Bind(R.id.nutrition_entry_create_chkBx_fruits_two)
-    CheckBox mFruitTwo;
-    @Bind(R.id.nutrition_entry_create_chkBx_grains_one)
-    CheckBox mGrainsOne;
-    @Bind(R.id.nutrition_entry_create_chkBx_grains_two)
-    CheckBox mGrainsTwo;
-    @Bind(R.id.nutrition_entry_create_chkBx_grains_three)
-    CheckBox mGrainsThree;
-    @Bind(R.id.nutrition_entry_create_chkBx_grains_four)
-    CheckBox mGrainsFour;
-    @Bind(R.id.nutrition_entry_create_chkBx_grains_five)
-    CheckBox mGrainsFive;
-    @Bind(R.id.nutrition_entry_create_chkBx_grains_six)
-    CheckBox mGrainsSix;
-    @Bind(R.id.nutrition_entry_create_sb_water_intake)
-    SeekBar mWaterIntake;
+
+    @Bind(R.id.nutrition_entry_create_rating_bar_grains)
+    RatingBar mGrainsRatingBar;
     @Bind(R.id.nutrition_entry_create_rating_bar_water_intake)
-    RatingBar mRatingBar;
+    RatingBar mWaterRatingBar;
+
     int checkCount = 0;
     private DateOperations mDateOperations;
     private DBOperations mDBOperations;
     private SharedPreferences prefs;
-    private Handler repeatUpdateHandler;
-    private Boolean mIncrementFlag;
-    private Boolean mDecrementFlag;
     private DBOperations dbOperations;
     private int atticFoodCount;
     private int dairyCount;
@@ -116,14 +85,11 @@ public class NutritionEntryCreateFragment extends Fragment {
     private int mGoalCount;
     private String mNutritionType;
     private String mSqlDateFormatString;
-    private ArrayList<CheckBox> dairyChkbxList;
-    private ArrayList<CheckBox> proteinChkbxList;
-    private ArrayList<CheckBox> vegetableChkbxList;
-    private ArrayList<CheckBox> fruitChkbxList;
-    private ArrayList<CheckBox> grainsChkbxList;
     private Toolbar toolbar;
+    private boolean mDecrementFlag;
+    private boolean mIncrementFlag;
 
-    public static NutritionEntryCreateFragment newInstance(String nutritionDetailsText, String mImagePath,String mSqlDateFormatString, int goalCount,String mNutritionType) {
+    public static NutritionEntryCreateFragment newInstance(String nutritionDetailsText, String mImagePath, String mSqlDateFormatString, int goalCount, String mNutritionType) {
         NutritionEntryCreateFragment fragment = new NutritionEntryCreateFragment();
         Bundle args = new Bundle();
         args.putString("nutritionDetailsText", nutritionDetailsText);
@@ -141,13 +107,12 @@ public class NutritionEntryCreateFragment extends Fragment {
 
         mDateOperations = new DateOperations(getContext());
         mDBOperations = new DBOperations(getContext());
-      //  mNutritionType = getIntent().getExtras().getString("NutritionType");
-      //  mSqlDateFormatString = getIntent().getExtras().getString("Date")
+        //  mNutritionType = getIntent().getExtras().getString("NutritionType");
+        //  mSqlDateFormatString = getIntent().getExtras().getString("Date")
 
         mDecrementFlag = false;
         mIncrementFlag = false;
         dbOperations = new DBOperations(getContext());
-
 
         if (getArguments() != null) {
             mNutritionType = getArguments().getString("NUTRITION_TYPE");
@@ -156,17 +121,12 @@ public class NutritionEntryCreateFragment extends Fragment {
             mImagePath = getArguments().getString("imagePath");
             mGoalCount = getArguments().getInt("GoalCount", 0);
         }
-
-
-
-        return;
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
-
         ((MainActivity) getActivity()).setDrawerState(false);
         ((MainActivity) getActivity()).updateToolbar(mNutritionType, R.color.nutrition_entry_app_bar, R.color.white);
     }
@@ -177,228 +137,45 @@ public class NutritionEntryCreateFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_nutrition_entry_create, container, false);
         ButterKnife.bind(this, view);
         getDayRecord();
-        initControls();
-
         if (checkCount == 0)
             mSave.setEnabled(false);
-
-        mWaterIntake.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if ((progress - waterIntakeCount) > 0) {
-                    mSave.setEnabled(true);
-                } else if ((progress - waterIntakeCount) == 0 && checkCount == 0 && (mAtticFoodCountNp.getValue() - atticFoodCount) == 0)
-                    mSave.setEnabled(false);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mRatingBar.setRating(seekBar.getProgress());
-            }
-        });
+        mWaterRatingBar.setOnRatingBarChangeListener(this);
+        mDecreaseBtn.setOnClickListener(this);
+        mIncreaseBtn.setOnClickListener(this);
+        mSave.setOnClickListener(this);
 
         mAtticFoodCountNp.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 if ((newVal - atticFoodCount) > 0)
                     mSave.setEnabled(true);
-                else if ((newVal - atticFoodCount) == 0 && checkCount == 0 && (mWaterIntake.getProgress() - atticFoodCount) == 0)
+                else if ((newVal - atticFoodCount) <atticFoodCount && checkCount == 0 && (mWaterRatingBar.getRating() - atticFoodCount) == 0)
                     mSave.setEnabled(false);
             }
         });
 
-        mDecreaseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAtticFoodCountNp.setValue(mAtticFoodCountNp.getValue() - 1);
-                int newVal = mAtticFoodCountNp.getValue();
-                if ((newVal - atticFoodCount) > 0)
-                    mSave.setEnabled(true);
-            }
-        });
-
-
-        mIncreaseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAtticFoodCountNp.setValue(mAtticFoodCountNp.getValue() + 1);
-                int newVal = mAtticFoodCountNp.getValue();
-                if ((newVal - atticFoodCount) == 0 && checkCount == 0 && (mWaterIntake.getProgress() - atticFoodCount) == 0)
-                    mSave.setEnabled(false);
-
-            }
-        });
-
-
-        mSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSaveClick(getView());
-            }
-        });
-
-
-        //For testing
-        //   addNutritionEntryToDB();
 
         setViewUnclickable();
-
-        addListenerstoCheckBoxes();
-
         return view;
     }
 
-    private void addListenerstoCheckBoxes() {
-        for (CheckBox cb : dairyChkbxList) {
-            cb.setOnCheckedChangeListener(new MyCheckedChangeListener());
-        }
-        for (CheckBox cb : proteinChkbxList) {
-            cb.setOnCheckedChangeListener(new MyCheckedChangeListener());
-        }
-        for (CheckBox cb : vegetableChkbxList) {
-            cb.setOnCheckedChangeListener(new MyCheckedChangeListener());
-        }
-        for (CheckBox cb : fruitChkbxList) {
-            cb.setOnCheckedChangeListener(new MyCheckedChangeListener());
-        }
-        for (CheckBox cb : grainsChkbxList) {
-            cb.setOnCheckedChangeListener(new MyCheckedChangeListener());
-        }
-    }
-
-    public void initControls() {
-//        mDecreaseBtn = (ImageButton) findViewById(R.id.nutrition_entry_create_btn_decrease);
-//        mIncreaseBtn = (ImageButton) findViewById(R.id.nutrition_entry_create_btn_increase);
-//        mSave = (Button) findViewById(R.id.nutrition_entry_create_btn_save);
-//        mAtticFoodCountNp = (NumberPicker) findViewById(R.id.nutrition_entry_create_np_attic_food_count);
-//
-//
-//        mDairyOne = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_Dairy_one);
-//        mDairyTwo = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_Dairy_two);
-//        mDairyThree = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_Dairy_three);
-//        mProteinOne = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_protein_one);
-//        mProteinTwo = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_protein_two);
-//        mProteinThree = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_protein_three);
-//        mProteinFour = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_protein_four);
-//        mProteinFive = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_protein_five);
-//        mVegetableOne = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_vegetable_one);
-//        mVegetableTwo = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_vegetable_two);
-//        mVegetableThree = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_vegetable_three);
-//        mFruitOne = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_fruits_one);
-//        mFruitTwo = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_fruits_two);
-//        mRatingBar = (RatingBar) findViewById(R.id.nutrition_entry_create_rating_bar_water_intake);
-//        mGrainsOne = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_grains_one);
-//        mGrainsTwo = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_grains_two);
-//        mGrainsThree = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_grains_three);
-//        mGrainsFour = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_grains_four);
-//        mGrainsFive = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_grains_five);
-//        mGrainsSix = (CheckBox) findViewById(R.id.nutrition_entry_create_chkBx_grains_six);
-//        mWaterIntake = (SeekBar) findViewById(R.id.nutrition_entry_create_sb_water_intake);
-
-
-
-        dairyChkbxList = new ArrayList<CheckBox>() {{
-            add(mDairyOne);
-            add(mDairyTwo);
-            add(mDairyThree);
-        }};
-
-        proteinChkbxList = new ArrayList<CheckBox>() {{
-            add(mProteinOne);
-            add(mProteinTwo);
-            add(mProteinThree);
-            add(mProteinFour);
-            add(mProteinFive);
-        }};
-
-        vegetableChkbxList = new ArrayList<CheckBox>() {{
-            add(mVegetableOne);
-            add(mVegetableTwo);
-            add(mVegetableThree);
-        }};
-        fruitChkbxList = new ArrayList<CheckBox>() {{
-            add(mFruitOne);
-            add(mFruitTwo);
-        }};
-
-        grainsChkbxList = new ArrayList<CheckBox>() {{
-            add(mGrainsOne);
-            add(mGrainsTwo);
-            add(mGrainsThree);
-            add(mGrainsFour);
-            add(mGrainsFive);
-            add(mGrainsSix);
-        }};
-
-    }
 
     public void setViewUnclickable() {
-
-        for (int i = 0; i < dairyCount; i++) {
-            CheckBox checkBox = dairyChkbxList.get(i);
-            checkBox.setEnabled(false);
-            checkBox.setChecked(true);
-        }
-
-        for (int i = 0; i < proteinCount; i++) {
-            CheckBox checkBox = proteinChkbxList.get(i);
-            checkBox.setEnabled(false);
-            checkBox.setChecked(true);
-        }
-
-        for (int i = 0; i < grainsCount; i++) {
-            CheckBox checkBox = grainsChkbxList.get(i);
-            checkBox.setEnabled(false);
-            checkBox.setChecked(true);
-        }
-        for (int i = 0; i < fruitCount; i++) {
-            CheckBox checkBox = fruitChkbxList.get(i);
-            checkBox.setEnabled(false);
-            checkBox.setChecked(true);
-        }
-        for (int i = 0; i < vegetableCount; i++) {
-            CheckBox checkBox = vegetableChkbxList.get(i);
-            checkBox.setEnabled(false);
-            checkBox.setChecked(true);
-        }
-
-        mWaterIntake.setProgress(waterIntakeCount);
+        mDairyRatingBar.setRating(dairyCount);
+        mProteinRatingBar.setRating(proteinCount);
+        mGrainsRatingBar.setRating(grainsCount);
+        mFruitsRatingBar.setRating(fruitCount);
+        mVegetablesRatingBar.setRating(fruitCount);
+        mWaterRatingBar.setRating(waterIntakeCount);
         mAtticFoodCountNp.setMinValue(0);
         mAtticFoodCountNp.setMaxValue(20);
         mAtticFoodCountNp.setWrapSelectorWheel(false);
         mAtticFoodCountNp.setValue(atticFoodCount);
-
-
-    }
-
-    public void onClickIncreaseBtn(View view) {
-        mAtticFoodCountNp.setValue(mAtticFoodCountNp.getValue() + 1);
-        int newVal = mAtticFoodCountNp.getValue();
-        if ((newVal - atticFoodCount) > 0)
-            mSave.setEnabled(true);
-
-
-    }
-
-    public void onClickDecreaseBtn(View view) {
-        mAtticFoodCountNp.setValue(mAtticFoodCountNp.getValue() - 1);
-        int newVal = mAtticFoodCountNp.getValue();
-        if ((newVal - atticFoodCount) == 0 && checkCount == 0 && (mWaterIntake.getProgress() - atticFoodCount) == 0)
-            mSave.setEnabled(false);
-
-
     }
 
     public void getDayRecord() {
-
 //        Cursor dayRecordCursor = mDBOperations.getNutritionDayRecords(mSqlDateFormatString,mNutritionType);
         Cursor dayRecordCursor = mDBOperations.getNutritionDayRecords(mSqlDateFormatString);
-
         dayRecordCursor.moveToFirst();
         atticFoodCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_atticFood));
         proteinCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_protein));
@@ -407,23 +184,18 @@ public class NutritionEntryCreateFragment extends Fragment {
         fruitCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_fruit));
         grainsCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_grain));
         waterIntakeCount = dayRecordCursor.getInt(dayRecordCursor.getColumnIndex(NutritionEntry.column_waterintake));
-
         dayRecordCursor.close();
-      //  Log.i("NutritionEntryCreateFragment", "Getting day records");
-        return;
     }
 
     public void onSaveClick(View view) {
 
         int atticFoodNow = mAtticFoodCountNp.getValue();
-
-        int dairyNow = isCheckedBoxChecked(mDairyOne) + isCheckedBoxChecked(mDairyTwo) + isCheckedBoxChecked(mDairyThree);
-        int proteinNow = isCheckedBoxChecked(mProteinOne) + isCheckedBoxChecked(mProteinTwo) + isCheckedBoxChecked(mProteinThree) + isCheckedBoxChecked(mProteinFour) + isCheckedBoxChecked(mProteinFive);
-        int fruitsNow = isCheckedBoxChecked(mFruitOne) + isCheckedBoxChecked(mFruitTwo);
-        int vegetablesNow = isCheckedBoxChecked(mVegetableOne) + isCheckedBoxChecked(mVegetableTwo) + isCheckedBoxChecked(mVegetableThree);
-        int grainsNow = isCheckedBoxChecked(mGrainsOne) + isCheckedBoxChecked(mGrainsTwo) + isCheckedBoxChecked(mGrainsThree) + isCheckedBoxChecked(mGrainsFour) + isCheckedBoxChecked(mGrainsFive) + isCheckedBoxChecked(mGrainsSix);
-        int waterIntakeNow = mWaterIntake.getProgress();
-
+        int dairyNow = (int) mDairyRatingBar.getRating();
+        int proteinNow = (int) mProteinRatingBar.getRating();
+        int fruitsNow = (int) mFruitsRatingBar.getRating();
+        int vegetablesNow = (int) mVegetablesRatingBar.getRating();
+        int grainsNow = (int) mGrainsRatingBar.getRating();
+        int waterIntakeNow = (int) mWaterRatingBar.getRating();
         int dairyEntry = dairyNow - dairyCount;
         int atticFoodEntry = atticFoodNow - atticFoodCount;
         int proteinEntry = proteinNow - proteinCount;
@@ -431,14 +203,10 @@ public class NutritionEntryCreateFragment extends Fragment {
         int vegetableEntry = vegetablesNow - vegetableCount;
         int grainEntry = grainsNow - grainsCount;
         int waterIntakeEntry = waterIntakeNow - waterIntakeCount;
-
-
         NutritionEntry nutritionEntry = new NutritionEntry();
         Bundle settingsBundle = new Bundle();
         SyncUtils syncUtils = new SyncUtils();
-
         settingsBundle.putString("Type", "ClientSync");
-
         /*settingsBundle.putInt("ListSize", tablesList.size());
         for (int i = 0; i < tablesList.size(); i++) {
             settingsBundle.putString("Table " + i, tablesList.get(i));
@@ -471,27 +239,47 @@ public class NutritionEntryCreateFragment extends Fragment {
         nutritionEntry.setDate(mSqlDateFormatString);
         mDBOperations.insertRow(nutritionEntry);
         SyncUtils.TriggerRefresh(settingsBundle);
-        Log.i("NutritionEntryCreateFragment", "Sync called for nutrition entry");
-
+        //     Log.i("NutritionEntryCreateFragment", "Sync called for nutrition entry");
         Toast.makeText(getActivity(), "Entry Saved.. ", Toast.LENGTH_LONG).show();
-        Intent returnIntent = new Intent();
         Intent i = new Intent(getContext(), MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         NutritionEntryCreateFragment.this.startActivity(i);
-
-
     }
 
-    public int isCheckedBoxChecked(CheckBox chkbx) {
-        if (chkbx.isChecked()) {
-            return 1;
+
+    @Override
+    public void onClick(View v) {
+        int newVal;
+        switch (v.getId()) {
+            case R.id.nutrition_entry_create_btn_save:
+                onSaveClick(v);
+                return;
+            case R.id.nutrition_entry_create_btn_decrease:
+                mAtticFoodCountNp.setValue(mAtticFoodCountNp.getValue() - 1);
+                break;
+            case R.id.nutrition_entry_create_btn_increase:
+                mAtticFoodCountNp.setValue(mAtticFoodCountNp.getValue() + 1);
+                break;
         }
-        return 0;
+        newVal = mAtticFoodCountNp.getValue();
+        if ((newVal - atticFoodCount) > 0)
+            mSave.setEnabled(true);
     }
 
+    @Override
+    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+        switch (ratingBar.getId()) {
+            case R.id.nutrition_entry_create_rating_bar_water_intake:
+                if ((rating - waterIntakeCount) > 0) {
+                    mSave.setEnabled(true);
+                } else if ((rating - waterIntakeCount) < waterIntakeCount && checkCount == 0 && (mAtticFoodCountNp.getValue() - atticFoodCount) == 0)
+                    mSave.setEnabled(false);
+                break;
+        }
+    }
 
+    @Deprecated
     class MyCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
-
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked)
@@ -501,11 +289,19 @@ public class NutritionEntryCreateFragment extends Fragment {
 
             if (checkCount > 0)
                 mSave.setEnabled(true);
-            else if (checkCount <= 0 && (mWaterIntake.getProgress() - waterIntakeCount) == 0 && (mAtticFoodCountNp.getValue() - atticFoodCount) == 0) {
+            else if (checkCount <= 0 && (mWaterRatingBar.getRating() - waterIntakeCount) == 0 && (mAtticFoodCountNp.getValue() - atticFoodCount) == 0) {
                 checkCount = 0;
                 mSave.setEnabled(false);
             }
         }
+    }
+
+    @Deprecated
+    public int isCheckedBoxChecked(CheckBox chkbx) {
+        if (chkbx.isChecked()) {
+            return 1;
+        }
+        return 0;
     }
 
 

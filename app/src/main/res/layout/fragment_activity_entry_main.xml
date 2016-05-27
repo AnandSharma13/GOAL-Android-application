@@ -4,61 +4,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-
-    android:clickable="true"
     android:orientation="vertical"
     tools:context=".fragments.ActivityEntryMainFragment">
 
-    <LinearLayout
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/nutrition_entry_select_border" />
+
+    <RelativeLayout
         android:id="@+id/activity_entry_date_layout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_weight="0"
+        android:layout_height="match_parent"
+        android:layout_weight=".9"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:gravity="center">
 
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-            <!--android:text="Date"-->
-            <!--android:id="@+id/activity_entry_date"-->
-            <!--android:layout_margin="80px"-->
-            <!--/>-->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/activity_entry_date_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="50dp"
-                android:layout_weight="0"
-                android:ems="7"
-                android:focusable="false"
-                android:inputType="date"
-                android:text="01/01/9999"
-                android:textAlignment="center"
-                android:textColor="@color/activity_entry_text"
-                android:textSize="16dp" />
-
-            <ImageView
-                android:id="@+id/activity_entry_calendar_image"
-                android:layout_width="48dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:longClickable="true"
-                android:src="@drawable/ic_calendar"
-                />
-        </LinearLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/activity_entry_date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/activity_entry_text"
+            android:layout_centerInParent="true"
+            android:text="01/01/9999"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            style="@style/text_view_size"/>
+        <ImageView
+            android:id="@+id/activity_entry_calendar_image"
+            android:layout_toRightOf="@+id/activity_entry_date_text_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="15dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_calendar"
+     />
+    </RelativeLayout>
 
 
     <LinearLayout
@@ -69,13 +51,6 @@
         android:background="@drawable/ic_btn_activity_entry_cardio"
         android:orientation="vertical">
 
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-            <!--android:text="Cardio"-->
-            <!--android:id="@+id/textView"-->
-            <!--android:layout_margin="80px" />-->
         <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
@@ -93,16 +68,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.33"
         android:background="@drawable/ic_btn_activity_entry_strength"
-
         android:orientation="vertical">
 
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-            <!--android:text="Strength"-->
-            <!--android:id="@+id/textView2"-->
-            <!--android:layout_margin="80px" />-->
         <Button
             android:id="@+id/button1"
             android:layout_width="match_parent"
@@ -123,13 +90,6 @@
         android:onClick="activityClick"
         android:orientation="vertical">
 
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-            <!--android:text="Lifestyle"-->
-            <!--android:id="@+id/textView4"-->
-            <!--android:layout_margin="80px" />-->
         <Button
             android:id="@+id/button3"
             android:layout_width="match_parent"

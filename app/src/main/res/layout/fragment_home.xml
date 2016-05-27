@@ -39,7 +39,7 @@
                     android:layout_below="@+id/fragment_home_tv_steps_count"
                     android:layout_centerInParent="true"
                     android:text="Steps Count"
-                    android:textSize="10dp"
+                    android:textSize="15dp"
                     android:textColor="@color/white"/>
             </RelativeLayout>
 
@@ -67,7 +67,7 @@
                     android:layout_below="@+id/fragment_home_tv_average_steps_count"
                     android:layout_centerInParent="true"
                     android:text="Average steps"
-                    android:textSize="10dp"
+                    android:textSize="15dp"
                     android:fontFamily="EurostileRegular"
                     android:textColor="@color/white"/>
             </RelativeLayout>

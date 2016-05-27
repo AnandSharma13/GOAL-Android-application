@@ -86,20 +86,6 @@ public class ActivityEntryMainFragment extends Fragment {
             }
         };
 
-       /* activityDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), datePicker, calendar
-                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH));
-
-                Dateutils dateutils = new Dateutils(getContext());
-                datePickerDialog = dateutils.setGoalPeriodWeek(datePickerDialog);
-                datePickerDialog.show();
-            }
-        });
-*/
         activityDate.setOnClickListener(new ActivityEntryDateClickListener());
         calendarImage.setOnClickListener(new ActivityEntryDateClickListener());
         Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Eurostile.ttf");

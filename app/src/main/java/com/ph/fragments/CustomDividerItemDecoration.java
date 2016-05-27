@@ -15,7 +15,8 @@ import android.view.View;
  */
 
 
-public class CustomDividerItemDecoration extends RecyclerView.ItemDecoration {
+public class
+CustomDividerItemDecoration extends RecyclerView.ItemDecoration {
 
 	private Drawable mDivider;
 

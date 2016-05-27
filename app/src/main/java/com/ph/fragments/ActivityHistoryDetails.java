@@ -94,7 +94,6 @@ public class ActivityHistoryDetails extends Fragment {
 
         recyclerView.setLayoutManager(layoutManager);
         dataList = (List<ActivityEntry>)(List<?>) dbOperations.getGoalProgressForAWeek(weekNumber,"Activity");
-
         activityHistoryViewAdapter = new ActivityHistoryViewAdapter(getContext(),dataList);
 
         recyclerView.setAdapter(activityHistoryViewAdapter);

@@ -1,12 +1,14 @@
 package com.ph.view;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
@@ -36,6 +38,9 @@ public class CustomProgressBar extends ProgressBar{
         int height = this.getMeasuredHeight()/2;
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(45);
+        Typeface custom_font = Typeface.createFromAsset(getContext().getAssets(),"fonts/Eurostile.ttf");
+        // Typeface custom_font2 = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaNeue.ttf");
+        textPaint.setTypeface(custom_font);
         canvas.drawText(text, width, height, textPaint);
         
         Paint aimTextPaint = new Paint();
@@ -43,6 +48,7 @@ public class CustomProgressBar extends ProgressBar{
         int ht = this.getMeasuredHeight()*3/4;
         aimTextPaint.setTextAlign(Paint.Align.CENTER);
         aimTextPaint.setTextSize(25);
+        aimTextPaint.setTypeface(custom_font);
         canvas.drawText(aim_text,wh,ht, aimTextPaint);
 
     }

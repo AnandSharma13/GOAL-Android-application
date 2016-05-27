@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -191,7 +193,6 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
         getSupportFragmentManager().addOnBackStackChangedListener(getListener());
 
         setFragment(new HomeFragment(), false);
-
     }
 
 
@@ -205,16 +206,25 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
                         finish();
                     }
 
+                    Log.i("Inside back stack", String.valueOf(backStackEntryCount));
                     FragmentManager.BackStackEntry backStackEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
 
-                    for(Fragment fragment: getSupportFragmentManager().getFragments())
-                    {
-                        if(backStackEntry.getName().contains(fragment.getClass().getSimpleName())) {
+                    if (backStackEntryCount == 1) {
+                        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                                fragment.onResume();
+                                break;
+                        }
+                    }
+
+/*
+                    for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                        if (backStackEntry.getName() != null && backStackEntry.getName().contains(fragment.getClass().getSimpleName())) {
+                            Log.i("Inside back stack", "heyyyy");
                             fragment.onResume();
                             break;
                         }
                     }
-
+*/
 
                 }
             }
@@ -227,13 +237,13 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
         String fragmentName = fragment.getClass().getName();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.fade_out);
         if (isNavigationDrawerItem) {
             while (fragmentManager.getBackStackEntryCount() != 1)
                 fragmentManager.popBackStackImmediate();
-            fragmentTransaction.add(R.id.activity_main_frame_layout, fragment,fragment.getClass().getSimpleName()).addToBackStack(fragmentName);
+            fragmentTransaction.replace(R.id.activity_main_frame_layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(null);
         } else
-            fragmentTransaction.add(R.id.activity_main_frame_layout, fragment,fragment.getClass().getSimpleName()).addToBackStack(fragmentName);
+            fragmentTransaction.replace(R.id.activity_main_frame_layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -251,8 +261,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
             getSupportFragmentManager().popBackStack();
 
 
-        }
-        else if (getSupportFragmentManager().getBackStackEntryCount() == 2) {
+        } else if (getSupportFragmentManager().getBackStackEntryCount() == 2) {
             updateToolbar("GOAL", R.color.white, R.color.black);
             getmDrawerToggle().setDrawerIndicatorEnabled(true);
             getSupportFragmentManager().popBackStack();
@@ -285,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
         mToolbarText.setTextColor(textColor);
         Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/Eurostile.ttf");
         mToolbarText.setTypeface(custom_font);
-        mToolbar.setBackground(new ColorDrawable(ContextCompat.getColor(this, backgroundColor)));
+        mToolbar.setBackground(new ColorDrawable(ContextCompat.getColor(this, R.color.white)));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);

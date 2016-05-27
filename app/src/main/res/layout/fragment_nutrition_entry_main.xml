@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     android:clickable="true"
-    tools:context=".fragments.NutritionEntryMainFragment"
-    >
+    tools:context=".fragments.NutritionEntryMainFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/app_bar"
+
         android:orientation="vertical">
 
         <LinearLayout
@@ -32,44 +31,38 @@
                     android:background="@drawable/custom_edit_text_design"
                     android:gravity="top|left"
                     android:hint="Food Details"
-                    android:padding="5dip"
-                    />
+                    android:lines="4"
+                    android:padding="10dip"
+                    android:textSize="@dimen/text_size" />
 
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/nutrition_entry_select_background"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@mipmap/ic_btn_camera">
-                    <Button
-                        android:id="@+id/nutrition_entry_main_btn_camera"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:backgroundTint="@android:color/transparent"
-                        android:onClick="onClickCamera"/>
-                </LinearLayout>
+                <ImageButton
+                    android:id="@+id/nutrition_entry_main_btn_camera"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="74dp"
+                    android:layout_toEndOf="@+id/nutrition_entry_create_iv_image"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:onClick="onClickCamera"
+                    android:scaleType="fitCenter"
+                    android:src="@android:drawable/ic_menu_camera" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/white">
-                    <TextView
-                        android:id="@+id/nutrition_entry_main_tv_goal_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Current Goal here" />
-                </LinearLayout>
-                           </LinearLayout>
+                <ImageView
+                    android:id="@+id/nutrition_entry_create_iv_image"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -95,8 +88,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Count as Goal"
-                       />
+                        android:text="Count as Goal" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -125,55 +117,59 @@
                             android:id="@+id/goalOne"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1"/>
+                            android:text="1" />
 
                         <RadioButton
                             android:id="@+id/goalTwo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2"/>
+                            android:text="2" />
 
                         <RadioButton
                             android:id="@+id/goalThree"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="3"/>
+                            android:text="3"
+                            android:textSize="@dimen/text_size" />
 
                         <RadioButton
                             android:id="@+id/goalFour"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="4"/>
+                            android:text="4" />
                     </RadioGroup>
-
-                    <!--<Button-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:onClick="onClickNext"-->
-                        <!--android:backgroundTint="@android:color/transparent"-->
-                        <!--android:background="?attr/selectableItemBackgroundBorderless"-->
-                        <!--/>-->
                 </LinearLayout>
             </LinearLayout>
-
-     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_weight="2"
-         android:background="@color/white"
-         ></LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2.9">
-                    <Button
-                        android:id="@+id/nutrition_entry_main_btn_next"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Next" />
+                android:layout_weight="2"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/nutrition_entry_main_tv_goal_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nutrition_entry_main_btn_camera"
+                    android:padding="10dp"
+                    android:text="Current Goal here"
+                    android:textSize="@dimen/text_size" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3.1">
+
+                <Button
+                    android:id="@+id/nutrition_entry_main_btn_next"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Next" />
 
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

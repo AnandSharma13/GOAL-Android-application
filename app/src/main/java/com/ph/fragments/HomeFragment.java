@@ -164,7 +164,7 @@ public class HomeFragment extends Fragment {
 
 
         Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Eurostile.ttf");
-       // Typeface custom_font2 = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaNeue.ttf");
+        // Typeface custom_font2 = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaNeue.ttf");
         mStepsCount.setTypeface(custom_font);
 
         stepsCountText.setTypeface(custom_font);
@@ -177,7 +177,7 @@ public class HomeFragment extends Fragment {
                 mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
             }
         }));
-        setupViewPages(mViewPager);
+      //  setupViewPages(mViewPager);
 
         return view;
     }
@@ -209,7 +209,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        setupViewPages(mViewPager);
         int i = mViewPager.getCurrentItem();
+        Log.i("from on resume", "on resume");
 
         if(i == HOME_FRAGMENT_POSITION)
             changeToolBarTitle(currentWeekToolBarText);
@@ -251,7 +253,7 @@ public class HomeFragment extends Fragment {
 
 
     public void setupViewPages(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(NewGoalFragment.newInstance(operatingWeek,0), "Current Goal");
         adapter.addFragment(NewGoalFragment.newInstance(operatingWeek+1,1), "Next Goal");
         //Proposed....

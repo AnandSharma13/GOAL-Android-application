@@ -5,17 +5,25 @@
     android:layout_height="match_parent"
     android:clickable="true"
     tools:context=".fragments.NutritionEntryCreateFragment">
+    <View
+        android:id="@+id/topBorderLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/app_bar"
+        android:background="@color/nutrition_entry_select_border" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/app_bar"
+        android:layout_below="@+id/topBorderLine"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.35"
             android:background="@color/white"></LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -29,44 +37,43 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:text="Others" />
+
             <GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/nutrition_entry_create_tv_others"
-                android:layout_centerHorizontal="true"
-               >
+                android:layout_centerHorizontal="true">
 
-            <ImageButton
-                android:id="@+id/nutrition_entry_create_btn_decrease"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:paddingRight="20dp"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_btn_minus"
-                android:text="-" />
+                <ImageButton
+                    android:id="@+id/nutrition_entry_create_btn_decrease"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:paddingRight="20dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_btn_minus"
+                    android:text="-" />
 
-            <NumberPicker
-                android:id="@+id/nutrition_entry_create_np_attic_food_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:descendantFocusability="blocksDescendants"></NumberPicker>
+                <NumberPicker
+                    android:id="@+id/nutrition_entry_create_number_picker_attic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:descendantFocusability="blocksDescendants"></NumberPicker>
 
-            <ImageButton
-                android:id="@+id/nutrition_entry_create_btn_increase"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:paddingLeft="20dp"
-                android:scaleType="center"
-                android:src="@mipmap/ic_btn_add" />
+                <ImageButton
+                    android:id="@+id/nutrition_entry_create_btn_increase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:paddingLeft="20dp"
+                    android:scaleType="center"
+                    android:src="@mipmap/ic_btn_add" />
             </GridLayout>
         </RelativeLayout>
-
 
 
         <LinearLayout
@@ -80,43 +87,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/nutrition_entry_create_tv_dairy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="Dairy" />
 
-                    <GridLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/nutrition_entry_create_tv_dairy"
-                        android:layout_centerHorizontal="true">
+                <TextView
+                    android:id="@+id/nutrition_entry_create_tv_dairy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Dairy" />
 
-                    <CheckBox
-                        android:id="@+id/nutrition_entry_create_chkBx_Dairy_one"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:button="@drawable/custom_drawable_chkbx_dairy" />
+                <RatingBar
+                    android:id="@+id/nutrition_entry_create_rating_bar_dairy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nutrition_entry_create_tv_dairy"
+                    android:numStars="3"
+                    android:progressDrawable="@drawable/custom_drawable_rating_bar_dairy"
+                    android:stepSize="1" />
 
-                    <CheckBox
-                        android:id="@+id/nutrition_entry_create_chkBx_Dairy_two"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:button="@drawable/custom_drawable_chkbx_dairy" />
 
-                    <CheckBox
-                        android:id="@+id/nutrition_entry_create_chkBx_Dairy_three"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:button="@drawable/custom_drawable_chkbx_dairy" />
-                    </GridLayout>
-                </RelativeLayout>
+                <!--<CheckBox-->
+                <!--android:id="@+id/nutrition_entry_create_chkBx_Dairy_one"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:button="@drawable/custom_drawable_chkbx_dairy" />-->
+
+                <!--<CheckBox-->
+                <!--android:id="@+id/nutrition_entry_create_chkBx_Dairy_two"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:button="@drawable/custom_drawable_chkbx_dairy" />-->
+
+                <!--<CheckBox-->
+                <!--android:id="@+id/nutrition_entry_create_chkBx_Dairy_three"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:button="@drawable/custom_drawable_chkbx_dairy" />-->
+
 
             </LinearLayout>
 
@@ -124,44 +133,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Vegetable" />
 
-                    <TextView
-                        android:id="@+id/nutrition_entry_create_tv_vegetable"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="Vegetable" />
+                <RatingBar
+                    android:id="@+id/nutrition_entry_create_rating_bar_vegetables"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="3"
+                    android:progressDrawable="@drawable/custom_drawable_rating_bar_vegetables"
+                    android:stepSize="1" />
 
-                        <GridLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/nutrition_entry_create_tv_vegetable"
-                            android:layout_centerHorizontal="true">
-                    <CheckBox
-                        android:id="@+id/nutrition_entry_create_chkBx_vegetable_three"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:button="@drawable/custom_drawable_chkbx_vegetables" />
-
-                    <CheckBox
-                        android:id="@+id/nutrition_entry_create_chkBx_vegetable_two"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:button="@drawable/custom_drawable_chkbx_vegetables" />
-
-                    <CheckBox
-                        android:id="@+id/nutrition_entry_create_chkBx_vegetable_one"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:button="@drawable/custom_drawable_chkbx_vegetables" />
-                        </GridLayout>
-                </RelativeLayout>
 
             </LinearLayout>
 
@@ -174,98 +162,51 @@
             android:background="@drawable/ic_nutrition_entry_protein_fruits_bg"
             android:orientation="horizontal">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                >
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/nutrition_entry_create_tv_protein"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:text="Protein" />
-                <GridLayout
-                    android:id="@+id/gridLayout1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/nutrition_entry_create_tv_protein"
-                    android:layout_centerHorizontal="true">
 
-                <CheckBox
-                    android:id="@+id/nutrition_entry_create_chkBx_protein_one"
+                <RatingBar
+                    android:id="@+id/nutrition_entry_create_rating_bar_protein"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/nutrition_entry_create_tv_protein"
-                    android:button="@drawable/custom_drawable_chkbx_protein" />
+                    android:numStars="5"
+                    android:progressDrawable="@drawable/custom_drawable_rating_bar_dairy"
+                    android:stepSize="1" />
 
-                <CheckBox
-                    android:id="@+id/nutrition_entry_create_chkBx_protein_two"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/custom_drawable_chkbx_protein" />
 
-                <CheckBox
-                    android:id="@+id/nutrition_entry_create_chkBx_protein_three"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/custom_drawable_chkbx_protein" />
-
-                <CheckBox
-                    android:id="@+id/nutrition_entry_create_chkBx_protein_four"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/custom_drawable_chkbx_protein" />
-
-                <CheckBox
-                    android:id="@+id/nutrition_entry_create_chkBx_protein_five"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/custom_drawable_chkbx_protein" />
-                </GridLayout>
-            </RelativeLayout>
+            </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.1"
+                android:gravity="center"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/nutrition_entry_create_tv_fruits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Fruits" />
 
-                    <TextView
-                        android:id="@+id/nutrition_entry_create_tv_fruits"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="Fruits" />
+                <RatingBar
+                    android:id="@+id/nutrition_entry_create_rating_bar_fruits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="2"
+                    android:progressDrawable="@drawable/custom_drawable_rating_bar_fruits"
+                    android:stepSize="1" />
 
-                    <GridLayout
-                        android:id="@+id/gridLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/nutrition_entry_create_tv_fruits"
-                        android:layout_centerInParent="true"
-                        android:columnCount="6"
-                        android:rowCount="1">
-
-                        <CheckBox
-                            android:id="@+id/nutrition_entry_create_chkBx_fruits_one"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:button="@drawable/custom_drawable_chkbx_fruits" />
-
-                        <CheckBox
-                            android:id="@+id/nutrition_entry_create_chkBx_fruits_two"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:button="@drawable/custom_drawable_chkbx_fruits" />
-                    </GridLayout>
-                </RelativeLayout>
 
             </LinearLayout>
         </LinearLayout>
@@ -274,77 +215,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.2"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ic_nutrition_entry_grains_bg">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grains" />
 
-                <TextView
-                    android:id="@+id/nutrition_entry_create_tv_grains"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerInParent="true"
-                    android:text="Grains" />
+            <RatingBar
+                android:id="@+id/nutrition_entry_create_rating_bar_grains"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="6"
+                android:progressDrawable="@drawable/custom_drawable_rating_bar_grains"
+                android:stepSize="1" />
 
-                <GridLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerInParent="true"
-                    android:columnCount="6"
-                    android:rowCount="1">
-
-                    <CheckBox
-                        android:id="@+id/nutrition_entry_create_chkBx_grains_one"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="0"
-                        android:button="@drawable/custom_drawable_chkbx_grains" />
-
-                    <CheckBox
-                        android:id="@+id/nutrition_entry_create_chkBx_grains_two"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="1"
-                        android:button="@drawable/custom_drawable_chkbx_grains" />
-
-                    <CheckBox
-                        android:id="@+id/nutrition_entry_create_chkBx_grains_three"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="2"
-                        android:button="@drawable/custom_drawable_chkbx_grains" />
-
-                    <CheckBox
-                        android:id="@+id/nutrition_entry_create_chkBx_grains_four"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:button="@drawable/custom_drawable_chkbx_grains" />
-
-                    <CheckBox
-                        android:id="@+id/nutrition_entry_create_chkBx_grains_five"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="4"
-                        android:button="@drawable/custom_drawable_chkbx_grains" />
-
-                    <CheckBox
-                        android:id="@+id/nutrition_entry_create_chkBx_grains_six"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="5"
-                        android:button="@drawable/custom_drawable_chkbx_grains" />
-
-
-                </GridLayout>
-
-            </RelativeLayout>
 
         </LinearLayout>
 
@@ -352,50 +238,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.18">
+            android:layout_weight="1.18"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Water Intake"
+               />
 
-                <TextView
-                    android:id="@+id/nutrition_entry_create_tv_water_intake"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Water Intake"
-                    android:textColor="@color/home_nutrition_progress_outer_ring_color"/>
+            <RatingBar
+                android:id="@+id/nutrition_entry_create_rating_bar_water_intake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="7"
+                android:progressDrawable="@drawable/custom_drawable_rating_bar_water"
+                android:stepSize="1" />
 
-                <SeekBar
-                    android:id="@+id/nutrition_entry_create_sb_water_intake"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:max="8"></SeekBar>
-
-                <RatingBar
-                    android:id="@+id/nutrition_entry_create_rating_bar_water_intake"
-                    style="?android:attr/ratingBarStyleIndicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerInParent="true"
-                    android:clickable="false"
-                    android:numStars="8"
-                    android:stepSize="1" />
-            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.3"
-            android:background="@drawable/ic_btn_save">
+            android:layout_weight="1.3">
+
             <Button
                 android:id="@+id/nutrition_entry_create_btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?android:attr/selectableItemBackground" />
+                android:text="save" />
         </LinearLayout>
 
     </LinearLayout>

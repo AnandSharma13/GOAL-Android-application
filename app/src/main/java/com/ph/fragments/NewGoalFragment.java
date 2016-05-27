@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.ph.Activities.NewGoal;
 import com.ph.MainActivity;
@@ -39,12 +41,11 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
 
 
     private Button mNewGoalButton;
-
-
     private CustomProgressBar mNutritionProgressBar;
     private CustomProgressBar mActivityProgressBar;
     private DBOperations mDbOperations;
-
+    private TextView mNutritionTv;
+    private TextView mActivityTv;
     private int weekNumber= -1;
     private int mFragmentPosition;
     private OnFragmentInteractionListener mListener;
@@ -92,10 +93,14 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         View view =  inflater.inflate(R.layout.fragment_new_goal, container, false);
         mActivityProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_next_goal_progress_bar_activity);
         mNutritionProgressBar = (CustomProgressBar) view.findViewById(R.id.fragment_home_progress_bar_nutrition);
-
+        mNutritionTv = (TextView) view.findViewById(R.id.fragment_new_goal_tv_nutrition);
+        mActivityTv = (TextView) view.findViewById(R.id.fragment_new_goal_tv_activity);
         mNewGoalButton = (Button) view.findViewById(R.id.btnNewGoal);
 
-
+        Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(),"fonts/Eurostile.ttf");
+        mActivityTv.setTypeface(typeFace);
+        mNutritionTv.setTypeface(typeFace);
+        mNewGoalButton.setTypeface(typeFace);
 
         //sets up click listeners..
         setBtnClickListeners();
@@ -157,6 +162,7 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         int nutritionProgress =0;
         int activityProgress =0;
         if(mFragmentPosition == 0) {
+
             nutritionProgress = mDbOperations.getWeekProgress("Nutrition");
             mNutritionProgressBar.setText(String.valueOf(nutritionProgress));
             activityProgress = mDbOperations.getWeekProgress("Activity");

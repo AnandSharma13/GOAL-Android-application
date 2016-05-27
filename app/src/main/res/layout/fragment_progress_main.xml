@@ -8,6 +8,10 @@
     android:clickable="true"
     android:orientation="vertical"
     tools:context=".fragments.ProgressMainFragment">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/nutrition_entry_select_border" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/fragment_progress_main_tab_layout_tabs"
