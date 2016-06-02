@@ -10,15 +10,13 @@ import com.ph.R;
 import com.ph.Utils.AlertDialogManager;
 import com.ph.net.SessionManager;
 
-/**
- * Created by Anup on 1/16/2016.
- */
+
 public class LoginActivity extends AppCompatActivity {
 
-    EditText firstName;
-    EditText ID;
-    Button Login;
-    SessionManager sessionManager;
+    private EditText firstName;
+    private EditText ID;
+    private Button Login;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

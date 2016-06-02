@@ -12,9 +12,7 @@ import com.ph.fragments.NutritionHistoryDetails;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Anup on 2/13/2016 .
- */
+
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> mFragmentList = new ArrayList<>();

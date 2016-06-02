@@ -151,22 +151,14 @@ public class StepsDay extends Fragment {
 
         }
 
-
-
-
-
-
        /* dataList.add(new BarEntry(2500, 1));
         dataList.add(new BarEntry(3500, 2));
         dataList.add(new BarEntry(2500, 3));
         dataList.add(new BarEntry(4500, 4));
 */
 
-
         BarDataSet dataSet = new BarDataSet(dataList, "Steps");
-
         dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-
         ArrayList<String> xVals = new ArrayList<>();
         xVals.add("Day 1");
         xVals.add("Day 2");

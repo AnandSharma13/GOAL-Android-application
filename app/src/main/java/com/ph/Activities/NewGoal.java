@@ -2,6 +2,7 @@ package com.ph.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,10 +14,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.ph.MainActivity;
 import com.ph.R;
 import com.ph.Utils.AlertDialogManager;
 import com.ph.Utils.DateOperations;
@@ -31,36 +32,45 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 
-public class NewGoal extends AppCompatActivity {
 
-    private Button mSave;
-    private EditText mEditNutGoalOnes;
-    private EditText mEditNutGoalText;
-    private EditText mEditActGoalOnes;
-    private EditText mEditActGoalText;
-    private EditText mEditTimesText;
+public class NewGoal extends AppCompatActivity implements View.OnClickListener {
+
+    @Bind(R.id.nutritionGoalOnes)
+    EditText mEditNutGoalOnes;
+    @Bind(R.id.nutritionGoalText)
+    EditText mEditNutGoalText;
+    @Bind(R.id.activityGoalOnes)
+    EditText mEditActGoalOnes;
+    @Bind(R.id.activityGoalText)
+    EditText mEditActGoalText;
+    @Bind(R.id.activity_tv_new_goal_times)
+    EditText mEditTimesText;
+    @Bind(R.id.past_goal_nutrition)
+    Button pastGoalNutrition;
+    @Bind(R.id.past_goal_activity)
+    Button pastGoalActivity;
+    @Bind(R.id.app_bar)
+    Toolbar mToolbar;
 
     private DateOperations dateOperations;
     private DBOperations dbOperations;
+    private UserGoal currentActivityGoal;
+    private UserGoal currentNutritionGoal;
+    private int prefsNutCount;
+    private int prefsActCount;
+    private int prefsActTimes;
+    private int userId;
+    private int operatingWeek;
+    private int currentWeek;
+    private String prefsActText;
+    private String prefsNutText;
+    private TextView mToolbarText;
 
-    UserGoal currentActivityGoal;
-    UserGoal currentNutritionGoal;
-    int prefsNutCount;
-    String prefsNutText;
-    int prefsActCount;
-    int prefsActTimes;
-    String prefsActText;
-
-    private Button pastGoalNutrition;
-    private Button pastGoalActivity;
-    private Toolbar toolbar;
-
-
-    int userId,operatingWeek,currentWeek;
-    static int count = 0;
 
     public final ArrayList<String> tablesList = new ArrayList<String>() {{
         add(UserGoal.tableName);
@@ -73,98 +83,77 @@ public class NewGoal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_goal);
+        ButterKnife.bind(this);
 
-        mEditNutGoalOnes = (EditText) findViewById(R.id.nutritionGoalOnes);
-        mEditNutGoalText = (EditText) findViewById(R.id.nutritionGoalText);
-        mEditActGoalOnes = (EditText) findViewById(R.id.activityGoalOnes);
-        mEditActGoalText = (EditText) findViewById(R.id.activityGoalText);
-        mEditTimesText = (EditText) findViewById(R.id.activity_tv_new_goal_times);
         dateOperations = new DateOperations(this);
         dbOperations = new DBOperations(this);
+        pastGoalActivity.setOnClickListener(this);
+        pastGoalNutrition.setOnClickListener(this);
 
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-        pastGoalActivity = (Button) findViewById(R.id.past_goal_activity);
-        pastGoalNutrition = (Button) findViewById(R.id.past_goal_nutrition);
-        getSupportActionBar().setTitle("New Goal");
-
-
-       getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.home_fragment_btn_new_goal_color)));
-        pastGoalActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialogManager alertDialogManager = new AlertDialogManager();
-                alertDialogManager.showPastGoalsDialog(NewGoal.this,"Use Past Goals","Activity");
-            }
-        });
-
-        pastGoalNutrition.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialogManager alertDialogManager = new AlertDialogManager();
-                alertDialogManager.showPastGoalsDialog(NewGoal.this,"Use Past Goals","Nutrition");
-            }
-        });
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        updateToolBar();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         //Get the operating week of the program. It could be the current or period or the next one. Known bug: operating_week is not reset. Change the
         //implementation.
 
-        operatingWeek = prefs.getInt("operating_week",-1);
+        operatingWeek = prefs.getInt("operating_week", -1);
         currentWeek = dateOperations.getWeeksTillDate(new Date());
 
-        if(operatingWeek == -1)
-        {
+        if (operatingWeek == -1) {
             operatingWeek = currentWeek;
         }
 
 
-        if(operatingWeek == currentWeek) {
+        if (operatingWeek == currentWeek) {
             currentActivityGoal = dbOperations.getCurrentGoalInfo("Activity");
             currentNutritionGoal = dbOperations.getCurrentGoalInfo("Nutrition");
-        }
-        else {
+        } else {
             currentActivityGoal = dbOperations.getuserGoalFromDB("Activity", currentWeek);
             currentNutritionGoal = dbOperations.getuserGoalFromDB("Nutrition", currentWeek);
         }
 
 
-        if(currentActivityGoal == null)
-        {
+        if (currentActivityGoal == null) {
             prefsActCount = -1;
-            prefsActText="";
-        }
-        else
-        {
+            prefsActText = "";
+        } else {
             prefsActCount = currentActivityGoal.getWeekly_count();
             prefsActText = currentActivityGoal.getText();
-            prefsActTimes =  currentActivityGoal.getTimes();
-            setValues(prefsActCount,prefsActText,"Activity", prefsActTimes);
-
+            prefsActTimes = currentActivityGoal.getTimes();
+            setValues(prefsActCount, prefsActText, "Activity", prefsActTimes);
         }
 
-
-        if(currentNutritionGoal == null)
-        {
+        if (currentNutritionGoal == null) {
             prefsNutCount = -1;
-            prefsNutText = "";
-        }
-        else
-        {
+            setPrefsNutText("");
+        } else {
             prefsNutCount = currentNutritionGoal.getWeekly_count();
-            prefsNutText = currentNutritionGoal.getText();
-            setValues(prefsNutCount,prefsNutText,"Nutrition",0);
+            setPrefsNutText(currentNutritionGoal.getText());
+            setValues(prefsNutCount, getPrefsNutText(), "Nutrition", 0);
         }
 
     }
 
-    public void setValues(int count,String text,String type, int times) {
+    public void updateToolBar() {
+        mToolbarText = (TextView) mToolbar.findViewById(R.id.app_bar_tv_title);
+        mToolbarText.setText("New Goal");
+ //       mToolbarText.setTextColor(ContextCompat.getColor(this, R.color.black));
+        Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/Eurostile.ttf");
+        mToolbarText.setTypeface(custom_font);
+        mToolbar.setBackground(new ColorDrawable(ContextCompat.getColor(this, R.color.white)));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+    }
+
+    public void setValues(int count, String text, String type, int times) {
         if (type == "Nutrition") {
             mEditNutGoalOnes.setText(String.valueOf(count));
             mEditNutGoalText.setText(text);
-        }
-        else if (type == "Activity") {
+        } else if (type == "Activity") {
             mEditActGoalOnes.setText(String.valueOf(count));
             mEditActGoalText.setText(text);
             mEditTimesText.setText(String.valueOf(times));
@@ -175,14 +164,8 @@ public class NewGoal extends AppCompatActivity {
 
         int nutritionGoalCount = Integer.parseInt(mEditNutGoalOnes.getText().toString());
         String nutritionGoalText = mEditNutGoalText.getText().toString();
-    //    int nutritionGoalCount = nutritionGoalTens * 10 + nutritionGoalOnes * 1;
-
-
         int activityGoalCount = Integer.parseInt(mEditActGoalOnes.getText().toString());
-
         String activityGoalText = mEditActGoalText.getText().toString();
-    //    int activityGoalCount = activityGoalHundreds * 100 + activityGoalTens * 10 + activityGoalOnes * 1;
-
         int activityTimes = Integer.parseInt(mEditTimesText.getText().toString());
         GoalPeriod goalPeriod = getGoalPeriod();
         String startDate = goalPeriod.startDate;
@@ -193,16 +176,15 @@ public class NewGoal extends AppCompatActivity {
         userId = Integer.parseInt(prefs.getString("user_id", "-1"));
 
 
-
         //checking for nutrition goal
-        if (prefsNutCount != nutritionGoalCount || !prefsNutText.equals(nutritionGoalText)) {
+        if (prefsNutCount != nutritionGoalCount || !getPrefsNutText().equals(nutritionGoalText)) {
 
-            UserGoal nutritionGoal = new UserGoal(userId, "Nutrition", startDate, endDate, nutritionGoalCount, nutritionGoalText,0);
+            UserGoal nutritionGoal = new UserGoal(userId, "Nutrition", startDate, endDate, nutritionGoalCount, nutritionGoalText, 0);
             long id = insertGoal(nutritionGoal, view);
             nutritionGoal.setGoal_id(id);
 
 
-            if(operatingWeek == currentWeek) {
+            if (operatingWeek == currentWeek) {
                 Gson gson = new Gson();
                 String nutritionUserGoal = gson.toJson(nutritionGoal);
                 SharedPreferences.Editor editor = prefs.edit();
@@ -214,25 +196,23 @@ public class NewGoal extends AppCompatActivity {
 
 
         //checking for activity goal
-        if (prefsActCount != activityGoalCount  || prefsActTimes != activityTimes || !prefsActText.equals(activityGoalText)) {
+        if (prefsActCount != activityGoalCount || prefsActTimes != activityTimes || !prefsActText.equals(activityGoalText)) {
             UserGoal activityGoal = new UserGoal(userId, "Activity", startDate, endDate, activityGoalCount, activityGoalText, activityTimes);
             long id = insertGoal(activityGoal, view);
             activityGoal.setGoal_id(id);
 
-            if(operatingWeek == currentWeek) {
+            if (operatingWeek == currentWeek) {
                 SharedPreferences.Editor editor = prefs.edit();
                 Gson gson = new Gson();
 
                 String activityUserGoal = gson.toJson(activityGoal);
                 editor.putString("current_activity_goal", activityUserGoal); //stored as json.
-                editor.putInt("current_goal_week_record",currentWeek);
+                editor.putInt("current_goal_week_record", currentWeek);
                 editor.commit();
             }
 
         }
-        Toast.makeText(NewGoal.this,"Changes Saved",Toast.LENGTH_SHORT).show();
-
-
+        Toast.makeText(NewGoal.this, "Changes Saved", Toast.LENGTH_SHORT).show();
 
         Bundle settingsBundle = new Bundle();
         settingsBundle.putString("Type", "ClientSync");
@@ -245,46 +225,53 @@ public class NewGoal extends AppCompatActivity {
         Log.i("NewGoal", "Goal inserted");
         Snackbar.make(view, "New goal created. Check Goal2 database ", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
-
         // Redirect to main activity.
-                Intent i = new Intent(NewGoal.this, MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
+        Intent i = new Intent(NewGoal.this, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
 
     }
 
     public long insertGoal(UserGoal goal, View view) throws ParseException {
-
-
-
         long id = dbOperations.insertRow(goal);
         Log.i("Goal button", String.valueOf(id));
-
         return id;
-
     }
 
     public GoalPeriod getGoalPeriod() {
 
-
         StartEndDateObject goalWeek = dateOperations.getDatesFromWeekNumber(operatingWeek);
-
         Date startDate;
-        if(operatingWeek == dateOperations.getWeeksTillDate(new Date()))
+        if (operatingWeek == dateOperations.getWeeksTillDate(new Date()))
             startDate = new Date();
         else
             startDate = goalWeek.startDate;
-
-                    Date endDate = goalWeek.endDate;
-
-
+        Date endDate = goalWeek.endDate;
         GoalPeriod goalPeriod = new GoalPeriod(dateOperations.getMysqlDateFormat().format(startDate), dateOperations.getMysqlDateFormat().format(endDate));
         return goalPeriod;
     }
 
 
+    @Override
+    public void onClick(View v) {
+        AlertDialogManager alertDialogManager = new AlertDialogManager();
+        switch (v.getId()) {
+            case R.id.past_goal_activity:
+                alertDialogManager.showPastGoalsDialog(NewGoal.this, "Use Past Goals", "Activity");
+                break;
+            case R.id.past_goal_nutrition:
+                alertDialogManager.showPastGoalsDialog(NewGoal.this, "Use Past Goals", "Nutrition");
+                break;
+        }
+    }
 
+    private String getPrefsNutText() {
+        return prefsNutText;
+    }
 
+    private void setPrefsNutText(String prefsNutText) {
+        this.prefsNutText = prefsNutText;
+    }
 }
 
 class GoalPeriod {

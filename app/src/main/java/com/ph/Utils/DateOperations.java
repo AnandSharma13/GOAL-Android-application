@@ -38,12 +38,9 @@ public class DateOperations {
     public StartEndDateObject getDatesFromWeekNumber(int weeks)
     {
         DateTime startDate = new DateTime(programStartDate);
-
         DateTime weekStart = startDate.plusWeeks(weeks);
         DateTime weekEnd = weekStart.plusDays(6);
-
         StartEndDateObject startEndDate = new StartEndDateObject();
-
         startEndDate.startDate = weekStart.toDate();
         startEndDate.endDate = weekEnd.toDate();
         return startEndDate;
@@ -51,9 +48,7 @@ public class DateOperations {
 
     public StartEndDateObject getDatesForToday()
     {
-
         int weeks = getWeeksTillDate(currentDate);
-
         return getDatesFromWeekNumber(weeks);
     }
 
@@ -61,7 +56,6 @@ public class DateOperations {
     public StartEndDateObject getDatesforDate(Date givenDate)
     {
         int weeks = getWeeksTillDate(givenDate);
-
         return getDatesFromWeekNumber(weeks);
     }
 
@@ -76,9 +70,7 @@ public class DateOperations {
     {
         DateTime startDate = new DateTime(programStartDate);
         DateTime endDate = new DateTime(givenDate);
-
         return Weeks.weeksBetween(startDate,endDate).getWeeks();
-
     }
 
 
@@ -87,7 +79,6 @@ public class DateOperations {
     }
 
     public Date getProgramStartDate() {
-
         return programStartDate;
     }
 

@@ -1,8 +1,5 @@
 package com.ph.net;
 
-/**
- * Created by Anup on 1/16/2016 .
- */
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +12,7 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ph.Activities.LoginActivity;
-import com.ph.MainActivity;
+import com.ph.Activities.MainActivity;
 import com.ph.R;
 import com.ph.Utils.AlertDialogManager;
 import com.ph.model.DBHandler;

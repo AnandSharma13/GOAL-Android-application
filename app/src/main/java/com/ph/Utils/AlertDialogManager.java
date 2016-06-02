@@ -1,8 +1,5 @@
 package com.ph.Utils;
 
-/**
- * Created by Anup on 1/17/2016.
- */
 
 import android.app.AlertDialog;
 import android.content.Context;

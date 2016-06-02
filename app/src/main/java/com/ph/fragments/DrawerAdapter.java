@@ -13,9 +13,6 @@ import com.ph.R;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by Anand on 1/12/2016.
- */
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.MyViewHolder> {
     private final LayoutInflater inflater;
 
@@ -35,7 +32,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
         DrawerListData current = list.get(position);
         holder.title.setText(current.getTitle());
         holder.image.setImageResource(current.getListId());

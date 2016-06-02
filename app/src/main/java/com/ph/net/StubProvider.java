@@ -5,9 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
-/**
- * Created by Anup on 24-12-15.
- */
+
 /*
  * Define an implementation of ContentProvider that stubs out
  * all methods

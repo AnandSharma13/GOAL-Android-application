@@ -48,19 +48,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-//        String userTable = "create table " + com.ph.model.User.tableName + "("
-//                + com.ph.model.User.column_userID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
-//                + com.ph.model.User.column_firstName + " TEXT, "
-//                + com.ph.model.User.column_lastName + " TEXT, "
-//                + com.ph.model.User.column_type + " TEXT, "
-//                + com.ph.model.User.column_age + " INTEGER, "
-//                + com.ph.model.User.column_phone + " TEXT, "
-//                + com.ph.model.User.column_gender + " TEXT, "
-//                + com.ph.model.User.column_program + " TEXT, "
-//                + com.ph.model.User.column_rewardsCount + " INTEGER, "
-//                + com.ph.model.User.column_sync + " INTEGER )";
-
         String userGoalTable = "create table " + UserGoal.tableName + "("
                 + UserGoal.column_goalID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
                 + UserGoal.column_userID + " INTEGER, "

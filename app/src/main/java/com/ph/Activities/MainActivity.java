@@ -1,11 +1,10 @@
-package com.ph;
+package com.ph.Activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,10 +20,13 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ph.Activities.SettingsActivity;
+import com.ph.R;
+import com.ph.TempMain;
+import com.ph.fragments.SettingsFragment;
 import com.ph.fragments.ActivityHistoryDetails;
 import com.ph.fragments.ActivityHistoryFragment;
 import com.ph.fragments.CustomDividerItemDecoration;
@@ -49,18 +51,30 @@ import com.ph.fragments.StepsDay;
 import com.ph.fragments.StepsWeek;
 import com.ph.net.SessionManager;
 import com.ph.net.SyncUtils;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity implements SettingsActivity.OnFragmentInteractionListener, NewGoalFragment.OnFragmentInteractionListener,
+
+/*
+
+    Entry point of the Application.
+    Parent activity of all fragments in the appication.
+ */
+
+public class MainActivity extends AppCompatActivity implements RecyclerView.OnItemTouchListener, SettingsFragment.OnFragmentInteractionListener, NewGoalFragment.OnFragmentInteractionListener,
         RewardsFragment.OnFragmentInteractionListener, StepsWeek.OnFragmentInteractionListener, StepsDay.OnFragmentInteractionListener, ProgressStepsFragment.OnFragmentInteractionListener, ProgressNutritionDetails.OnFragmentInteractionListener, ProgressMainFragment.OnFragmentInteractionListener, ProgressActivityDetails.OnFragmentInteractionListener, ProgressNutritionFragment.OnFragmentInteractionListener, ProgressActivityFragment.OnFragmentInteractionListener, NextGoalFragment.OnFragmentInteractionListener, HistoryMainFragment.OnFragmentInteractionListener, ActivityHistoryFragment.OnFragmentInteractionListener, NutritionHistoryFragment.OnFragmentInteractionListener, GoalHistoryFragment.OnFragmentInteractionListener, ActivityHistoryDetails.OnFragmentInteractionListener, NutritionHistoryDetails.OnFragmentInteractionListener, GoalHistoryDetails.OnFragmentInteractionListener {
 
-
+    @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     private SessionManager sessionManager;
-    private RecyclerView mDrawerRecylerView;
+    @Bind(R.id.drawerList)
+    RecyclerView mDrawerRecylerView;
     private ActionBarDrawerToggle mDrawerToggle;
-    private Toolbar mToolbar;
+    @Bind(R.id.app_bar)
+    Toolbar mToolbar;
     private TextView mToolbarText;
+    private GestureDetector drawerGestureDector;
 
 
     @Override
@@ -68,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         //Check LOGIN status
         sessionManager = new SessionManager(this);
@@ -75,24 +90,15 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
             return;
         }
 
-
-        mToolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         updateToolbar("GOAL", R.color.white, R.color.black);
 
-
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
 
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        mDrawerRecylerView = (RecyclerView) mDrawerLayout.findViewById(R.id.drawerList);
         mDrawerRecylerView.addItemDecoration(new CustomDividerItemDecoration(ContextCompat.getDrawable(getApplicationContext(), R.drawable.navigation_drawer_row_line)));
-
-        final GestureDetector drawerGestureDector = new GestureDetector(MainActivity.this, new GestureDetector.SimpleOnGestureListener() {
-
+        drawerGestureDector = new GestureDetector(MainActivity.this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
                 return true;
@@ -114,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
             }
         });
 
-
         mDrawerLayout.setDrawerListener(getmDrawerToggle());
         getmDrawerToggle().syncState();
 
@@ -133,67 +138,12 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
             }
         });
 
-        mDrawerRecylerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                View child = rv.findChildViewUnder(e.getX(), e.getY());
-
-                if (child != null && drawerGestureDector.onTouchEvent(e)) {
-                    mDrawerLayout.closeDrawers();
-                    RecyclerView.ViewHolder vh = rv.getChildViewHolder(child);
-                    DrawerAdapter drawerAdapter = (DrawerAdapter) rv.getAdapter();
-
-                    String title = drawerAdapter.getList().get(rv.getChildAdapterPosition(child)).getTitle();
-                    Intent intent;
-                    //TODO: Refactor the names
-                    switch (title) {
-                        case "Logout":
-                            sessionManager.logoutUser();
-                            break;
-                        case "Temp":
-                            intent = new Intent(MainActivity.this, TempMain.class);
-                            startActivity(intent);
-                            break;
-                        case "Settings":
-                            setFragment(new SettingsActivity(), true);
-                            break;
-                        case "History":
-                            setFragment(new HistoryMainFragment(), true);
-                            break;
-
-                        case "Reward":
-                            setFragment(new RewardsFragment(), true);
-                            break;
-                        case "Progress":
-                            setFragment(new ProgressMainFragment(), true);
-                            break;
-                        default:
-                            Toast.makeText(MainActivity.this, "The Item Clicked is: " + title, Toast.LENGTH_SHORT).show();
-
-                            return true;
-                    }
-                }
-
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
-
+        mDrawerRecylerView.addOnItemTouchListener(this);
         SyncUtils.CreateSyncAccount(this);
-
         getSupportFragmentManager().addOnBackStackChangedListener(getListener());
-
         setFragment(new HomeFragment(), false);
     }
+
 
 
     private FragmentManager.OnBackStackChangedListener getListener() {
@@ -205,27 +155,13 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
                     if (backStackEntryCount == 0) {
                         finish();
                     }
-
                     Log.i("Inside back stack", String.valueOf(backStackEntryCount));
-                    FragmentManager.BackStackEntry backStackEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
-
                     if (backStackEntryCount == 1) {
                         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
                                 fragment.onResume();
                                 break;
                         }
                     }
-
-/*
-                    for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-                        if (backStackEntry.getName() != null && backStackEntry.getName().contains(fragment.getClass().getSimpleName())) {
-                            Log.i("Inside back stack", "heyyyy");
-                            fragment.onResume();
-                            break;
-                        }
-                    }
-*/
-
                 }
             }
         };
@@ -234,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
 
     public void setFragment(Fragment fragment, boolean isNavigationDrawerItem) {
-        String fragmentName = fragment.getClass().getName();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.fade_out);
@@ -256,11 +191,14 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
 
     @Override
     public void onBackPressed() {
+        View view = this.getCurrentFocus();
+        if(view !=null){
+            InputMethodManager obj = (InputMethodManager)getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+            obj.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
         if (getSupportFragmentManager().getBackStackEntryCount() > 2) {
-
             getSupportFragmentManager().popBackStack();
-
-
         } else if (getSupportFragmentManager().getBackStackEntryCount() == 2) {
             updateToolbar("GOAL", R.color.white, R.color.black);
             getmDrawerToggle().setDrawerIndicatorEnabled(true);
@@ -313,4 +251,55 @@ public class MainActivity extends AppCompatActivity implements SettingsActivity.
     }
 
 
+    @Override
+    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+        View child = rv.findChildViewUnder(e.getX(), e.getY());
+
+        if (child != null && drawerGestureDector.onTouchEvent(e)) {
+            mDrawerLayout.closeDrawers();
+            RecyclerView.ViewHolder vh = rv.getChildViewHolder(child);
+            DrawerAdapter drawerAdapter = (DrawerAdapter) rv.getAdapter();
+
+            String title = drawerAdapter.getList().get(rv.getChildAdapterPosition(child)).getTitle();
+            Intent intent;
+            //TODO: Refactor the names
+            switch (title) {
+                case "Logout":
+                    sessionManager.logoutUser();
+                    break;
+                case "Temp":
+                    intent = new Intent(MainActivity.this, TempMain.class);
+                    startActivity(intent);
+                    break;
+                case "Settings":
+                    setFragment(new SettingsFragment(), true);
+                    break;
+                case "History":
+                    setFragment(new HistoryMainFragment(), true);
+                    break;
+                case "Reward":
+                    setFragment(new RewardsFragment(), true);
+                    break;
+                case "Progress":
+                    setFragment(new ProgressMainFragment(), true);
+                    break;
+                default:
+                    Toast.makeText(MainActivity.this, "The Item Clicked is: " + title, Toast.LENGTH_SHORT).show();
+
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+    }
+
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+    }
 }

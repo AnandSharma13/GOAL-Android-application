@@ -2,8 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@android:id/background"
-        android:drawable="@mipmap/ic_chkbx_bw_vegetables" />
+        android:drawable="@mipmap/ic_nutrition_entry_water_intake_bw" />
     <item
         android:id="@android:id/progress"
-        android:drawable="@mipmap/ic_chkbx_color_vegetables" />
+        android:drawable="@mipmap/ic_nutrition_entry_water_intake_color" />
 </layer-list>

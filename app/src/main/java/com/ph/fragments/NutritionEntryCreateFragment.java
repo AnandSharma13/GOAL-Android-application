@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +16,9 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.RatingBar;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
-import com.ph.MainActivity;
+import com.ph.Activities.MainActivity;
 import com.ph.R;
 import com.ph.Utils.AlertDialogManager;
 import com.ph.Utils.DateOperations;
@@ -29,8 +26,6 @@ import com.ph.model.DBOperations;
 import com.ph.model.NutritionEntry;
 import com.ph.model.UserGoal;
 import com.ph.net.SyncUtils;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

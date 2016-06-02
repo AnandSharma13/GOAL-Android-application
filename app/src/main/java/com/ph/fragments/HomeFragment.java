@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ph.MainActivity;
+import com.ph.Activities.MainActivity;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.StepsCountClick;
@@ -75,9 +75,9 @@ public class HomeFragment extends Fragment {
     @Bind(R.id.fragment_home_tv_average_steps_count_text)
      TextView averageStepsCountText;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+//    public HomeFragment() {
+//        // Required empty public constructor
+//    }
 
     /**
      * Use this factory method to create a new instance of
@@ -105,8 +105,8 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mDbOperations = new DBOperations(getContext());
-
     }
+
 
 
     @Override
@@ -116,10 +116,6 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
         changeToolBarTitle(currentWeekToolBarText);
-
-
-
-
 
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -162,11 +158,8 @@ public class HomeFragment extends Fragment {
 
         mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
 
-
         Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Eurostile.ttf");
-        // Typeface custom_font2 = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaNeue.ttf");
         mStepsCount.setTypeface(custom_font);
-
         stepsCountText.setTypeface(custom_font);
         averageStepsCount.setTypeface(custom_font);
         averageStepsCountText.setTypeface(custom_font);
@@ -177,7 +170,6 @@ public class HomeFragment extends Fragment {
                 mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
             }
         }));
-      //  setupViewPages(mViewPager);
 
         return view;
     }

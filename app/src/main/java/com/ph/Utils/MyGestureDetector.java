@@ -20,12 +20,10 @@ public class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
 
    public MyGestureDetector(Context context) {
         this.context = context;
-
     }
 
     @Override
     public boolean onDown(MotionEvent e) {
-
         mLastOnDownEvent = e;
         return super.onDown(e);
     }

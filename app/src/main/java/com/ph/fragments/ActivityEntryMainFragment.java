@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ph.MainActivity;
+import com.ph.Activities.MainActivity;
 import com.ph.R;
 import com.ph.Utils.DateOperations;
 import com.ph.Utils.Dateutils;
@@ -91,27 +91,26 @@ public class ActivityEntryMainFragment extends Fragment {
         Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Eurostile.ttf");
         activityDate.setTypeface(custom_font);
 
+        Button btnCardio, btnStrength,btnLifeStyle;
 
-        Button button, button1,button2;
+        btnCardio = (Button) view.findViewById(R.id.fragment_activity_entry_main_btn_cardio);
+        btnStrength = (Button) view.findViewById(R.id.fragment_activity_entry_main_btn_strength);
+        btnLifeStyle = (Button) view.findViewById(R.id.fragment_activity_entry_main_btn_lifestyle);
 
-        button = (Button) view.findViewById(R.id.button);
-        button1 = (Button) view.findViewById(R.id.button1);
-        button2 = (Button) view.findViewById(R.id.button3);
-
-        button.setOnClickListener(new View.OnClickListener() {
+        btnCardio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activityClick(v);
             }
         });
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        btnStrength.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activityClick(v);
             }
         });
-        button2.setOnClickListener(new View.OnClickListener() {
+        btnLifeStyle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activityClick(v);

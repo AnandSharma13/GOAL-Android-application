@@ -106,7 +106,8 @@ public class ProgressActivityDetails extends Fragment {
         }
         int activityCount = userGoalActivity.getTimes() * userGoalActivity.getWeekly_count();
 
-        int weekProgress = dbOperations.getGoalProgressCountForWeek(weekNumber,"Activity");
+//      int weekProgress = dbOperations.getGoalProgressCountForWeek(weekNumber,"Activity");
+        int weekProgress = dbOperations.getWeekProgress("Activity");
         activityInfo.setText(goalInfo.getWeekly_count() + " " + goalInfo.getType());
         mCustomProgressBar.setAim_text("Aim " + String.valueOf(activityCount));
         mCustomProgressBar.setMax(activityCount);

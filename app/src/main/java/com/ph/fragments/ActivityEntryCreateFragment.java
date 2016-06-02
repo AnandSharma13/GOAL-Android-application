@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
-import android.widget.RatingBar;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ph.Adapters.ActivityViewAdapter;
-import com.ph.MainActivity;
+import com.ph.Activities.MainActivity;
 import com.ph.R;
 import com.ph.Utils.AlertDialogManager;
 import com.ph.model.Activity;
@@ -36,15 +33,14 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by Anup on 1/16/2016.
- */
-public class ActivityEntryCreateFragment extends Fragment{
+
+public class ActivityEntryCreateFragment extends Fragment implements View.OnClickListener {
 
     public static String activity_type = "";
     private static String date = "";
     public List<Activity> mData;
-    @Bind(R.id.activity_recycler_view) RecyclerView mRecyclerView;
+    @Bind(R.id.activity_recycler_view)
+    RecyclerView mRecyclerView;
     @Bind(R.id.activity_entry_create_number_picker_rpe)
     NumberPicker numberPickerRPE;
     @Bind(R.id.activity_entry_create_number_picker_time)
@@ -74,10 +70,6 @@ public class ActivityEntryCreateFragment extends Fragment{
     private int rpeCount = 0;
     private int timeCount = 0;
 
-    //  private final int minValueOffset = 6;
-
-    private Toolbar toolbar;
-
     public static ActivityEntryCreateFragment newInstance(String param1, String param2) {
         ActivityEntryCreateFragment fragment = new ActivityEntryCreateFragment();
         Bundle args = new Bundle();
@@ -96,28 +88,70 @@ public class ActivityEntryCreateFragment extends Fragment{
             date = getArguments().getString("DATE");
         }
 
-        ((MainActivity)getActivity()).updateToolbar(activity_type,R.color.activity_entry_app_bar,R.color.white);
-        ((MainActivity)getActivity()).setDrawerState(false);
-
-        //((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(activity_type);
-        //((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(getContext().getDrawable(R.color.activity_entry_app_bar));
-
-
+        ((MainActivity) getActivity()).updateToolbar(activity_type, R.color.activity_entry_app_bar, R.color.white);
+        ((MainActivity) getActivity()).setDrawerState(false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        View view = inflater.inflate(R.layout.activity_entry_create_fragment,container,false);
+        View view = inflater.inflate(R.layout.activity_entry_create_fragment, container, false);
         ButterKnife.bind(this, view);
 
         rpeCount = numberPickerRPE.getValue();
         timeCount = numberPickerTime.getMaxValue();
+        commentButton.setOnClickListener(this);
+        rpeAddButton.setOnClickListener(this);
+        rpeMinusButton.setOnClickListener(this);
+        timeMinusButton.setOnClickListener(this);
+        timeAddButton.setOnClickListener(this);
+        saveButton.setOnClickListener(this);
+        numberPickerRPE.setWrapSelectorWheel(false);
+        numberPickerTime.setWrapSelectorWheel(false);
 
-        commentButton.setOnClickListener(new View.OnClickListener() {
+        numberPickerRPE.setMinValue(6);
+        numberPickerRPE.setMaxValue(20);
+        numberPickerTime.setMinValue(0);
+        numberPickerTime.setMaxValue(120);
+        numberPickerRPE.setValue(numberPickerRPE.getValue());
+
+        if (numberPickerRPE.getValue() == 6 || numberPickerTime.getValue() == 0)
+            saveButton.setEnabled(false);
+        //Set Onchange listeners...
+
+        numberPickerRPE.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                if (newVal > oldVal)
+                    saveButton.setEnabled(true);
+            }
+        });
+
+        numberPickerTime.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                if (newVal > oldVal)
+                    saveButton.setEnabled(true);
+            }
+        });
+
+        mRecyclerView.setHasFixedSize(true);
+        dbOperations = new DBOperations(getContext());
+        layoutManager = new GridLayoutManager(getContext(), 3);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mData = dbOperations.getActivities(activity_type);
+        activityViewAdapter = new ActivityViewAdapter(getContext(), mData);
+        adapter = activityViewAdapter;
+        mRecyclerView.setAdapter(adapter);
+        return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int newVal=0;
+        switch (v.getId()) {
+            case R.id.activity_entry_comment:
                 LayoutInflater li = LayoutInflater.from(getContext());
                 View dialogView = li.inflate(R.layout.activity_entry_comment, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -143,108 +177,34 @@ public class ActivityEntryCreateFragment extends Fragment{
                                 });
                 // create alert dialog
                 AlertDialog alertDialog = builder.create();
-
                 // show it
                 alertDialog.show();
-
-            }
-        });
-        numberPickerRPE.setWrapSelectorWheel(false);
-        numberPickerTime.setWrapSelectorWheel(false);
-
-        numberPickerRPE.setMinValue(6);
-        numberPickerRPE.setMaxValue(20);
-        numberPickerTime.setMinValue(0);
-        numberPickerTime.setMaxValue(120);
-
-        rpeAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.btn_rpe_add:
                 numberPickerRPE.setValue(numberPickerRPE.getValue() + 1);
-                        int newVal = numberPickerRPE.getValue();
-                        if ((newVal - rpeCount) > 0)
-                            saveButton.setEnabled(true);
-
-
-            }
-        });
-
-        rpeMinusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                numberPickerRPE.setValue(numberPickerRPE.getValue() - 1);
-                int newVal = numberPickerRPE.getValue();
+                newVal = numberPickerRPE.getValue();
                 if ((newVal - rpeCount) > 0)
                     saveButton.setEnabled(true);
-            }
-        });
-
-
-        timeMinusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.btn_rpe_minus:
+                numberPickerRPE.setValue(numberPickerRPE.getValue() - 1);
+                newVal = numberPickerRPE.getValue();
+                if ((newVal - rpeCount) > 0)
+                    saveButton.setEnabled(true);
+                break;
+            case R.id.btn_time_minus:
                 numberPickerTime.setValue(numberPickerTime.getValue() - 1);
-                int newVal = numberPickerTime.getValue();
+                newVal = numberPickerTime.getValue();
                 if ((newVal - timeCount) > 0)
                     saveButton.setEnabled(true);
-            }
-        });
-        timeAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.btn_time_add:
                 numberPickerTime.setValue(numberPickerTime.getValue() + 1);
-                int newVal = numberPickerTime.getValue();
+                newVal = numberPickerTime.getValue();
                 if ((newVal - timeCount) > 0)
-                    saveButton.setEnabled(true);            }
-        });
-
-        numberPickerRPE.setValue(numberPickerRPE.getValue());
-
-
-        if (numberPickerRPE.getValue() == 6 || numberPickerTime.getValue() == 0)
-            saveButton.setEnabled(false);
-        //Set Onchange listeners...
-
-        numberPickerRPE.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                    if(newVal>oldVal)
-                        saveButton.setEnabled(true);
-            }
-        });
-
-        numberPickerTime.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                if(newVal>oldVal)
                     saveButton.setEnabled(true);
-            }
-        });
-
-        mRecyclerView.setHasFixedSize(true);
-
-        dbOperations = new DBOperations(getContext());
-
-        layoutManager = new GridLayoutManager(getContext(), 3);
-
-        mRecyclerView.setLayoutManager(layoutManager);
-
-        // activity_type = getIntent().getExtras().getString("key");
-        // date = getIntent().getExtras().getString("date");
-
-
-
-        mData = dbOperations.getActivities(activity_type);
-        activityViewAdapter = new ActivityViewAdapter(getContext(), mData);
-        adapter = activityViewAdapter;
-
-
-        mRecyclerView.setAdapter(adapter);
-
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.activity_entry_save:
                 ActivityEntry activityEntry = new ActivityEntry();
                 int selectedActivity = activityViewAdapter.getSelectedPos();
 
@@ -269,32 +229,19 @@ public class ActivityEntryCreateFragment extends Fragment{
                 activityEntry.setActivity_length(String.valueOf(timeVal));
                 activityEntry.setDate(date);
 
-
                 dbOperations.insertRow(activityEntry);
-
                 Bundle settingsBundle = new Bundle();
                 settingsBundle.putString("Type", "ClientSync");
-
                 settingsBundle.putInt("ListSize", 1);
-
                 settingsBundle.putString("Table " + 0, ActivityEntry.tableName);
-
                 SyncUtils.TriggerRefresh(settingsBundle);
-
                 //Notify the user.
                 Toast.makeText(getContext(), "Activity Entry succesfully recorded", Toast.LENGTH_SHORT).show();
-
                 //Redirect to main activity.
                 Intent i = new Intent(getContext(), MainActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 ActivityEntryCreateFragment.this.startActivity(i);
-
-
-            }
-        });
-
-
-        return view;
+                break;
+        }
     }
-
 }

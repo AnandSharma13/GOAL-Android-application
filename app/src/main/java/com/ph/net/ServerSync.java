@@ -17,9 +17,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 
-/**
- * Created by Anup on 1/17/2016.
- */
+
 public class ServerSync {
     private Context context;
     private DBOperations dbOperations;
@@ -27,7 +25,6 @@ public class ServerSync {
     public ServerSync(Context context) {
         this.context = context;
         dbOperations = new DBOperations(context);
-
     }
 
     public void insertRows(String tableName, JSONArray jArray) throws ParseException {
@@ -55,7 +52,6 @@ public class ServerSync {
             case NutritionEntry.tableName:
                 Log.i("insertRows", "Insert Nutrition Entry Table");
                 insertNutritionEntryTableRows(jArray);
-
                 break;
         }
     }
@@ -65,8 +61,6 @@ public class ServerSync {
 
 
         for (int i = 0; i < jArray.length(); i++) {
-
-
             try {
                 JSONObject row = jArray.optJSONObject(i);
 
@@ -100,8 +94,6 @@ public class ServerSync {
 
     private void insertActivityEntryTableRows(JSONArray jArray) {
         for (int i = 0; i < jArray.length(); i++) {
-
-
             try {
                 JSONObject row = jArray.optJSONObject(i);
                 ActivityEntry activityEntry = new ActivityEntry();

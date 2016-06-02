@@ -81,11 +81,8 @@ public class GoalHistoryDetails extends Fragment {
 
         activityInfo = dbOperations.getuserGoalFromDB("Activity",weekNumber);
         nutritionInfo = dbOperations.getuserGoalFromDB("Nutrition",weekNumber);
-
         activityGoalInfo.setText(getFormattedGoalInfoText(activityInfo));
         nutritionGoalInfo.setText(getFormattedGoalInfoText(nutritionInfo));
-
-
         return v;
     }
 

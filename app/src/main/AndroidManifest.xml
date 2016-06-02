@@ -14,14 +14,14 @@
 
     <!--android:debuggable="true"--><!--Add this to debug sync adapter-->
     <application
-        android:name=".MyApp"
+        android:name=".Utils.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_goal_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
@@ -85,7 +85,7 @@
         <!-- <activity -->
         <!-- android:name=".fragments.NutritionEntrySelectFragment" -->
         <!-- android:parentActivityName=".MainActivity"/> -->
-        <!-- <activity android:name=".Activities.SettingsActivity"/> -->
+        <!-- <activity android:name=".Activities.SettingsFragment"/> -->
         <!-- <activity android:name=".Activities.HistoryActivity"/> -->
         <!-- <activity -->
         <!-- android:name=".fragments.ProgressMainFragment" -->

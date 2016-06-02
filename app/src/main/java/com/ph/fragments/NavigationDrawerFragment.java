@@ -51,18 +51,11 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View drawerLayout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-
-
         userNameView = (TextView) drawerLayout.findViewById(R.id.navUserName);
         userIdView = (TextView) drawerLayout.findViewById(R.id.navUserId);
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-
         userNameView.setText(sharedPreferences.getString("first_name","GOAL User")+" "+sharedPreferences.getString("last_name",""));
         userIdView.setText("ID: "+sharedPreferences.getString("user_id",""));
-
-        
-
 
         mRecyclerView = (RecyclerView) drawerLayout.findViewById(R.id.drawerList);
         adapter = new DrawerAdapter(getActivity(),getData());

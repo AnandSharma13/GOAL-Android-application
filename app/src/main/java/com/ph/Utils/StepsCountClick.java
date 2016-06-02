@@ -19,9 +19,7 @@ import com.ph.model.DBOperations;
 import com.ph.model.UserSteps;
 import com.ph.net.SyncUtils;
 
-/**
- * Created by Anup on 2/17/2016 .
- */
+
 public class StepsCountClick implements View.OnClickListener {
 
     private DBOperations mDbOperations;
@@ -33,7 +31,6 @@ public class StepsCountClick implements View.OnClickListener {
     {
         this.context = context;
         mDbOperations = new DBOperations(context);
-      //  this.mStepsCount = mStepsCount;
         this.dismissListener = dismissListener;
     }
 
@@ -43,9 +40,7 @@ public class StepsCountClick implements View.OnClickListener {
         LayoutInflater li = LayoutInflater.from(context);
         View dialogView = li.inflate(R.layout.user_steps_input, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
         builder.setView(dialogView);
-
         final EditText userStepsInput = (EditText) dialogView.findViewById(R.id.user_steps_input);
 
         builder
@@ -53,30 +48,18 @@ public class StepsCountClick implements View.OnClickListener {
                 .setPositiveButton("Save",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-
                                 int steps = Integer.parseInt(userStepsInput.getText().toString());
-
                                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                                 int user_id = Integer.parseInt(sharedPreferences.getString("user_id", "-1"));
-
                                 UserSteps userSteps = new UserSteps();
-
                                 userSteps.setSteps_count(steps);
                                 userSteps.setUser_id(user_id);
-
                                 mDbOperations.insertRow(userSteps);
-
                                 Bundle settingsBundle = new Bundle();
                                 settingsBundle.putString("Type", "ClientSync");
-
                                 settingsBundle.putInt("ListSize", 1);
-
                                 settingsBundle.putString("Table " + 0, UserSteps.tableName);
-
                                 SyncUtils.TriggerRefresh(settingsBundle);
-
-                               // mStepsCount.setText(String.valueOf(mDbOperations.getStepsCountForToday()));
-
                                 Toast.makeText(context, "Successfully saved the steps count", Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -94,9 +77,7 @@ public class StepsCountClick implements View.OnClickListener {
         alertDialog.show();
 
         final Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-
         positiveButton.setEnabled(false);
-
         userStepsInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -17,6 +17,7 @@ import com.ph.R;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class HistoryActivity extends AppCompatActivity implements NutritionHistoryFragment.OnFragmentInteractionListener, ActivityHistoryFragment.OnFragmentInteractionListener, GoalHistoryFragment.OnFragmentInteractionListener {
 
     private ViewPager mViewPager;

@@ -84,16 +84,16 @@ public class ProgressNutritionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_progress_nutrition,container,false);
         viewPager = (NonSwipeableViewPager) v.findViewById(R.id.viewpager_progress_nutrition);
-
         weekTitle = (TextView) v.findViewById(R.id.week_number_display);
         prev = (TextView) v.findViewById(R.id.week_prev);
         next = (TextView) v.findViewById(R.id.week_next);
+
+
 
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int current = viewPager.getCurrentItem();
-
                 if(current>0) {
                     int prev;
                     prev = current - 1;
@@ -138,7 +138,6 @@ public class ProgressNutritionFragment extends Fragment {
             }
         });
         weekTitle.setText(viewPager.getAdapter().getPageTitle(viewPager.getCurrentItem()));
-
         return v;
     }
 
@@ -198,7 +197,7 @@ public class ProgressNutritionFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    class ViewPagerAdapter extends FragmentStatePagerAdapter {
+   class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 

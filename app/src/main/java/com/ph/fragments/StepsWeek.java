@@ -173,17 +173,11 @@ public class StepsWeek extends Fragment {
         lineChart.setData(lineData);
         lineChart.setDescription("");
 
-
         dataSet.setColor(ContextCompat.getColor(getContext(), R.color.activity_entry_app_bar));
 
-
-
         dataSet.setCircleColor(ContextCompat.getColor(getContext(), R.color.progress_theme_color));
-
         dataSet.setFillColor(ContextCompat.getColor(getContext(), R.color.activity_entry_app_bar));
-
         dataSet.setDrawFilled(true);
-
 
         lineChart.getXAxis().setDrawLabels(false);
         lineChart.getXAxis().setDrawGridLines(false);
@@ -191,18 +185,7 @@ public class StepsWeek extends Fragment {
         lineChart.getAxisLeft().setEnabled(false);
         lineChart.getAxisRight().setEnabled(false);
         lineChart.setDrawGridBackground(true);
-        
         lineChart.invalidate();
-
-
-
-
-
-
-
-
-
-
         return v;
     }
 

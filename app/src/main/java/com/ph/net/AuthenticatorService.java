@@ -1,8 +1,6 @@
 package com.ph.net;
 
-/**
- * Created by Anup on 24-12-15.
- */
+
 
 import android.accounts.Account;
 import android.app.Service;

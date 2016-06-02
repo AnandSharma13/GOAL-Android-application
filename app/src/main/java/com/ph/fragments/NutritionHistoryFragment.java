@@ -37,7 +37,8 @@ public class NutritionHistoryFragment extends Fragment {
     TextView weekTitle;
     @Bind(R.id.week_next)
     TextView prev;
-    @Bind(R.id.week_prev) TextView next;
+    @Bind(R.id.week_prev)
+    TextView next;
     private DateOperations dateOperations;
     private OnFragmentInteractionListener mListener;
 
@@ -70,15 +71,11 @@ public class NutritionHistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       View v = inflater.inflate(R.layout.fragment_nutrition_history, container, false);
-
+        View v = inflater.inflate(R.layout.fragment_nutrition_history, container, false);
         ButterKnife.bind(this, v);
-
         prev.setOnClickListener(new WeekNavigateButtonClickListener(viewPager));
         next.setOnClickListener(new WeekNavigateButtonClickListener(viewPager));
-
         setupViewPager(viewPager);
-
         viewPager.addOnPageChangeListener(new WeekNavigatePageChangeListener(weekTitle, viewPager));
         return v;
     }
@@ -86,18 +83,13 @@ public class NutritionHistoryFragment extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager()
         );
-
         dateOperations = new DateOperations(getContext());
-
         int week = dateOperations.getWeeksTillDate(new Date());
-
-        for(int i=0;i<=week;i++)
-        {
+        for (int i = 0; i <= week; i++) {
             adapter.addFragment(NutritionHistoryDetails.newInstance(i), "Week " + (i + 1));
         }
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(week);
-
     }
 
     public void onButtonPressed(Uri uri) {

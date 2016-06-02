@@ -22,9 +22,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by Anup on 2/22/2016   .
- */
+
+
 public class ActivityHistoryViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final LayoutInflater inflater;
 

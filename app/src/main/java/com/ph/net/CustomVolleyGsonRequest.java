@@ -14,9 +14,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-/**
- * Created by Anup on 12/28/2015.
- */
+
 public class CustomVolleyGsonRequest extends Request<Object> {
     private final Gson gson = new Gson();
     private final Class<Object> clazz;

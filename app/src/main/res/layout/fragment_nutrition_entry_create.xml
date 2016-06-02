@@ -178,7 +178,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
-                    android:progressDrawable="@drawable/custom_drawable_rating_bar_dairy"
+                    android:progressDrawable="@drawable/custom_drawable_rating_bar_protein"
                     android:stepSize="1" />
 
 
@@ -216,6 +216,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.2"
             android:gravity="center"
+            android:background="@color/home_nutrition_background_color"
             android:orientation="vertical">
 
             <TextView

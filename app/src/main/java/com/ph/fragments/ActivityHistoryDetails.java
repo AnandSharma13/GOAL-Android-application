@@ -78,11 +78,7 @@ public class ActivityHistoryDetails extends Fragment {
        recyclerView.setHasFixedSize(true);
 
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext())
-        {
-
-        };
-//        recyclerView.requestDisallowInterceptTouchEvent(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext()) {};
 
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -95,10 +91,7 @@ public class ActivityHistoryDetails extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         dataList = (List<ActivityEntry>)(List<?>) dbOperations.getGoalProgressForAWeek(weekNumber,"Activity");
         activityHistoryViewAdapter = new ActivityHistoryViewAdapter(getContext(),dataList);
-
         recyclerView.setAdapter(activityHistoryViewAdapter);
-
-
         return v;
     }
 

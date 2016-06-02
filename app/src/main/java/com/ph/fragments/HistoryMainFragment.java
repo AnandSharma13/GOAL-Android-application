@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ph.Adapters.ViewPagerAdapter;
-import com.ph.MainActivity;
+import com.ph.Activities.MainActivity;
 import com.ph.R;
 
 import butterknife.Bind;

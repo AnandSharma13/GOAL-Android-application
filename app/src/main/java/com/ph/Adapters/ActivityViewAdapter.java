@@ -16,9 +16,7 @@ import com.ph.model.Activity;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by Anup on 1/18/2016 .
- */
+
 public class ActivityViewAdapter extends RecyclerView.Adapter<ActivityViewAdapter.MyViewHolder> {
     private final LayoutInflater inflater;
 

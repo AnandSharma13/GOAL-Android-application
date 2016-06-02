@@ -1,4 +1,4 @@
-package com.ph.Activities;
+package com.ph.fragments;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
@@ -23,7 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ph.MainActivity;
+import com.ph.Activities.MainActivity;
 import com.ph.R;
 import com.ph.Utils.AlertDialogManager;
 import com.ph.net.SessionManager;
@@ -31,7 +31,7 @@ import com.ph.net.SessionManager;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SettingsActivity extends Fragment {
+public class SettingsFragment extends Fragment {
 
     private static final int MAKE_CALL=1;
     @Bind(R.id.fragment_settings_tv_program_name)
@@ -53,12 +53,8 @@ public class SettingsActivity extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ((MainActivity) getActivity()).setDrawerState(false);
         ((MainActivity) getActivity()).updateToolbar("Settings", R.color.white, R.color.black);
-
-
-
     }
 
 
@@ -68,7 +64,6 @@ public class SettingsActivity extends Fragment {
         ButterKnife.bind(this, view);
         final SessionManager sessionManager = new SessionManager(getContext());
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-
 
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,8 +122,6 @@ public class SettingsActivity extends Fragment {
         public void onClick(DialogInterface dialog, int which) {
             try {
 
-
-
                 if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.CALL_PHONE)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -175,7 +168,6 @@ public class SettingsActivity extends Fragment {
 
     private void makeCall()
     {
-
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:"+getResources().getString(R.string.tech_support)));
         startActivity(callIntent);
@@ -191,7 +183,6 @@ public class SettingsActivity extends Fragment {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                     makeCall();
 
                 } else {
@@ -219,7 +210,6 @@ public class SettingsActivity extends Fragment {
 
 
     public class logoutButtonDialogClickListener implements DialogInterface.OnClickListener{
-
         @Override
         public void onClick(DialogInterface dialog, int which) {
             new SessionManager(getContext()).logoutUser();

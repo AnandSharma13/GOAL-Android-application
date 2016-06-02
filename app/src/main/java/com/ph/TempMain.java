@@ -46,6 +46,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+
+@Deprecated
 public class TempMain extends AppCompatActivity {
 
     private static final int TAKE_PICTURE = 1;

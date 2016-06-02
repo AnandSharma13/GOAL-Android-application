@@ -84,16 +84,10 @@ public class NutritionHistoryDetails extends Fragment {
             }
         };
         recyclerView.requestDisallowInterceptTouchEvent(false);
-
-
         recyclerView.setLayoutManager(layoutManager);
         dataList = (List<NutritionEntry>)(List<?>) dbOperations.getGoalProgressForAWeek(weekNumber,"Nutrition");
-
         nutritionHistoryViewAdapter = new NutritionHistoryViewAdapter(getContext(),dataList);
-
         recyclerView.setAdapter(nutritionHistoryViewAdapter);
-
-
         return v;
     }
 

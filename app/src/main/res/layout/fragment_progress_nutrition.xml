@@ -4,10 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/nutrition_entry_select_border" />
    <!-- <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,10 +12,6 @@
         android:textStyle="bold"
         android:layout_centerInParent="true"/>-->
     <include layout="@layout/week_changer_bar"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/nutrition_entry_select_border" />
 
     <com.ph.view.NonSwipeableViewPager
         android:id="@+id/viewpager_progress_nutrition"

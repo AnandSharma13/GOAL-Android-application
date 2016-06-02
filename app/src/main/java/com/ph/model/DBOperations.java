@@ -105,10 +105,7 @@ public class DBOperations {
             val.put(UserGoal.column_timeStamp, usergoal.getTimestamp());
         }
 
-
         long id = db.insert(UserGoal.tableName, null, val);
-
-
         db.close();
         return id;
     }
@@ -757,6 +754,11 @@ public class DBOperations {
     public List<Object> getGoalProgressForAWeek(int weekNumber, String type) {
         UserGoal userGoal;
         userGoal = getuserGoalFromDB(type, weekNumber);
+        DateOperations dateOperations = new DateOperations(context);
+        StartEndDateObject startEndDateObject = dateOperations.getDatesForToday();
+
+        String startDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.startDate);
+        String endDate = dateOperations.getMysqlDateFormat().format(startEndDateObject.endDate);
 
         if (userGoal == null)
             return Collections.EMPTY_LIST;
@@ -768,12 +770,15 @@ public class DBOperations {
         String tableName = "";
         if (type.equals("Activity")) {
 
-            query = "Select * from activity_entry where goal_id = " + id + " order by " + ActivityEntry.column_date + " desc";//" group by " + ActivityEntry.column_date +
+     //      query = "Select * from activity_entry where goal_id = " + id + " order by " + ActivityEntry.column_date + " desc";//" group by " + ActivityEntry.column_date +
+            query = "Select * from activity_entry where date between '" + startDate + "' and '" + endDate +"' order by " +ActivityEntry.column_date+" desc";
+
             tableName = ActivityEntry.tableName;
 
         } else if (type.equals("Nutrition")) {
 
-            query = "Select * from nutrition_entry where goal_id = " + id +  " order by " + NutritionEntry.column_date + " desc";//+ " group by " + NutritionEntry.column_date +
+          //  query = "Select * from nutrition_entry where goal_id = " + id +  " order by " + NutritionEntry.column_date + " desc";//+ " group by " + NutritionEntry.column_date +
+            query = "Select * from nutrition_entry where date between '" + startDate + "' and '" + endDate +"' order by " +NutritionEntry.column_date+" desc";
 
             tableName = NutritionEntry.tableName;
 
