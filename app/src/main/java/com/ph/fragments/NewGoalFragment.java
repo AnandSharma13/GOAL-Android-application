@@ -118,7 +118,8 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
             mNutritionProgressBar.setVisibility(View.INVISIBLE);
 
 
-            if(mFragmentPosition == 0 && weekNumber<programLength) {
+            if(mFragmentPosition == 0 )//&& weekNumber<programLength - for program complete
+                 {
                 new AlertDialogManager().showAlertDialog(getContext(), "Goal Not Set", "You have not set a goal for this week. You must create a goal to continue.", "Create Goal", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -129,12 +130,12 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
                     }
                 });
             }
-            if(weekNumber>=programLength)
+           /* if(weekNumber>=programLength)
             {
                 String finishText = "Program complete.";
                 mNewGoalButton.setText(finishText);
                 mNewGoalButton.setEnabled(false);
-            }
+            }*/
             return view;
         }
         else
@@ -144,20 +145,20 @@ public class NewGoalFragment extends Fragment implements View.OnClickListener {
         }
 
         int activityCount = userGoalActivity.getTimes() * userGoalActivity.getWeekly_count();
-        if(weekNumber<programLength) {
+        //if(weekNumber<programLength) {
 
             String activityText = "A " + " " + activityCount + " mins / week";
             String nutritionText = "N " + " " + userGoalNutrition.getWeekly_count() + " food / week";
             String goalText = activityText + "\n" + nutritionText;
             mNewGoalButton.setText(goalText);
-        }
+      /*  }
         else
         {
             String finishText = "Program complete.";
             mNewGoalButton.setText(finishText);
             mNewGoalButton.setEnabled(false);
         }
-
+*/
         nutritionProgress =0;
         activityProgress =0;
         if(mFragmentPosition == 0) {
